@@ -68,7 +68,7 @@ if(mysqli_num_rows($result) > 0){
 </tbody>
 </table>
 <?php
-}
+
 ?>
 </script>
 </div>

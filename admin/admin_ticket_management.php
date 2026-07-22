@@ -1,9 +1,9 @@
 <?php
 include '../database/database_connection.php';
 
-$query = "SELECT * FROM ticket_management_tbl ORDER BY date_received DESC, ticket_id DESC";
+$query = "SELECT * FROM ticket_management_tbl
+          ORDER BY date_received DESC, ticket_id DESC";
 $result = mysqli_query($conn, $query);
-
 if (!$result) {
     die("Ticket query failed: " . mysqli_error($conn));
 }
