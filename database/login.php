@@ -31,7 +31,9 @@ if(isset($_POST['login'])){
                  echo "<script>
             alert('Welcome, Admin!');
             window.location='../admin/admin_dashboard.php';
-          </script>";
+          </script>";  //case "super_admin":
+                    //header("Location: ../super_admin/super_admin_dashboard.php");
+                    //exit(); wala pang superadmin dashboard
             }elseif($user['role'] == "super_admin"){
                 header("Location: ../admin/admin_dashboard.php");
             }else{

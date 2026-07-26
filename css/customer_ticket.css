@@ -87,4 +87,9 @@ td{
 .ticket-modal .btn-close {
     filter: invert(1);
 }
+.status-badge {
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 10px;
+}
 
