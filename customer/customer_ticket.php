@@ -27,7 +27,7 @@ if (!$result) {
   			<div class="card-body">
     <div class="ticket-section">
         <h2>My Tickets</h2>
-
+        <div class = "table-container" >
         <table class = "table table-secondary table hover">
             <thead class = "table-info">
                 <tr>
@@ -97,6 +97,7 @@ if (!$result) {
                     </div>
                 <?php endwhile; ?>
             </tbody>
+            </div>
         </table>
     </div>
                 </div>

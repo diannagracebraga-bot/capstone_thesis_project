@@ -46,9 +46,9 @@ $customer = mysqli_fetch_assoc($result);
     </h2>
 
     <p>
-        <strong>Account No:</strong>
-    
-    </p>
+    <strong>Account No:</strong>
+    <?php echo $customer['account_number']; ?>
+</p>
 </div>
         <div class="right-top">
             <div class="card">
@@ -68,9 +68,9 @@ $customer = mysqli_fetch_assoc($result);
      
         <div class="card">
             <h4>Service Status</h4>
-            <span class="online">● 
-                <?php echo($customer['connection_status']); ?>
-            </span>
+            <span class="<?php echo ($customer['connection_status'] == 'Connected') ? 'status-connected' : 'status-disconnected'; ?>">
+                 ● <?php echo $customer['connection_status']; ?>
+</span>
         </div>
     
         <div class="card">

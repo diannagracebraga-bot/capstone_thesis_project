@@ -12,6 +12,7 @@ $user_id = $_SESSION['user_id'];
 $query = "
 SELECT
     c.f_name,
+    c.m_name,
     c.l_name,
     c.contact_number,
     u.email
@@ -27,7 +28,9 @@ if(mysqli_num_rows($result) > 0){
 
     $customer = mysqli_fetch_assoc($result);
 
-    $full_name = $customer['f_name'] . " " . $customer['l_name'];
+    $full_name = $customer['f_name'] . " " .
+             $customer['m_name'] . " " .
+             $customer['l_name'];
     $contact_number = $customer['contact_number'];
     $email_address = $customer['email'];
 

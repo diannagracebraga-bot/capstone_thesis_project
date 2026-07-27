@@ -1,6 +1,12 @@
 <?php
 include '../database/database_connection.php';
 
+$result = mysqli_query($conn, "SELECT MAX(customer_id) AS last_id FROM customer_tbl");
+$row = mysqli_fetch_assoc($result);
+
+$next_id = $row['last_id'] + 1;
+$account_number = "MPC-" . str_pad($next_id, 5, "0", STR_PAD_LEFT);
+
 $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan_id ASC");
 
 ?>
@@ -10,7 +16,12 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
     <h3>Customer Registration</h3>
     <form action="../database/insert_customer.php" method="POST">
         <div class="form_grid">
-
+            
+        <div class="form_group">
+              <label>Account Number</label>
+              <input type="text" class = "account_number" value="<?php echo $account_number; ?>"  readonly>
+                <input type="hidden" name="account_number" value="<?php echo $account_number; ?>">
+            </div>
             <div class="form_group">
                 <label>Email Address</label>
                 <input type="email" name="email" required>

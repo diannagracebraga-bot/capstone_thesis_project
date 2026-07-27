@@ -208,7 +208,7 @@ while($row = mysqli_fetch_assoc($result)){
             <div class="modal-footer">
 			    <button type="submit" name="update_status" class="btn btn-success">
                          Save Changes</button>
-                 <button type="button" class="btn tn-danger" data-bs-dismiss="modal">Close
+                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close
                 </button>
            </form>     </div>
         </div>
