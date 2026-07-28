@@ -4,8 +4,17 @@ include '../database/database_connection.php';
 $result = mysqli_query($conn, "SELECT MAX(customer_id) AS last_id FROM customer_tbl");
 $row = mysqli_fetch_assoc($result);
 
-$next_id = $row['last_id'] + 1;
-$account_number = "MPC-" . str_pad($next_id, 5, "0", STR_PAD_LEFT);
+$number = $row['last_id'] + 1;
+
+if ($number < 10) {
+    $account_number = "MPC-0000" . $number;
+} elseif ($number < 100) {
+    $account_number = "MPC-000" . $number;
+} elseif ($number < 1000) {
+    $account_number = "MPC-00" . $number;
+} else {
+    $account_number = "MPC-0" . $number;
+}
 
 $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan_id ASC");
 
@@ -91,8 +100,6 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
             <div class="form_group">
                 <label>Internet Plan</label>
         <?php
-            
-            $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                 ?> <select name="internet_plan">
                         <?php while($plan = mysqli_fetch_assoc($plan_query)){ ?>
                         <option value="<?php echo $plan['plan_id']; ?>">

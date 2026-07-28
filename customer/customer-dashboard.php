@@ -45,10 +45,10 @@ $customer = mysqli_fetch_assoc($result);
         <?php echo $customer['f_name'] . ' ' . $customer['m_name'] . ' ' . $customer['l_name']; ?>!
     </h2>
 
-    <p>
+    <h2>
     <strong>Account No:</strong>
     <?php echo $customer['account_number']; ?>
-</p>
+</h2>
 </div>
         <div class="right-top">
             <div class="card">
