@@ -46,8 +46,3 @@ input[type="submit"] {
     padding: 10px;
     cursor: pointer;
 }
-.account_number{
-    background-color: lightgray;
-    color: #004AAD;            
-    font-weight: bold;
-}
