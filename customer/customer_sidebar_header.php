@@ -24,7 +24,6 @@
     </div>
 </nav>
 
-
         
 <div class="sidebar">
     <div class="logo">

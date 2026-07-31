@@ -1,8 +1,7 @@
 <?php
 include '../database/database_connection.php';
 
-$query = "SELECT * FROM ticket_management_tbl
-          ORDER BY date_received DESC, ticket_id DESC";
+$query = "SELECT * FROM ticket_management_tbl ORDER BY ticket_id ASC";
 $result = mysqli_query($conn, $query);
 if (!$result) {
     die("Ticket query failed: " . mysqli_error($conn));
@@ -46,20 +45,23 @@ if (!$result) {
 						<th> ACTION </th>
 					</tr>
 					</thead>
-					<tr>
-						<td>32</td>
-						<td>Heart Joy</td>
-						<td>heart@gmail.com</td>
-						<td>09 266 849 711</td>
-						<td>Slow Internet Connection</td>
-						<td>06-24-26</td>
-						<td>Pending</td>
-						<td><a href="admin_view_ticket_management.php"><button>View</button></a></td>
+					<tbody>
+						<?php while ($ticket = mysqli_fetch_assoc($result)): ?>
+						<tr>
+							<td><?php echo htmlspecialchars($ticket['ticket_id']); ?></td>
+							<td><?php echo htmlspecialchars($ticket['full_name']); ?></td>
+							<td><?php echo htmlspecialchars($ticket['email_address']); ?></td>
+							<td><?php echo htmlspecialchars($ticket['contact_number']); ?></td>
+							<td><?php echo htmlspecialchars($ticket['concern_type']); ?></td>
+							<td><?php echo htmlspecialchars($ticket['date_received']); ?></td>
+							<td><?php echo htmlspecialchars($ticket['status']); ?></td>
+							<td><a href="admin_view_ticket_management.php"><button>View</button></a></td>
 						</tr>
+						<?php endwhile; ?>
+					</tbody>
 
 </table>
 </div>
-</div>
-				
+</div>		
 </body>
 </html>

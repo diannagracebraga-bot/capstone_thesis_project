@@ -12,7 +12,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
         <div class="form_grid">
             <div class="form_group">
                 <label>id</label>
-                <input type="number" name="id" required>
+                <input type="number" name="account_number" required>
             </div>
             <div class="form_group">
                 <label>Email Address</label>

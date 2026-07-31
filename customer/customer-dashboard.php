@@ -1,3 +1,26 @@
+<?php
+session_start();
+include '../database/database_connection.php';
+
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] != "customer") {
+    header("Location: ../index.php");
+    exit();
+}
+$user_id = $_SESSION['user_id'];
+
+$sql = "SELECT
+            c.*,
+            p.plan_name,
+            p.internet_price,
+            p.internet_mbps
+        FROM customer_tbl c
+        INNER JOIN internet_plan_tbl p
+            ON c.internet_plan = p.plan_id
+        WHERE c.user_id = '$user_id'";
+
+$result = mysqli_query($conn, $sql);
+$customer = mysqli_fetch_assoc($result);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -27,8 +50,8 @@
             </div>
             <div class="card">
                 <h3>Current Plan</h3>
-                <h2>₱800</h2>
-                <p>50 Mbps</p>
+               ₱<?php echo number_format($customer['internet_price']); ?>
+                <?php echo $customer['internet_mbps']; ?> Mbps
             </div>
 
         </div>

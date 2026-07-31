@@ -196,11 +196,11 @@ $about = mysqli_fetch_assoc($about_result);
 
                 <div class="login-container">
                     <h2>Login</h2>
-                    <form action="login.php" method="POST">
+                    <form action="database/login.php" method="POST">
                         <label for="username">Username:</label>
                         <input type="text"
                                id="username"
-                               name="username"
+                               name="email"
                                class="form-control"
                                placeholder="Username"
                                required>
@@ -219,9 +219,9 @@ $about = mysqli_fetch_assoc($about_result);
                             </a>
                         </div>
 
-                        <button type="submit" class="btn btn-primary">
-                            Login
-                        </button>
+                    <button type="submit" name="login" class="btn btn-primary">
+    Login
+</button>
 
                     </form>
                 </div>

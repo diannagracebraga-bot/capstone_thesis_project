@@ -2,8 +2,7 @@
 include '../database/database_connection.php';
 
 $customer_id = 1;
-
-$query = "SELECT * FROM ticket_management_tbl WHERE customer_id = $customer_id ORDER BY date_received DESC, ticket_id DESC";
+$query = "SELECT * FROM ticket_management_tbl WHERE customer_id = $customer_id ORDER BY ticket_id ASC";
 $result = mysqli_query($conn, $query);
 
 if (!$result) {
