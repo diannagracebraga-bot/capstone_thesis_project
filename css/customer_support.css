@@ -1,6 +1,7 @@
 .card{
+     width: 90%;
     padding: 20px;
-     margin: 0 0 0 10px;
+   margin: 80px auto 0;/* centers the card and gives a little top space */
     box-shadow: 0 6px 15px rgba(0,74,173,0.3);
 }
 body {
@@ -8,10 +9,9 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
 }
-.support-content {
+.support-content{
     margin-left: 200px;
-    padding: 110px 40px 50px;
-    min-height: 100vh;
+    padding: 72px 40px 30px;
 }
 .form-section {
     width: 100%;
@@ -71,4 +71,8 @@ textarea {
 }
 .submit-btn:hover {
     background: gray;
+}
+input[readonly]{
+    background-color: lightgray;
+    border: 1px solid #004AAD;
 }

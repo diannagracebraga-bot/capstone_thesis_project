@@ -54,8 +54,25 @@ if (!$result) {
 							<td><?php echo htmlspecialchars($ticket['contact_number']); ?></td>
 							<td><?php echo htmlspecialchars($ticket['concern_type']); ?></td>
 							<td><?php echo htmlspecialchars($ticket['date_received']); ?></td>
-							<td><?php echo htmlspecialchars($ticket['status']); ?></td>
-							<td><a href="admin_view_ticket_management.php"><button>View</button></a></td>
+								<td>
+			<?php
+
+				if($ticket['status']=="Pending"){
+  				  echo '<span class="badge status-badge bg-warning text-dark">Pending</span>';
+					}
+				elseif($ticket['status']=="Ongoing"){
+  				  echo '<span class="badge status-badge bg-primary">Ongoing</span>';
+					}
+				elseif($ticket['status']=="Resolved"){
+   				 echo '<span class="badge status-badge bg-success">Resolved</span>';
+					}
+?>
+</td>
+						<td>
+    <a href="admin_view_ticket_management.php?ticket_id=<?php echo $ticket['ticket_id']; ?>">
+        <button class="btn btn-primary">View</button>
+    </a>
+</td>
 						</tr>
 						<?php endwhile; ?>
 					</tbody>

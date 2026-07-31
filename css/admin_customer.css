@@ -1,3 +1,4 @@
+
 .card{
     width: 75%;
     padding: 20px;
@@ -73,4 +74,12 @@
     width: 100%;
     margin: 10px 0;
 
+}
+.modal-content{
+    font-family: arial;
+    font-weight: bold;
+}
+.modal-body h6{
+    font-size: 22px;
+    font-weight: 100;
 }

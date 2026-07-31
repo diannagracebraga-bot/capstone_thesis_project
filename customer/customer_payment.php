@@ -1,3 +1,18 @@
+<?php
+session_start();
+include '../database/database_connection.php';
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../index.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+$sql = "SELECT * FROM customer_tbl WHERE user_id='$user_id'";
+$result = mysqli_query($conn, $sql);
+$customer = mysqli_fetch_assoc($result);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,8 +48,6 @@
       
         </div>
     </div>
-
-  
 
 
     <script>

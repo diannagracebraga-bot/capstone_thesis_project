@@ -87,4 +87,20 @@ td{
 .ticket-modal .btn-close {
     filter: invert(1);
 }
+.status-badge {
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 10px;
+}
+.table-container{
+    max-height: 450px;   /* adjust as needed */
+    overflow-y: auto;
+    overflow-x: auto;
+}
+
+.table-container thead th{
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
 

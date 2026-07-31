@@ -73,3 +73,8 @@
     width: 35px;
     height: 35px;
 }
+span.status-badge {
+    font-size: 14px;
+    padding: 10px;
+    border-radius: 10px;
+}

@@ -39,19 +39,27 @@ $customer = mysqli_fetch_assoc($result);
   				<div class="card-body">
 
     <div class="top-section">
-        <div class="welcome">
-            <h2>Welcome, Dianna Braga</h2>
-            <p><strong>Account No:</strong> MTZ-10027</p>
-        </div>
+      <div class="welcome">
+    <h2>
+        Welcome, 
+        <?php echo $customer['f_name'] . ' ' . $customer['m_name'] . ' ' . $customer['l_name']; ?>!
+    </h2>
+
+    <h2>
+    <strong>Account No:</strong>
+    <?php echo $customer['account_number']; ?>
+</h2>
+</div>
         <div class="right-top">
             <div class="card">
-                <p>Tuesday</p>  
-                <h3>July 8, 2026</h3>
+                <h3>Today is:</h3>
+             <h4><?php echo date('l, F d, Y');
+                ?></h4>
             </div>
             <div class="card">
-                <h3>Current Plan</h3>
-               ₱<?php echo number_format($customer['internet_price']); ?>
-                <?php echo $customer['internet_mbps']; ?> Mbps
+                <h3>Current Plan:</h3>
+              <h4> ₱<?php echo number_format($customer['internet_price']); ?>
+                <?php echo $customer['internet_mbps']; ?> Mbps </h4>
             </div>
 
         </div>
@@ -60,7 +68,9 @@ $customer = mysqli_fetch_assoc($result);
      
         <div class="card">
             <h4>Service Status</h4>
-            <span class="online">● Connected</span>
+            <span class="<?php echo ($customer['connection_status'] == 'Connected') ? 'status-connected' : 'status-disconnected'; ?>">
+                 ● <?php echo $customer['connection_status']; ?>
+</span>
         </div>
     
         <div class="card">

@@ -1,7 +1,19 @@
 <?php
 include '../database/database_connection.php';
+session_start();
 
-$customer_id = 1;
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../index.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+$sql = "SELECT * FROM customer_tbl WHERE user_id='$user_id'";
+$res = mysqli_query($conn, $sql);
+$customer = mysqli_fetch_assoc($res);
+$customer_id = $customer['customer_id'];
 $query = "SELECT * FROM ticket_management_tbl WHERE customer_id = $customer_id ORDER BY ticket_id ASC";
 $result = mysqli_query($conn, $query);
 
@@ -9,6 +21,9 @@ if (!$result) {
     die("Ticket query failed: " . mysqli_error($conn));
 }
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +35,7 @@ if (!$result) {
     <link rel="stylesheet" href="../css/customer_ticket.css?v=5">
 </head>
 <body>
+    
 <?php include 'customer_sidebar_header.php'; ?>
 
 <main class="ticket-content">
@@ -27,7 +43,7 @@ if (!$result) {
   			<div class="card-body">
     <div class="ticket-section">
         <h2>My Tickets</h2>
-
+        <div class = "table-container" >
         <table class = "table table-secondary table hover">
             <thead class = "table-info">
                 <tr>
@@ -51,7 +67,19 @@ if (!$result) {
                         <td><?php echo ($ticket['contact_number']); ?></td>
                         <td><?php echo ($ticket['concern_type']); ?></td>
                         <td><?php echo ($ticket['date_received']); ?></td>
-                        <td><?php echo ($ticket['status']); ?></td>
+                        <td>
+                             <?php
+                                 if ($ticket['status'] == "Pending") {
+                                      echo '<span class="badge status-badge bg-warning text-dark">Pending</span>';
+                                 } elseif ($ticket['status'] == "Ongoing") {
+                                      echo '<span class="badge status-badge bg-primary">Ongoing</span>';
+                                 } elseif ($ticket['status'] == "Resolved") {
+                                      echo '<span class="badge  status-badge bg-success">Resolved</span>';
+                                 } else {
+                                      echo '<span class="badge bg-secondary">'.$ticket['status'].'</span>';
+                                 }
+                                     ?>
+                        </td>
                         <td>
                             <button type="button" class="view-btn" data-bs-toggle="modal" data-bs-target="#ticketModal<?php echo $ticket['ticket_id']; ?>">
                                 View
@@ -80,21 +108,18 @@ if (!$result) {
                                     <label class="ticket-description-label">Description:</label>
                                     <textarea class="form-control ticket-description" rows="5" readonly><?php echo htmlspecialchars($ticket['description']); ?></textarea>
                                 </div>
-                                <div><p><strong>Admin Reply:</strong></p>
-                                    <textarea readonly><?php echo $ticket['admin_reply']; ?></textarea>
-                            </div>
                             </div>
                         </div>
                     </div>
                 <?php endwhile; ?>
             </tbody>
+            </div>
         </table>
     </div>
                 </div>
                 </div>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 

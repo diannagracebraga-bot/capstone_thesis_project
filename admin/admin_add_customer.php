@@ -1,6 +1,21 @@
 <?php
 include '../database/database_connection.php';
 
+$result = mysqli_query($conn, "SELECT MAX(customer_id) AS last_id FROM customer_tbl");
+$row = mysqli_fetch_assoc($result);
+
+$number = $row['last_id'] + 1;
+
+if ($number < 10) {
+    $account_number = "MPC-0000" . $number;
+} elseif ($number < 100) {
+    $account_number = "MPC-000" . $number;
+} elseif ($number < 1000) {
+    $account_number = "MPC-00" . $number;
+} else {
+    $account_number = "MPC-0" . $number;
+}
+
 $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan_id ASC");
 
 ?>
@@ -10,9 +25,11 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
     <h3>Customer Registration</h3>
     <form action="../database/insert_customer.php" method="POST">
         <div class="form_grid">
-            <div class="form_group">
-                <label>id</label>
-                <input type="number" name="account_number" required>
+            
+        <div class="form_group">
+              <label>Account Number</label>
+              <input type="text" class = "account_number" value="<?php echo $account_number; ?>"  readonly>
+                <input type="hidden" name="account_number" value="<?php echo $account_number; ?>">
             </div>
             <div class="form_group">
                 <label>Email Address</label>
@@ -83,8 +100,6 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
             <div class="form_group">
                 <label>Internet Plan</label>
         <?php
-            
-            $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                 ?> <select name="internet_plan">
                         <?php while($plan = mysqli_fetch_assoc($plan_query)){ ?>
                         <option value="<?php echo $plan['plan_id']; ?>">

@@ -37,12 +37,19 @@ $sqlUser = "INSERT INTO user_accounts_tbl (email, password, role)
     if(mysqli_query($conn, $sqlUser)){
         $id = mysqli_insert_id($conn);
 
-        $sqlCustomer = "INSERT INTO customer_tbl
-        (user_id, f_name, m_name, l_name, contact_number, age, sex, civil_status, birth_date, barangay, subdivision, street,
-            house_name, internet_plan,connection_status)
-        VALUES
-        ('$id','$fname','$mname','$lname','$contact','$age','$sex','$civil','$birth','$barangay','$subdivision',
-            '$street','$house','$plan','$status')";
+$result = mysqli_query($conn, "SELECT MAX(customer_id) AS last_id FROM customer_tbl");
+$row = mysqli_fetch_assoc($result);
+
+$next_id = ($row['last_id'] ?? 0) + 1;
+
+$account_number = "MPC-" . str_pad($next_id, 5, "0", STR_PAD_LEFT);
+
+       $sqlCustomer = "INSERT INTO customer_tbl
+            ( user_id, account_number,f_name,m_name,l_name,contact_number, age,sex, civil_status, birth_date, barangay,  subdivision,
+                street, house_name, internet_plan, connection_status)
+            VALUES
+                ('$id', '$account_number', '$fname','$mname', '$lname', '$contact', '$age', '$sex', '$civil', '$birth',
+                    '$barangay','$subdivision', '$street', '$house', '$plan', '$status')";         
 
         if(mysqli_query($conn, $sqlCustomer)){
             echo "<script>
