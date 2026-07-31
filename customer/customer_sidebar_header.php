@@ -10,11 +10,11 @@
                 <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
 
                     <img src="" width="30" height="30"
-                      class="rounded-circle me-2">Dianna Braga </button>
+                      class="rounded-circle me-2">    <?php echo $customer['f_name'] . ' ' . $customer['m_name'] . ' ' . $customer['l_name']; ?> </button>
 
                 <div class="dropdown-menu dropdown-menu-end">
                     <div>
-                        <a class="dropdown-item text-danger" href="logout.php">
+                        <a class="dropdown-item text-danger" href="../database/logout.php">
                             Logout
                         </a>
 </div>

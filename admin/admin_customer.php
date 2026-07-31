@@ -110,156 +110,189 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                         </td>
 
                     </tr>
-                    <div class="modal fade" id="editModal<?php echo $row['customer_id']; ?>" tabindex="-1">
+            <div class="modal fade" id="editModal<?php echo $row['customer_id']; ?>" tabindex="-1">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
 
-                <div class="modal-dialog modal-xl">
-                    <div class="modal-content">
+            <div class="modal-header bg-secondary text-white">
+                <h5 class="modal-title">
+                    <i class="fas fa-user-edit me-2"></i>Edit Customer Details
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
 
-                        <div class="modal-header bg-secondary text-white">
-                             <h5 class="modal-title">Edit Customer Details</h5>
-                                <button class="btn-close" data-bs-dismiss="modal"></button>
-                    </div>
+            <form action="../database/admin_update_customer.php" method="POST">
 
-                <form action="../database/admin_update_customer.php" method="POST">
+                <input type="hidden" name="customer_id" value="<?php echo $row['customer_id']; ?>">
 
-                    <div class="modal-body">
-                        <input type="hidden" name="customer_id" value="<?php echo $row['customer_id']; ?>">
+                <div class="modal-body">
 
-                    <div class="col-md-6 mb-3">
-                      <label>Account Number</label>
-                          <input type="text" class="form-control" value="<?php echo $row['account_number']; ?>"  readonly>
-</div>
+                
+                    <h6 class="text-black border-bottom pb-2 mb-3">
+                        Account Information
+                    </h6>
+
                     <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label>Email Address</label>
-                        <input type="email" class="form-control"name="email" value="<?php echo $row['email']; ?>">
+                        <div class="col-md-8 mb-3">
+                            <label class="form-label">Account Number</label>
+                            <input type="text"
+                                   class="form-control bg-light"
+                                   value="<?php echo $row['account_number']; ?>"
+                                   readonly>
                         </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label>Password</label>
-                            <input type="password" class="form-control" name="password" placeholder="Leave blank to keep current password">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email Address</label>
+                            <input type="email"
+                                   class="form-control"
+                                   name="email"
+                                   value="<?php echo $row['email']; ?>">
                         </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password"
+                                   class="form-control"
+                                   name="password"
+                                   placeholder="Leave blank to keep current password">
+                        </div>
+                    </div>
+                    <h6 class="text-black border-bottom pb-2 mt-3 mb-3">
+                        Personal Information
+                    </h6>
+
+                    <div class="row">
 
                         <div class="col-md-4 mb-3">
-                            <label>First Name</label>
+                            <label class="form-label">First Name</label>
                             <input type="text" class="form-control" name="f_name" value="<?php echo $row['f_name']; ?>">
                         </div>
 
-                    <div class="col-md-4 mb-3">
-                        <label>Middle Name</label>
-                            <input type="text" class="form-control"name="m_name" value="<?php echo $row['m_name']; ?>">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Middle Name</label>
+                            <input type="text" class="form-control" name="m_name" value="<?php echo $row['m_name']; ?>">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-control" name="l_name" value="<?php echo $row['l_name']; ?>">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Contact Number</label>
+                            <input type="tel" class="form-control" name="contact_number" value="<?php echo $row['contact_number']; ?>">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Age</label>
+                            <input type="number" class="form-control" name="age" value="<?php echo $row['age']; ?>">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Sex</label>
+                            <select class="form-select" name="sex">
+                                <option <?php if($row['sex']=="Male") echo "selected"; ?>>Male</option>
+                                <option <?php if($row['sex']=="Female") echo "selected"; ?>>Female</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Civil Status</label>
+                            <select class="form-select" name="civil_status">
+                                <option <?php if($row['civil_status']=="Single") echo "selected"; ?>>Single</option>
+                                <option <?php if($row['civil_status']=="Married") echo "selected"; ?>>Married</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Birth Date</label>
+                            <input type="date" class="form-control" name="birth_date" value="<?php echo $row['birth_date']; ?>">
+                        </div>
+
                     </div>
 
-                <div class="col-md-4 mb-3">
-                    <label>Last Name</label>
-                        <input type="text" class="form-control" name="l_name" value="<?php echo $row['l_name']; ?>">
-                </div>
+                    <h6 class="text-black border-bottom pb-2 mt-3 mb-3">
+                        Address Information
+                    </h6>
 
-                <div class="col-md-6 mb-3">
-                    <label>Contact Number</label>
-                        <input type="number" class="form-control" name="contact_number" value="<?php echo $row['contact_number']; ?>">
-                </div>
+                    <div class="row">
 
-                <div class="col-md-6 mb-3">
-                    <label>Age</label>
-                        <input type="number" class="form-control" name="age" value="<?php echo $row['age']; ?>">
-               </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Barangay</label>
+                            <select class="form-select" name="barangay">
+                                <option <?php if($row['barangay']=="Bagtas") echo "selected"; ?>>Bagtas</option>
+                                <option <?php if($row['barangay']=="Punta I") echo "selected"; ?>>Punta I</option>
+                            </select>
+                        </div>
 
-                <div class="col-md-6 mb-3">
-                    <label>Sex</label>
-                        <select class="form-control" name="sex">
-                            <option <?php if($row['sex']=="Male") echo "selected"; ?>>Male</option>
-                            <option <?php if($row['sex']=="Female") echo "selected"; ?>>Female</option>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Subdivision</label>
+                            <input type="text" class="form-control" name="subdivision" value="<?php echo $row['subdivision']; ?>">
+                        </div>
 
-                        </select>
-                </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Street</label>
+                            <input type="text" class="form-control" name="street" value="<?php echo $row['street']; ?>">
+                        </div>
 
-                <div class="col-md-6 mb-3">
-                    <label>Civil Status</label>
-                    <select class="form-control" name="civil_status">
-                        <option <?php if($row['civil_status']=="Single") echo "selected"; ?>>Single</option>
-                        <option <?php if($row['civil_status']=="Married") echo "selected"; ?>>Married</option>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">House Number</label>
+                            <input type="text" class="form-control" name="house_name" value="<?php echo $row['house_name']; ?>">
+                        </div>
 
-                    </select>
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label>Birth Date</label>
-                        <input type="date"class="form-control" name="birth_date"value="<?php echo $row['birth_date']; ?>">
-                </div>
-
-                <div class="col-md-6 mb-3">
-                    <label>Barangay</label>
-                         <select class="form-control" name="barangay">
-                            <option <?php if($row['barangay']=="Bagtas") echo "selected"; ?>>Bagtas
-                            </option>
-
-                            <option <?php if($row['barangay']=="Punta I") echo "selected"; ?>>Punta I
-                            </option>
-
-            </select>
                     </div>
 
-                <div class="col-md-6 mb-3">
-                    <label>Subdivision</label>
-                        <input type="text"class="form-control"name="subdivision"value="<?php echo $row['subdivision']; ?>">
-</div>
+                    <h6 class="text-black border-bottom pb-2 mt-3 mb-3">
+                        Internet Service
+                    </h6>
 
-                <div class="col-md-6 mb-3">
-                    <label>Street</label>
-                        <input type="text" class="form-control" name="street" value="<?php echo $row['street']; ?>">
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Internet Plan</label>
+                            <select class="form-select" name="internet_plan">
+                                <?php
+                                mysqli_data_seek($plan_query,0);
+                                while($plan=mysqli_fetch_assoc($plan_query)){
+                                ?>
+                                <option value="<?php echo $plan['plan_id']; ?>"
+                                    <?php if($row['internet_plan']==$plan['plan_id']) echo "selected"; ?>>
+                                    <?php
+                                    echo $plan['plan_name']." - ".
+                                         $plan['internet_mbps']." Mbps - ₱".
+                                         number_format($plan['internet_price'],2);
+                                    ?>
+                                </option>
+                                <?php } ?>
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Connection Status</label>
+                            <select class="form-select" name="connection_status">
+                                <option <?php if($row['connection_status']=="Connected") echo "selected"; ?>>Connected</option>
+                                <option <?php if($row['connection_status']=="Disconnected") echo "selected"; ?>>Disconnected</option>
+                            </select>
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="col-md-6 mb-3">
-                    <label>House Number</label>
-                        <input type="text" class="form-control" name="house_name" value="<?php echo $row['house_name']; ?>">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+
+                    <button type="submit" name="update" class="btn btn-success">
+                        Save Changes
+                    </button>
                 </div>
-                <div class="col-md-6 mb-3">
-                     <label>Internet Plan</label>
-                          <select class="form-control" name="internet_plan">
-                      <?php
-                          mysqli_data_seek($plan_query, 0);
 
-                              while($plan = mysqli_fetch_assoc($plan_query)){
-                         ?>
-                          <option value="<?php echo $plan['plan_id']; ?>"
-                             <?php if($row['internet_plan'] == $plan['plan_id']) echo "selected"; ?>>
-
-                                 <?php
-                                      echo $plan['plan_name'] . " - "
-                                       . $plan['internet_mbps'] . " Mbps - ₱"
-                                       . number_format($plan['internet_price'], 2);
-    ?>
-
-</option>
-
-        <?php } ?>
-
-    </select>
-</div>
-
-                <div class="col-md-6 mb-3">
-                    <label>Connection Status</label>
-                        <select class="form-control" name="connection_status">
-                            <option <?php if($row['connection_status']=="Connected") echo "selected"; ?>>Connected
-                            </option>
-
-                            <option <?php if($row['connection_status']=="Disconnected") echo "selected"; ?>>Disconnected
-                            </option>
-
-            </select>
+            </form>
 
         </div>
-</div>
-</div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel
-            </button>
-
-            <button type="submit" name="update"class="btn btn-success">Save Changes
-            </button>
-
-
+    </div>
 </div>
 
 </form>

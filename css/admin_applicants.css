@@ -67,3 +67,11 @@ span.status-badge {
     padding: 10px;
     border-radius: 10px;
 }
+.modal-content{
+    font-family: arial;
+    font-weight: bold;
+}
+.modal-body h6{
+    font-size: 20px;
+    font-weight: 100;
+}

@@ -1,7 +1,19 @@
 <?php
 include '../database/database_connection.php';
+session_start();
 
-$customer_id = 1;
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../index.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
+$sql = "SELECT * FROM customer_tbl WHERE user_id='$user_id'";
+$res = mysqli_query($conn, $sql);
+$customer = mysqli_fetch_assoc($res);
+$customer_id = $customer['customer_id'];
 $query = "SELECT * FROM ticket_management_tbl WHERE customer_id = $customer_id ORDER BY ticket_id ASC";
 $result = mysqli_query($conn, $query);
 
@@ -9,6 +21,9 @@ if (!$result) {
     die("Ticket query failed: " . mysqli_error($conn));
 }
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,6 +35,7 @@ if (!$result) {
     <link rel="stylesheet" href="../css/customer_ticket.css?v=5">
 </head>
 <body>
+    
 <?php include 'customer_sidebar_header.php'; ?>
 
 <main class="ticket-content">
@@ -104,7 +120,6 @@ if (!$result) {
                 </div>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 

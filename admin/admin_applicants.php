@@ -137,80 +137,197 @@ while($row = mysqli_fetch_assoc($result)){
 
 <div class="modal fade"
      id="viewApplicant<?php echo $row['applicant_id']; ?>"
-     tabindex="-1"
-     aria-labelledby="viewApplicantLabel<?php echo $row['applicant_id']; ?>"
-     aria-hidden="true">
+     tabindex="-1">
 
-    <div class="modal-dialog modal-xl modal-dialog-centered">
-        <div class="modal-content shadow">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
 
             <div class="modal-header bg-secondary text-white">
-                <h5 class="modal-title" id="viewApplicantLabel<?php echo $row['applicant_id']; ?>">
-                    APPLICANT INFORMATION</h5>
+                <h5 class="modal-title">
+                    <i class="fas fa-user me-2"></i>Applicant Information
+                </h5>
 
                 <button type="button"
                         class="btn-close btn-close-white"
                         data-bs-dismiss="modal"></button>
             </div>
-            <div class="modal-body">
-                <table class="table table-bordered">
-					<thead class = "thead-info">
-                    <tr><th class="w-25">APPLICANT ID</th><td><?php echo $row['applicant_id']; ?></td> </tr>
 
-                    <tr><th>FIRST NAME</th><td><?php echo $row['first_name']; ?></td></tr>
+            <form method="POST">
 
-                    <tr><th>MIDDLE NAME</th><td><?php echo $row['middle_name']; ?></td></tr>
+                <input type="hidden"
+                       name="applicant_id"
+                       value="<?php echo $row['applicant_id']; ?>">
 
-                    <tr><th>LAST NAME</th><td><?php echo $row['last_name']; ?></td></tr>
+                <div class="modal-body">
 
-                    <tr><th>BIRTH DATE</th><td><?php echo $row['birth_date']; ?></td> </tr>
+                    <div class="row">
 
-                    <tr><th>SEX</th><td><?php echo ucfirst($row['sex']); ?></td></tr>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Applicant ID</label>
+                            <input type="text"
+                                   class="form-control bg-light"
+                                   value="<?php echo $row['applicant_id']; ?>"
+                                   readonly>
+                        </div>
 
-                    <tr><th>CONTACT NUMBER</th><td><?php echo $row['contact_number']; ?></td></tr>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Date Received</label>
+                            <input type="text"
+                                   class="form-control bg-light"
+                                   value="<?php echo $row['date_received']; ?>"
+                                   readonly>
+                        </div>
 
-                    <tr><th>BARANGAY</th><td><?php echo $row['barangay']; ?></td></tr>
+                    </div>
+                    <h6 class="text-black border-bottom pb-2 mt-3 mb-3">
+                        Personal Information
+                    </h6>
 
-                    <tr><th>HOUSE NUMBER</th><td><?php echo $row['house_number']; ?></td></tr>
+                    <div class="row">
 
-                    <tr><th>STREET</th><td><?php echo $row['street']; ?></td></tr>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">First Name</label>
+                            <input type="text"
+                                   class="form-control bg-light"
+                                   value="<?php echo $row['first_name']; ?>"
+                                   readonly>
+                        </div>
 
-                    <tr><th>SUBDIVISION</th><td><?php echo $row['subdivision']; ?></td></tr>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Middle Name</label>
+                            <input type="text"
+                                   class="form-control bg-light"
+                                   value="<?php echo $row['middle_name']; ?>"
+                                   readonly>
+                        </div>
 
-                    <tr><th>INTERNET PLAN</th><td><?php echo $row['internet_plan']; ?></td></tr>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Last Name</label>
+                            <input type="text"
+                                   class="form-control bg-light"
+                                   value="<?php echo $row['last_name']; ?>"
+                                   readonly>
+                        </div>
 
-                    <tr><th>DATE RECEIVED</th><td><?php echo $row['date_received']; ?></td></tr>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Birth Date</label>
+                            <input type="date"
+                                   class="form-control bg-light"
+                                   value="<?php echo $row['birth_date']; ?>"
+                                   readonly>
+                        </div>
 
-                   <form method="POST">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Sex</label>
+                            <input type="text"
+                                   class="form-control bg-light"
+                                   value="<?php echo ucfirst($row['sex']); ?>"
+                                   readonly>
+                        </div>
 
-                        <input type="hidden" name="applicant_id" value="<?php echo $row['applicant_id']; ?>">
-                        
-                            <tr>
-                                <th>STATUS</th><td>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Contact Number</label>
+                            <input type="text"
+                                   class="form-control bg-light"
+                                   value="<?php echo $row['contact_number']; ?>"
+                                   readonly>
+                        </div>
 
-                                <select class="form-select" name="status">
-                                    <option value="Pending"
-                                    <?php if($row['status']=="Pending") echo "selected"; ?>>Pending</option>
+                    </div>
+                    <h6 class="text-black border-bottom pb-2 mt-3 mb-3">
+                        Address Information
+                    </h6>
 
-                                    <option value="Ongoing"
-                                    <?php if($row['status']=="Ongoing") echo "selected"; ?>>Ongoing</option>
+                    <div class="row">
 
-                                    <option value="Resolved"<?php if($row['status']=="Resolved") echo "selected"; ?>>Resolved
-                                    </option>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Barangay</label>
+                            <input type="text"
+                                   class="form-control bg-light"
+                                   value="<?php echo $row['barangay']; ?>"
+                                   readonly>
+                        </div>
 
-    </select>
-</td>
-</tr>
-				
-                </table>
-				
-            </div>
-            <div class="modal-footer">
-			    <button type="submit" name="update_status" class="btn btn-success">
-                         Save Changes</button>
-                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close
-                </button>
-           </form>     </div>
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Subdivision</label>
+                            <input type="text"
+                                   class="form-control bg-light"
+                                   value="<?php echo $row['subdivision']; ?>"
+                                   readonly>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Street</label>
+                            <input type="text"
+                                   class="form-control bg-light"
+                                   value="<?php echo $row['street']; ?>"
+                                   readonly>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">House Number</label>
+                            <input type="text"
+                                   class="form-control bg-light"
+                                   value="<?php echo $row['house_number']; ?>"
+                                   readonly>
+                        </div>
+
+                    </div>
+                    <h6 class="text-black border-bottom pb-2 mt-3 mb-3">
+                        Internet Service
+                    </h6>
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Internet Plan</label>
+                            <input type="text"
+                                   class="form-control bg-light"
+                                   value="<?php echo $row['internet_plan']; ?>"
+                                   readonly>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Status</label>
+
+                            <select class="form-select" name="status">
+                                <option value="Pending"
+                                    <?php if($row['status']=="Pending") echo "selected"; ?>>
+                                    Pending
+                                </option>
+
+                                <option value="Ongoing"
+                                    <?php if($row['status']=="Ongoing") echo "selected"; ?>>
+                                    Ongoing
+                                </option>
+
+                                <option value="Resolved"
+                                    <?php if($row['status']=="Resolved") echo "selected"; ?>>
+                                    Resolved
+                                </option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button"
+                            class="btn btn-danger"
+                            data-bs-dismiss="modal">
+                        Close
+                    </button>
+
+                    <button type="submit"
+                            name="update_status"
+                            class="btn btn-success">
+                        Save Changes
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

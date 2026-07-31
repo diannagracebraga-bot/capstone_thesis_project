@@ -1,6 +1,8 @@
 ﻿<?php
 session_start();
+
 include '../database/database_connection.php';
+
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../index.php");
@@ -127,9 +129,9 @@ $internet_plan = $customer['plan_name'] . " (" .
             <div class="row g-3">
 
                 <div class="col-md-2">
-                    <label class="form-label">Customer ID</label>
+                    <label class="form-label">Account Number:</label>
                     <input type="text" class="form-control"
-                        value="<?php echo $customer['customer_id']; ?>" readonly>
+                        value="<?php echo $customer['account_number']; ?>" readonly>
                 </div>
 
                 <div class="col-md-7">

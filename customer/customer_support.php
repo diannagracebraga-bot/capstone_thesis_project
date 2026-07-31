@@ -2,7 +2,7 @@
 session_start();
 include '../database/database_connection.php';
 
-if(!isset($_SESSION['user_id'])){
+if (!isset($_SESSION['user_id'])) {
     header("Location: ../index.php");
     exit();
 }
@@ -11,6 +11,7 @@ $user_id = $_SESSION['user_id'];
 
 $query = "
 SELECT
+    c.customer_id,
     c.f_name,
     c.m_name,
     c.l_name,
@@ -24,22 +25,71 @@ WHERE c.user_id = '$user_id'
 
 $result = mysqli_query($conn, $query);
 
-if(mysqli_num_rows($result) > 0){
+if (mysqli_num_rows($result) > 0) {
 
     $customer = mysqli_fetch_assoc($result);
 
+    $customer_id = $customer['customer_id'];
     $full_name = $customer['f_name'] . " " .
-             $customer['m_name'] . " " .
-             $customer['l_name'];
+                 $customer['m_name'] . " " .
+                 $customer['l_name'];
     $contact_number = $customer['contact_number'];
     $email_address = $customer['email'];
 
-}else{
+} else {
     die("Customer information not found.");
 }
 
 $message = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    $concern_type = mysqli_real_escape_string($conn, $_POST['concern_type']);
+    $description  = mysqli_real_escape_string($conn, $_POST['description']);
+
+    $date = date("Y-m-d");
+    $concern = $concern_type;
+    $priority = "Normal";
+    $status = "Pending";
+
+    $sql = "INSERT INTO ticket_management_tbl
+    (
+        customer_id,
+        full_name,
+        email_address,
+        contact_number,
+        concern_type,
+        date_received,
+        concern,
+        description,
+        priority,
+        status,
+        date_submitted
+    )
+    VALUES
+    (
+        '$customer_id',
+        '$full_name',
+        '$email_address',
+        '$contact_number',
+        '$concern_type',
+        '$date',
+        '$concern',
+        '$description',
+        '$priority',
+        '$status',
+        '$date'
+    )";
+
+    if (mysqli_query($conn, $sql)) {
+        $message = "Ticket submitted successfully!";
+    } else {
+        $message = "Error: " . mysqli_error($conn);
+    }
+}
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
