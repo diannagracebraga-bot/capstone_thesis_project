@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
 
             <div class="form_group">
-                <label>Due Datesss</label>
+                <label>Due Date</label>
                 <input type="date" name="due_date" required>
             </div>
 
@@ -99,8 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
 
             <div class="form_group full_width">
-                <button type="submit" name="add" class="payment-plus">
-                    Add Customer
+                <button type="submit" name="add" class="payment-submit">
+                    Add Payment
                 </button>
                 
             </div>
