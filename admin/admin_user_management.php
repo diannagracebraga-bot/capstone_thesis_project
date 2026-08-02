@@ -30,7 +30,7 @@
     ?>
         <div class="dropdown">
             <a class="dropdown-item" href="../admin/admin_add_admin.php">Admin</a>
-            <a class="dropdown-item" href="../admin/admin_user_management.php?page=add_customer">Customer</a>
+            <a class="dropdown-item" href="../admin/admin_add_customer.php">Customer</a>
         </div>
     </div>
 
@@ -48,7 +48,17 @@
         </thead>
         <tbody>
     <?php
-    $sql = "SELECT customer_id, account_number, first_name AS f_name, middle_name AS m_name, last_name AS l_name, email_address AS email, status AS connection_status FROM customer_tbl ORDER BY customer_id DESC";
+    $sql = "SELECT
+                c.customer_id,
+                c.f_name,
+                c.m_name,
+                c.l_name,
+                c.connection_status,
+                u.id,
+                u.email
+            FROM customer_tbl c
+            INNER JOIN user_accounts_tbl u
+            ON c.user_id = u.id";
     $result = mysqli_query($conn, $sql);
 
     if(mysqli_num_rows($result) > 0){
@@ -56,7 +66,7 @@
         while($row = mysqli_fetch_assoc($result)){
     ?>
     <tr>
-        <td><?php echo $row['account_number']; ?></td>
+        <td><?php echo $row['id']; ?></td>
         <td>
             <?php echo $row['f_name']." ".$row['m_name']." ".$row['l_name']; ?>
         </td>
@@ -65,7 +75,7 @@
         <td><?php echo $row['connection_status']; ?></td>
         <td>
             <a href="edit_user.php?id=<?php echo $row['customer_id']; ?>" class="btn btn-primary btn-sm">Edit</a>
-            <a href="../database/delete_customer.php?id=<?php echo $row['customer_id']; ?>"
+            <a href="../database/delete.php?id=<?php echo $row['customer_id']; ?>"
             class="btn btn-danger btn-sm"
             onclick="return confirm('Delete this customer?')">
             Delete

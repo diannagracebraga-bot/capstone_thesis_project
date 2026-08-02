@@ -5,47 +5,21 @@ if(isset($_GET['updated'])){
     echo "<script>alert('Customer details updated successfully!');</script>";
 }
 
-if(isset($_GET['deleted'])){
-    echo "<script>alert('Customer deleted successfully!');</script>";
-}
-
-if(isset($_GET['delete_error'])){
-    echo "<script>alert('Unable to delete this customer. Please try again.');</script>";
-}
-
 $sql = "
 SELECT
-    c.customer_id,
-    c.user_id,
-    c.account_number,
-    c.email_address AS email,
-    c.password,
-    c.first_name AS f_name,
-    c.middle_name AS m_name,
-    c.last_name AS l_name,
-    c.contact_number,
-    c.age,
-    c.sex,
-    c.civil_status,
-    c.birth_date,
-    c.barangay,
-    c.subdivision,
-    c.street,
-    c.house_number AS house_name,
-    c.internet_plan_id AS internet_plan,
-    c.status AS connection_status,
+    c.*,
+    u.email,
+    u.password,
     p.plan_id,
     p.plan_name
 FROM customer_tbl c
+INNER JOIN user_accounts_tbl u
+    ON c.user_id = u.id
 LEFT JOIN internet_plan_tbl p
-    ON c.internet_plan_id = p.plan_id
+    ON c.internet_plan = p.plan_id
 ";
 $result = mysqli_query($conn, $sql);
 $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
-
-if (!$result || !$plan_query) {
-    die('Unable to load customer records: ' . mysqli_error($conn));
-}
 ?>
 <!DOCTYPE html>
 <html>
@@ -127,7 +101,7 @@ if (!$result || !$plan_query) {
                                              Edit
                             </button>
 
-                            <a href="../database/delete_customer.php?id=<?php echo urlencode($row['customer_id']); ?>"
+                            <a href="../database/delete_customer.php?id=<?php echo $row['customer_id']; ?>"
                                class="btn btn-danger btn-sm"
                                onclick="return confirm('Are you sure you want to delete this customer?')">
                                 Delete

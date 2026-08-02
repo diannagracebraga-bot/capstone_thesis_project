@@ -1,65 +1,64 @@
-.card 
-{ width: 75%; 
-    padding: 20px; 
-    margin: 0 0 0 305px; 
-    border: 0; 
-    box-shadow: 0 6px 15px rgba(0, 74, 173, .30); }
-body 
-{ margin: 0;
- }
-.add_payment { 
-    background: #eef6ff; 
-    border-top: 4px solid #0b4f8a; 
-    border-radius: 8px; 
-    padding: 32px; 
-    width: 100%; 
-    margin: 20px auto; 
-    box-shadow: 0 4px 12px rgba(11, 79, 138, .12);
- }
-.add_payment h3 { 
-    color: #0b4f8a; 
-    font-weight: 700; 
-    margin-bottom: 24px; }
-.form_grid { 
+.card{
+    width: 75%;
+    padding: 20px;
+    margin: 0 0 0 305px;
+    box-shadow: 0 6px 15px rgba(0,74,173,0.3);
+}
+body {
+    margin: 0;
+}
+
+.add_payment {
+    background-color: #eef6ff;;
+    border-radius: 7px;
+    padding: 40px;
+    width: 100%;
+    margin: 40px auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.form_grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr)); 
-    gap: 18px; 
-    padding: 5px 0; }
-.form_group { 
-    display: flex; 
-    flex-direction: column; }
-.form_group label { 
-    color: #172b4d; 
-    font-family: Arial, Helvetica, sans-serif; 
-    font-size: 1rem; 
-    font-weight: 600; 
-    margin-bottom: 6px; }
+    gap: 15px;
+    padding: 5px
+}
+.form_group {
+    display: flex;
+    flex-direction: column;
+}
+.form_group label {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+}
 .form_group input,
- .form_group select { 
-    width: 100%; 
-    padding: 9px 11px; 
-    border: 1px solid #b9cbe0; 
-    border-radius: 6px; 
-    background: #fff; }
-.form_group input:focus, 
-.form_group select:focus { 
-    border-color: #facd2d; 
-    box-shadow: 0 0 0 .2rem rgba(250, 207, 52, 0.25); 
-    outline: 0; }
+.form_group select {
+    width: 50%;
+    padding: 6px;
+    border: 1px solid;
+    border-radius: 4px;
+}
 .full_width {
-     grid-column: 1 / -1; }
-.payment-submit {
-     min-width: 170px;
-      padding: 10px 20px;
-       background: #0b4f8a; 
-       border: 0; 
-       border-radius: 6px; 
-       color: #fff; 
-       font-weight: 600; }
-.payment-submit:hover { 
-    background: #083b68; }
-@media (max-width: 992px) 
-{ .card { width: calc(100% - 30px) !important; 
-    margin: 80px 15px 15px; } 
-    .form_grid { grid-template-columns: 1fr; } }
+    grid-column: span 3;
+}
+
+input[type="submit"] {
+    margin: auto;
+    width: 20%;
+    padding: 10px;
+    cursor: pointer;
+    background-color: cyan
+}
+input[type="submit"]:hover{
+  background-color: lightcyan;
+}
+.payment-plus button{
+    margin-left: auto;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    
+}
+.payment-plus button:hover, .searchbar-container button:hover{
+    background: lightgray;
+}
 

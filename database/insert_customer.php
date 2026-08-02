@@ -1,60 +1,66 @@
-<?php
+﻿<?php
 include '../database/database_connection.php';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['register'])) {
-    header('Location: ../admin/admin_user_management.php?page=add_customer');
-    exit();
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
+    $email = $_POST['email'];
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+    $fname = $_POST['f_name'];
+    $mname = $_POST['m_name'];
+    $lname = $_POST['l_name'];
+    $contact = $_POST['contact_number'];
+    $birth = $_POST['birth_date'];
+    $age = $_POST['age'];
+    $sex = $_POST['sex'];
+    $civil = $_POST['civil_status'];
+    $barangay = $_POST['barangay'];
+    $subdivision = $_POST['subdivision'];
+    $street = $_POST['street'];
+    $house = $_POST['house_number'];
+    $plan = $_POST['internet_plan'];
+    $status = $_POST['connection_status'];
+
+    $check = mysqli_query($conn, "SELECT * FROM user_accounts_tbl WHERE email='$email'");
+
+    if(mysqli_num_rows($check) > 0){
+        echo "<script>
+                alert('Email already exists.');
+                window.location='../admin/admin_user_management.php?page=add_customer';
+              </script>";
+        exit();
+    }
+    $role = "customer";
+
+$sqlUser = "INSERT INTO user_accounts_tbl (email, password, role)
+            VALUES ('$email', '$password', '$role')";
+
+    if(mysqli_query($conn, $sqlUser)){
+        $id = mysqli_insert_id($conn);
+
+$result = mysqli_query($conn, "SELECT MAX(customer_id) AS last_id FROM customer_tbl");
+$row = mysqli_fetch_assoc($result);
+
+$next_id = ($row['last_id'] ?? 0) + 1;
+
+$account_number = "MPC-" . str_pad($next_id, 5, "0", STR_PAD_LEFT);
+
+       $sqlCustomer = "INSERT INTO customer_tbl
+            ( user_id, account_number,f_name,m_name,l_name,contact_number, age,sex, civil_status, birth_date, barangay,  subdivision,
+                street, house_name, internet_plan, connection_status)
+            VALUES
+                ('$id', '$account_number', '$fname','$mname', '$lname', '$contact', '$age', '$sex', '$civil', '$birth',
+                    '$barangay','$subdivision', '$street', '$house', '$plan', '$status')";         
+
+        if(mysqli_query($conn, $sqlCustomer)){
+            echo "<script>
+                    alert('Customer Registered Successfully');
+                    window.location='../admin/admin_customer.php';
+                  </script>";
+        }else{
+            echo mysqli_error($conn);
+        }
+    }else{
+        echo mysqli_error($conn);
+    }
 }
-
-$email = trim($_POST['email'] ?? '');
-$password = $_POST['password'] ?? '';
-$fName = trim($_POST['f_name'] ?? '');
-$mName = trim($_POST['m_name'] ?? '');
-$lName = trim($_POST['l_name'] ?? '');
-$contact = trim($_POST['contact_number'] ?? '');
-$birthDate = trim($_POST['birth_date'] ?? '');
-$age = filter_input(INPUT_POST, 'age', FILTER_VALIDATE_INT);
-$sex = trim($_POST['sex'] ?? '');
-$civilStatus = trim($_POST['civil_status'] ?? '');
-$barangay = trim($_POST['barangay'] ?? '');
-$subdivision = trim($_POST['subdivision'] ?? '');
-$street = trim($_POST['street'] ?? '');
-$houseNumber = trim($_POST['house_number'] ?? '');
-$planId = filter_input(INPUT_POST, 'internet_plan', FILTER_VALIDATE_INT);
-$status = trim($_POST['connection_status'] ?? '');
-
-if (!filter_var($email, FILTER_VALIDATE_EMAIL) || $password === '' || $fName === '' || $lName === '' || $age === false || !$planId) {
-    header('Location: ../admin/admin_user_management.php?page=add_customer&error=1'); exit();
-}
-
-$check = mysqli_prepare($conn, 'SELECT id FROM user_accounts_tbl WHERE email = ? LIMIT 1');
-mysqli_stmt_bind_param($check, 's', $email);
-mysqli_stmt_execute($check);
-if (mysqli_num_rows(mysqli_stmt_get_result($check)) > 0) {
-    header('Location: ../admin/admin_user_management.php?page=add_customer&exists=1'); exit();
-}
-
-mysqli_begin_transaction($conn);
-try {
-    $hash = password_hash($password, PASSWORD_DEFAULT);
-    $role = 'customer';
-    $insertUser = mysqli_prepare($conn, 'INSERT INTO user_accounts_tbl (email, password, role) VALUES (?, ?, ?)');
-    mysqli_stmt_bind_param($insertUser, 'sss', $email, $hash, $role);
-    if (!mysqli_stmt_execute($insertUser)) { throw new Exception('Unable to create the user account.'); }
-    $userId = mysqli_insert_id($conn);
-
-    $lastCustomer = mysqli_query($conn, 'SELECT COALESCE(MAX(customer_id), 0) + 1 AS next_id FROM customer_tbl');
-    $nextId = (int) mysqli_fetch_assoc($lastCustomer)['next_id'];
-    $accountNumber = 'MPC-' . str_pad((string) $nextId, 5, '0', STR_PAD_LEFT);
-
-    $sql = 'INSERT INTO customer_tbl (user_id, email_address, first_name, middle_name, last_name, birth_date, age, sex, contact_number, civil_status, barangay, house_number, street, subdivision, internet_plan_id, password, role, status, account_number) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-    $insertCustomer = mysqli_prepare($conn, $sql);
-    mysqli_stmt_bind_param($insertCustomer, 'isssssisssssssissss', $userId, $email, $fName, $mName, $lName, $birthDate, $age, $sex, $contact, $civilStatus, $barangay, $houseNumber, $street, $subdivision, $planId, $hash, $role, $status, $accountNumber);
-    if (!mysqli_stmt_execute($insertCustomer)) { throw new Exception('Unable to create the customer record.'); }
-    mysqli_commit($conn);
-    header('Location: ../admin/admin_customer.php?created=1');
-} catch (Throwable $exception) {
-    mysqli_rollback($conn);
-    header('Location: ../admin/admin_user_management.php?page=add_customer&error=1');
-}
-exit();
+?>

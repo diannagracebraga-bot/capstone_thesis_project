@@ -1,18 +1,33 @@
 <?php
-include 'database_connection.php';
-
-$id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
-if (!$id) {
-    header('Location: ../admin/admin_payment.php?error=1');
+include '../database/database_connection.php';
+if (!isset($_GET['id'])) {
+    header("Location: ../admin/admin_payment.php");
     exit();
 }
+$id = $_GET['id'];
+$query = "DELETE FROM payment_tbl WHERE id='$id'";
 
-$statement = mysqli_prepare($conn, 'DELETE FROM payment_tbl WHERE id = ?');
-mysqli_stmt_bind_param($statement, 'i', $id);
-
-if (mysqli_stmt_execute($statement)) {
-    header('Location: ../admin/admin_payment.php?deleted=1');
+if (mysqli_query($conn, $query)) {
+    echo "<script>
+        alert('Record deleted successfully');
+        window.location.href='../admin/admin_payment.php';
+    </script>";
 } else {
-    header('Location: ../admin/admin_payment.php?error=1');
+    echo "Error deleting record: " . mysqli_error($conn);
 }
-exit();
+if (!isset($_GET['id'])) {
+    header("Location: ../admin/admin_user_management.php");
+    exit();
+}
+$id = $_GET['id'];
+$query = "DELETE FROM login_tbl WHERE id='$id'";
+
+if (mysqli_query($conn, $query)) {
+    echo "<script>
+        alert('Record deleted successfully');
+        window.location.href='../admin/admin_user_management.php';
+    </script>";
+} else {
+    echo "Error deleting record: " . mysqli_error($conn);
+}
+?>
