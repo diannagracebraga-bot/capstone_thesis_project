@@ -8,7 +8,7 @@ if (isset($_POST['submit'])) {
     $f_name = $_POST['f_name'];
     $m_name = $_POST['m_name'];
     $l_name = $_POST['l_name'];
-    $role = "Admin";
+    $role = "Super Admin";
     $contact_number = $_POST['contact_number'];
 
     
@@ -16,7 +16,7 @@ if (isset($_POST['submit'])) {
             VALUES ('$email', '$password','$f_name', '$m_name', '$l_name', '$role', '$contact_number')";
     if (mysqli_query($conn, $sql)) {
        echo "<script>
-                alert('Admin created successfully!');
+                alert('Super Admin created successfully!');
                 window.location.href='admin_user_management.php';
             </script>";
         } else {
@@ -27,13 +27,13 @@ if (isset($_POST['submit'])) {
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Create Admin</title>
+    <title>Create Super Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin_add_admin.css">
 </head>
 <body>
 <div class="container mt-5">
-    <h2>Create Admin</h2>
+    <h2>Create Super Admin</h2>
     <form method="POST">
         <div class="mb-3">
          

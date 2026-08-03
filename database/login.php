@@ -10,44 +10,60 @@ if(isset($_POST['login'])){
     $sql = "SELECT * FROM user_accounts_tbl WHERE email='$email'";
     $result = mysqli_query($conn, $sql);
 
+    if(mysqli_num_rows($result) == 0){
+        $sql = "SELECT * FROM admin_superadmin_accounts_tbl WHERE email='$email'";
+        $result = mysqli_query($conn, $sql);
+    }
+
     if(mysqli_num_rows($result) == 1){
-
         $user = mysqli_fetch_assoc($result);
-
         if(password_verify($password, $user['password'])){
 
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['email'] = $user['email'];
             $_SESSION['role'] = $user['role'];
 
-           if($user['role'] == "customer"){
-              echo "<script>
-            alert('Welcome, Customer!');
-            window.location='../customer/customer-dashboard.php';
-          </script>";
-    exit();
+            if($user['role'] == "customer"){
 
-            }elseif($user['role'] == "admin"){
-                 echo "<script>
-            alert('Welcome, Admin!');
-            window.location='../admin/admin_dashboard.php';
-          </script>";  //case "super_admin":
-                    //header("Location: ../super_admin/super_admin_dashboard.php");
-                    //exit(); wala pang superadmin dashboard
-            }elseif($user['role'] == "super_admin"){
-                header("Location: ../admin/admin_dashboard.php");
+                echo "<script>
+                    alert('Welcome, Customer!');
+                    window.location='../customer/customer-dashboard.php';
+                </script>";
+                exit();
+
+            }elseif($user['role'] == "Admin"){
+                echo "<script>
+                    alert('Welcome, Admin!');
+                    window.location='../admin/admin_dashboard.php';
+                </script>";
+                exit();
+
+            }elseif($user['role'] == "Super Admin"){
+                echo "<script>
+                    alert('Welcome, Super Admin!');
+                    window.location='../admin/admin_dashboard.php';
+                </script>";
+                exit();
             }else{
-                echo "<script> alert('Invalid user role.'); window.location='../index.php';
-                      </script>";
-            }
-            exit();
+
+                echo "<script>
+                    alert('Invalid user role.');
+                    window.location='../index.php';
+                </script>";
+                exit();  }
         }else{
-            echo "<script> alert('Incorrect password.');  window.location='../index.php';
-                  </script>";
+            echo "<script>
+                alert('Incorrect password.');
+                window.location='../index.php';
+            </script>";
+            exit();
         }
     }else{
-        echo "<script>alert('Email not found.'); window.location='../index.php';
-              </script>";
-    }
+        echo "<script>
+            alert('Email not found.');
+            window.location='../index.php';
+        </script>";
+        exit();
+ }
 }
 ?>

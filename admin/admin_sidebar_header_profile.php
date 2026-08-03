@@ -1,3 +1,16 @@
+<?php
+session_start();
+
+include '../database/database_connection.php';
+
+$user_id = $_SESSION['user_id'];
+
+$query = "SELECT * FROM admin_superadmin_accounts_tbl
+          WHERE id = '$user_id'";
+
+$result = mysqli_query($conn, $query);
+$row = mysqli_fetch_assoc($result);
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,10 +31,13 @@
 
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="dropdown ms-auto">
-                <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+             <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
 
-                    <img src="" width="30" height="30"
-                      class="rounded-circle me-2">Dianna Braga Admin </button>
+                     <img src="" width="30" height="30" class="rounded-circle me-2">
+                         <?php
+                             echo $row['f_name'] . " " . $row['m_name'] . " " . $row['l_name'] . " " . $row['role'];
+                             ?>
+            </button>
 
                 <div class="dropdown-menu dropdown-menu-end">
                     <div>

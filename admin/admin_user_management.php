@@ -106,24 +106,24 @@ if(mysqli_num_rows($result) > 0){
 
 <?php } ?>
 
-<<<<<<< HEAD
     <?php
     if ($page == 'add_customer') {
         include 'admin_add_customer.php';
-    } else {
+    } else 
     ?>
     <div class="dropdown">
     <select class="dropbtn" onchange="if(this.value) window.location.href=this.value;">
         <option value="">Add User</option>
         <option value="../admin/admin_add_admin.php">Admin</option>
-        <option value="../admin/admin_add_customer.php">Customer</option>
+        <option value="../admin/admin_add_super_admin.php">Super Admin</option>
+        <option value="admin_user_management.php?page=add_customer">Customer</option>
     </select>
 </div>
 </div>
-=======
+
         </div>
     </div>
->>>>>>> fdd7dc654b10df225281c6df7fdac97cb56e47d2
+
 </div>
 
 </body>
