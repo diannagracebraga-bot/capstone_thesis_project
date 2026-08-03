@@ -12,6 +12,7 @@ if (isset($_POST['submit'])) {
     $role = "Admin";
     $contact_number = $_POST['contact_number'];
 
+    
     $sql = "INSERT INTO admin_superadmin_accounts_tbl (id, email, password, f_name, m_name, l_name, role, contact_number)
             VALUES ('$id', '$email', '$password','$f_name', '$m_name', '$l_name', '$role', '$contact_number')";
     if (mysqli_query($conn, $sql)) {
