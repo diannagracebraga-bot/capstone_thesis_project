@@ -3,17 +3,22 @@ include '../database/database_connection.php';
 
 if (isset($_POST['submit'])) {
 
+    $id = $_POST['id'];
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+    $f_name = $_POST['f_name'];
+    $m_name = $_POST['m_name'];
+    $l_name = $_POST['l_name'];
     $role = "Admin";
+    $contact_number = $_POST['contact_number'];
 
     $sql = "INSERT INTO admin_superadmin_accounts_tbl (id, email, password, f_name, m_name, l_name, role, contact_number)
-            VALUES ('$id', $email', '$password','$f_name', '$m_name', '$l_name', '$role', '$contact_number')";
+            VALUES ('$id', '$email', '$password','$f_name', '$m_name', '$l_name', '$role', '$contact_number')";
     if (mysqli_query($conn, $sql)) {
         echo "<script>alert('Admin created successfully!');</script>";
-    } else {
-        echo "<script>alert('Failed to create admin.');</script>";
-    }
+        } else {
+            die("Error: " . mysqli_error($conn));
+}
 }
 ?>
 <!DOCTYPE html>
@@ -24,12 +29,9 @@ if (isset($_POST['submit'])) {
     <link rel="stylesheet" href="../css/admin_add_admin.css">
 </head>
 <body>
-
 <div class="container mt-5">
     <h2>Create Admin</h2>
-
     <form method="POST">
-
         <div class="mb-3">
             <label>id</label>
             <input type="number" name="id" class="form-control" required>

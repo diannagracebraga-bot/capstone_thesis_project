@@ -28,12 +28,14 @@
         include 'admin_add_customer.php';
     } else {
     ?>
-        <div class="dropdown">
-            <a class="dropdown-item" href="../admin/admin_add_admin.php">Admin</a>
-            <a class="dropdown-item" href="../admin/admin_add_customer.php">Customer</a>
-        </div>
-    </div>
-
+    <div class="dropdown">
+    <select class="dropbtn" onchange="if(this.value) window.location.href=this.value;">
+        <option value="">Add User</option>
+        <option value="../admin/admin_add_admin.php">Admin</option>
+        <option value="../admin/admin_add_customer.php">Customer</option>
+    </select>
+</div>
+</div>
 </div>
     <table class="table_applicants">
         <thead>
