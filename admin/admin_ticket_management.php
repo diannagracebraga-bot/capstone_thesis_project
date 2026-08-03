@@ -3,6 +3,7 @@ include '../database/database_connection.php';
 
 $query = "SELECT * FROM ticket_management_tbl ORDER BY ticket_id ASC";
 $result = mysqli_query($conn, $query);
+
 if (!$result) {
     die("Ticket query failed: " . mysqli_error($conn));
 }

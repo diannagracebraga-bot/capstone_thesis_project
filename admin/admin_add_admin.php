@@ -60,9 +60,7 @@ if (isset($_POST['submit'])) {
             <label>Contact Number</label>
             <input type="number" name="contact_number" class="form-control" required>
         </div>
-        <button type="submit" name="submit" class="btn btn-success">
-            Create
-        </button>
+        <button type="submit" name="submit" class="btn btn-success">Create</button>
     </form>
 </div>
 
