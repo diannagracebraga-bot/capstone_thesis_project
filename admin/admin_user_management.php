@@ -40,6 +40,7 @@ if ($page == 'add_customer') {
         </tr>
     </thead>
     <tbody>
+        
 
 <?php
 
@@ -106,11 +107,10 @@ if(mysqli_num_rows($result) > 0){
 
 <?php } ?>
 
-<<<<<<< HEAD
     <?php
     if ($page == 'add_customer') {
         include 'admin_add_customer.php';
-    } else {
+    } else 
     ?>
     <div class="dropdown">
     <select class="dropbtn" onchange="if(this.value) window.location.href=this.value;">
@@ -120,10 +120,6 @@ if(mysqli_num_rows($result) > 0){
     </select>
 </div>
 </div>
-=======
-        </div>
-    </div>
->>>>>>> fdd7dc654b10df225281c6df7fdac97cb56e47d2
 </div>
 
 </body>
