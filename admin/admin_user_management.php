@@ -70,7 +70,6 @@ if(mysqli_num_rows($result) > 0){
         echo $row['f_name']." ".$row['m_name']." ".$row['l_name'];
         ?>
     </td>
-
     <td><?php echo $row['email']; ?></td>
 
     <td>Customer</td>
