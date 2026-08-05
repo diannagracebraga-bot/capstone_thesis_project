@@ -81,11 +81,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         '$date'
     )";
 
-    if (mysqli_query($conn, $sql)) {
-        $message = "Ticket submitted successfully!";
-    } else {
-        $message = "Error: " . mysqli_error($conn);
-    }
+ if (mysqli_query($conn, $sql)) {
+
+    echo "<script>
+        alert('Ticket submitted successfully!');
+        window.location.href='customer_support.php';
+    </script>";
+    exit();
+
+} else {
+
+    echo "<script>
+        alert('Error: " . mysqli_error($conn) . "');
+    </script>";
+
+}
 }
 ?>
 
@@ -109,11 +119,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   				<div class="card-body">
                     <h2>Send Customer Ticket:</h2>
     <div class="form-section">
-        <?php if ($message !== ""): ?>
-            <div class="alert alert-info support-alert">
-                <?php echo $message; ?>
-            </div>
-        <?php endif; ?>
 
         <form class="form-box" method="POST">
             <div class="row">

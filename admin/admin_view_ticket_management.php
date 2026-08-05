@@ -54,84 +54,150 @@ $ticket = mysqli_fetch_assoc($result);
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
 <h1>USER MANAGEMENT TRACKING</h1>
+<div class="main-content">
 
-<div class="card w-75">
-    <div class="card-body">
-        <div class="ticket_container">
+    <div class="card shadow">
 
-            <div class="container">
+        <div class="card-body p-4">
 
-                <div class="top-section">
-                    <form method="POST">
-                        <div class="status">
+            <form method="POST">
 
-                          <label>Status</label>
-                             <div>
-    <?php
+                <div class="row">
 
-                if($ticket['status'] == "Pending"){
-                        echo '<span class="badge status-badge bg-warning text-dark">Pending</span>';
-                    }
-                elseif($ticket['status'] == "Ongoing"){
-                        echo '<span class="badge status-badge bg-primary">Ongoing</span>';
-                    }
-                elseif($ticket['status'] == "Resolved"){
-                        echo '<span class="badge status-badge bg-success">Resolved</span>';
-                    }
+                    <!-- LEFT SIDE -->
+                    <div class="col-md-4">
 
-    ?>
-    </div>
+                        <label class="section-title">
+                            Current Status
+                        </label>
 
-    <br>
-    <select name="status" class="form-select">
-        <option value="Ongoing" <?php if($ticket['status']=='Ongoing') echo 'selected'; ?>>Ongoing</option>
-        <option value="Resolved" <?php if($ticket['status']=='Resolved') echo 'selected'; ?>>Resolved</option>
-        <option value="Pending" <?php if($ticket['status']=='Pending') echo 'selected'; ?>>Pending</option>
-    </select>
+                        <div class="mb-3">
 
-</div>
+                            <?php
+                            if($ticket['status']=="Pending"){
+                                echo '<span class="badge bg-warning text-dark status-badge">Pending</span>';
+                            }
+                            elseif($ticket['status']=="Ongoing"){
+                                echo '<span class="badge bg-primary status-badge">Ongoing</span>';
+                            }
+                            else{
+                                echo '<span class="badge bg-success status-badge">Resolved</span>';
+                            }
+                            ?>
 
-
-          <div class="status">
-             <label>Priority</label>
-
-                  <select name="priority">
-                     <option value="Urgent">Urgent</option>
-                     <option value="Resolved">Resolved</option>
-                     <option value="Pending">Pending</option>
-                            </select>
                         </div>
 
-            <div class="action"> <br>
-             <label>Action</label>
-              <button type="submit" class="btn btn-primary">Update</button>
-</div>
-  </form>
- </div>
+                        <label class="mb-2">
+                            Change Status
+                        </label>
 
-                <div class="customer_details">
-                  <label>Customer Details:</label>  
-                    <textarea readonly><?php echo "Name: " . $ticket['full_name'] . "\n";
-                        echo "Email: " . $ticket['email_address'] . "\n";
-                        echo "Contact Number: " . $ticket['contact_number'];?></textarea>
-</div>
-               <div class="ticket_details">
-                  <label>Ticket Details:</label>
-                     <textarea readonly><?php echo "Ticket ID: " . $ticket['ticket_id'] . "\n";
-                        echo "Concern Type: " . $ticket['concern_type'] . "\n";
-                        echo "Date Received: " . $ticket['date_received'] ;?></textarea>
-</div>
+                        <select name="status" class="form-select mb-4">
 
-              <div class="customer_concern_description">
-                    <label>Description:</label>
-                      <textarea readonly><?php echo $ticket['description']; ?></textarea>
-</div>
+                            <option value="Pending" <?php if($ticket['status']=="Pending") echo "selected"; ?>>
+                                Pending
+                            </option>
 
-            </div>
+                            <option value="Ongoing" <?php if($ticket['status']=="Ongoing") echo "selected"; ?>>
+                                Ongoing
+                            </option>
 
+                            <option value="Resolved" <?php if($ticket['status']=="Resolved") echo "selected"; ?>>
+                                Resolved
+                            </option>
+
+                        </select>
+
+                        <label class="mb-2">
+                            Priority
+                        </label>
+
+                        <input type="text"
+                               class="form-control"
+                               value="<?php echo $ticket['priority']; ?>"
+                               readonly>
+
+                    </div>
+<div class="col-md-8">
+
+    <div class="row">
+
+        <!-- Customer Details -->
+        <div class="col-md-6">
+
+            <label class="section-title">
+                Customer Details
+            </label>
+
+            <table class="table table-borderless">
+
+                <tr>
+                    <td width="150"><strong>Name:</strong></td>
+                    <td><?php echo $ticket['full_name']; ?></td>
+                </tr>
+
+                <tr>
+                    <td><strong>Email Address:</strong></td>
+                    <td><?php echo $ticket['email_address']; ?></td>
+                </tr>
+
+                <tr>
+                    <td><strong>Contact Number:</strong></td>
+                    <td><?php echo $ticket['contact_number']; ?></td>
+                </tr>
+
+            </table>
+
+        </div>
+
+        <!-- Ticket Details -->
+        <div class="col-md-6">
+
+            <label class="section-title">
+                Ticket Details
+            </label>
+
+            <table class="table table-borderless">
+
+                <tr>
+                    <td width="140"><strong>Ticket ID:</strong></td>
+                    <td><?php echo $ticket['ticket_id']; ?></td>
+                </tr>
+
+                <tr>
+                    <td><strong>Concern Type:</strong></td>
+                    <td><?php echo $ticket['concern_type']; ?></td>
+                </tr>
+
+                <tr>
+                    <td><strong>Date Received:</strong></td>
+                    <td><?php echo $ticket['date_received']; ?></td>
+                </tr>
+
+                <tr>
+                    <td><strong>Priority:</strong></td>
+                    <td><?php echo $ticket['priority']; ?></td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
+                <hr class="my-4">
 
+                <label class="section-title">
+                    Description:
+                </label>
+
+                <textarea class="form-control" rows="5" readonly><?php echo $ticket['description']; ?></textarea>
+                <div class="text-end mt-4">
+
+                    <a href="admin_ticket_management.php" class="btn btn-secondary">  Back
+                    </a>
+
+                    <button type="submit" class="btn btn-primary"> Update Status</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>
