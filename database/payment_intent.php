@@ -2,7 +2,7 @@
 
 header("Content-Type: application/json");
 
-$secretKey = "sk_live_mG8MseME3iF3nGGno7Zjbj2C"; // Replace with your actual secret key
+$secretKey = ""; // Replace with your actual secret key
 
 $curl = curl_init();
 
