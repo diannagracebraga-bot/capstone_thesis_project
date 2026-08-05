@@ -40,6 +40,7 @@ if ($page == 'add_customer') {
         </tr>
     </thead>
     <tbody>
+        
 
 <?php
 
@@ -63,22 +64,18 @@ if(mysqli_num_rows($result) > 0){
 <tr>
 
     <td><?php echo $row['id']; ?></td>
-
     <td>
         <?php
         echo $row['f_name']." ".$row['m_name']." ".$row['l_name'];
         ?>
     </td>
-
     <td><?php echo $row['email']; ?></td>
 
     <td>Customer</td>
 
     <td><?php echo $row['connection_status']; ?></td>
-
     <td>
         <a href="edit_user.php?id=<?php echo $row['customer_id']; ?>" class="btn btn-primary btn-sm">Edit</a>
-
         <a href="../database/delete.php?id=<?php echo $row['customer_id']; ?>" class="btn btn-danger btn-sm"
         onclick="return confirm('Delete this customer?')">Delete</a>
     </td>
@@ -100,10 +97,8 @@ if(mysqli_num_rows($result) > 0){
 <?php
 }
 ?>
-
     </tbody>
 </table>
-
 <?php } ?>
 
     <?php
@@ -120,10 +115,10 @@ if(mysqli_num_rows($result) > 0){
     </select>
 </div>
 </div>
-
+=======
         </div>
     </div>
-
+>>>>>>> fdd7dc654b10df225281c6df7fdac97cb56e47d2
 </div>
 
 </body>
