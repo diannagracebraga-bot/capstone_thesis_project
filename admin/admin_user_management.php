@@ -64,7 +64,6 @@ if(mysqli_num_rows($result) > 0){
 <tr>
 
     <td><?php echo $row['id']; ?></td>
-
     <td>
         <?php
         echo $row['f_name']." ".$row['m_name']." ".$row['l_name'];
@@ -75,10 +74,8 @@ if(mysqli_num_rows($result) > 0){
     <td>Customer</td>
 
     <td><?php echo $row['connection_status']; ?></td>
-
     <td>
         <a href="edit_user.php?id=<?php echo $row['customer_id']; ?>" class="btn btn-primary btn-sm">Edit</a>
-
         <a href="../database/delete.php?id=<?php echo $row['customer_id']; ?>" class="btn btn-danger btn-sm"
         onclick="return confirm('Delete this customer?')">Delete</a>
     </td>
