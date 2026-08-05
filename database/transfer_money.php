@@ -7,7 +7,7 @@ $ch = curl_init();
 
 curl_setopt($ch, CURLOPT_URL, "https://api.paymongo.com/v2/batch_transfers");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_USERPWD,);
+curl_setopt($ch, CURLOPT_USERPWD, "sk_live_mG8MseME3iF3nGGno7Zjbj2C:");
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     "Content-Type: application/json"
 ]);
