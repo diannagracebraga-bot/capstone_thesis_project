@@ -98,7 +98,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                             <button 
                                  class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                      data-bs-target="#editModal<?php echo $row['customer_id']; ?>">
-                                             Edit
+                                             View
                             </button>
 
                             <a href="../database/delete_customer.php?id=<?php echo $row['customer_id']; ?>"

@@ -4,57 +4,29 @@
     margin: 0 0 0 305px;
     box-shadow: 0 6px 15px rgba(0,74,173,0.3);
 }
-.container {
-    background-color: lightblue;
-    border: 1px solid;
-    padding: 25px;
-    border-radius: 8px;
-}
-.status label,
-.action label,
-.customer_details label,
-.customer_concern_description label {
-    display: block;
-    margin-bottom: 6px;
+body{
     font-family: Arial, Helvetica, sans-serif;
-    
-
 }
-
-.status select {
-    width: 200px;
-    padding: 8px;
-    border: 1px solid;
-    border-radius: 5px;
-    font-family: Arial, Helvetica, sans-serif;
-
-}
-
-.action-btn {
-    width: 100px;
-    height: 38px;
-    background-color: pink;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.section-title{
     font-family: Arial, Helvetica, sans-serif;
 }
 
-.action-btn:hover {
-    background-color: #1b7fb8;
-}
-
-.customer_details,
-.customer_concern_description {
-    margin-top: 20px;
-}
-
-.customer_details textarea,
-.customer_concern_description textarea {
+.table td,
+.table th,
+.form-select,
+.form-control,
+.btn,
+label,
+textarea{
     font-family: Arial, Helvetica, sans-serif;
-    width: 100%;
-    min-height: 100px;
-    padding: 10px;
-    border: none;
-    border-radius: 5px; 
+}
+.section-title{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px ;
+    font-weight: bold;
+}
+span.status-badge{
+    font-size: 15px;
+    padding: 8px 15px;
+    border-radius: 10px;
 }
