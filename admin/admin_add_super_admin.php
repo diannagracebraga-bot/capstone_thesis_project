@@ -30,9 +30,23 @@ if (isset($_POST['submit'])) {
     <title>Create Super Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin_add_admin.css">
+      <style>
+        .card{
+    width: 75%;
+    padding: 20px;
+    margin: 0 0 0 305px;
+    box-shadow: 0 6px 15px rgba(0,74,173,0.3);
+}
+    </style>
 </head>
 <body>
-<div class="container mt-5">
+     <?php include 'admin_sidebar_header_profile.php'; ?>
+
+<h1>USER MANAGEMENT TRACKING</h1>
+
+<div class="card">
+    <div class="card-body">
+<div class="container mt-4">
     <h2>Create Super Admin</h2>
     <form method="POST">
         <div class="mb-3">
@@ -65,6 +79,7 @@ if (isset($_POST['submit'])) {
         <button type="submit" name="submit" class="btn btn-success">Create</button>
     </form>
 </div>
-
+</div>
+</div>
 </body>
 </html>
