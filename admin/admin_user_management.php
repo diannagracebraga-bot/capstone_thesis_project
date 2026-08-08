@@ -101,11 +101,6 @@ if(mysqli_num_rows($result) > 0){
 </table>
 <?php } ?>
 
-    <?php
-    if ($page == 'add_customer') {
-        include 'admin_add_customer.php';
-    } else 
-    ?>
     <div class="dropdown">
     <select class="dropbtn" onchange="if(this.value) window.location.href=this.value;">
         <option value="">Add User</option>
