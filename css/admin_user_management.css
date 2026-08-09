@@ -1,8 +1,20 @@
+<<<<<<< HEAD
 .card{
     width: 75%;
     padding: 20px;
     margin: 0 0 0 305px;
     box-shadow: 0 6px 15px rgba(0,74,173,0.3);
+=======
+.card {
+    width: 90%;
+    max-width: 1400px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 74, 173, 0.12);
+    border: 1px solid #e8edf3;
+>>>>>>> 99070f5e25bec9f19cadc763d36ef0f10c065e8d
 }
 .table-container{
     max-height: 550px;
