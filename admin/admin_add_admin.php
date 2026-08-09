@@ -34,7 +34,7 @@ if (isset($_POST['submit'])) {
 <body>
 <div class="container mt-5">
     <h2>Create Admin</h2>
-    <form method="POST">
+    <form action="../admin/admin_user_management.php" method="POST">
         <div class="mb-3">
          
         </div>
