@@ -44,14 +44,13 @@ if (isset($_POST['submit'])) {
     <?php include 'admin_sidebar_header_profile.php'; ?>
 
 <h1>USER MANAGEMENT TRACKING</h1>
-
 <div class="card">
     <div class="card-body">
 <div class="container mt-4">
     <h2>Create Admin</h2>
-    <form method="POST">
+
+    <form action="../admin/admin_user_management.php" method="POST">
         <div class="mb-3">
-         
         </div>
         <div class="mb-3">
             <label>Email</label>

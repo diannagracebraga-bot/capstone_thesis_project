@@ -40,7 +40,14 @@ if ($page == 'add_customer') {
         </tr>
     </thead>
     <tbody>
-        
+        <div class="dropdown">
+    <select class="dropbtn" onchange="if(this.value) window.location.href=this.value;">
+        <option value="">Add User</option>
+        <option value="../admin/admin_add_admin.php">Admin</option>
+        <option value="../admin/admin_add_super_admin.php">Super Admin</option>
+        <option value="admin_user_management.php?page=add_customer">Customer</option>
+    </select>
+</div>
 
 <?php
 
@@ -101,14 +108,7 @@ if(mysqli_num_rows($result) > 0){
 </table>
 <?php } ?>
 
-    <div class="dropdown">
-    <select class="dropbtn" onchange="if(this.value) window.location.href=this.value;">
-        <option value="">Add User</option>
-        <option value="../admin/admin_add_admin.php">Admin</option>
-        <option value="../admin/admin_add_super_admin.php">Super Admin</option>
-        <option value="admin_user_management.php?page=add_customer">Customer</option>
-    </select>
-</div>
+    
 </div>
 
         </div>
