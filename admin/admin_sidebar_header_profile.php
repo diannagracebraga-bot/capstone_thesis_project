@@ -40,7 +40,7 @@ $admin = mysqli_fetch_assoc($admin_result);
 
                 <div class="dropdown-menu dropdown-menu-end">
                     <div>
-                        <a class="dropdown-item text-danger" href="logout.php">
+                        <a class="dropdown-item text-danger" href="../database/logout.php">
                             Logout
                         </a>
 </div>
