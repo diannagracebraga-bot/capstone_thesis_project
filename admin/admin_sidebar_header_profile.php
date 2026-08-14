@@ -7,6 +7,9 @@ include '../database/database_connection.php';
 
 $user_id = $_SESSION['user_id'];
 
+
+$current_page = basename($_SERVER['PHP_SELF']);
+
 $query = "SELECT * FROM admin_superadmin_accounts_tbl WHERE id='$user_id'";
 $admin_result = mysqli_query($conn, $query);
 $admin = mysqli_fetch_assoc($admin_result);
@@ -54,14 +57,30 @@ $admin = mysqli_fetch_assoc($admin_result);
                 <div class="image-container">
                         <img src="../images/bg_logo.png" alt="Logo" class="icon2">
         </div>
-            <a class="dashboard" href="admin_dashboard.php">Dashboard</a><br>
-            <a class="dashboard" href="admin_applicants.php">Applicants</a><br>
-            <a class="dashboard" href="admin_customer.php">Customer</a><br>
-            <a class="dashboard" href="admin_payment.php">Payments</a><br>
-            <a class="dashboard" href="admin_inquiries.php">Inquiries</a><br>
-            <a class="dashboard" href="admin_ticket_management.php">Ticket Management</a><br>
-            <a class="dashboard" href="admin_user_management.php">User Management</a><br>
-            <a class="dashboard" href="admin_content_management.php">Content Management</a><br>
+       <a href="admin_dashboard.php" class="<?php
+              if ($current_page == 'admin_dashboard.php') {
+                 echo 'active';}?>">  Dashboard</a> <br>
+          <a href="admin_applicants.php" class="<?php
+              if ($current_page == 'admin_applicants.php') {
+                 echo 'active'; }?>"> Applicants</a> <br>
+        <a href="admin_customer.php" class="<?php
+              if ($current_page == 'admin_customer.php') {
+                 echo 'active'; } ?>">Customer</a> <br>
+        <a href="admin_payment.php" class="<?php
+              if ($current_page == 'admin_payment.php') {
+                 echo 'active';} ?>"> Payments</a> <br>
+        <a href="admin_inquiries.php" class="<?php
+              if ($current_page == 'admin_inquiries.php') {
+                 echo 'active';} ?>"> Inquiries </a> <br>
+        <a href="admin_ticket_management.php" class="<?php
+             if ($current_page == 'admin_ticket_management.php') {
+                 echo 'active';}?>"> Ticket Management</a> <br>
+        <a href="admin_user_management.php" class="<?php
+             if ($current_page == 'admin_user_management.php') {
+                 echo 'active'; } ?>">User Management</a> <br>
+        <a href="admin_content_management.php" class="<?php
+             if ($current_page == 'admin_content_management.php') {
+                 echo 'active';}?>"> Content Management </a>
         </div>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>

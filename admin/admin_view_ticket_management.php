@@ -64,59 +64,7 @@ $ticket = mysqli_fetch_assoc($result);
 
                 <div class="row">
 
-                    <!-- LEFT SIDE -->
-                    <div class="col-md-4">
-
-                        <label class="section-title">
-                            Current Status
-                        </label>
-
-                        <div class="mb-3">
-
-                            <?php
-                            if($ticket['status']=="Pending"){
-                                echo '<span class="badge bg-warning text-dark status-badge">Pending</span>';
-                            }
-                            elseif($ticket['status']=="Ongoing"){
-                                echo '<span class="badge bg-primary status-badge">Ongoing</span>';
-                            }
-                            else{
-                                echo '<span class="badge bg-success status-badge">Resolved</span>';
-                            }
-                            ?>
-
-                        </div>
-
-                        <label class="mb-2">
-                            Change Status
-                        </label>
-
-                        <select name="status" class="form-select mb-4">
-
-                            <option value="Pending" <?php if($ticket['status']=="Pending") echo "selected"; ?>>
-                                Pending
-                            </option>
-
-                            <option value="Ongoing" <?php if($ticket['status']=="Ongoing") echo "selected"; ?>>
-                                Ongoing
-                            </option>
-
-                            <option value="Resolved" <?php if($ticket['status']=="Resolved") echo "selected"; ?>>
-                                Resolved
-                            </option>
-
-                        </select>
-
-                        <label class="mb-2">
-                            Priority
-                        </label>
-
-                        <input type="text"
-                               class="form-control"
-                               value="<?php echo $ticket['priority']; ?>"
-                               readonly>
-
-                    </div>
+                   
 <div class="col-md-8">
 
     <div class="row">
@@ -181,6 +129,52 @@ $ticket = mysqli_fetch_assoc($result);
         </div>
     </div>
 </div>
+                    <div class="col-md-4">
+
+                        <label class="section-title">
+                            Current Status
+                        </label>
+
+                        <div class="mb-3">
+
+                            <?php
+                            if($ticket['status']=="Pending"){
+                                echo '<span class="badge bg-warning text-dark status-badge">Pending</span>';
+                            }
+                            elseif($ticket['status']=="Ongoing"){
+                                echo '<span class="badge bg-primary status-badge">Ongoing</span>';
+                            }
+                            else{
+                                echo '<span class="badge bg-success status-badge">Resolved</span>';
+                            }
+                            ?>
+
+                        </div>
+
+                        <label class="mb-2"> Change Status</label>
+
+                        <select name="status" class="form-select mb-4">
+
+                            <option value="Pending" <?php if($ticket['status']=="Pending") echo "selected"; ?>>
+                                Pending
+                            </option>
+
+                            <option value="Ongoing" <?php if($ticket['status']=="Ongoing") echo "selected"; ?>>
+                                Ongoing
+                            </option>
+
+                            <option value="Resolved" <?php if($ticket['status']=="Resolved") echo "selected"; ?>>
+                                Resolved
+                            </option>
+
+                        </select>
+
+                        <label class="mb-2">
+                            Priority
+                        </label>
+
+                        <input type="text" class="form-control" value="<?php echo $ticket['priority']; ?>" readonly>
+                    </div>
                 <hr class="my-4">
 
                 <label class="section-title">

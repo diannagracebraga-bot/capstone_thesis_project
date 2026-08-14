@@ -15,8 +15,10 @@ if(isset($_POST['update_status'])){
                 alert('Status Updated Successfully!');
                 window.location='admin_applicants.php';
               </script>";
+                  exit();
     }else{
         echo "Error: ".mysqli_error($conn);
+        
     }
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

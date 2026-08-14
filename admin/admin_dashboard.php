@@ -1,3 +1,29 @@
+<?php
+include '../database/database_connection.php';
+
+/* total customers */
+$customer_query = "SELECT COUNT(*) AS total_customers FROM customer_tbl";
+$customer_result = mysqli_query($conn, $customer_query);
+$customer_data = mysqli_fetch_assoc($customer_result);
+$total_customers = $customer_data['total_customers'];
+
+/* Pending Applicants */
+$pending_query = " SELECT COUNT(*) AS pending_applicants FROM internet_application_tbl WHERE status = 'Pending'";
+$pending_result = mysqli_query($conn, $pending_query);
+$pending_data = mysqli_fetch_assoc($pending_result);
+
+$pending_applicants = $pending_data['pending_applicants'];
+
+/* Active users */
+$active_query = " SELECT COUNT(*) AS active_users FROM customer_tbl WHERE connection_status = 'Connected'";
+$active_result = mysqli_query($conn, $active_query);
+
+if (!$active_result) {
+    die("Active user query failed: " . mysqli_error($conn));
+}
+$active_data = mysqli_fetch_assoc($active_result);
+$active_users = $active_data['active_users'];
+?>
 
 <!DOCTYPE html>
 <html>
@@ -15,16 +41,17 @@
         <h1>USER MANAGEMENT TRACKING</h1>
         <div class="stats-container">
                 <div class="stat">
-                        <div class="customer-value value">11</div>
-                        <div class="type">Total Customer</div>
+                    
+                  <h2><?php echo $total_customers; ?></h2>
+                        <p>Total Customer</p>
                 </div>
                 <div class="stat">
-                        <div class="user-value value">12</div>
-                        <div class="type">Active User</div>
+                          <h2><?php echo $active_users; ?></h2>
+                                  <p>Active User</p>
                 </div>
                 <div class="stat">
-                        <div class="applicants-value value">13</div>
-                        <div class="type">Pending Applicants</div>
+                        <h2><?php echo $pending_applicants; ?></h2>
+                                 <p>Pending Applicants</p>
                 </div>
         </div>
         <div class="dashboard">

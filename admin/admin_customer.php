@@ -100,7 +100,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                                      data-bs-target="#editModal<?php echo $row['customer_id']; ?>">
                                              View
                             </button>
-
+                            
                             <a href="../database/delete_customer.php?id=<?php echo $row['customer_id']; ?>"
                                class="btn btn-danger btn-sm"
                                onclick="return confirm('Are you sure you want to delete this customer?')">

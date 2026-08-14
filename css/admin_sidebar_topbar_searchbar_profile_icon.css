@@ -56,6 +56,11 @@ h1{
     color: #333;
     text-decoration: none;
 }
+.sidebar a.active {
+    background-color: #e8f1ff;
+    color: #004AAD;
+    font-weight: bold;
+}
 
 .sidebar a:hover{
     background-color: #E5E4E2;

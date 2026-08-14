@@ -51,7 +51,28 @@ $row = mysqli_fetch_assoc($result);
 
                 <div class="row">
 
-                    <!-- LEFT SIDE -->
+                   
+                    <div class="col-md-8">
+
+                        <label class="section-title">
+                            Customer Details
+                        </label>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td width="150"><strong>Name:</strong></td>
+                                <td><?php echo $row['full_name']; ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email Address:</strong></td>
+                                <td><?php echo $row['email_address']; ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Contact Number:</strong></td>
+                                <td><?php echo $row['contact_number']; ?></td>
+                            </tr>
+                        </table>
+                    </div>
+                     <!-- LEFT SIDE -->
                     <div class="col-md-4">
 
                         <label class="section-title">
@@ -100,28 +121,7 @@ $row = mysqli_fetch_assoc($result);
                         </select>
 
                     </div>
-                    <div class="col-md-8">
-
-                        <label class="section-title">
-                            Customer Details
-                        </label>
-                        <table class="table table-borderless">
-                            <tr>
-                                <td width="150"><strong>Name:</strong></td>
-                                <td><?php echo $row['full_name']; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Email Address:</strong></td>
-                                <td><?php echo $row['email_address']; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Contact Number:</strong></td>
-                                <td><?php echo $row['contact_number']; ?></td>
-                            </tr>
-                        </table>
-                    </div>
                 </div>
-
                 <hr class="my-4">
 
                 <label class="section-title">
@@ -136,6 +136,8 @@ $row = mysqli_fetch_assoc($result);
                     </a>
                     <button type="submit"class="btn btn-primary"> Update Status</button>
                 </div>
+
+                
             </form>
         </div>
     </div>
