@@ -76,3 +76,49 @@ input[readonly]{
     background-color: lightgray;
     border: 1px solid #004AAD;
 }
+
+@media (max-width: 768px){
+    .support-content{
+        margin-left: 140px;
+        padding: 92px 12px 30px;
+    }
+
+    .card{
+        width: 100%;
+        margin: 0;
+        padding: 14px;
+    }
+
+    .form-box{
+        padding: 18px;
+    }
+
+    .row{
+        display: block;
+        margin-bottom: 0;
+    }
+
+    input,
+    select,
+    textarea{
+        padding: 11px;
+        font-size: 14px;
+    }
+
+    .submit-btn{
+        width: 100%;
+        margin-top: 12px;
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .support-content { margin-left: 128px; padding: 96px 16px 30px; }
+}
+@media (max-width: 480px) {
+    .support-content { margin-left: 124px; padding: 84px 10px 24px; }
+}
+
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+    .support-content { margin-left: 0 !important; width: 100%; padding: 96px 16px 30px; }
+}

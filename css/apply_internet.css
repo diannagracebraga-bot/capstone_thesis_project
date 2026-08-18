@@ -1,15 +1,154 @@
-h1 {
-    text-align: center;
-    color: black;
-    margin-bottom: 30px;
+:root {
+    --mitz-navy: #004aad;
+    --mitz-blue: #0b63ce;
+    --mitz-gold: #f5b51b;
+    --mitz-ink: #172b4d;
+    --mitz-bg: #f4f8fc;
 }
 
-.form_group {
-    margin-bottom: 20px;
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    padding: 40px 16px 64px;
+    background: var(--mitz-bg);
+    color: var(--mitz-ink);
+    font-family: Arial, Helvetica, sans-serif;
 }
-.form-control {
+
+form { max-width: 880px; margin: 0 auto; }
+
+form > .container {
+    max-width: 880px;
+    padding: 36px 42px 42px;
+    background: #fff;
+    border: 1px solid #d9e6f5;
+    border-top: 6px solid var(--mitz-navy);
+    border-radius: 14px;
+    box-shadow: 0 10px 28px rgba(0, 50, 110, .14);
+}
+
+h1 {
+    margin: 0 0 30px;
+    color: var(--mitz-navy);
+    font-size: clamp(1.75rem, 4vw, 2.45rem);
+    font-weight: 800;
+    letter-spacing: .02em;
+    line-height: 1.2;
+    text-align: center;
+}
+
+.form_group { margin-bottom: 18px; }
+
+.form_group > label,
+.form_group > p {
+    display: block;
+    margin: 0 0 8px;
+    color: var(--mitz-ink);
+    font-size: .98rem;
+    font-weight: 700;
+}
+
+/* The two form section headings. */
+form > .container > .form_group:nth-of-type(1) > label,
+form > .container > .form_group:nth-of-type(7) > label {
+    margin: 0 0 22px;
+    padding: 11px 14px;
+    border-left: 5px solid var(--mitz-gold);
+    background: #eaf3ff;
+    border-radius: 4px;
+    color: var(--mitz-navy);
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: .02em;
+}
+
+.form-control,
+select.form-control,
+input[type="file"] {
     width: 100%;
-    padding: 10px;
-    border: 1px solid lightgray;
-    border-radius: 5px;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid #bfd1e5;
+    border-radius: 7px;
+    background: #fff;
+    color: var(--mitz-ink);
+    box-shadow: none;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.form-control:focus,
+select.form-control:focus,
+input[type="file"]:focus {
+    border-color: var(--mitz-gold);
+    box-shadow: 0 0 0 3px rgba(245, 181, 27, .23);
+    outline: 0;
+}
+
+.form-check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 8px 0;
+}
+
+.form-check label { margin: 0; font-weight: 500; }
+.form-check-input { accent-color: var(--mitz-navy); }
+
+input[type="file"] {
+    padding: 8px;
+    background: #f8fbff;
+}
+
+.btn.btn-primary {
+    min-width: 128px;
+    margin-top: 8px;
+    padding: 11px 22px;
+    border: 0;
+    border-radius: 7px;
+    background: var(--mitz-navy);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(0, 74, 173, .22);
+    transition: background .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.btn.btn-primary:hover,
+.btn.btn-primary:focus {
+    background: var(--mitz-blue);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 14px rgba(0, 74, 173, .28);
+}
+
+@media (max-width: 768px) {
+    body { padding: 22px 12px 42px; }
+
+    form > .container {
+        padding: 25px 18px 30px;
+        border-radius: 10px;
+        border-top-width: 5px;
+    }
+
+    h1 {
+        margin-bottom: 24px;
+        font-size: 1.7rem;
+    }
+
+    .form_group { margin-bottom: 16px; }
+
+    .form_group > label,
+    .form_group > p { font-size: .94rem; }
+
+    form > .container > .form_group:nth-of-type(1) > label,
+    form > .container > .form_group:nth-of-type(7) > label {
+        margin-bottom: 18px;
+        font-size: .98rem;
+    }
+
+    .form-control,
+    select.form-control,
+    input[type="file"] { min-height: 42px; font-size: 16px; }
+
+    .btn.btn-primary { width: 100%; }
 }

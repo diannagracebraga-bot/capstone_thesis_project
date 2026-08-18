@@ -106,3 +106,87 @@ td{
 }.download:hover{
     background:#169d48;
 }
+
+@media (max-width: 768px){
+    .content{
+        margin-left: 140px;
+        padding: 92px 12px 24px;
+    }
+
+    .top-section,
+    .right-top,
+    .payment-header{
+        display: block;
+    }
+
+    .welcome h2{
+        font-size: 22px;
+        line-height: 1.2;
+    }
+
+    .welcome p{
+        font-size: 16px;
+    }
+
+    .date-card,
+    .plan-card{
+        width: 100%;
+        margin-top: 12px;
+    }
+
+    .summary{
+        grid-template-columns: 1fr;
+    }
+
+    .card{
+        padding: 16px;
+    }
+
+    .payment-box{
+        overflow-x: auto;
+    }
+
+    .payment-header input{
+        width: 100%;
+        margin-top: 12px;
+    }
+
+    table{
+        min-width: 620px;
+    }
+}
+
+/* Prevent dashboard cards and headings from being squeezed on narrow displays. */
+@media (max-width: 1024px) {
+    .content { margin-left: 128px; padding: 96px 16px 28px; }
+    .top-section { flex-direction: column; gap: 16px; }
+    .right-top { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .welcome { width: 100%; }
+    .welcome h2 { font-size: clamp(22px, 4vw, 30px); margin-bottom: 12px; overflow-wrap: anywhere; }
+    .date-card, .plan-card { width: 100%; margin-top: 0; min-width: 0; }
+    .plan-card h2 { font-size: clamp(24px, 5vw, 32px); }
+    .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .payment-box { padding: 14px; overflow-x: auto; }
+    .payment-header { gap: 12px; flex-wrap: wrap; }
+    .payment-header input { max-width: 100%; }
+}
+@media (max-width: 480px) {
+    .content { margin-left: 124px; padding: 84px 10px 22px; }
+    .right-top, .summary { grid-template-columns: 1fr; }
+    .card, .payment-box { padding: 12px; }
+    .welcome h2 { font-size: 21px; }
+}
+
+/* Use the compact layout on actual touch phones even if the browser requests a desktop viewport. */
+@media (hover: none) and (pointer: coarse) {
+    .content { margin-left: 128px; padding: 96px 16px 28px; min-width: 0; }
+    .top-section { flex-direction: column; gap: 16px; }
+    .right-top { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .date-card, .plan-card { width: 100%; min-width: 0; }
+    .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .payment-box { overflow-x: auto; }
+}
+
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+    .content { margin-left: 0 !important; width: 100%; padding: 96px 16px 28px; }
+}
