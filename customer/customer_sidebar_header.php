@@ -35,4 +35,19 @@
     <a class="dashboard" href="customer_ticket.php">Ticket</a><br>
     <a class="dashboard"href="customer_profile.php">Profile</a><br>
 </div>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+   <script>
+document.addEventListener('DOMContentLoaded', function () {
+    var toggle = document.querySelector('.navbar-toggler');
+    var sidebar = document.querySelector('.sidebar');
+    if (!toggle || !sidebar) return;
+    toggle.addEventListener('click', function () {
+        if (window.matchMedia('(max-width: 1024px)').matches || navigator.maxTouchPoints > 0) {
+            sidebar.classList.toggle('mobile-open');
+        }
+    });
+    sidebar.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () { sidebar.classList.remove('mobile-open'); });
+    });
+});
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
