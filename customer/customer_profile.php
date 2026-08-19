@@ -56,7 +56,7 @@ SELECT
     p.internet_price
 FROM customer_tbl c
 INNER JOIN user_accounts_tbl u
-    ON c.user_id = u.id
+    ON c.user_id = u.user_id
 LEFT JOIN internet_plan_tbl p
     ON c.internet_plan = p.plan_id
 WHERE c.user_id = '$user_id'

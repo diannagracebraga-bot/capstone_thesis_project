@@ -75,7 +75,9 @@ $customer = mysqli_fetch_assoc($result);
     
         <div class="card">
             <h4>Next Due Date</h4>
-            <span>July 15, 2026</span>
+            <span>
+        <?php echo date('F d, Y', strtotime($customer['due_date'])); ?>
+    </span>
         </div>
     </div>
 

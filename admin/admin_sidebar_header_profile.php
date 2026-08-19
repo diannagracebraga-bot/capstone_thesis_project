@@ -5,12 +5,16 @@ if (session_status() == PHP_SESSION_NONE) {
 
 include '../database/database_connection.php';
 
-$user_id = $_SESSION['user_id'];
+if (!isset($_SESSION['account_id'])) {
+    header("Location: ../index.php");
+    exit();
+}
+$account_id = $_SESSION['account_id'];
 
+$query = "SELECT * FROM admin_superadmin_accounts_tbl WHERE account_id='$account_id'";
 
 $current_page = basename($_SERVER['PHP_SELF']);
 
-$query = "SELECT * FROM admin_superadmin_accounts_tbl WHERE id='$user_id'";
 $admin_result = mysqli_query($conn, $query);
 $admin = mysqli_fetch_assoc($admin_result);
 ?>

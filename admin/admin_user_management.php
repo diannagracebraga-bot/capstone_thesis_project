@@ -55,11 +55,11 @@ $sql = "SELECT
             c.customer_id, c.f_name, c.m_name,
             c.l_name,
             c.connection_status,
-            u.id,
+            u.user_id,
             u.email
         FROM customer_tbl c
         INNER JOIN user_accounts_tbl u
-        ON c.user_id = u.id";
+        ON c.user_id = u.user_id";
 
 $result = mysqli_query($conn, $sql);
 
@@ -70,7 +70,7 @@ if(mysqli_num_rows($result) > 0){
 
 <tr>
 
-    <td><?php echo $row['id']; ?></td>
+    <td><?php echo $row['user_id']; ?></td>
     <td>
         <?php
         echo $row['f_name']." ".$row['m_name']." ".$row['l_name'];

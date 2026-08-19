@@ -19,9 +19,14 @@ if(isset($_POST['login'])){
         $user = mysqli_fetch_assoc($result);
         if(password_verify($password, $user['password'])){
 
-            $_SESSION['user_id'] = $user['id'];
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['role'] = $user['role'];
+          if($user['role'] == "customer"){
+    $_SESSION['user_id'] = $user['user_id'];
+}else{
+    $_SESSION['account_id'] = $user['account_id'];
+}
+
+$_SESSION['email'] = $user['email'];
+$_SESSION['role'] = $user['role'];
 
             if($user['role'] == "customer"){
 
