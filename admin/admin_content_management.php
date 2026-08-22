@@ -5,36 +5,7 @@ $sql = "SELECT * FROM content_management_about_tbl WHERE about_id = 1";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 
-if(isset($_POST['update'])){
-
-    $business_name = $_POST['business_name'];
-    $business_email = $_POST['business_email'];
-    $business_contact = $_POST['business_contact'];
-    $business_social_media = $_POST['business_social_media'];
-    $business_address = $_POST['business_address'];
-    $business_description = $_POST['business_description'];
-
-    $update = "UPDATE content_management_about_tbl SET
-                business_name='$business_name',
-                business_email='$business_email',
-                business_contact='$business_contact',
-                business_social_media='$business_social_media',
-                business_address='$business_address',
-                business_description='$business_description'
-                WHERE about_id = 1";
-
-    if(mysqli_query($conn, $update)){
-        echo "<script>
-                alert('Content updated successfully!');
-                window.location='admin_content_management.php';
-              </script>";
-        exit();
-    }else{
-        echo "<script>
-                alert('Update failed!');
-              </script>";
-    }
-}?>
+?>
 
 <!DOCTYPE html>
 <html>
@@ -61,7 +32,7 @@ if(isset($_POST['update'])){
     <div class="card w-75">
   				<div class="card-body">
                     <div class="content-management-container">
-   <form method="POST" class="form-horizontal">
+   <form action="../crud/update_content_management.php" method="POST" class="form-horizontal">
     <div class="content-wrapper">
 
     <div class="pill-nav offset-sm-9 mb-3">

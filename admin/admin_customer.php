@@ -101,7 +101,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                                              View
                             </button>
                             
-                            <a href="../database/delete_customer.php?id=<?php echo $row['customer_id']; ?>"
+                            <a href="../crud/delete_customer.php?id=<?php echo $row['customer_id']; ?>"
                                class="btn btn-danger btn-sm"
                                onclick="return confirm('Are you sure you want to delete this customer?')">
                                 Delete
@@ -121,7 +121,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
 
-            <form action="../database/admin_update_customer.php" method="POST">
+            <form action="../crud/admin_update_customer.php" method="POST">
 
                 <input type="hidden" name="customer_id" value="<?php echo $row['customer_id']; ?>">
 

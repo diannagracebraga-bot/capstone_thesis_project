@@ -1,28 +1,6 @@
 <?php
 include '../database/database_connection.php';
 
-if (isset($_POST['status'])) {
-
-    $new_status = $_POST['status'];
-    $ticket_id = $_GET['ticket_id'];
-
-    $sql_update = "UPDATE ticket_management_tbl
-                   SET status='$new_status'
-                   WHERE ticket_id='$ticket_id'";
-
-  if(mysqli_query($conn, $sql_update)){
-    echo "<script>
-            alert('Status updated successfully!');
-            window.location='admin_ticket_management.php';
-          </script>";
-} else {
-    echo "<script>
-            alert('Failed to update status.');
-          </script>";
-}
-exit();
-}
-
 if (!isset($_GET['ticket_id'])) {
     die("No ticket selected.");
 }
@@ -60,11 +38,11 @@ $ticket = mysqli_fetch_assoc($result);
 
         <div class="card-body p-4">
 
-            <form method="POST">
+            <form action = "../crud/update_ticket.php" method="POST">
 
+               <input type="hidden" name="ticket_id" value="<?php echo $ticket['ticket_id']; ?>">
                 <div class="row">
-
-                   
+       
 <div class="col-md-8">
 
     <div class="row">
@@ -187,7 +165,7 @@ $ticket = mysqli_fetch_assoc($result);
                     <a href="admin_ticket_management.php" class="btn btn-secondary">  Back
                     </a>
 
-                    <button type="submit" class="btn btn-primary"> Update Status</button>
+                    <button type="submit" name= "update_status"class="btn btn-primary"> Update Status</button>
                 </div>
             </form>
         </div>

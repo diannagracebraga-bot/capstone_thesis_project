@@ -49,7 +49,7 @@ if (isset($_POST['submit'])) {
 <div class="container mt-4">
     <h2>Create Admin</h2>
 
-    <form action="../admin/admin_user_management.php" method="POST">
+    <form method="POST">
         <div class="mb-3">
         </div>
         <div class="mb-3">

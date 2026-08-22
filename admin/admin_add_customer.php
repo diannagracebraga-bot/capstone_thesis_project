@@ -23,7 +23,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
 
 <div class="customer_registration">
     <h3>Customer Registration</h3>
-    <form action="../database/insert_customer.php" method="POST">
+    <form action="../crud/add_customer.php" method="POST">
         <div class="form_grid">
             
         <div class="form_group">

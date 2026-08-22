@@ -10,7 +10,7 @@ foreach($_POST['internet_price'] as $plan_id => $internet_price){
     $mbps = $_POST['internet_mbps'][$plan_id];
 
     $update = "UPDATE internet_plan_tbl
-       SET plan_name='$plan_name',
+       SET plan_name='$plan_name',S
            internet_price='$internet_price',
            internet_mbps='$mbps'
        WHERE plan_id='$plan_id'";

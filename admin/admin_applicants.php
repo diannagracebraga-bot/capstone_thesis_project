@@ -1,26 +1,6 @@
 <?php
 include '../database/database_connection.php';
 
-if(isset($_POST['update_status'])){
-
-    $applicant_id = $_POST['applicant_id'];
-    $status = $_POST['status'];
-
-    $sql = "UPDATE internet_application_tbl 
-            SET status='$status'
-            WHERE applicant_id='$applicant_id'";
-
-    if(mysqli_query($conn,$sql)){
-        echo "<script>
-                alert('Status Updated Successfully!');
-                window.location='admin_applicants.php';
-              </script>";
-                  exit();
-    }else{
-        echo "Error: ".mysqli_error($conn);
-        
-    }
-}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $first_name = $_POST['first_name'];
@@ -154,7 +134,7 @@ while($row = mysqli_fetch_assoc($result)){
                         data-bs-dismiss="modal"></button>
             </div>
 
-            <form method="POST">
+            <form action="../crud/update_applicants.php" method="POST">
 
                 <input type="hidden"
                        name="applicant_id"
