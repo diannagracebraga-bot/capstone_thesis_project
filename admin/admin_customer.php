@@ -66,7 +66,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 
                 <thead class="table-info">
                     <tr>
-                        <th>CUSTOMER ID</th>
+                     
                         <th>ACCOUNT NUMBER</th>
                         <th>FIRST NAME</th>
                         <th>MIDDLE NAME</th>
@@ -86,7 +86,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                     while($row = mysqli_fetch_assoc($result)){
                 ?>
                     <tr>
-                        <td><?php echo $row['customer_id']; ?></td>
+                      
                         <td><?php echo $row['account_number']; ?></td>
                         <td><?php echo $row['f_name']; ?></td>
                         <td><?php echo $row['m_name']; ?></td>
