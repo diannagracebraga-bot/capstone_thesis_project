@@ -28,7 +28,7 @@ $row = mysqli_fetch_assoc($result);
                     </button></a>
     </div>-->
     
-        <h1> USER MANAGEMENT TRACKING </h1>
+ 
     <div class="card w-75">
   				<div class="card-body">
                     <div class="content-management-container">

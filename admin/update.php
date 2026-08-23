@@ -43,7 +43,6 @@ if(isset($_POST['update'])) {
 <div class="container mt-5">
      <?php include 'admin_sidebar_header_profile.php'; ?>
 
-<h1>USER MANAGEMENT TRACKING</h1>
 <div class="card">
     <div class="card-body">
 <form method="POST">

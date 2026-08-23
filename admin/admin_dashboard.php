@@ -38,7 +38,7 @@ $active_users = $active_data['active_users'];
 <body>
         <?php include 'admin_sidebar_header_profile.php'; ?>
 
-        <h1>USER MANAGEMENT TRACKING</h1>
+
         <div class="stats-container">
                 <div class="stat">
                     

@@ -78,3 +78,37 @@
 .table thead, tr {
     text-align: center;
 }
+.searchbar-container{
+    padding: 10px;
+}
+.searchbar-container input{
+    padding: 7px;
+    color: blue;
+
+}
+.searchbar-container button{
+    padding: 7px;
+    
+
+}
+.searchbar-container button:hover{
+    color: light;
+}
+.dropdown{
+    margin-left: auto;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    
+}
+.searchbar-container button:hover{
+    background: lightgray;
+}
+.aligned{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 10px 0;
+
+}

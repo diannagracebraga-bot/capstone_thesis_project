@@ -35,7 +35,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
-<h1>USER MANAGEMENT TRACKING</h1>
+
 
 <div class="card w-75">
     <div class="card-body">
@@ -133,7 +133,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                     </h6>
 
                     <div class="row">
-                        <div class="col-md-8 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label class="form-label">Account Number</label>
                             <input type="text"
                                    class="form-control bg-light"
@@ -141,21 +141,14 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                                    readonly>
                         </div>
 
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label class="form-label">Email Address</label>
                             <input type="email"
-                                   class="form-control"
+                                   class="form-control bg-light"
                                    name="email"
-                                   value="<?php echo $row['email']; ?>">
+                                   value="<?php echo $row['email']; ?>" readonly>
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Password</label>
-                            <input type="password"
-                                   class="form-control"
-                                   name="password"
-                                   placeholder="Leave blank to keep current password">
-                        </div>
                     </div>
                     <h6 class="text-black border-bottom pb-2 mt-3 mb-3">
                         Personal Information

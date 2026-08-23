@@ -55,34 +55,35 @@ $admin = mysqli_fetch_assoc($admin_result);
             </div>
         </div>
     </div>
-</nav>
+</nav> 
+<h1> USER MANAGEMENT TRACKING </h1>
 
         <div class="sidebar">
                 <div class="image-container">
                         <img src="../images/bg_logo.png" alt="Logo" class="icon2">
         </div>
-       <a href="admin_dashboard.php" class="<?php
+       <a href="../admin/admin_dashboard.php" class="<?php
               if ($current_page == 'admin_dashboard.php') {
                  echo 'active';}?>">  Dashboard</a> <br>
-          <a href="admin_applicants.php" class="<?php
+          <a href="../admin/admin_applicants.php" class="<?php
               if ($current_page == 'admin_applicants.php') {
                  echo 'active'; }?>"> Applicants</a> <br>
-        <a href="admin_customer.php" class="<?php
+        <a href="../admin/admin_customer.php" class="<?php
               if ($current_page == 'admin_customer.php') {
                  echo 'active'; } ?>">Customer</a> <br>
-        <a href="admin_payment.php" class="<?php
+        <a href="../admin/admin_payment.php" class="<?php
               if ($current_page == 'admin_payment.php') {
                  echo 'active';} ?>"> Payments</a> <br>
-        <a href="admin_inquiries.php" class="<?php
+        <a href="../admin/admin_inquiries.php" class="<?php
               if ($current_page == 'admin_inquiries.php') {
                  echo 'active';} ?>"> Inquiries </a> <br>
-        <a href="admin_ticket_management.php" class="<?php
+        <a href="../admin/admin_ticket_management.php" class="<?php
              if ($current_page == 'admin_ticket_management.php') {
                  echo 'active';}?>"> Ticket Management</a> <br>
-        <a href="admin_user_management.php" class="<?php
+        <a href="../admin/admin_user_management.php" class="<?php
              if ($current_page == 'admin_user_management.php') {
                  echo 'active'; } ?>">User Management</a> <br>
-        <a href="admin_content_management.php" class="<?php
+        <a href="../admin/admin_content_management.php" class="<?php
              if ($current_page == 'admin_content_management.php') {
                  echo 'active';}?>"> Content Management </a>
         </div>

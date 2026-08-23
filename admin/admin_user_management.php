@@ -16,12 +16,26 @@ include '../database/database_connection.php';
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
-<h1>USER MANAGEMENT TRACKING</h1>
 
 <div class="card w-75">
     <div class="card-body">
         <div class="table-container">
+  <div class="aligned">
 
+           <div class="searchbar-container">
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit">Search</button>
+                </div>
+
+                      <div class="dropdown">
+    <select class="dropbtn" onchange="if(this.value) window.location.href=this.value;">
+        <option value="" hidden>Add User</option>
+        <option value="../admin/admin_add_admin.php">Admin</option>
+        <option value="../admin/admin_add_super_admin.php">Super Admin</option>
+        <option value="admin_user_management.php?page=add_customer">Customer</option>
+    </select>
+</div>
+</div>
 <?php
 if ($page == 'add_customer') {
     include 'admin_add_customer.php';
@@ -39,14 +53,7 @@ if ($page == 'add_customer') {
         </tr>
     </thead>
     <tbody>
-        <div class="dropdown">
-    <select class="dropbtn" onchange="if(this.value) window.location.href=this.value;">
-        <option value="">Add User</option>
-        <option value="../admin/admin_add_admin.php">Admin</option>
-        <option value="../admin/admin_add_super_admin.php">Super Admin</option>
-        <option value="admin_user_management.php?page=add_customer">Customer</option>
-    </select>
-</div>
+  
 
 <?php
 
@@ -92,10 +99,10 @@ while($row = mysqli_fetch_assoc($result)){
     <td><?php echo $row['account_status']; ?></td>
 
     <td>
-        <a href="edit_user.php?id=<?php echo $row['record_id']; ?>" 
-           class="btn btn-primary btn-sm">
-            Edit
-        </a>
+      <a href="../crud/update_user_accounts.php?id=<?php echo $row['record_id']; ?>&role=<?php echo $row['role']; ?>" 
+   class="btn btn-primary btn-sm">
+    Edit
+</a>
 
         <a href="../crud/delete_user_account.php?record_id=<?php echo $row['record_id']; ?>&role=<?php echo $row['role']; ?>"
    class="btn btn-danger btn-sm"

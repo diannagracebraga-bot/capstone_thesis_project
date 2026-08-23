@@ -43,7 +43,6 @@ if (isset($_POST['submit'])) {
 <body>
     <?php include 'admin_sidebar_header_profile.php'; ?>
 
-<h1>USER MANAGEMENT TRACKING</h1>
 <div class="card">
     <div class="card-body">
 <div class="container mt-4">
