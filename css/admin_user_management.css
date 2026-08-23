@@ -75,7 +75,7 @@
     border-radius: 5px;
     cursor: pointer;
 }
-.table thead, tr {
+.table thead, .table tr {
     text-align: center;
 }
 .searchbar-container{
@@ -96,7 +96,6 @@
 }
 .dropdown{
     margin-left: auto;
-    padding: 10px;
     display: flex;
     align-items: center;
     
