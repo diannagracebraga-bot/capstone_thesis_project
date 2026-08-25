@@ -32,6 +32,7 @@ if (isset($_POST['submit'])) {
     <link rel="stylesheet" href="../css/admin_payment.css">
     <link rel="stylesheet" href="../css/admin_add_admin.css">
       <style>
+        
         .card{
     width: 75%;
     padding: 20px;
