@@ -29,6 +29,7 @@ if (isset($_POST['submit'])) {
 <head>
     <title>Create Super Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/admin_payment.css">
     <link rel="stylesheet" href="../css/admin_add_admin.css">
       <style>
         .card{

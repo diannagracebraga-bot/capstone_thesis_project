@@ -41,7 +41,7 @@ if (isset($_POST['submit'])) {
         </style>
 </head>
 <body>
-    <?php include 'admin_sidebar_header_profile.php'; ?>
+    <?php include 'admin_sidebar_header_profile.php'; ?> 
 
 <h1>USER MANAGEMENT TRACKING</h1>
 <div class="card">
