@@ -7,6 +7,33 @@ $plan_result = mysqli_query($conn, $plan_sql);
 $about_sql = "SELECT * FROM content_management_about_tbl WHERE about_id = 1";
 $about_result = mysqli_query($conn, $about_sql);
 $about = mysqli_fetch_assoc($about_result);
+
+// Chatbot plan data
+$chatbot_plans = [];
+
+$chatbot_plan_sql = "
+    SELECT plan_name, internet_mbps, internet_price
+    FROM internet_plan_tbl
+    ORDER BY plan_id ASC
+";
+
+$chatbot_plan_result = mysqli_query($conn, $chatbot_plan_sql);
+
+while ($chatbot_plan = mysqli_fetch_assoc($chatbot_plan_result)) {
+    $chatbot_plans[] = [
+        'name' => $chatbot_plan['plan_name'],
+        'mbps' => $chatbot_plan['internet_mbps'],
+        'price' => number_format($chatbot_plan['internet_price'])
+    ];
+}
+
+$chatbot_data = [
+    'business_name' => $about['business_name'],
+    'email' => $about['business_email'],
+    'contact' => $about['business_contact'],
+    'address' => $about['business_address'],
+    'plans' => $chatbot_plans
+];
 ?>
 
 <!DOCTYPE html>
@@ -233,6 +260,271 @@ $about = mysqli_fetch_assoc($about_result);
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<style>
+#faqChatButton {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    background: white;
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+    z-index: 9999;
+
+    animation: chatbotFloat 2s ease-in-out infinite;
+}
+
+@keyframes chatbotFloat {
+    0%, 100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+#faqChatButton:hover {
+    animation-play-state: paused;
+}
+#faqChatBox {
+    display: none;
+    position: fixed;
+    right: 25px;
+    bottom: 95px;
+    width: 420px;
+    height: 560px;
+    max-width: calc(100% - 30px);
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+    overflow: hidden;
+    z-index: 9999;
+
+    flex-direction: column;
+}
+
+#faqChatHeader {
+    flex-shrink: 0;
+    background: #0d6efd;
+    color: white;
+    padding: 18px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#faqChatMessages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px;
+    background: #f4f6f8;
+}
+
+#faqChatForm {
+    flex-shrink: 0;
+    display: flex;
+    padding: 12px;
+    gap: 8px;
+    background: white;
+    border-top: 1px solid #ddd;
+}
+
+#faqChatInput {
+    flex: 1;
+    min-width: 0;
+    border: 1px solid #bbb;
+    border-radius: 7px;
+    padding: 11px;
+    font-size: 14px;
+}
+
+#faqChatForm button {
+    border: none;
+    background: #0d6efd;
+    color: white;
+    border-radius: 7px;
+    padding: 10px 16px;
+    cursor: pointer;
+}
+
+.chat-message {
+    display: block;
+    width: fit-content;
+    max-width: 85%;
+    margin-bottom: 12px;
+    padding: 10px 13px;
+    border-radius: 12px;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+}
+
+.bot-message {
+    background: white;
+    color: #222;
+    margin-right: auto;
+}
+
+.user-message {
+    background: #0d6efd;
+    color: white;
+    margin-left: auto;
+}
+</style>
+
+<button id="faqChatButton" type="button">💬</button>
+
+<div id="faqChatBox">
+    <div id="faqChatHeader">
+        Mitztianpc Wired Internet Services
+    </div>
+
+    <div id="faqChatMessages">
+        <div class="chat-message bot-message">
+            Hello! How may I help you today ?
+        <div class="chat-message bot-message">
+            Hello! Ask me about our plans, prices, application process, contact details, or support.
+        </div>
+    </div>
+</div>
+    <form id="faqChatForm">
+        <input
+            type="text"
+            id="faqChatInput"
+            placeholder="Type your question..."
+            autocomplete="off"
+            required
+        >
+        <button type="submit">Send</button>
+    </form>
+
+
+<script>
+const chatbotData = <?= json_encode(
+    $chatbot_data,
+    JSON_UNESCAPED_UNICODE |
+    JSON_HEX_TAG |
+    JSON_HEX_APOS |
+    JSON_HEX_AMP |
+    JSON_HEX_QUOT
+); ?>;
+
+const chatButton = document.getElementById('faqChatButton');
+const chatBox = document.getElementById('faqChatBox');
+const chatForm = document.getElementById('faqChatForm');
+const chatInput = document.getElementById('faqChatInput');
+const chatMessages = document.getElementById('faqChatMessages');
+
+chatButton.addEventListener('click', function () {
+    chatBox.style.display = chatBox.style.display === 'flex'
+        ? 'none'
+        : 'flex';
+});
+
+function addChatMessage(message, type) {
+    const messageElement = document.createElement('div');
+    messageElement.className = 'chat-message ' + type;
+    messageElement.textContent = message;
+
+    chatMessages.appendChild(messageElement);
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+function getChatbotAnswer(question) {
+    const text = question.toLowerCase();
+
+    if (
+        text.includes('plan') ||
+        text.includes('price') ||
+        text.includes('speed') ||
+        text.includes('mbps') ||
+        text.includes('internet')
+    ) {
+        if (chatbotData.plans.length === 0) {
+            return 'Our internet plans are currently unavailable. Please contact us for assistance.';
+        }
+
+        return 'Our available plans are:\n\n' +
+            chatbotData.plans.map(function (plan) {
+                return plan.name + ' - ' +
+                    plan.mbps + ' Mbps - ₱' +
+                    plan.price + ' per month';
+            }).join('\n');
+    }
+
+    if (
+        text.includes('apply') ||
+        text.includes('application') ||
+        text.includes('install') ||
+        text.includes('subscribe')
+    ) {
+        return 'To apply for an internet connection, select a plan and click the "APPLY NOW" button. You may also submit an inquiry through our Inquire section.';
+    }
+
+    if (
+        text.includes('contact') ||
+        text.includes('email') ||
+        text.includes('phone') ||
+        text.includes('number')
+    ) {
+        return 'You can contact us through:\nEmail: ' +
+            chatbotData.email +
+            '\nContact: ' +
+            chatbotData.contact;
+    }
+
+    if (
+        text.includes('address') ||
+        text.includes('location') ||
+        text.includes('where')
+    ) {
+        return 'Our address is:\n' + chatbotData.address;
+    }
+
+    if (
+        text.includes('support') ||
+        text.includes('problem') ||
+        text.includes('connection') ||
+        text.includes('internet is down')
+    ) {
+        return 'Please submit an inquiry with your full name, email address, contact number, and a description of the problem.';
+    }
+
+    if (
+        text.includes('hello') ||
+        text.includes('hi') ||
+        text.includes('hey')
+    ) {
+        return 'Hello! How can I help you today? You can ask about plans, prices, applications, contact details, or support.';
+    }
+
+    return 'Sorry, I do not have an answer for that yet. Please ask about our plans, prices, application process, contact details, or support.';
+}
+
+chatForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const question = chatInput.value.trim();
+
+    if (question === '') {
+        return;
+    }
+
+    addChatMessage(question, 'user-message');
+
+    const answer = getChatbotAnswer(question);
+
+    setTimeout(function () {
+        addChatMessage(answer, 'bot-message');
+    }, 300);
+
+    chatInput.value = '';
+});
+</script>
 
 </body>
 </html>

@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
 <body>    <?php include 'admin_sidebar_header_profile.php'; ?>
-<h1>USER MANAGEMENT TRACKING</h1>
+
 		<div class="card w-75">
   				<div class="card-body">
 <div class="add_payment">

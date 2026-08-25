@@ -1,20 +1,6 @@
 <?php
 include '../database/database_connection.php';
 
-if(isset($_POST['status'])){
-    $new_status = $_POST['status'];
-    $inquiries_id = $_GET['inquiries_id'];
-
-    $sql_update = "UPDATE inquiries_tbl
-                   SET status='$new_status'
-                   WHERE inquiries_id='$inquiries_id'";
-
-    mysqli_query($conn, $sql_update);
-
-    header("Location: admin_inquiries.php");
-    exit();
-}
-
 $inquiries_id = $_GET['inquiries_id'];
 
 $sql = "SELECT * FROM inquiries_tbl WHERE inquiries_id='$inquiries_id'";
@@ -38,20 +24,39 @@ $row = mysqli_fetch_assoc($result);
 <body>
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
- <h1>
-        USER MANAGEMENT TRACKING
-    </h1>
+ 
 <div class="main-content">
 
     <div class="card shadow">
 
         <div class="card-body p-4">
 
-            <form method="POST">
+            <form action="../crud/update_inquiries.php"  method="POST">
 
+                <input type="hidden" name="inquiries_id" value="<?php echo $row['inquiries_id']; ?>">
                 <div class="row">
+               
+                    <div class="col-md-8">
 
-                    <!-- LEFT SIDE -->
+                        <label class="section-title">
+                            Customer Details
+                        </label>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td width="150"><strong>Name:</strong></td>
+                                <td><?php echo $row['full_name']; ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Email Address:</strong></td>
+                                <td><?php echo $row['email_address']; ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Contact Number:</strong></td>
+                                <td><?php echo $row['contact_number']; ?></td>
+                            </tr>
+                        </table>
+                    </div>
+                     <!-- LEFT SIDE -->
                     <div class="col-md-4">
 
                         <label class="section-title">
@@ -100,28 +105,7 @@ $row = mysqli_fetch_assoc($result);
                         </select>
 
                     </div>
-                    <div class="col-md-8">
-
-                        <label class="section-title">
-                            Customer Details
-                        </label>
-                        <table class="table table-borderless">
-                            <tr>
-                                <td width="150"><strong>Name:</strong></td>
-                                <td><?php echo $row['full_name']; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Email Address:</strong></td>
-                                <td><?php echo $row['email_address']; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Contact Number:</strong></td>
-                                <td><?php echo $row['contact_number']; ?></td>
-                            </tr>
-                        </table>
-                    </div>
                 </div>
-
                 <hr class="my-4">
 
                 <label class="section-title">
@@ -134,8 +118,10 @@ $row = mysqli_fetch_assoc($result);
                     <a href="admin_inquiries.php"  class="btn btn-secondary">
                         Back
                     </a>
-                    <button type="submit"class="btn btn-primary"> Update Status</button>
+                    <button type="submit" name = "update_status"class="btn btn-primary"> Update Status</button>
                 </div>
+
+                
             </form>
         </div>
     </div>

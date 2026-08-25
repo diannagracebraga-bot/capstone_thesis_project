@@ -23,7 +23,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
 
 <div class="customer_registration">
     <h3>Customer Registration</h3>
-    <form action="../database/insert_customer.php" method="POST">
+    <form action="../crud/add_customer.php" method="POST">
         <div class="form_grid">
             
         <div class="form_group">
@@ -81,7 +81,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
             <label>Barangay</label>
                 <select name="barangay">
                     <option>Bagtas</option>
-                    <option>Punta sI</option>
+                    <option>Punta I</option>
             
                 </select>
             </div>
@@ -116,7 +116,13 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
                     <option>Disconnected</option>
                 </select>
             </div>
-           <div class="form_group full_width">
+   <div class="form_group">
+            <label for="due_date">Due Date</label>
+<input type="date" name="due_date" id="due_date" required>
+
+  </div>        
+
+<div class="form_group full_width">
            <input type="submit" class = "btn btn-success"name="register" value="Register">
            </div>
         </div>

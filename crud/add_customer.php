@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     $house = $_POST['house_number'];
     $plan = $_POST['internet_plan'];
     $status = $_POST['connection_status'];
+    $due_date = $_POST['due_date'];
 
     $check = mysqli_query($conn, "SELECT * FROM user_accounts_tbl WHERE email='$email'");
 
@@ -46,10 +47,10 @@ $account_number = "MPC-" . str_pad($next_id, 5, "0", STR_PAD_LEFT);
 
        $sqlCustomer = "INSERT INTO customer_tbl
             ( user_id, account_number,f_name,m_name,l_name,contact_number, age,sex, civil_status, birth_date, barangay,  subdivision,
-                street, house_name, internet_plan, connection_status)
+                street, house_name, internet_plan, connection_status, due_date)
             VALUES
                 ('$id', '$account_number', '$fname','$mname', '$lname', '$contact', '$age', '$sex', '$civil', '$birth',
-                    '$barangay','$subdivision', '$street', '$house', '$plan', '$status')";         
+                    '$barangay','$subdivision', '$street', '$house', '$plan', '$status', '$due_date')";         
 
         if(mysqli_query($conn, $sqlCustomer)){
             echo "<script>

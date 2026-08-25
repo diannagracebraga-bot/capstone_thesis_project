@@ -14,7 +14,7 @@ SELECT
     p.plan_name
 FROM customer_tbl c
 INNER JOIN user_accounts_tbl u
-    ON c.user_id = u.id
+    ON c.user_id = u.user_id
 LEFT JOIN internet_plan_tbl p
     ON c.internet_plan = p.plan_id
 ";
@@ -35,7 +35,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
-<h1>USER MANAGEMENT TRACKING</h1>
+
 
 <div class="card w-75">
     <div class="card-body">
@@ -66,7 +66,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 
                 <thead class="table-info">
                     <tr>
-                        <th>CUSTOMER ID</th>
+                     
                         <th>ACCOUNT NUMBER</th>
                         <th>FIRST NAME</th>
                         <th>MIDDLE NAME</th>
@@ -86,7 +86,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                     while($row = mysqli_fetch_assoc($result)){
                 ?>
                     <tr>
-                        <td><?php echo $row['customer_id']; ?></td>
+                      
                         <td><?php echo $row['account_number']; ?></td>
                         <td><?php echo $row['f_name']; ?></td>
                         <td><?php echo $row['m_name']; ?></td>
@@ -100,8 +100,8 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                                      data-bs-target="#editModal<?php echo $row['customer_id']; ?>">
                                              View
                             </button>
-
-                            <a href="../database/delete_customer.php?id=<?php echo $row['customer_id']; ?>"
+                            
+                            <a href="../crud/delete_customer.php?id=<?php echo $row['customer_id']; ?>"
                                class="btn btn-danger btn-sm"
                                onclick="return confirm('Are you sure you want to delete this customer?')">
                                 Delete
@@ -121,7 +121,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
 
-            <form action="../database/admin_update_customer.php" method="POST">
+            <form action="../crud/admin_update_customer.php" method="POST">
 
                 <input type="hidden" name="customer_id" value="<?php echo $row['customer_id']; ?>">
 
@@ -133,7 +133,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                     </h6>
 
                     <div class="row">
-                        <div class="col-md-8 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label class="form-label">Account Number</label>
                             <input type="text"
                                    class="form-control bg-light"
@@ -141,21 +141,14 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                                    readonly>
                         </div>
 
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-4 mb-3">
                             <label class="form-label">Email Address</label>
                             <input type="email"
-                                   class="form-control"
+                                   class="form-control bg-light"
                                    name="email"
-                                   value="<?php echo $row['email']; ?>">
+                                   value="<?php echo $row['email']; ?>" readonly>
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Password</label>
-                            <input type="password"
-                                   class="form-control"
-                                   name="password"
-                                   placeholder="Leave blank to keep current password">
-                        </div>
                     </div>
                     <h6 class="text-black border-bottom pb-2 mt-3 mb-3">
                         Personal Information

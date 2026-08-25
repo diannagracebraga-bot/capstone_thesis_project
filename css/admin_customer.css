@@ -83,3 +83,6 @@
     font-size: 22px;
     font-weight: 100;
 }
+.table thead, tr{
+    text-align: center;
+}

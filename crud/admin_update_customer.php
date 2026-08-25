@@ -1,5 +1,5 @@
 <?php
-include 'database_connection.php';
+include '../database/database_connection.php';
 
 if(isset($_POST['update'])){
 
@@ -72,7 +72,7 @@ if(isset($_POST['update'])){
 
         mysqli_query($conn, "UPDATE user_accounts_tbl
                              SET email='$email'
-                             WHERE id='$user_id'");
+                             WHERE user_id='$user_id'");
     }
 
     header("Location: ../admin/admin_customer.php?updated=1");

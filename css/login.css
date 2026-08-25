@@ -33,3 +33,8 @@
     margin-bottom: 10px;
     text-decoration: underline;
 }
+@media (max-width: 768px) {
+    .login-container { width: calc(100% - 28px); margin: 40px auto; padding: 24px 18px; }
+    .login-container h2 { margin-bottom: 28px; }
+    .login-container button { width: 100%; margin-left: 0; padding: 10px; }
+}

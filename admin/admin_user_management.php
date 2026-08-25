@@ -16,22 +16,35 @@ include '../database/database_connection.php';
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
-<h1>USER MANAGEMENT TRACKING</h1>
 
 <div class="card w-75">
     <div class="card-body">
         <div class="table-container">
+  <div class="aligned">
 
+           <div class="searchbar-container">
+                    <input type="text" placeholder="Search.." name="search">
+                    <button type="submit">Search</button>
+                </div>
+
+                      <div class="dropdown">
+    <select class="dropbtn" onchange="if(this.value) window.location.href=this.value;">
+        <option value="" hidden>Add User</option>
+        <option value="../admin/admin_add_admin.php">Admin</option>
+        <option value="../admin/admin_add_super_admin.php">Super Admin</option>
+        <option value="admin_user_management.php?page=add_customer">Customer</option>
+    </select>
+</div>
+</div>
 <?php
 if ($page == 'add_customer') {
     include 'admin_add_customer.php';
 } else {
 ?>
 
-<table class="table_applicants">
-    <thead>
+<table class= "table table-secondary table-hover">
+    <thead class = "table-info">
         <tr>
-            <th>ACCOUNT NUMBER</th>
             <th>NAME</th>
             <th>EMAIL ADDRESS</th>
             <th>ROLE</th>
@@ -40,58 +53,67 @@ if ($page == 'add_customer') {
         </tr>
     </thead>
     <tbody>
-        <div class="dropdown">
-    <select class="dropbtn" onchange="if(this.value) window.location.href=this.value;">
-        <option value="">Add User</option>
-        <option value="../admin/admin_add_admin.php">Admin</option>
-        <option value="../admin/admin_add_super_admin.php">Super Admin</option>
-        <option value="admin_user_management.php?page=add_customer">Customer</option>
-    </select>
-</div>
+  
 
 <?php
 
-$sql = "SELECT
-            c.customer_id, c.f_name, c.m_name,
-            c.l_name,
-            c.connection_status,
-            u.id,
-            u.email
-        FROM customer_tbl c
-        INNER JOIN user_accounts_tbl u
-        ON c.user_id = u.id";
+$sql = "
+    SELECT 
+        CONCAT_WS(' ', c.f_name, c.m_name, c.l_name) AS name,
+        u.email AS email,
+        'Customer' AS role,
+        c.connection_status AS account_status,
+        c.customer_id AS record_id
+    FROM customer_tbl c
+    INNER JOIN user_accounts_tbl u
+        ON c.user_id = u.user_id
+
+    UNION ALL
+
+    SELECT 
+        CONCAT_WS(' ', a.f_name, a.m_name, a.l_name) AS name,
+        a.email AS email,
+        a.role AS role,
+        'Active' AS account_status,
+        a.account_id AS record_id
+    FROM admin_superadmin_accounts_tbl a
+";
+
+$result = mysqli_query($conn, $sql);
 
 $result = mysqli_query($conn, $sql);
 
 if(mysqli_num_rows($result) > 0){
 
-    while($row = mysqli_fetch_assoc($result)){
+while($row = mysqli_fetch_assoc($result)){
 ?>
-
 <tr>
 
-    <td><?php echo $row['id']; ?></td>
-    <td>
-        <?php
-        echo $row['f_name']." ".$row['m_name']." ".$row['l_name'];
-        ?>
-    </td>
+
+    <td><?php echo $row['name']; ?></td>
+
     <td><?php echo $row['email']; ?></td>
 
-    <td>Customer</td>
+    <td><?php echo $row['role']; ?></td>
 
-    <td><?php echo $row['connection_status']; ?></td>
+    <td><?php echo $row['account_status']; ?></td>
+
     <td>
-        <a href="edit_user.php?id=<?php echo $row['customer_id']; ?>" class="btn btn-primary btn-sm">Edit</a>
-        <a href="../database/delete.php?id=<?php echo $row['customer_id']; ?>" class="btn btn-danger btn-sm"
-        onclick="return confirm('Delete this customer?')">Delete</a>
+      <a href="../crud/update_user_accounts.php?id=<?php echo $row['record_id']; ?>&role=<?php echo $row['role']; ?>" 
+   class="btn btn-primary btn-sm">
+    Edit
+</a>
+
+        <a href="../crud/delete_user_account.php?record_id=<?php echo $row['record_id']; ?>&role=<?php echo $row['role']; ?>"
+   class="btn btn-danger btn-sm"
+   onclick="return confirm('Are you sure you want to delete this account?');">
+    Delete
+</a>
     </td>
 
 </tr>
-
 <?php
-    }
-
+}
 }else{
 ?>
 

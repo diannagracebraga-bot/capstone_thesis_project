@@ -1,28 +1,6 @@
 <?php
 include '../database/database_connection.php';
 
-if (isset($_POST['status'])) {
-
-    $new_status = $_POST['status'];
-    $ticket_id = $_GET['ticket_id'];
-
-    $sql_update = "UPDATE ticket_management_tbl
-                   SET status='$new_status'
-                   WHERE ticket_id='$ticket_id'";
-
-  if(mysqli_query($conn, $sql_update)){
-    echo "<script>
-            alert('Status updated successfully!');
-            window.location='admin_ticket_management.php';
-          </script>";
-} else {
-    echo "<script>
-            alert('Failed to update status.');
-          </script>";
-}
-exit();
-}
-
 if (!isset($_GET['ticket_id'])) {
     die("No ticket selected.");
 }
@@ -53,70 +31,17 @@ $ticket = mysqli_fetch_assoc($result);
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
-<h1>USER MANAGEMENT TRACKING</h1>
 <div class="main-content">
 
     <div class="card shadow">
 
         <div class="card-body p-4">
 
-            <form method="POST">
+            <form action = "../crud/update_ticket.php" method="POST">
 
+               <input type="hidden" name="ticket_id" value="<?php echo $ticket['ticket_id']; ?>">
                 <div class="row">
-
-                    <!-- LEFT SIDE -->
-                    <div class="col-md-4">
-
-                        <label class="section-title">
-                            Current Status
-                        </label>
-
-                        <div class="mb-3">
-
-                            <?php
-                            if($ticket['status']=="Pending"){
-                                echo '<span class="badge bg-warning text-dark status-badge">Pending</span>';
-                            }
-                            elseif($ticket['status']=="Ongoing"){
-                                echo '<span class="badge bg-primary status-badge">Ongoing</span>';
-                            }
-                            else{
-                                echo '<span class="badge bg-success status-badge">Resolved</span>';
-                            }
-                            ?>
-
-                        </div>
-
-                        <label class="mb-2">
-                            Change Status
-                        </label>
-
-                        <select name="status" class="form-select mb-4">
-
-                            <option value="Pending" <?php if($ticket['status']=="Pending") echo "selected"; ?>>
-                                Pending
-                            </option>
-
-                            <option value="Ongoing" <?php if($ticket['status']=="Ongoing") echo "selected"; ?>>
-                                Ongoing
-                            </option>
-
-                            <option value="Resolved" <?php if($ticket['status']=="Resolved") echo "selected"; ?>>
-                                Resolved
-                            </option>
-
-                        </select>
-
-                        <label class="mb-2">
-                            Priority
-                        </label>
-
-                        <input type="text"
-                               class="form-control"
-                               value="<?php echo $ticket['priority']; ?>"
-                               readonly>
-
-                    </div>
+       
 <div class="col-md-8">
 
     <div class="row">
@@ -181,6 +106,52 @@ $ticket = mysqli_fetch_assoc($result);
         </div>
     </div>
 </div>
+                    <div class="col-md-4">
+
+                        <label class="section-title">
+                            Current Status
+                        </label>
+
+                        <div class="mb-3">
+
+                            <?php
+                            if($ticket['status']=="Pending"){
+                                echo '<span class="badge bg-warning text-dark status-badge">Pending</span>';
+                            }
+                            elseif($ticket['status']=="Ongoing"){
+                                echo '<span class="badge bg-primary status-badge">Ongoing</span>';
+                            }
+                            else{
+                                echo '<span class="badge bg-success status-badge">Resolved</span>';
+                            }
+                            ?>
+
+                        </div>
+
+                        <label class="mb-2"> Change Status</label>
+
+                        <select name="status" class="form-select mb-4">
+
+                            <option value="Pending" <?php if($ticket['status']=="Pending") echo "selected"; ?>>
+                                Pending
+                            </option>
+
+                            <option value="Ongoing" <?php if($ticket['status']=="Ongoing") echo "selected"; ?>>
+                                Ongoing
+                            </option>
+
+                            <option value="Resolved" <?php if($ticket['status']=="Resolved") echo "selected"; ?>>
+                                Resolved
+                            </option>
+
+                        </select>
+
+                        <label class="mb-2">
+                            Priority
+                        </label>
+
+                        <input type="text" class="form-control" value="<?php echo $ticket['priority']; ?>" readonly>
+                    </div>
                 <hr class="my-4">
 
                 <label class="section-title">
@@ -193,7 +164,7 @@ $ticket = mysqli_fetch_assoc($result);
                     <a href="admin_ticket_management.php" class="btn btn-secondary">  Back
                     </a>
 
-                    <button type="submit" class="btn btn-primary"> Update Status</button>
+                    <button type="submit" name= "update_status"class="btn btn-primary"> Update Status</button>
                 </div>
             </form>
         </div>

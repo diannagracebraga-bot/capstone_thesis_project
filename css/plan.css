@@ -42,3 +42,10 @@
     background-color:#0066e6;
     box-shadow:0 6px 15px rgba(0,74,173,0.3);
 }
+
+@media (max-width: 768px) {
+    .plans { gap: 20px; padding: 16px; }
+    .plan-card { width: 100%; margin-top: 35px; padding: 32px 20px; border-radius: 28px; }
+    .plan-card:hover { transform: none; }
+    .plan-name { font-size: clamp(38px, 12vw, 56px); }
+}

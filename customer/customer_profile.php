@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 session_start();
 
 include '../database/database_connection.php';
@@ -56,7 +56,7 @@ SELECT
     p.internet_price
 FROM customer_tbl c
 INNER JOIN user_accounts_tbl u
-    ON c.user_id = u.id
+    ON c.user_id = u.user_id
 LEFT JOIN internet_plan_tbl p
     ON c.internet_plan = p.plan_id
 WHERE c.user_id = '$user_id'
@@ -84,8 +84,8 @@ $internet_plan = $customer['plan_name'] . " (" .
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=4">
-    <link rel="stylesheet" href="../css/customer_profile.css?v=7">
+    <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=9">
+    <link rel="stylesheet" href="../css/customer_profile.css?v=8">
 </head>
 <body>
 

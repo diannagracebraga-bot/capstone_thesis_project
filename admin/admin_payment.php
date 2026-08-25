@@ -13,7 +13,7 @@ include '../database/database_connection.php';
 <body>
 	<?php include 'admin_sidebar_header_profile.php'; ?>
 	
-		<h1> USER MANAGEMENT TRACKING </h1>
+		
 		 <div class="card w-75">
   				<div class="card-body">
 		<div class = "table-container">
@@ -67,10 +67,10 @@ include '../database/database_connection.php';
 						<td> <?php echo $row['due_date'];?> </td>
 						<td> <?php echo $row['amount'];?> </td>
 						<td> <?php echo $row['remarks'];?> </td>
-						<td> <a href="	update.php?id=<?php echo $row['id']; ?>"> 
+						<td> <a href="update.php?id=<?php echo $row['id']; ?>"> 
 							<button class = "btn btn-primary">update</button>
 						     </a>
-							 <a href="../database/delete.php?id=<?php echo $row['id']; ?>">
+							 <a href="../crud/delete_payment.php?id=<?php echo $row['id']; ?>">
 								<button class = "btn btn-primary">delete</button>
 							 </a>
 						</td>

@@ -104,3 +104,46 @@ td{
     z-index: 2;
 }
 
+@media (max-width: 768px){
+    .ticket-content{
+        margin-left: 140px;
+        padding-top: 92px;
+    }
+
+    .ticket-section{
+        padding: 14px 10px 24px;
+        overflow-x: auto;
+    }
+
+    .ticket-section h2{
+        font-size: 24px;
+    }
+
+    table{
+        min-width: 760px;
+    }
+
+    th,
+    td{
+        padding: 10px;
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .view-btn{
+        padding: 5px 14px;
+        font-size: 13px;
+    }
+}
+
+
+@media (max-width: 1024px) {
+    .ticket-content { margin-left: 128px; padding-top: 96px; }
+}
+@media (max-width: 480px) {
+    .ticket-content { margin-left: 124px; padding-top: 84px; }
+}
+
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+    .ticket-content { margin-left: 0 !important; width: 100%; padding-top: 96px; }
+}

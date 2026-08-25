@@ -33,3 +33,10 @@
     color: white;
     border-radius: 5px;
 }
+
+@media (max-width: 768px) {
+    .form { width: calc(100% - 28px); margin-top: 55px; padding: 18px; }
+    .form label { display: block; margin-left: 0; }
+    .form input, .form textarea { width: 100%; margin-left: 0; }
+    .form button { width: 100%; }
+}
