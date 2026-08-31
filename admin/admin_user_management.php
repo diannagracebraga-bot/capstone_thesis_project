@@ -100,12 +100,12 @@ while($row = mysqli_fetch_assoc($result)){
 
     <td>
       <a href="../crud/update_user_accounts.php?id=<?php echo $row['record_id']; ?>&role=<?php echo $row['role']; ?>" 
-   class="btn btn-primary btn-sm">
+   class="btn btn-primary">
     Edit
 </a>
 
         <a href="../crud/delete_user_account.php?record_id=<?php echo $row['record_id']; ?>&role=<?php echo $row['role']; ?>"
-   class="btn btn-danger btn-sm"
+   class="btn btn-danger"
    onclick="return confirm('Are you sure you want to delete this account?');">
     Delete
 </a>

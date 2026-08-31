@@ -1,50 +1,195 @@
 <?php
 
-declare(strict_types=1);
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
+// PHPMailer
 require __DIR__ . '/PHPMailer-master/src/Exception.php';
 require __DIR__ . '/PHPMailer-master/src/PHPMailer.php';
 require __DIR__ . '/PHPMailer-master/src/SMTP.php';
 
-use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\PHPMailer;
+// Database
+include __DIR__ . '/database/database_connection.php';
 
-// Local XAMPP database connection
-$pdo = new PDO(
-    'mysql:host=localhost;dbname=mitztianpc_wired_internet_services;charset=utf8mb4',
-    'root',
-    '',
-    [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
-    ]
-);
+$sql = "
+    SELECT
+        c.customer_id,
+        c.f_name,
+        u.email,
+        c.due_date
+    FROM customer_tbl AS c
 
-$today = new DateTimeImmutable('today');
-$todayDate = $today->format('Y-m-d');
-$sevenDaysDate = $today->modify('+7 days')->format('Y-m-d');
+    INNER JOIN user_accounts_tbl AS u
+        ON c.user_id = u.user_id
 
-foreach ($customers as $customer) {
-    $mail->clearAddresses();
+    WHERE c.due_date IN (
+        CURDATE() + INTERVAL 7 DAY,
+        CURDATE() + INTERVAL 3 DAY,
+        CURDATE() + INTERVAL 1 DAY
+    )
+";
 
-    $mail->addAddress(
-        $customer['customer_email'],
-        $customer['customer_name']
-    );
+$result = mysqli_query($conn, $sql);
 
-    $mail->isHTML(true);
-    $mail->Subject = 'Payment Reminder';
-    $mail->Body = "
-        <p>Hello {$customer['customer_name']},</p>
-        <p>This is a reminder that your internet service payment is due on
-        <strong>{$customer['due_date']}</strong>.</p>
-        <p>Please settle your payment on or before the due date.</p>
-        <p>Thank you.</p>
-    ";
 
-    $mail->AltBody =
-        "Hello {$customer['customer_name']}, your payment is due on "
-        . $customer['due_date'] . '.';
-
-    $mail->send();
+// Check SQL
+if (!$result) {
+    die("Database query failed: " . mysqli_error($conn));
 }
+
+
+// Check if there are customers
+if (mysqli_num_rows($result) == 0) {
+    echo "No customers need a due date reminder today.";
+    exit();
+}
+while ($customer = mysqli_fetch_assoc($result)) {
+
+    $mail = new PHPMailer(true);
+
+    try {
+
+        // SMTP
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.hostinger.com';
+        $mail->SMTPAuth   = true;
+
+        // YOUR GMAIL
+        $mail->Username   = 'mitztianpc_tanza.com@mitztianpctanza.com';
+
+        // YOUR GOOGLE APP PASSWORD
+        $mail->Password   = 'Mitztianpc_tanza05';
+
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+
+        // Sender
+        $mail->setFrom(
+            'mitztianpc_tanza.com@mitztianpctanza.com',
+            'MitztianPC Wired Internet Service'
+        );
+
+
+        // Customer email
+        $mail->addAddress(
+            $customer['email'],
+            $customer['f_name']
+        );
+
+
+        // Calculate days remaining
+        $today = new DateTime();
+        $dueDate = new DateTime($customer['due_date']);
+
+        $daysLeft = $today->diff($dueDate)->days;
+
+
+        if ($daysLeft == 1) {
+
+            $message = "
+                Your internet plan payment is due
+                <strong>tomorrow</strong>.
+            ";
+
+        } else {
+
+            $message = "
+                Your internet plan payment is due in
+                <strong>{$daysLeft} days</strong>.
+            ";
+        }
+
+
+        // Email format
+        $mail->isHTML(true);
+
+        $mail->Subject = 'Internet Plan Due Date Reminder';
+
+
+        $mail->Body = "
+
+            <div style='font-family: Arial, sans-serif;'>
+
+                <h2>Payment Due Date Reminder</h2>
+
+                <p>
+                    Hello <strong>{$customer['f_name']}</strong>,
+                </p>
+
+                <p>
+                    This is a reminder regarding your
+                    internet plan payment.
+                </p>
+
+                <p>
+                    {$message}
+                </p>
+
+                <p>
+                    <strong>Due Date:</strong>
+                    {$customer['due_date']}
+                </p>
+
+                <p>
+                    Please settle your payment on or before
+                    the due date to avoid service interruption.
+                </p>
+
+                <br>
+
+                <p>
+                    Thank you!
+                </p>
+
+                <p>
+                    <strong>
+                        MitztianPC Wired Internet Service
+                    </strong>
+                </p>
+
+            </div>
+
+        ";
+
+        $mail->AltBody =
+            "Hello {$customer['f_name']},
+
+            This is a reminder that your internet plan
+            payment is due on {$customer['due_date']}.
+
+            Please settle your payment on or before
+            the due date to avoid service interruption.
+
+            Thank you!
+            
+            MitztianPC Wired Internet Service";
+
+
+        // Send
+        $mail->send();
+
+
+        echo "
+            Reminder successfully sent to:
+            <strong>{$customer['email']}</strong>
+            <br>
+        ";
+
+
+    } catch (Exception $e) {
+
+        echo "
+            Failed to send email to:
+            <strong>{$customer['email']}</strong>
+            <br>
+
+            Error:
+            {$mail->ErrorInfo}
+
+            <br><br>
+        ";
+    }
+}
+
+?>

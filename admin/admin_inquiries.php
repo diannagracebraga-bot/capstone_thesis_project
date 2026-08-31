@@ -67,10 +67,15 @@ while($row = mysqli_fetch_assoc($result)) {
 ?>
 </td>
         <td>
-            <a href="admin_view_inquiries.php?inquiries_id=<?php echo $row['inquiries_id']; ?>">
-                <button class = "btn btn-primary">View
-					</button>
+            <a href="admin_view_inquiries.php?inquiries_id=<?php echo $row['inquiries_id']; ?>"
+                 class = "btn btn-primary">View
+				
             </a>
+			<a href="../crud/delete_inquiry.php?inquiries_id=<?php echo $row['inquiries_id']; ?>"
+   class="btn btn-danger"
+   onclick="return confirm('Are you sure you want to delete this inquiry?');">
+    Delete
+</a>
         </td> 	
     </tr>
 <?php

@@ -43,6 +43,8 @@ $chatbot_data = [
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" 
+      link  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="css/index_style.css">
     <link rel="stylesheet" href="css/inquire.css">
     <link rel="stylesheet" href="css/plan.css">
@@ -225,20 +227,19 @@ $chatbot_data = [
                     <h2>Login</h2>
                     <form action="database/login.php" method="POST">
                         <label for="username">Username:</label>
-                        <input type="text"
-                               id="username"
-                               name="email"
-                               class="form-control"
-                               placeholder="Username"
-                               required>
+                        <input type="text" id="username" name="email" class="form-control"
+                               placeholder="Username" required>
                         <br>
-                        <label for="password">Password:</label>
-                        <input type="password"
-                               id="password"
-                               name="password"
-                               class="form-control"
-                               placeholder="Password"
-                               required>
+                      <label for="password">Password:</label>
+
+                <div class="password-input">
+                     <input type="password" id="password" name="password" class="form-control"
+                         placeholder="Password" required>
+
+                     <span class="toggle-password" id="togglePassword">
+                            <i class="bi bi-eye"></i> </span>
+                </div>
+                        <br>
                         <br>
                         <div class="forgot-password">
                             <a href="forgot_password.php">
@@ -525,7 +526,30 @@ chatForm.addEventListener('submit', function (event) {
     chatInput.value = '';
 });
 </script>
+<script>
+const togglePassword = document.getElementById("togglePassword");
+const password = document.getElementById("password");
+const eyeIcon = togglePassword.querySelector("i");
 
+togglePassword.addEventListener("click", function () {
+
+    if (password.type === "password") {
+
+        password.type = "text";
+
+        eyeIcon.classList.remove("bi-eye");
+        eyeIcon.classList.add("bi-eye-slash");
+
+    } else {
+
+        password.type = "password";
+
+        eyeIcon.classList.remove("bi-eye-slash");
+        eyeIcon.classList.add("bi-eye");
+    }
+});
+</script>
+</script>
 </body>
 </html>
 
