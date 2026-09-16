@@ -1,0 +1,40 @@
+.login-container{
+     font-family: Arial, sans-serif;
+     background: #ececec;
+     border-radius: 7px;
+     padding: 40px; 
+}
+.login-container label{
+    display: block;
+    margin-bottom: 8px;
+}
+.login-container input{
+    padding: 7px;
+    border: 1px solid;
+    border-radius: 5px;     
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 5px;
+}
+.login-container h2{
+    text-align: center;
+    margin-bottom: 50px;
+    color: black;
+}
+.login-container button{
+    width: 50%;
+    background-color: #004AAD;
+    color: white;
+    border-radius: 5px;
+    margin-left: 160px;
+    font-weight: bold;
+}
+.forgot-password{
+    margin-bottom: 10px;
+    text-decoration: underline;
+}
+@media (max-width: 768px) {
+    .login-container { width: calc(100% - 28px); margin: 40px auto; padding: 24px 18px; }
+    .login-container h2 { margin-bottom: 28px; }
+    .login-container button { width: 100%; margin-left: 0; padding: 10px; }
+}

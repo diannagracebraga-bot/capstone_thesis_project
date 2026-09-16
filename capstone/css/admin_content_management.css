@@ -1,0 +1,91 @@
+.card{
+    width: 75%;
+    padding: 20px;
+    margin: 0 0 0 305px;
+    box-shadow: 0 6px 15px rgba(0,74,173,0.3);
+}
+.business-info-card{
+     background-color: #e9eaec;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 5px 5px lightgray
+}
+.business-info-card .col-sm-2{
+    font-family: Arial;
+    font-size: large;
+}
+.business-info-card .form-control{
+    border: 2px solid lightgray;  
+    font-family: sans-serif;
+}
+.save-btn{
+    width: 35%;
+
+}
+.form-group.row {
+    justify-content: center;
+}
+.badge{
+    background-color: blue;
+}
+.edit-btn{
+    width: 20%;
+}
+.business-info-card h1{
+    text-align: left;
+}
+.pill-nav a {
+  display: inline-block;
+  color: black;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+.pill-nav a:hover {
+  background-color:gray;
+  color: black;
+}
+.pill-nav a.active {
+  background-color: dodgerblue;
+  color: white;
+}
+/*
+
+.business-info-card{
+    width: 70%;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: large;
+    background: lightblue;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.internet_plan {
+    width: 35%;
+    background-color: lightblue;
+    padding: 20px;
+    text-align: center;
+}
+
+.business-info-card input {
+    font-family: Arial, Helvetica, sans-serif;
+    border: none;
+    border-radius: 5px;
+    padding: 8px;
+}
+
+.business-info-card button, .save-btn{
+     background: #00c853;
+    border-radius: 20px;
+    width: 120px;
+    margin: 15px auto 0;
+    border: none;
+    cursor: pointer;
+    height: 40px;
+}
+
+.business-info-card button:hover,.save-btn:hover{
+    background: #00b248;
+}

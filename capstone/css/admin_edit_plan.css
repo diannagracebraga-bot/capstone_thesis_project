@@ -1,0 +1,41 @@
+.card{
+    width: 75%;
+    padding: 20px;
+     margin: 0 0 0 305px;
+    box-shadow: 0 6px 15px rgba(0,74,173,0.3);
+}
+.pill-nav a {
+  display: inline-block;
+  color: black;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+  border-radius: 5px;
+}
+.pill-nav a:hover {
+  background-color:gray;
+  color: black;
+}
+.pill-nav a.active {
+  background-color: dodgerblue;
+  color: white;
+}
+.container{
+    background-color: #e9eaec;
+    padding: 50px;
+    border-radius: 15px;
+    box-shadow: 5px 5px lightgray;
+}
+.save-btn{
+    width: 30%;
+}
+.form-group.row {
+    justify-content: center;
+}
+.plan-container .col-sm-2, .plan-container .col-sm-1{
+    font-family: Arial;
+    font-size: large;
+}
+.plan-container .form-control{
+    border: 2px solid lightgray;  
+}

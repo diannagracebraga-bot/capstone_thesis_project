@@ -1,0 +1,113 @@
+.card {
+    width: 90%;
+    max-width: 1400px;
+    padding: 20px;
+    margin: 0 0 0 305px;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0, 74, 173, 0.12);
+    border: 1px solid #e8edf3;
+}
+.table-container{
+    max-height: 550px;
+    overflow-y: auto; /* vertical scroll */
+    overflow-x: auto; /*horizontal scroll  */
+}
+ .table_applicants{
+    width: 90%;
+    margin: auto;
+    border-collapse: collapse;
+}
+.payment-plus{
+    display: flex;
+    padding: 6px 6px 6px 12px;
+    background: pink;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    margin-left: 700px;
+}
+.payment-plus:hover{
+    background-color: #71797E;
+    color: black;
+}
+.searchbar-container{
+    display: flex;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+.table_applicants thead{
+    background: linear-gradient(135deg, rgba(250, 205, 45, 1) 11%, rgba(230, 120, 47, 1) 75%);
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.table_applicants th{
+    border-collapse: collapse;
+    padding: 7px;
+    border-bottom: 1px #818589;
+    text-align: center;
+}
+
+.table_applicants td{
+    background-color: lightblue;
+    padding: 7px;
+    border-bottom: 1px solid #818589;
+    text-align: center;
+}
+
+.table_applicants tr:hover td{
+    background: #E5E4E2;
+    color: black;
+}
+.icon{
+    width: 30px;
+}
+.dropdown {
+    float: right;
+    margin-right: 20px; 
+}
+
+.dropbtn {
+    padding: 10px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.table thead, .table tr {
+    text-align: center;
+}
+.searchbar-container{
+    padding: 10px;
+}
+.searchbar-container input{
+    padding: 7px;
+    color: blue;
+
+}
+.searchbar-container button{
+    padding: 7px;
+    
+
+}
+.searchbar-container button:hover{
+    color: light;
+}
+.dropdown{
+    margin-left: auto;      
+    display: flex;
+    align-items: center;
+    
+}
+.searchbar-container button:hover{
+    background: lightgray;
+}
+.aligned{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 10px 0;
+
+}
