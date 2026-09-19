@@ -36,12 +36,10 @@ include '../database/database_connection.php';
 					<thead class = "table-info">
 					<tr>
 						<th> ID </th>
-						<th> PLAN </th>
 						<th> FIRST NAME </th>
 						<th> MIDDLE NAME </th>
 						<th> LAST NAME </th>
 						<th> PAYMENT METHOD </th>
-						<th> DUE DATE </th>
 						<th> AMOUNT </th>
 						<th> REMARKS </th>
 						<th> ACTION </th>
@@ -59,12 +57,10 @@ include '../database/database_connection.php';
 						?>
 					<tr>
 						<td> <?php echo $row['id'];?> </td>
-						<td> <?php echo $row['plan'];?> </td>
 						<td> <?php echo $row['f_name'];?> </td>
 						<td> <?php echo $row['m_name'];?> </td>
 						<td> <?php echo $row['l_name'];?> </td>
 						<td> <?php echo $row['payment_method'];?> </td>
-						<td> <?php echo $row['due_date'];?> </td>
 						<td> <?php echo $row['amount'];?> </td>
 						<td> <?php echo $row['remarks'];?> </td>
 						<td> <a href="update.php?id=<?php echo $row['id']; ?>"> 

@@ -42,10 +42,6 @@ $customer = mysqli_fetch_assoc($result);
 
             </div>
 
-            
-
-       
-      
         </div>
     </div>
 
@@ -106,6 +102,27 @@ async function loadQRCode() {
     const imageUrl = intent.data.attributes.next_action.code.image_url;
 
     document.getElementById("qr-image").src = imageUrl;
+
+    let paymentChecker = setInterval(async function() {
+
+    const response = await fetch(
+        "../database/check_payment.php?payment_intent_id=" + paymentIntentId
+    );
+
+    const result = await response.json();
+
+    console.log(result);
+
+    if (result.status === "Paid") {
+
+        clearInterval(paymentChecker);
+
+        alert("Payment successful!");
+
+        window.location.href = "customer-dashboard.php";
+    }
+
+}, 5000);
 }
 
 loadQRCode();

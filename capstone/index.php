@@ -1,4 +1,6 @@
 <?php include 'database/database_connection.php';
+
+session_start();
 // Internet Plans
 $plan_sql = "SELECT * FROM internet_plan_tbl ORDER BY plan_id ASC";
 $plan_result = mysqli_query($conn, $plan_sql);
@@ -549,6 +551,13 @@ togglePassword.addEventListener("click", function () {
     }
 });
 </script>
+</script>
+
+<script type="module" src="https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs"></script>
+<script type="module">
+  var myLandbot = new Landbot.Livechat({
+    configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-3474225-XXVB9WE5W6WPVY0W/index.json',
+  });
 </script>
 </body>
 </html>
