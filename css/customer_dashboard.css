@@ -1,0 +1,192 @@
+*{
+    font-family:Arial, Helvetica, sans-serif;
+}
+.card{
+ box-shadow: 0 6px 15px rgba(0,74,173,0.3);
+}body{
+    background:#f5f5f5;
+}.content{
+    margin-left:200px;
+    padding:142px 30px 30px;
+    min-height:100vh;
+}.top-section{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:30px;
+}
+.right-top{
+    display:flex;
+    gap:20px;
+}.welcome{
+    flex:1;
+}.welcome h2{
+    font-size:30px;
+    margin-bottom:20px;
+    font-weight:500;
+}.welcome p{
+    font-size:18px;
+}.date-card,
+.plan-card{
+    width:170px;
+    padding:15px;
+    background:#eaf4ff;
+    border:1px solid #ccc;
+    text-align:center;
+}.plan-card h2{
+    font-size:32px;
+}.plan-card p{
+    font-weight:bold;
+}.summary{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}.card{
+    background:white;
+    border-radius:8px;
+    padding:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}.card h4{
+    margin-bottom:10px;
+    color:#666;
+}.card span{
+    font-size:22px;
+    font-weight:bold;
+}
+.status-connected{
+    color: green;
+    font-weight: bold;
+}
+.status-disconnected{
+    color: red;
+    font-weight: bold;
+
+}.announcement{
+    background:#fff8d9;
+    border-left:5px solid orange;
+    padding:15px;
+    margin-bottom:25px;
+}.payment-box{
+    background:white;
+    border:1px solid #ebe8e8;
+    padding:20px;
+    border-radius:8px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
+}.payment-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}.payment-header input{
+    width:250px;
+    padding:10px;
+    border:1px solid #e2e0e0;
+    border-radius:5px;
+}table{
+    width:100%;
+    border-collapse:collapse;
+}th,
+td{
+    padding:14px;
+    text-align:center;
+    padding:12px;
+}th{
+    background:#f4a62a;
+    color:#000;
+}tr:nth-child(even){
+    background:#f8f8f8;
+}.download{
+    background:#00b050;
+    color:white;
+    border:none;
+    padding:7px 15px;
+    border-radius:20px;
+    cursor:pointer;
+}.download:hover{
+    background:#169d48;
+}
+
+@media (max-width: 768px){
+    .content{
+        margin-left: 140px;
+        padding: 92px 12px 24px;
+    }
+
+    .top-section,
+    .right-top,
+    .payment-header{
+        display: block;
+    }
+
+    .welcome h2{
+        font-size: 22px;
+        line-height: 1.2;
+    }
+
+    .welcome p{
+        font-size: 16px;
+    }
+
+    .date-card,
+    .plan-card{
+        width: 100%;
+        margin-top: 12px;
+    }
+
+    .summary{
+        grid-template-columns: 1fr;
+    }
+
+    .card{
+        padding: 16px;
+    }
+
+    .payment-box{
+        overflow-x: auto;
+    }
+
+    .payment-header input{
+        width: 100%;
+        margin-top: 12px;
+    }
+
+    table{
+        min-width: 620px;
+    }
+}
+
+/* Prevent dashboard cards and headings from being squeezed on narrow displays. */
+@media (max-width: 1024px) {
+    .content { margin-left: 128px; padding: 96px 16px 28px; }
+    .top-section { flex-direction: column; gap: 16px; }
+    .right-top { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .welcome { width: 100%; }
+    .welcome h2 { font-size: clamp(22px, 4vw, 30px); margin-bottom: 12px; overflow-wrap: anywhere; }
+    .date-card, .plan-card { width: 100%; margin-top: 0; min-width: 0; }
+    .plan-card h2 { font-size: clamp(24px, 5vw, 32px); }
+    .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .payment-box { padding: 14px; overflow-x: auto; }
+    .payment-header { gap: 12px; flex-wrap: wrap; }
+    .payment-header input { max-width: 100%; }
+}
+@media (max-width: 480px) {
+    .content { margin-left: 124px; padding: 84px 10px 22px; }
+    .right-top, .summary { grid-template-columns: 1fr; }
+    .card, .payment-box { padding: 12px; }
+    .welcome h2 { font-size: 21px; }
+}
+
+/* Use the compact layout on actual touch phones even if the browser requests a desktop viewport. */
+@media (hover: none) and (pointer: coarse) {
+    .content { margin-left: 128px; padding: 96px 16px 28px; min-width: 0; }
+    .top-section { flex-direction: column; gap: 16px; }
+    .right-top { width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .date-card, .plan-card { width: 100%; min-width: 0; }
+    .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .payment-box { overflow-x: auto; }
+}
+
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+    .content { margin-left: 0 !important; width: 100%; padding: 96px 16px 28px; }
+}
