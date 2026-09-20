@@ -48,14 +48,21 @@ if(mysqli_query($conn, $sql)){
 			<div class="card w-75">
   				<div class="card-body">
 			<div class = "table-container">
-       <div class= "aligned">
-			<div class="searchbar-container">
-                <input type="text" placeholder="Search.." name="search">
-                <button type="submit">Search</button>
-		</div>
-        </div>
+       <div class="searchbar-container">
+    <input type="text"
+           id="searchInput"
+           placeholder="Search applicant..."
+           name="search">
+
+    <button type="button"
+            id="searchButton">
+        Search
+    </button>
+</div>
+
+
 		<br>
-				<table class = "table table-secondary table-hover">
+				<table id="applicantTable" class="table table-secondary table-hover">
 					<thead class = "table-info">
 					<tr>
 						<th>APPLICANT ID</th>
@@ -313,7 +320,7 @@ while($row = mysqli_fetch_assoc($result)){
     </div>
 </div>
 <?php } ?>
-			
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>			
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../javascript/admin_applicants.js"></script>
 </body>
 </html>

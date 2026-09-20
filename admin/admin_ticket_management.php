@@ -27,10 +27,10 @@ if (!$result) {
   				<div class="card-body">
 			<div class = "table-container">
 				<div class = "aligned" >
-        <div class="searchbar-container">
-                <input type="text" placeholder="Search.." name="search">
-             <button type="submit">Search</button>
-				</div>
+        <div class="searchbar-container"> 
+			<input type="text" id="ticketSearch" placeholder="Search tickets..." class="form-control" > 
+			<button type="button" id="searchBtn">Search</button>
+		</div>
 </div>
 		<br>
 				<table class = "table table-secondary table-hover">
@@ -79,6 +79,11 @@ if (!$result) {
 					</tbody>
 
 </table>
+<script> document.getElementById("ticketSearch").addEventListener("keyup", function () { let searchValue = this.value.toLowerCase(); 
+    let rows = document.querySelectorAll("table tbody tr"); rows.forEach(function (row) { 
+	let rowText = row.textContent.toLowerCase(); if (rowText.includes(searchValue)) 
+	{ row.style.display = ""; } else { row.style.display = "none"; } }); }); 
+</script>
 </div>
 </div>		
 </body>

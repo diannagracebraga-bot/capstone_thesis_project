@@ -83,7 +83,7 @@
 }
 .searchbar-container input{
     padding: 7px;
-    color: blue;
+    color: black;
 
 }
 .searchbar-container button{
@@ -98,6 +98,7 @@
     margin-left: auto;
     display: flex;
     align-items: center;
+    color: black;
     
 }
 .searchbar-container button:hover{
