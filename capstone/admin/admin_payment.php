@@ -36,28 +36,6 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
                 </div>
                 <div class="payment-plus">
                     <form action="admin_add_payment.php" method="get">
-<<<<<<< HEAD:admin/admin_payment.php
-                        <button type="submit" class="btn btn-success">
-                            Add Payment
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <br>
-            <table class="table table-secondary table-hover">
-                <thead class="table-info">
-                    <tr>
-                        <th>ID</th>
-                        <th>PLAN</th>
-                        <th>FIRST NAME</th>
-                        <th>MIDDLE NAME</th>
-                        <th>LAST NAME</th>
-                        <th>PAYMENT METHOD</th>
-                        <th>DUE DATE</th>
-                        <th>AMOUNT</th>
-                        <th>REMARKS</th>
-                        <th>ACTION</th>
-=======
 						<button type="submit" class="btn btn-success">
 							Add Payment
 						</button>
@@ -104,7 +82,6 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 								<button class = "btn btn-primary">delete</button>
 							 </a>
 						</td>
->>>>>>> 772f60352770c40bb033bc27aa84fd33bd1af6a2:capstone/admin/admin_payment.php
                     </tr>
                 </thead>
                 <tbody>
