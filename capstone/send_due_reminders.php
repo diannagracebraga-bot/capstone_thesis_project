@@ -24,7 +24,7 @@ $sql = "
 
     WHERE c.due_date IN (
         CURDATE() + INTERVAL 7 DAY,
-        CURDATE() + INTERVAL 2 DAY,
+        CURDATE() + INTERVAL 3 DAY,
         CURDATE() + INTERVAL 1 DAY
     )
 ";
@@ -48,23 +48,28 @@ while ($customer = mysqli_fetch_assoc($result)) {
     $mail = new PHPMailer(true);
 
     try {
-$mail->isSMTP();
-$mail->Host       = 'smtp.hostinger.com';
-$mail->SMTPAuth   = true;
 
-$mail->Username   = 'mitztianpc_tanza.com@mitztianpctanza.com';
-$mail->Password   = 'Mitztianpc_tanza05';
+        // SMTP
+        $mail->isSMTP();
+        $mail->Host       = 'smtp.hostinger.com';
+        $mail->SMTPAuth   = true;
 
-$mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-$mail->Port       = 587;
+        // YOUR GMAIL
+        $mail->Username   = 'mitztianpc_tanza.com@mitztianpctanza.com';
 
-$mail->SMTPOptions = array(
-    'ssl' => array(
+        // YOUR GOOGLE APP PASSWORD
+        $mail->Password   = 'Mitztianpc_tanza05';
+
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port       = 587;
+
+        $mail->SMTPOptions = [
+    'ssl' => [
         'verify_peer' => false,
         'verify_peer_name' => false,
         'allow_self_signed' => true
-    )
-);
+    ]
+];
 
         // Sender
         $mail->setFrom(
