@@ -49,12 +49,12 @@ if (!$result) {
 					<tbody>
 						<?php while ($ticket = mysqli_fetch_assoc($result)): ?>
 						<tr>
-							<td><?php echo htmlspecialchars($ticket['ticket_id']); ?></td>
-							<td><?php echo htmlspecialchars($ticket['full_name']); ?></td>
-							<td><?php echo htmlspecialchars($ticket['email_address']); ?></td>
-							<td><?php echo htmlspecialchars($ticket['contact_number']); ?></td>
-							<td><?php echo htmlspecialchars($ticket['concern_type']); ?></td>
-							<td><?php echo htmlspecialchars($ticket['date_received']); ?></td>
+							<td><?php echo $ticket['ticket_id']; ?></td>
+							<td><?php echo $ticket['full_name']; ?></td>
+							<td><?php echo $ticket['email_address']; ?></td>
+							<td><?php echo $ticket['contact_number']; ?></td>
+							<td><?php echo $ticket['concern_type']; ?></td>
+							<td><?php echo $ticket['date_received']; ?></td>
 								<td>
 			<?php
 
