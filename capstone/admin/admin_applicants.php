@@ -309,9 +309,7 @@ while($row = mysqli_fetch_assoc($result)){
                         Close
                     </button>
 
-                    <button type="submit"
-                            name="update_status"
-                            class="btn btn-success">
+                    <button type="submit" name="update_status" class="btn btn-success">
                         Save Changes
                     </button>
                 </div>
