@@ -288,9 +288,11 @@ togglePassword.addEventListener("click", function () {
 });
 </script>
 </script>
+
+
 <script type="module" src="https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs"></script>
 <script type="module">
-  var myLandbot = new Landbot.Popup({
+  var myLandbot = new Landbot.Livechat({
     configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-3515005-HNL32TAA5X8KFTRE/index.json',
   });
 </script>
