@@ -27,10 +27,14 @@ if (!$result) {
   				<div class="card-body">
 			<div class = "table-container">
 				<div class = "aligned" >
-        <div class="searchbar-container"> 
-			<input type="text" id="ticketSearch" placeholder="Search tickets..." class="form-control" > 
-			<button type="button" id="searchBtn">Search</button>
-		</div>
+<div class="searchbar-container">
+    <div class="input-group">
+        <input  type="text" id="ticketSearch" placeholder="Search tickets..." class="form-control" >
+        <button type="button" id="searchBtn" class="btn btn-primary">
+            Search
+        </button>
+    </div>
+</div>
 </div>
 		<br>
 				<table class = "table table-secondary table-hover">
@@ -79,16 +83,31 @@ if (!$result) {
     Delete
 </a>
 </td>
-						</tr>
-						<?php endwhile; ?>
-					</tbody>
+</tr>
+<?php endwhile; ?>
+</tbody>
 
 </table>
-<script> document.getElementById("ticketSearch").addEventListener("keyup", function () { let searchValue = this.value.toLowerCase(); 
-    let rows = document.querySelectorAll("table tbody tr"); rows.forEach(function (row) { 
-	let rowText = row.textContent.toLowerCase(); if (rowText.includes(searchValue)) 
-	{ row.style.display = ""; } else { row.style.display = "none"; } }); }); 
+<script>
+document.getElementById("searchBtn").addEventListener("click", function () {
+    let searchValue = document.getElementById("ticketSearch").value.toLowerCase().trim();
+    let rows = document.querySelectorAll("table tbody tr");
+    rows.forEach(function (row) {
+        let rowText = row.textContent.toLowerCase();
+        if (rowText.includes(searchValue)) {
+            row.style.display = "";
+        } else {
+            row.style.display = "none";
+        }
+    });
+});
+document.getElementById("ticketSearch").addEventListener("keypress", function (event) {
+    if (event.key === "Enter") {
+        document.getElementById("searchBtn").click();
+    }
+});
 </script>
+
 </div>
 </div>		
 </body>
