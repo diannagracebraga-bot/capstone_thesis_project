@@ -36,6 +36,7 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
                 </div>
                 <div class="payment-plus">
                     <form action="admin_add_payment.php" method="get">
+<<<<<<< HEAD
 						<button type="submit" class="btn btn-success">
 							Add Payment
 						</button>
@@ -82,6 +83,28 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 								<button class = "btn btn-primary">delete</button>
 							 </a>
 						</td>
+=======
+                        <button type="submit" class="btn btn-success">
+                            Add Payment
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <br>
+            <table class="table table-secondary table-hover">
+                <thead class="table-info">
+                    <tr>
+                        <th>ID</th>
+                        <th>PLAN</th>
+                        <th>FIRST NAME</th>
+                        <th>MIDDLE NAME</th>
+                        <th>LAST NAME</th>
+                        <th>PAYMENT METHOD</th>
+                        <th>DUE DATE</th>
+                        <th>AMOUNT</th>
+                        <th>REMARKS</th>
+                        <th>ACTION</th>
+>>>>>>> a7622a7a9f54d2a5c0b7e543e81d1bd98a2db129
                     </tr>
                 </thead>
                 <tbody>

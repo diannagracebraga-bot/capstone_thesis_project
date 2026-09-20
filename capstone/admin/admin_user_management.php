@@ -30,7 +30,6 @@ include '../database/database_connection.php';
                         <?php endif; ?>
                     </form>
                 </div>
-<<<<<<< HEAD:admin/admin_user_management.php
                 <div class="dropdown">
                     <select class="dropbtn" onchange="if(this.value) window.location.href=this.value;">
                         <option value="" hidden>
@@ -144,115 +143,6 @@ include '../database/database_connection.php';
             <?php
             } 
             ?>
-=======
-
-                      <div class="dropdown">
-    <select class="dropbtn" onchange="if(this.value) window.location.href=this.value;">
-        <option value="" hidden>Add User</option>
-        <option value="../admin/admin_add_admin.php">Admin</option>
-        <option value="../admin/admin_add_super_admin.php">Super Admin</option>
-        <option value="admin_user_management.php?page=add_customer">Customer</option>
-    </select>
-</div>
-</div>
-<?php
-if ($page == 'add_customer') {
-    include 'admin_add_customer.php';
-} else {
-?>
-
-<table class= "table table-secondary table-hover">
-    <thead class = "table-info">
-        <tr>
-            <th>NAME</th>
-            <th>EMAIL ADDRESS</th>
-            <th>ROLE</th>
-            <th>ACCOUNT STATUS</th>
-            <th>ACTION</th>
-        </tr>
-    </thead>
-    <tbody>
-  
-
-<?php
-
-$sql = "
-    SELECT 
-        CONCAT_WS(' ', c.f_name, c.m_name, c.l_name) AS name,
-        u.email AS email,
-        'Customer' AS role,
-        c.connection_status AS account_status,
-        c.customer_id AS record_id
-    FROM customer_tbl c
-    INNER JOIN user_accounts_tbl u
-        ON c.user_id = u.user_id
-
-    UNION ALL
-
-    SELECT 
-        CONCAT_WS(' ', a.f_name, a.m_name, a.l_name) AS name,
-        a.email AS email,
-        a.role AS role,
-        'Active' AS account_status,
-        a.account_id AS record_id
-    FROM admin_superadmin_accounts_tbl a
-";
-
-$result = mysqli_query($conn, $sql);
-
-$result = mysqli_query($conn, $sql);
-
-if(mysqli_num_rows($result) > 0){
-
-while($row = mysqli_fetch_assoc($result)){
-?>
-<tr>
-
-
-    <td><?php echo $row['name']; ?></td>
-
-    <td><?php echo $row['email']; ?></td>
-
-    <td><?php echo $row['role']; ?></td>
-
-    <td><?php echo $row['account_status']; ?></td>
-
-    <td>
-      <a href="../crud/update_user_accounts.php?id=<?php echo $row['record_id']; ?>&role=<?php echo $row['role']; ?>" 
-   class="btn btn-primary">
-    Edit
-</a>
-
-        <a href="../crud/delete_user_account.php?record_id=<?php echo $row['record_id']; ?>&role=<?php echo $row['role']; ?>"
-   class="btn btn-danger"
-   onclick="return confirm('Are you sure you want to delete this account?');">
-    Delete
-</a>
-    </td>
-
-</tr>
-<?php
-}
-}else{
-?>
-
-<tr>
-    <td colspan="6" style="text-align:center;">
-        No Customer Registered
-    </td>
-</tr>
-
-<?php
-}
-?>
-    </tbody>
-</table>
-<?php } ?>
-
-    
-</div>
-
->>>>>>> 772f60352770c40bb033bc27aa84fd33bd1af6a2:capstone/admin/admin_user_management.php
         </div>
     </div>
 </div>
