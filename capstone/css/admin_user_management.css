@@ -95,7 +95,7 @@
     color: light;
 }
 .dropdown{
-    margin-left: auto;
+    margin-left: auto;      
     display: flex;
     align-items: center;
     color: black;

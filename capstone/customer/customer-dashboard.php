@@ -20,6 +20,18 @@ $sql = "SELECT
 
 $result = mysqli_query($conn, $sql);
 $customer = mysqli_fetch_assoc($result);
+
+$payment_sql = "SELECT 
+                    p.id,
+                    p.amount,
+                    p.payment_method,
+                    p.payment_status,
+                    p.created_at
+                FROM payment_tbl p
+                WHERE p.user_id = '$user_id'
+                ORDER BY p.id ASC";
+
+$payment_result = mysqli_query($conn, $payment_sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,54 +93,65 @@ $customer = mysqli_fetch_assoc($result);
         </div>
     </div>
 
-    <div class="payment-box">
-        <div class="payment-header">
-            <h3>Payment History</h3>
-            <input
-                type="text"
-                placeholder="Search payment..."
-            >
-        </div>
         <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Date</th>
-                    <th>Payment</th>
-                    <th>Method</th>
-                    <th>Status</th>
-                    <th>SOA</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>027</td>
-                    <td>05-12-2026</td>
-                    <td>₱800</td>
-                    <td>Cash</td>
-                    <td>Paid</td>
-                    <td>
-                        <button class="download">
-                            Download
-                        </button>
-                    </td>
-                </tr>
+                   <thead>
+            <tr>
+                <th>No.</th>
+                <th>Date of Payment</th>
+                <th>Amount</th>
+                <th>Payment Method</th>
+                <th>Status</th>
+                <th>SOA</th>
+            </tr>
+        </thead>
+         <tbody>
+               <?php
+if (mysqli_num_rows($payment_result) > 0) {
 
-                <tr>
+    while ($payment = mysqli_fetch_assoc($payment_result)) {
+?>
 
-                    <td>028</td>
-                    <td>04-12-2026</td>
-                    <td>₱800</td>
-                    <td>QR PH</td>
-                    <td>Paid</td>
+<tr>
+    <td><?php echo $payment['id']; ?></td>
 
-                    <td>
-                        <button class="download">
-                            Download
-                        </button>
-                    </td>
+    <td>
+        <?php echo date('m-d-Y', strtotime($payment['created_at'])); ?>
+    </td>
 
-                </tr>
+    <td>
+        ₱<?php echo number_format($payment['amount'], 2); ?>
+    </td>
+
+    <td>
+        <?php echo $payment['payment_method']; ?>
+    </td>
+
+    <td>
+        <?php echo $payment['payment_status']; ?>
+    </td>
+
+    <td>
+        <button class="download">
+            Download
+        </button>
+    </td>
+</tr>
+
+<?php
+    }
+
+} else {
+?>
+
+<tr>
+    <td colspan="6" style="text-align: center;">
+        No payment history found.
+    </td>
+</tr>
+
+<?php
+}
+?>
 
             </tbody>
 

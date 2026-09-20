@@ -11,16 +11,14 @@ if(isset($_GET['id'])){
 }
 if(isset($_POST['update'])) {
     $id = $_POST['id'];
-    $plan = $_POST['plan'];
     $f_name = $_POST['f_name'];
     $m_name = $_POST['m_name'];
     $l_name = $_POST['l_name'];
     $payment_method = $_POST['payment_method'];
-    $due_date = $_POST['due_date'];
     $amount = $_POST['amount'];
     $remarks = $_POST['remarks'];
 
-    $query = "UPDATE payment_tbl SET plan='$plan', f_name='$f_name', m_name='$m_name', l_name='$l_name', payment_method='$payment_method', due_date='$due_date', amount='$amount', remarks='$remarks' WHERE id='$id'";
+    $query = "UPDATE payment_tbl SET f_name='$f_name', m_name='$m_name', l_name='$l_name', payment_method='$payment_method', amount='$amount', remarks='$remarks' WHERE id='$id'";
 
     if (mysqli_query($conn, $query)) {
         echo "<script>alert('Record updated successfully.'); window.location.href='../admin/admin_payment.php';</script>";
@@ -67,16 +65,7 @@ if(isset($_POST['update'])) {
 
 </div>
     <div class="row">
-        <div class="col-md-4 mb-3">
-            <label>Plan</label>
-            <select name="plan" class="form-control" required>
-                <option value="50 mbps" <?php if($row['plan']=="50 mbps") echo "selected"; ?>>50 mbps</option>
-                <option value="100 mbps" <?php if($row['plan']=="100 mbps") echo "selected"; ?>>100 mbps</option>
-                <option value="150 mbps" <?php if($row['plan']=="150 mbps") echo "selected"; ?>>150 mbps</option>
-                <option value="200 mbps" <?php if($row['plan']=="200 mbps") echo "selected"; ?>>200 mbps</option>
-                <option value="250 mbps" <?php if($row['plan']=="250 mbps") echo "selected"; ?>>250 mbps</option>
-            </select>
-        </div>
+       
         <div class="col-md-4 mb-3">
             <label>Payment Method</label>
             <select name="payment_method" class="form-control" required>
@@ -84,10 +73,7 @@ if(isset($_POST['update'])) {
                 <option value="Gcash" <?php if($row['payment_method']=="Gcash") echo "selected"; ?>>Gcash</option>
             </select>
         </div>
-        <div class="col-md-4 mb-3">
-            <label>Due Date</label>
-            <input type="date" name="due_date" class="form-control"value="<?php echo $row['due_date']; ?>" required  >
-        </div>
+       
     </div>
     <div class="row">
 

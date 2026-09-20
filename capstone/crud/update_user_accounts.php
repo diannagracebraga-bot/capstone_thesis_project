@@ -5,10 +5,12 @@ if (!isset($_GET['id']) || !isset($_GET['role'])) {
     die("Invalid account.");
 }
 
-$id = $_GET['id'];
-$role = $_GET['role'];
+$id = mysqli_real_escape_string($conn, $_GET['id']);
+$role = mysqli_real_escape_string($conn, $_GET['role']);
 
-$name = "";
+$f_name = "";
+$m_name = "";
+$l_name = "";
 $email = "";
 $password = "";
 $account_status = "";
@@ -17,8 +19,13 @@ if ($role == "Customer") {
 
     $sql = "
         SELECT 
-            c.customer_id, c.f_name, c.m_name, c.l_name,
-            c.connection_status, u.email, u.password
+            c.customer_id,
+            c.f_name,
+            c.m_name,
+            c.l_name,
+            c.connection_status,
+            u.email,
+            u.password
         FROM customer_tbl c
         INNER JOIN user_accounts_tbl u 
             ON c.user_id = u.user_id
@@ -37,32 +44,38 @@ if ($role == "Customer") {
     $m_name = $user['m_name'];
     $l_name = $user['l_name'];
     $email = $user['email'];
-    $new_password = $_POST['password'];
 
-$hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+    // GET THE EXISTING HASH
+    $password = $user['password'];
+
     $account_status = $user['connection_status'];
 }
 
 elseif ($role == "Admin" || $role == "Super Admin") {
 
     $sql = "
-         SELECT *
+        SELECT *
         FROM admin_superadmin_accounts_tbl
         WHERE account_id = '$id'
-        AND role = '$role'  ";
+        AND role = '$role'
+    ";
 
     $result = mysqli_query($conn, $sql);
 
     if (!$result || mysqli_num_rows($result) == 0) {
         die("$role account not found.");
     }
+
     $user = mysqli_fetch_assoc($result);
 
     $f_name = $user['f_name'];
     $m_name = $user['m_name'];
     $l_name = $user['l_name'];
     $email = $user['email'];
+
+    // GET THE EXISTING HASH
     $password = $user['password'];
+
     $account_status = "Active";
 }
 
@@ -70,15 +83,16 @@ else {
     die("Invalid role.");
 }
 
-
 if (isset($_POST['update'])) {
 
-   $f_name = $_POST['f_name'];
-   $m_name = $_POST['m_name'];
-   $l_name = $_POST['l_name'];
-   $email = $_POST['email'];
+    $f_name = mysqli_real_escape_string($conn, $_POST['f_name']);
+    $m_name = mysqli_real_escape_string($conn, $_POST['m_name']);
+    $l_name = mysqli_real_escape_string($conn, $_POST['l_name']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
 
-$new_password = $_POST['password'];
+    // Password entered by admin
+    $new_password = $_POST['password'];
+
 
     if ($role == "Customer") {
 
@@ -101,41 +115,88 @@ $new_password = $_POST['password'];
 
         $get_user = mysqli_query(
             $conn,
-            "SELECT user_id FROM customer_tbl WHERE customer_id = '$id'"
+            "SELECT user_id 
+             FROM customer_tbl 
+             WHERE customer_id = '$id'"
         );
 
         $customer_data = mysqli_fetch_assoc($get_user);
         $user_id = $customer_data['user_id'];
 
-       $update_email = "
-             UPDATE user_accounts_tbl
-              SET  email = '$email',
-                  `password` = '$hashed_password'
-                   WHERE user_id = '$user_id'";
+        if (!empty($new_password)) {
 
-mysqli_query($conn, $update_email);
+            $hashed_password = password_hash(
+                $new_password,
+                PASSWORD_DEFAULT
+            );
+
+            $update_user = "
+                UPDATE user_accounts_tbl
+                SET 
+                    email = '$email',
+                    `password` = '$hashed_password'
+                WHERE user_id = '$user_id'
+            ";
+
+        } else {
+
+            // Don't change password
+            $update_user = "
+                UPDATE user_accounts_tbl
+                SET 
+                    email = '$email'
+                WHERE user_id = '$user_id'
+            ";
+        }
+
+        mysqli_query($conn, $update_user);
     }
+
     else {
 
-      $update_admin = "
-    UPDATE admin_superadmin_accounts_tbl
-    SET 
-        f_name = '$f_name',
-        m_name = '$m_name',
-        l_name = '$l_name',
-        email = '$email',
-        `password` = '$hashed_password'
-    WHERE account_id = '$id'
-    AND role = '$role'
-";
+    
 
-mysqli_query($conn, $update_admin);
+        if (!empty($new_password)) {
+
+            $hashed_password = password_hash(
+                $new_password,
+                PASSWORD_DEFAULT
+            );
+
+            $update_admin = "
+                UPDATE admin_superadmin_accounts_tbl
+                SET 
+                    f_name = '$f_name',
+                    m_name = '$m_name',
+                    l_name = '$l_name',
+                    email = '$email',
+                    `password` = '$hashed_password'
+                WHERE account_id = '$id'
+                AND role = '$role'
+            ";
+
+        } else {
+            $update_admin = "
+                UPDATE admin_superadmin_accounts_tbl
+                SET 
+                    f_name = '$f_name',
+                    m_name = '$m_name',
+                    l_name = '$l_name',
+                    email = '$email'
+                WHERE account_id = '$id'
+                AND role = '$role'
+            ";
+        }
+
+        mysqli_query($conn, $update_admin);
     }
+
 
     echo "<script>
             alert('Account updated successfully!');
-           window.location.href='../admin/admin_user_management.php';
+            window.location.href='../admin/admin_user_management.php';
           </script>";
+
     exit();
 }
 ?>
@@ -192,7 +253,7 @@ mysqli_query($conn, $update_admin);
 
                 <div class="mb-3">
                     <label class="form-label">Password</label>
-                    <input type="text" name="password"class="form-control" value="<?php echo($password); ?>" required >
+                    <input type="text" name="password"class="form-control" value="<?php echo($password); ?>" >
                 </div>
 
                 <?php if ($role == "Customer") { ?>

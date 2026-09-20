@@ -69,10 +69,15 @@ if (!$result) {
 					}
 ?>
 </td>
-						<td>
-    <a href="admin_view_ticket_management.php?ticket_id=<?php echo $ticket['ticket_id']; ?>">
-        <button class="btn btn-primary">View</button>
+		<td>
+    <a href="admin_view_ticket_management.php?ticket_id=<?php echo $ticket['ticket_id']; ?>"
+        class="btn btn-primary">View
     </a>
+<a href="../crud/delete_ticket.php?ticket_id=<?php echo $ticket['ticket_id']; ?>"
+   class="btn btn-danger"
+   onclick="return confirm('Are you sure you want to delete this ticket?');">
+    Delete
+</a>
 </td>
 						</tr>
 						<?php endwhile; ?>

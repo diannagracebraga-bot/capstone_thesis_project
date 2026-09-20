@@ -117,5 +117,65 @@ $result = mysqli_query($conn, $sql);
         </div>
     </div>
 </div>
+<<<<<<< HEAD:admin/admin_inquiries.php
+=======
+		<br>
+				<table class = "table table-secondary table-hover">
+					<thead class = " table-info">
+					<tr>
+						<th> ID </th>
+						<th>FULL NAME </th>
+						<th>EMAIL ADDRESS</th>
+						<th> CONTACT NUMBER </th>
+						<th> DATE RECEIVED </th>
+						<th> STATUS </th>
+						<th> ACTION </th>
+					</tr>
+					</thead>
+<?php
+$sql = "SELECT * FROM inquiries_tbl";
+$result = mysqli_query($conn, $sql);
+
+while($row = mysqli_fetch_assoc($result)) {
+?>
+    <tr>
+        <td><?php echo $row['inquiries_id']; ?></td>
+        <td><?php echo $row['full_name']; ?></td>
+        <td><?php echo $row['email_address']; ?></td>
+        <td><?php echo $row['contact_number']; ?></td>
+        <td><?php echo $row['date_received']; ?></td>
+     	<td>
+			<?php
+
+				if($row['status']=="Pending"){
+  				  echo '<span class="badge status-badge bg-warning text-dark">Pending</span>';
+					}
+				elseif($row['status']=="Ongoing"){
+  				  echo '<span class="badge status-badge bg-primary">Ongoing</span>';
+					}
+				elseif($row['status']=="Resolved"){
+   				 echo '<span class="badge status-badge bg-success">Resolved</span>';
+					}
+?>
+</td>
+        <td>
+            <a href="admin_view_inquiries.php?inquiries_id=<?php echo $row['inquiries_id']; ?>"
+                 class = "btn btn-primary">View
+				
+            </a>
+			<a href="../crud/delete_inquiry.php?inquiries_id=<?php echo $row['inquiries_id']; ?>"
+   class="btn btn-danger"
+   onclick="return confirm('Are you sure you want to delete this inquiry?');">
+    Delete
+</a>
+        </td> 	
+    </tr>
+<?php
+} 
+?>
+</table>
+</div>
+</div>		
+>>>>>>> 772f60352770c40bb033bc27aa84fd33bd1af6a2:capstone/admin/admin_inquiries.php
 </body>
 </html>
