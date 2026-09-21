@@ -294,13 +294,9 @@ while($row = mysqli_fetch_assoc($result)){
                                     Resolved
                                 </option>
                             </select>
-
                         </div>
-
                     </div>
-
                 </div>
-
                 <div class="modal-footer">
 
                     <button type="button"
