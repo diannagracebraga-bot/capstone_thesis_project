@@ -308,7 +308,6 @@ while($row = mysqli_fetch_assoc($result)){
                             data-bs-dismiss="modal">
                         Close
                     </button>
-
                     <button type="submit" name="update_status" class="btn btn-success">
                         Save Changes
                     </button>

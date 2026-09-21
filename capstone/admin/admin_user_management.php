@@ -103,18 +103,10 @@ include '../database/database_connection.php';
                     while ($row = mysqli_fetch_assoc($result)) {
                 ?>
                     <tr>
-                        <td>
-                            <?php echo htmlspecialchars($row['name']); ?>
-                        </td>
-                        <td>
-                            <?php echo htmlspecialchars($row['email']); ?>
-                        </td>
-                        <td>
-                            <?php echo htmlspecialchars($row['role']); ?>
-                        </td>
-                        <td>
-                            <?php echo htmlspecialchars($row['account_status']); ?>
-                        </td>
+                      <td><?php echo $row['name']; ?></td>
+                      <td><?php echo $row['email']; ?></td>
+                      <td><?php echo $row['role']; ?></td>
+                      <td><?php echo $row['account_status']; ?></td>
                         <td>
                             <a href="../crud/update_user_accounts.php?id=<?php echo urlencode($row['record_id']); 
                             ?>&role=<?php echo urlencode($row['role']); ?>" class="btn btn-primary btn-sm" > Edit </a>

@@ -124,8 +124,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         Payment successfully recorded
     */
 
-    header("Location: admin_payment.php");
-    exit();
+    echo "<script>
+        alert('Cash payment added successfully!');
+        window.location.href = 'admin_payment.php';
+      </script>";
+exit();
 }
 ?>
 
