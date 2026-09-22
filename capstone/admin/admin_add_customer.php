@@ -23,8 +23,27 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
 
 <div class="customer_registration">
     <h3>Customer Registration</h3>
-    <form action="../crud/add_customer.php" method="POST">
+
+    <form action="../crud/add_customer.php" method="POST" enctype="multipart/form-data">
+
         <div class="form_grid">
+
+            <div class="form_group">
+                <label>Profile Image</label>
+                <input type="file" name="profile_image" accept="image/*">
+            </div>
+
+            <div class="form_group">
+                <label>Account Number</label>
+                <input type="text"
+                       class="account_number"
+                       value="<?php echo $account_number; ?>"
+                       readonly>
+
+                <input type="hidden"
+                       name="account_number"
+                       value="<?php echo $account_number; ?>">
+            </div>
             
         <div class="form_group">
               <label>Account Number</label>
