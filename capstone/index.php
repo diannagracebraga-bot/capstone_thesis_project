@@ -10,32 +10,7 @@ $about_sql = "SELECT * FROM content_management_about_tbl WHERE about_id = 1";
 $about_result = mysqli_query($conn, $about_sql);
 $about = mysqli_fetch_assoc($about_result);
 
-// Chatbot plan data
-$chatbot_plans = [];
 
-$chatbot_plan_sql = "
-    SELECT plan_name, internet_mbps, internet_price
-    FROM internet_plan_tbl
-    ORDER BY plan_id ASC
-";
-
-$chatbot_plan_result = mysqli_query($conn, $chatbot_plan_sql);
-
-while ($chatbot_plan = mysqli_fetch_assoc($chatbot_plan_result)) {
-    $chatbot_plans[] = [
-        'name' => $chatbot_plan['plan_name'],
-        'mbps' => $chatbot_plan['internet_mbps'],
-        'price' => number_format($chatbot_plan['internet_price'])
-    ];
-}
-
-$chatbot_data = [
-    'business_name' => $about['business_name'],
-    'email' => $about['business_email'],
-    'contact' => $about['business_contact'],
-    'address' => $about['business_address'],
-    'plans' => $chatbot_plans
-];
 ?>
 
 <!DOCTYPE html>

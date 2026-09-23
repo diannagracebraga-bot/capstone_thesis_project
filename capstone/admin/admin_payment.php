@@ -120,42 +120,18 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
             ?>
 
                 <tr>
-
+                    <td><?php echo $row['id']; ?></td>
+                    <td><?php echo $row['f_name']; ?></td>
+                    <td> <?php echo $row['m_name']; ?></td>
+                    <td><?php echo $row['l_name']; ?></td>
+                    <td><?php echo $row['payment_method']; ?></td>
+                    <td> <?php echo $row['amount']; ?></td>
+                    <td><?php echo $row['remarks']; ?></td>
                     <td>
-                        <?php echo htmlspecialchars($row['id']); ?>
-                    </td>
-
-                    <td>
-                        <?php echo htmlspecialchars($row['f_name']); ?>
-                    </td>
-
-                    <td>
-                        <?php echo htmlspecialchars($row['m_name']); ?>
-                    </td>
-
-                    <td>
-                        <?php echo htmlspecialchars($row['l_name']); ?>
-                    </td>
-
-                    <td>
-                        <?php echo htmlspecialchars($row['payment_method']); ?>
-                    </td>
-
-                    <td>
-                        <?php echo htmlspecialchars($row['amount']); ?>
-                    </td>
-
-                    <td>
-                        <?php echo htmlspecialchars($row['remarks']); ?>
-                    </td>
-
-                    <td>
-
                         <a href="update.php?id=<?php echo $row['id']; ?>"
                            class="btn btn-primary">
                             Update
                         </a>
-
                         <a href="../crud/delete_payment.php?id=<?php echo $row['id']; ?>"
                            class="btn btn-danger"
                            onclick="return confirm('Are you sure you want to delete this payment?');">
