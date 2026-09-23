@@ -67,21 +67,27 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
         if (empty($search)) {
 
-            $query = "SELECT * FROM payment_tbl";
+            $query = "SELECT payment_tbl.*, customer_tbl.account_number
+                        FROM payment_tbl
+                        INNER JOIN customer_tbl 
+                        ON payment_tbl.user_id = customer_tbl.user_id";
 
         } else {
 
             $searchTerm = mysqli_real_escape_string($conn, $search);
 
-            $query = "SELECT * FROM payment_tbl
-                      WHERE id LIKE '%$searchTerm%'
-                      OR f_name LIKE '%$searchTerm%'
-                      OR m_name LIKE '%$searchTerm%'
-                      OR l_name LIKE '%$searchTerm%'
-                      OR payment_method LIKE '%$searchTerm%'
-                      OR amount LIKE '%$searchTerm%'
-                      OR remarks LIKE '%$searchTerm%'";
-
+           $query = "SELECT payment_tbl.*, customer_tbl.account_number
+                       FROM payment_tbl
+                       INNER JOIN customer_tbl 
+                       ON payment_tbl.user_id = customer_tbl.user_id
+                       WHERE payment_tbl.id LIKE '%$searchTerm%' 
+                       OR customer_tbl.account_number LIKE '%$searchTerm%'
+                       OR payment_tbl.f_name LIKE '%$searchTerm%' 
+                       OR payment_tbl.m_name LIKE '%$searchTerm%' 
+                       OR payment_tbl.l_name LIKE '%$searchTerm%' 
+                       OR payment_tbl.payment_method LIKE '%$searchTerm%' 
+                       OR payment_tbl.amount LIKE '%$searchTerm%' 
+                       OR payment_tbl.paymongo_payment_id LIKE '%$searchTerm%'";
         }
 
         $result = mysqli_query($conn, $query);
@@ -97,13 +103,13 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
             <thead class="table-info">
 
                 <tr>
-                    <th>ID</th>
+                    <th>ACCOUNT NUMBER</th>
                     <th>FIRST NAME</th>
                     <th>MIDDLE NAME</th>
                     <th>LAST NAME</th>
                     <th>PAYMENT METHOD</th>
                     <th>AMOUNT</th>
-                    <th>REMARKS</th>
+                    <th>REFERENCE NUMBER</th>
                     <th>ACTION</th>
                 </tr>
 
@@ -120,18 +126,22 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
             ?>
 
                 <tr>
-                    <td><?php echo $row['id']; ?></td>
+                    <td><?php echo $row['account_number']; ?></td>
                     <td><?php echo $row['f_name']; ?></td>
                     <td> <?php echo $row['m_name']; ?></td>
                     <td><?php echo $row['l_name']; ?></td>
                     <td><?php echo $row['payment_method']; ?></td>
                     <td> <?php echo $row['amount']; ?></td>
-                    <td><?php echo $row['remarks']; ?></td>
+                   <td>
+            <?php
+                     if ($row['payment_method'] == 'Cash') {
+                        echo 'CASH';
+                   } else {
+                        echo $row['paymongo_payment_id'];
+                    }
+                ?>
+                  </td>
                     <td>
-                        <a href="update.php?id=<?php echo $row['id']; ?>"
-                           class="btn btn-primary">
-                            Update
-                        </a>
                         <a href="../crud/delete_payment.php?id=<?php echo $row['id']; ?>"
                            class="btn btn-danger"
                            onclick="return confirm('Are you sure you want to delete this payment?');">

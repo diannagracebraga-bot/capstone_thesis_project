@@ -31,7 +31,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $user_id = $_POST['user_id'];
     $payment_method = $_POST['payment_method'];
     $amount = $_POST['amount'];
-    $remarks = $_POST['remarks'];
 
 
     /* Get customer information */
@@ -71,29 +70,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     */
 
     $query = "INSERT INTO payment_tbl
-              (
-                  plan_id,
-                  f_name,
-                  m_name,
-                  l_name,
-                  payment_method,
-                  amount,
-                  remarks,
-                  user_id,
-                  payment_status
-              )
+              (plan_id, f_name, m_name, l_name, payment_method, amount, user_id, payment_status)
               VALUES
-              (
-                  '$plan_id',
-                  '$f_name',
-                  '$m_name',
-                  '$l_name',
-                  '$payment_method',
-                  '$amount',
-                  '$remarks',
-                  '$user_id',
-                  '$payment_status'
-              )";
+              ('$plan_id','$f_name', '$m_name', '$l_name', '$payment_method', '$amount','$user_id', '$payment_status')";
 
     $result = mysqli_query($conn, $query);
 
@@ -174,41 +153,32 @@ exit();
 
                     <label>Customer</label>
 
-                    <select name="user_id" required>
+                 <select name="user_id" id="customer" required>
 
-                        <option value="">
-                            -- Select Customer --
-                        </option>
+    <option value="">
+        -- Select Customer --
+    </option>
 
+    <?php while ($customer = mysqli_fetch_assoc($customer_result)) { ?>
 
-                        <?php
+        <option 
+            value="<?php echo $customer['user_id']; ?>"
+            data-price="<?php echo $customer['internet_price']; ?>"
+        >
 
-                        while ($customer = mysqli_fetch_assoc($customer_result)) {
+            <?php
+            echo $customer['f_name'] . ' ' .
+                 $customer['m_name'] . ' ' .
+                 $customer['l_name'] .
+                 ' - ' .
+                 $customer['account_number'];
+            ?>
 
-                        ?>
+        </option>
 
-                            <option value="<?php echo $customer['user_id']; ?>">
+    <?php } ?>
 
-                                <?php
-
-                                echo $customer['f_name'] . ' ' .
-                                     $customer['m_name'] . ' ' .
-                                     $customer['l_name'] .
-                                     ' - ' .
-                                     $customer['account_number'];
-
-                                ?>
-
-                            </option>
-
-                        <?php
-
-                        }
-
-                        ?>
-
-                    </select>
-
+</select>
                 </div>
 
 
@@ -216,22 +186,11 @@ exit();
 
                 <div class="form_group">
 
-                    <label>Payment Method</label>
-
-                    <select name="payment_method" required>
-
-                        <option value="">
-                            -- Select --
-                        </option>
-
-                        <option value="Cash">
-                            Cash
-                        </option>
-
-                    </select>
+                  <label>Payment Method</label>
+                        <input type="text" value="Cash" readonly>
+                        <input type="hidden" name="payment_method" value="Cash">
 
                 </div>
-
 
                 <!-- AMOUNT -->
 
@@ -239,32 +198,9 @@ exit();
 
                     <label>Amount</label>
 
-                    <input
-                        type="number"
-                        name="amount"
-                        step="0.01"
-                        required
-                    >
+                 <input type="number" name="amount" id="amount" step="0.01" readonly required >
 
                 </div>
-
-
-                <!-- REMARKS -->
-
-                <div class="form_group">
-
-                    <label>Remarks</label>
-
-                    <input
-                        type="text"
-                        name="remarks"
-                        value="Cash payment"
-                        required
-                    >
-
-                </div>
-
-
                 <!-- BUTTON -->
 
                 <div class="form_group full_width">
@@ -288,8 +224,19 @@ exit();
 
 </div>
 
+<script>
 
+document.getElementById("customer").addEventListener("change", function() {
+
+    var selectedOption = this.options[this.selectedIndex];
+
+    var price = selectedOption.getAttribute("data-price");
+
+    document.getElementById("amount").value = price;
+
+});
+
+</script>
 </body>
 
 </html>
-```
