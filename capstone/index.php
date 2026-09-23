@@ -74,6 +74,7 @@ $about = mysqli_fetch_assoc($about_result);
 
     </div>
 </nav>
+<main class="landing-split">
 <section id="home">
 <br>
     <h1 class="center_name">
@@ -116,6 +117,7 @@ $about = mysqli_fetch_assoc($about_result);
         </form>
     </div>
 </section>
+</main>
 
 <section id="plan">
     <section class="plans">
