@@ -114,3 +114,32 @@
   font-size: 20px;
 }
 
+/* Dashboard layout for phones and small screens. */
+@media (max-width: 1024px) {
+    .stats-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        max-width: none;
+        margin: 88px 12px 20px;
+        padding: 0;
+        gap: 12px;
+    }
+    .stats-container .stat { min-width: 0; padding: 18px 12px; }
+    .stats-container .stat h2 { font-size: clamp(28px, 7vw, 42px); }
+    .stats-container .stat p { font-size: 15px; }
+    .dashboard { padding: 0 12px; }
+    .metrics-grid { width: 100%; min-width: 0; }
+    .metric-card {
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 18px;
+    }
+    .metric-icon { right: 16px; }
+}
+
+@media (max-width: 480px) {
+    .stats-container { grid-template-columns: 1fr; margin-top: 84px; }
+    .stats-container .stat { padding: 14px; }
+}
+

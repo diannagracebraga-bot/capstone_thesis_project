@@ -152,6 +152,29 @@ html{
 .toggle-password:hover i {
     color: #004AAD;
 }
+
+/* Landing page phone layout; desktop rules above remain the same. */
+@media (max-width: 768px) {
+    body { overflow-x: hidden; }
+    .navbar { min-height: 64px; height: auto; padding: 8px 12px; }
+    .navbar > .container-fluid { gap: 8px; }
+    .navbar-brand {
+        min-width: 0;
+        max-width: calc(100% - 58px);
+        margin: 0;
+        font-size: clamp(12px, 3.5vw, 16px);
+        line-height: 1.25;
+        white-space: normal;
+    }
+    .navbar-toggler { flex: 0 0 auto; padding: 6px 8px; }
+    section#home { min-height: 100svh; padding: 64px 12px 24px; }
+    .center_name { margin: 28px 0 8px; font-size: clamp(25px, 8vw, 38px); line-height: 1.15; }
+    .center_lower_name { margin: 0; font-size: clamp(15px, 4.5vw, 21px); }
+    .image-container img { width: min(100%, 420px); height: auto; }
+    section#inquire, section#plan, section#about { scroll-margin-top: 72px; }
+    .modal-dialog { margin: 12px; }
+    .modal-content { max-height: calc(100svh - 24px); overflow-y: auto; }
+}
 /* Mobile-only layout: desktop styling remains unchanged. */
 @media (max-width: 768px) {
     body { padding-bottom: 50px; }

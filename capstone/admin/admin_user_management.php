@@ -10,8 +10,8 @@ include '../database/database_connection.php';
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" >
-    <link rel="stylesheet" href="../css/admin_user_management.css">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
+    <link rel="stylesheet" href="../css/admin_user_management.css?v=mobile-layout-3">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=mobile-layout-3">
     <title>User Management</title>
 </head>
 <body>
@@ -30,7 +30,7 @@ include '../database/database_connection.php';
                         <?php endif; ?>
                     </form>
                 </div>
-                <div class="dropdown">
+                <div class="dropdown add-user-dropdown">
                     <select class="dropbtn" onchange="if(this.value) window.location.href=this.value;">
                         <option value="" hidden>
                             Add User
