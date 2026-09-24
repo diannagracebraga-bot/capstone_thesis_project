@@ -30,7 +30,6 @@
         <img src="../images/bg_logo.png" alt="Logo" class="icon2">
     </div>
     <a class="dashboard" href="customer-dashboard.php">Dashboard</a><br>
-    <a class="dashboard"href="customer_payment.php">Payment</a><br>
     <a class="dashboard" href="customer_support.php">Support</a><br>
     <a class="dashboard" href="customer_ticket.php">Ticket</a><br>
     <a class="dashboard"href="customer_profile.php">Profile</a><br>

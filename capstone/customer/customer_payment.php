@@ -21,25 +21,21 @@ $customer = mysqli_fetch_assoc($result);
     <title>Customer Payment</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=9">
-    <link rel="stylesheet" href="../css/customer_payment.css?v=4">
+    <link rel="stylesheet" href="../css/customer_payment.css">
 </head>
 
 <body>
-    <?php include 'customer_sidebar_header.php'; ?>
-
+   
     <div class="content">
         <div class="payment-container">
 
         
             <div class="qr-section">
 
-                <h2>Scan QR Payment</h2>
-
                 <div class="qr-box">
     <img id="qr-image" alt="QR PH Payment">
 </div>
-                <p>Scan using GCash / Maya / Banking App</p>
-
+               
             </div>
 
         </div>
@@ -119,7 +115,6 @@ async function loadQRCode() {
 
         alert("Payment successful!");
 
-        window.location.href = "customer-dashboard.php";
     }
 
 }, 5000);

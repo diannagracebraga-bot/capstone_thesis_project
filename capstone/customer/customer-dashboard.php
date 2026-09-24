@@ -41,7 +41,7 @@ $payment_result = mysqli_query($conn, $payment_sql);
 <title>Customer Dashboard</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=9">
-<link rel="stylesheet" href="../css/customer_dashboard.css?v=3">
+<link rel="stylesheet" href="../css/customer_dashboard.css">
 
 </head>
 <body>
@@ -91,6 +91,9 @@ $payment_result = mysqli_query($conn, $payment_sql);
         <?php echo date('F d, Y', strtotime($customer['due_date'])); ?>
     </span>
         </div>
+<button type="button" class="payment-btn" data-bs-toggle="modal" data-bs-target="#paymentModal">
+    Payment
+</button>   
     </div>
 
         <table>
@@ -158,6 +161,37 @@ if (mysqli_num_rows($payment_result) > 0) {
         </table>
 </div>
 </div>
+    </div>
+
+</div>
+
+<!-- Payment Modal -->
+<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title" id="paymentModalLabel">
+                    QRPH Payment
+                </h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body p-0">
+
+                <iframe
+                    src="customer_payment.php"
+                    style="width: 100%; height: 600px; border: none;"
+                    title="QRPH Payment">
+                </iframe>
+
+            </div>
+
+        </div>
+
     </div>
 
 </div>
