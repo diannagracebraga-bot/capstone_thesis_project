@@ -25,14 +25,15 @@
 </nav>
 
         
+<?php $current_page = basename($_SERVER['PHP_SELF']); ?>
 <div class="sidebar">
     <div class="logo">
         <img src="../images/bg_logo.png" alt="Logo" class="icon2">
     </div>
-    <a class="dashboard" href="customer-dashboard.php">Dashboard</a><br>
-    <a class="dashboard" href="customer_support.php">Support</a><br>
-    <a class="dashboard" href="customer_ticket.php">Ticket</a><br>
-    <a class="dashboard"href="customer_profile.php">Profile</a><br>
+    <a class="dashboard <?php echo $current_page === 'customer-dashboard.php' ? 'active' : ''; ?>" href="customer-dashboard.php" <?php echo $current_page === 'customer-dashboard.php' ? 'aria-current="page"' : ''; ?>>Dashboard</a><br>
+    <a class="dashboard <?php echo $current_page === 'customer_support.php' ? 'active' : ''; ?>" href="customer_support.php" <?php echo $current_page === 'customer_support.php' ? 'aria-current="page"' : ''; ?>>Support</a><br>
+    <a class="dashboard <?php echo $current_page === 'customer_ticket.php' ? 'active' : ''; ?>" href="customer_ticket.php" <?php echo $current_page === 'customer_ticket.php' ? 'aria-current="page"' : ''; ?>>Ticket</a><br>
+    <a class="dashboard <?php echo $current_page === 'customer_profile.php' ? 'active' : ''; ?>" href="customer_profile.php" <?php echo $current_page === 'customer_profile.php' ? 'aria-current="page"' : ''; ?>>Profile</a><br>
 </div>
    <script>
 document.addEventListener('DOMContentLoaded', function () {
