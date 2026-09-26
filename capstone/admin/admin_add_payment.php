@@ -1,8 +1,6 @@
-```php
 <?php
 include '../database/database_connection.php';
 
-/* Get customers */
 $customer_query = "SELECT 
                         c.user_id,
                         c.f_name,
@@ -64,28 +62,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $payment_status = "Paid";
 
-
-    /*
-        Insert payment into payment_tbl
-    */
-
     $query = "INSERT INTO payment_tbl
               (plan_id, f_name, m_name, l_name, payment_method, amount, user_id, payment_status)
               VALUES
-              ('$plan_id','$f_name', '$m_name', '$l_name', '$payment_method', '$amount','$user_id', '$payment_status')";
+              ('$plan_id', '$f_name', '$m_name', '$l_name', '$payment_method', '$amount', '$user_id', '$payment_status')";
 
     $result = mysqli_query($conn, $query);
-
 
     if (!$result) {
         die("Payment insert failed: " . mysqli_error($conn));
     }
-
-
-    /*
-        Update customer's due date
-        to next month
-    */
 
     $update_due_date = "UPDATE customer_tbl
                         SET due_date = DATE_ADD(due_date, INTERVAL 1 MONTH)
@@ -93,129 +79,115 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $update_result = mysqli_query($conn, $update_due_date);
 
-
     if (!$update_result) {
         die("Payment was saved but due date update failed: " . mysqli_error($conn));
     }
 
 
-    /*
-        Payment successfully recorded
-    */
-
     echo "<script>
         alert('Cash payment added successfully!');
         window.location.href = 'admin_payment.php';
-      </script>";
-exit();
+    </script>";
+
+    exit();
 }
 ?>
 
 <!DOCTYPE html>
 <html>
-
 <head>
-
     <meta charset="utf-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
-
-    <link rel="stylesheet" href="../css/admin_add_payment.css">
-
+    <link rel="stylesheet" href="../css/admin_add_payment.css?v=999">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
-
 </head>
 
 <body>
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
-
 <div class="card w-75">
-
     <div class="card-body">
-
         <div class="add_payment">
-
             <h3>Add Cash Payment</h3>
 
 
             <form action="" method="post">
 
+                <div class="form_group">
 
-                <!-- CUSTOMER -->
+                    <label>Search Customer</label>
+
+                    <input type="text" id="customer_search" class="form-control" placeholder="Search account number or customer name..." list="customer_list" autocomplete="off" required>
+
+                    <datalist id="customer_list">
+
+                        <?php while ($customer = mysqli_fetch_assoc($customer_result)) { ?>
+
+                            <option
+                                value="<?php
+                                    echo $customer['account_number'] . ' - ' .
+                                         $customer['f_name'] . ' ' .
+                                         $customer['m_name'] . ' ' .
+                                         $customer['l_name'];
+                                ?>"
+                                data-user-id="<?php echo $customer['user_id']; ?>"
+                                data-account-number="<?php echo $customer['account_number']; ?>"
+                                data-name="<?php
+                                    echo $customer['f_name'] . ' ' .
+                                         $customer['m_name'] . ' ' .
+                                         $customer['l_name'];
+                                ?>"
+                                data-plan="<?php
+                                    echo $customer['plan_name'] . ' ' .
+                                         $customer['internet_mbps'] . ' Mbps = ₱' .
+                                         number_format($customer['internet_price'], 2);
+                                ?>"
+                                data-price="<?php echo $customer['internet_price']; ?>"
+                            >
+
+                            </option>
+
+                        <?php } ?>
+
+                    </datalist>
+                    <input type="hidden"name="user_id" id="user_id">
+                </div>
+      
+                <div class="form_group">
+
+                    <label>Customer Name</label>
+
+                    <input type="text" id="customer_name" class="form-control" readonly>
+                </div>
 
                 <div class="form_group">
 
-                    <label>Customer</label>
+                    <label>Available Plan Details</label>
 
-                 <select name="user_id" id="customer" required>
-
-    <option value="">
-        -- Select Customer --
-    </option>
-
-    <?php while ($customer = mysqli_fetch_assoc($customer_result)) { ?>
-
-        <option 
-            value="<?php echo $customer['user_id']; ?>"
-            data-price="<?php echo $customer['internet_price']; ?>"
-        >
-
-            <?php
-            echo $customer['f_name'] . ' ' .
-                 $customer['m_name'] . ' ' .
-                 $customer['l_name'] .
-                 ' - ' .
-                 $customer['account_number'];
-            ?>
-
-        </option>
-
-    <?php } ?>
-
-</select>
+                    <input type="text" id="plan_details" class="form-control" readonly>
                 </div>
-
-
-                <!-- PAYMENT METHOD -->
 
                 <div class="form_group">
+                    <label>Payment Method</label>
 
-                  <label>Payment Method</label>
-                        <input type="text" value="Cash" readonly>
-                        <input type="hidden" name="payment_method" value="Cash">
-
+                    <input type="text" value="Cash" class="form-control" readonly>
+                    <input type="hidden" name="payment_method" value="Cash">
                 </div>
-
-                <!-- AMOUNT -->
 
                 <div class="form_group">
 
                     <label>Amount</label>
 
-                 <input type="number" name="amount" id="amount" step="0.01" readonly required >
-
+                    <input type="number" name="amount" id="amount" class="form-control" readonly required >
                 </div>
-                <!-- BUTTON -->
 
                 <div class="form_group full_width">
 
-                    <button
-                        type="submit"
-                        name="add"
-                        class="payment-plus"
-                    >
-                        Add Payment
-                    </button>
-
+                    <button type="submit" name="add" class="payment-plus"> Add Payment </button>
                 </div>
-
-
             </form>
 
         </div>
@@ -226,17 +198,64 @@ exit();
 
 <script>
 
-document.getElementById("customer").addEventListener("change", function() {
+/* Customer search */
 
-    var selectedOption = this.options[this.selectedIndex];
+document.getElementById("customer_search").addEventListener("input", function() {
 
-    var price = selectedOption.getAttribute("data-price");
+    var searchValue = this.value.toLowerCase();
+    var options = document.querySelectorAll("#customer_list option");
+    var found = false;
 
-    document.getElementById("amount").value = price;
+    for (var i = 0; i < options.length; i++) {
+        var optionValue = options[i].value.toLowerCase();
+        var accountNumber = options[i].getAttribute("data-account-number").toLowerCase();
+        var customerName = options[i].getAttribute("data-name").toLowerCase();
+
+        if (
+            optionValue === searchValue ||
+            accountNumber === searchValue ||
+            customerName === searchValue
+        ) {
+
+            var userId = options[i].getAttribute("data-user-id");
+            var name = options[i].getAttribute("data-name");
+            var planDetails = options[i].getAttribute("data-plan");
+            var planPrice = options[i].getAttribute("data-price");
+
+            /* Automatically fill customer information */
+
+            document.getElementById("user_id").value = userId;
+            document.getElementById("customer_name").value = name;
+            document.getElementById("plan_details").value = planDetails;
+            document.getElementById("amount").value = planPrice;
+            found = true;
+            break;
+        }
+    }
+    /* Clear fields if customer is not found */
+
+    if (!found) {
+
+        document.getElementById("user_id").value = "";
+        document.getElementById("customer_name").value = "";
+        document.getElementById("plan_details").value = "";
+        document.getElementById("amount").value = "";
+    }
+
+});
+
+/* Prevent invalid submission */
+
+document.querySelector("form").addEventListener("submit", function(event) {
+    var userId = document.getElementById("user_id").value;
+
+    if (userId === "") {
+        alert("Please select a valid customer.");
+        event.preventDefault();
+    }
 
 });
 
 </script>
 </body>
-
 </html>

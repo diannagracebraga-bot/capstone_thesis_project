@@ -99,20 +99,20 @@ include '../database/database_connection.php';
                 $search = $_GET['search'] ?? '';
                 $search = mysqli_real_escape_string($conn, $search);
 
-                $sql = "
-                    SELECT
-                        CONCAT_WS(' ', a.f_name, a.m_name, a.l_name) AS name,
-                        a.email AS email,
-                        a.role AS role,
-                        'Active' AS account_status,
-                        a.account_id AS record_id
-                    FROM admin_superadmin_accounts_tbl a
-                    WHERE
-                        CONCAT_WS(' ', a.f_name, a.m_name, a.l_name) LIKE '%$search%'
-                        OR a.email LIKE '%$search%'
-                        OR a.role LIKE '%$search%'
-                        OR 'Active' LIKE '%$search%'
-                ";
+                $sql = " 
+                         SELECT 
+                         CONCAT_WS(' ', a.f_name, a.m_name, a.l_name) AS name, 
+                            a.email AS email, 
+                            a.role AS role, 
+                            a.account_status AS account_status,
+                            a.account_id AS record_id 
+                        FROM admin_superadmin_accounts_tbl a 
+                        WHERE 
+                        CONCAT_WS(' ', a.f_name, a.m_name, a.l_name) LIKE '%$search%' 
+                             OR a.email LIKE '%$search%' 
+                             OR a.role LIKE '%$search%' 
+                             OR a.account_status LIKE '%$search%'
+                            ";
 
                 $result = mysqli_query($conn, $sql);
 
@@ -123,58 +123,34 @@ include '../database/database_connection.php';
                 if (mysqli_num_rows($result) > 0) {
 
                     while ($row = mysqli_fetch_assoc($result)) {
-
                 ?>
-
                     <tr>
-
+                        <td> <?php echo $row['name']; ?></td>
+                        <td> <?php echo $row['email']; ?> </td>
+                        <td> <?php echo $row['role']; ?></td>
+                        <td><?php echo $row['account_status']; ?></td>
                         <td>
-                            <?php echo $row['name']; ?>
+                            <?php if ($row['account_status'] == 'Active') { ?>
+                              <a href="../crud/update_account_status.php?record_id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>"
+                                    class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to deactivate this account?');" >
+                                  Deactivate  </a>
+
+                             <?php } else { ?>
+                                  <a href="../crud/update_account_status.php?record_id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>"
+                                    class="btn btn-success btn-sm"onclick="return confirm('Are you sure you want to activate this account?');" >
+                                 Activate </a>
+                             <?php } ?>
+                                <a href="../crud/update_user_accounts.php?id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>"
+                                    class="btn btn-primary btn-sm"> Edit </a>
                         </td>
-
-                        <td>
-                            <?php echo $row['email']; ?>
-                        </td>
-
-                        <td>
-                            <?php echo $row['role']; ?>
-                        </td>
-
-                        <td>
-                            <?php echo $row['account_status']; ?>
-                        </td>
-
-                        <td>
-
-                            <a
-                                href="../crud/update_user_accounts.php?id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>"
-                                class="btn btn-primary btn-sm"
-                            >
-                                Edit
-                            </a>
-
-                            <a
-                                href="../crud/delete_user_account.php?record_id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>"
-                                class="btn btn-danger btn-sm"
-                                onclick="return confirm('Are you sure you want to delete this account?');"
-                            >
-                                Delete
-                            </a>
-
-                        </td>
-
                     </tr>
-
                 <?php
-
-                    }
+}
 
                 } else {
 
                 ?>
-
                     <tr>
-
                         <td colspan="5" class="text-center">
                             No users found.
                         </td>
