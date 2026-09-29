@@ -32,7 +32,7 @@ $active_users = $active_data['active_users'];
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>MITZTIANPC WIRED INTERNET SERVICES</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="../css/admin_dashboard.css">
+        <link rel="stylesheet" href="../css/admin_dashboard.css?v=dashboard-cards-5">
         <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
 
 </head>
@@ -42,18 +42,20 @@ $active_users = $active_data['active_users'];
 
 
         <div class="stats-container">
-                <div class="stat">
-                    
-                  <h2><?php echo $total_customers; ?></h2>
-                        <p>Total Customer</p>
+                <div class="stat stat-customers">
+                        <span class="stat-icon"><i class="bi bi-people-fill" aria-hidden="true"></i></span>
+                        <p>Total Customers</p>
+                        <h2><?php echo $total_customers; ?></h2>
                 </div>
-                <div class="stat">
-                          <h2><?php echo $active_users; ?></h2>
-                                  <p>Active User</p>
+                <div class="stat stat-active">
+                        <span class="stat-icon"><i class="bi bi-person-fill" aria-hidden="true"></i></span>
+                        <p>Active Users</p>
+                        <h2><?php echo $active_users; ?></h2>
                 </div>
-                <div class="stat">
+                <div class="stat stat-applicants">
+                        <span class="stat-icon"><i class="bi bi-card-list" aria-hidden="true"></i></span>
+                        <p>Pending Applicants</p>
                         <h2><?php echo $pending_applicants; ?></h2>
-                                 <p>Pending Applicants</p>
                 </div>
         </div>
         <div class="dashboard">

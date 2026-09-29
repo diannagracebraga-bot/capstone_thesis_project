@@ -208,3 +208,27 @@ td{
 @media (max-width: 1024px), (hover: none) and (pointer: coarse) {
     .content { margin-left: 0 !important; width: 100%; padding: 96px 16px 28px; }
 }
+
+.customer-announcements {
+    margin: 0 0 24px;
+    padding: 20px 22px;
+    border: 1px solid #d9e4ef;
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(30, 74, 121, .07);
+}
+.customer-announcements-heading { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.customer-announcement-icon { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 50%; background: #e4f0ff; color: #1674e8; font-size: 19px; }
+.customer-announcements-heading h3 { margin: 0; color: #153e6d; font-size: 19px; font-weight: 700; }
+.customer-announcements-heading p { margin: 3px 0 0; color: #72869c; font-size: 13px; }
+.customer-announcement-list { display: grid; gap: 10px; }
+.customer-announcement-item { padding: 14px 16px; border-left: 4px solid #2479d0; border-radius: 8px; background: #f4f8fd; scroll-margin-top: 100px; }
+.customer-announcement-date { color: #71869d; font-size: 12px; }
+.customer-announcement-item h4 { margin: 5px 0 4px; color: #173d68; font-size: 16px; font-weight: 700; }
+.customer-announcement-item p { margin: 0; color: #506a84; font-size: 14px; line-height: 1.55; white-space: pre-wrap; }
+.customer-announcement-empty { margin: 0; padding: 14px; border-radius: 8px; background: #f5f8fc; color: #71869c; }
+#payment-history { scroll-margin-top: 100px; }
+@media (max-width: 560px) {
+    .customer-announcements { padding: 16px; }
+    .customer-announcement-item { padding: 12px; }
+}

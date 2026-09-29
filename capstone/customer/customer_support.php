@@ -202,7 +202,7 @@ try {
 
     <link
         rel="stylesheet"
-        href="../css/customer_sidebar_header.css?v=10"
+        href="../css/customer_sidebar_header.css?v=customer-shell-11"
     >
 
     <link
