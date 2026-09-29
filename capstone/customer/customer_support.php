@@ -134,7 +134,6 @@ try {
         <p><strong>Contact Number:</strong> $contact_number</p>
         <p> <strong>Customer Email:</strong> $email_address</p>
         <p><strong>Concern Type:</strong>$concern_type</p>
-        <p><strong>Status:</strong>$status </p>
         <hr>
         <h3>Customer Message</h3>
 
