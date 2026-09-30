@@ -46,34 +46,37 @@ $due_date_valid = $due_date_value !== '' && $due_date_value !== '0000-00-00' && 
 <title>Customer Dashboard</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-11">
-<link rel="stylesheet" href="../css/customer_dashboard.css?v=announcements-1">
+<link rel="stylesheet" href="../css/customer_dashboard.css?v=customer-dashboard-hero-4">
 
 </head>
 <body>
 <?php include 'customer_sidebar_header.php'; ?>
 <div class="content">
+    <section class="customer-welcome-banner" aria-label="Customer welcome">
+        <div class="customer-welcome-copy">
+            <p class="customer-welcome-eyebrow">Welcome back,</p>
+            <h1><?php echo htmlspecialchars(trim(($customer['f_name'] ?? '') . ' ' . ($customer['m_name'] ?? '') . ' ' . ($customer['l_name'] ?? ''))); ?>!</h1>
+            <p class="customer-welcome-subtitle">Here's an overview of your internet account.</p>
+            <div class="customer-account-chip"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i><span>Account No.</span><strong><?php echo htmlspecialchars($customer['account_number'] ?? ''); ?></strong></div>
+        </div>
+        <div class="customer-welcome-art" aria-hidden="true">
+            <span class="customer-wifi-orbit customer-wifi-orbit-one"></span>
+            <span class="customer-wifi-orbit customer-wifi-orbit-two"></span>
+            <i class="bi bi-router-fill"></i>
+            <i class="bi bi-wifi customer-wifi-signal"></i>
+        </div>
+    </section>
     <div class="card w-100">
   				<div class="card-body">
 
     <div class="top-section">
-      <div class="welcome">
-    <h2>
-        Welcome, 
-        <?php echo $customer['f_name'] . ' ' . $customer['m_name'] . ' ' . $customer['l_name']; ?>!
-    </h2>
-
-    <h2>
-    <strong>Account No:</strong>
-    <?php echo $customer['account_number']; ?>
-</h2>
-</div>
         <div class="right-top">
-            <div class="card">
+            <div class="card date-card">
                 <h3>Today is:</h3>
              <h4><?php echo date('l, F d, Y');
                 ?></h4>
             </div>
-            <div class="card">
+            <div class="card plan-card">
                 <h3>Current Plan:</h3>
               <h4> ₱<?php echo number_format($customer['internet_price']); ?>
                 <?php echo $customer['internet_mbps']; ?> Mbps </h4>

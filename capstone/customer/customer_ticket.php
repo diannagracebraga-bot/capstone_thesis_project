@@ -107,6 +107,22 @@ if (!$result) {
 
                                     <label class="ticket-description-label">Description:</label>
                                     <textarea class="form-control ticket-description" rows="5" readonly><?php echo htmlspecialchars($ticket['description']); ?></textarea>
+                                    <?php
+                                    $ticketAttachmentName = basename((string) ($ticket['attachment_path'] ?? ''));
+                                    $ticketAttachmentExtension = strtolower(pathinfo($ticketAttachmentName, PATHINFO_EXTENSION));
+                                    $ticketAttachmentUrl = '../uploads/ticket_attachments/' . rawurlencode($ticketAttachmentName);
+                                    ?>
+                                    <?php if ($ticketAttachmentName !== ''): ?>
+                                        <div class="mt-3">
+                                            <strong>My attachment:</strong>
+                                            <?php if (in_array($ticketAttachmentExtension, ['jpg', 'jpeg', 'png', 'gif', 'webp'], true)): ?>
+                                                <a href="<?php echo htmlspecialchars($ticketAttachmentUrl); ?>" target="_blank" rel="noopener">Open image</a>
+                                                <img src="<?php echo htmlspecialchars($ticketAttachmentUrl); ?>" alt="Your uploaded problem image" style="display:block;max-width:100%;max-height:360px;margin-top:10px;border-radius:8px;">
+                                            <?php else: ?>
+                                                <a href="<?php echo htmlspecialchars($ticketAttachmentUrl); ?>" target="_blank" rel="noopener">View attached PDF</a>
+                                            <?php endif; ?>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
@@ -122,6 +138,5 @@ if (!$result) {
 
 </body>
 </html>
-
 
 

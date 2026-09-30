@@ -17,6 +17,12 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
+// Add the optional attachment field when upgrading an existing installation.
+$attachment_column = mysqli_query($conn, "SHOW COLUMNS FROM ticket_management_tbl LIKE 'attachment_path'");
+if ($attachment_column && mysqli_num_rows($attachment_column) === 0) {
+    mysqli_query($conn, "ALTER TABLE ticket_management_tbl ADD attachment_path VARCHAR(255) NULL");
+}
+
 $query = "
 SELECT
     c.customer_id,
@@ -53,11 +59,52 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 $message = "";
+$form_error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $concern_type = mysqli_real_escape_string($conn, $_POST['concern_type']);
-    $description = mysqli_real_escape_string($conn, $_POST['description']);
+    $concern_type = trim($_POST['concern_type'] ?? '');
+    $description = trim($_POST['description'] ?? '');
+    $attachment_path = null;
+    $stored_file = null;
+
+    if ($concern_type === '' || $description === '') {
+        $form_error = 'Punan ang concern at description bago isumite.';
+    }
+
+    if ($form_error === '' && isset($_FILES['attachment']) && $_FILES['attachment']['error'] !== UPLOAD_ERR_NO_FILE) {
+        $upload = $_FILES['attachment'];
+        $allowed_types = [
+            'jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png',
+            'gif' => 'image/gif', 'webp' => 'image/webp', 'pdf' => 'application/pdf',
+        ];
+        $extension = strtolower(pathinfo($upload['name'] ?? '', PATHINFO_EXTENSION));
+        $file_info = finfo_open(FILEINFO_MIME_TYPE);
+        $mime_type = $file_info ? finfo_file($file_info, $upload['tmp_name']) : '';
+        if ($file_info) finfo_close($file_info);
+
+        if ($upload['error'] !== UPLOAD_ERR_OK) {
+            $form_error = 'Hindi na-upload ang file. Subukan ulit.';
+        } elseif ($upload['size'] > 5 * 1024 * 1024) {
+            $form_error = 'Hanggang 5 MB lang ang puwedeng i-attach.';
+        } elseif (!isset($allowed_types[$extension]) || $allowed_types[$extension] !== $mime_type) {
+            $form_error = 'JPG, PNG, GIF, WEBP, o PDF lang ang puwedeng i-attach.';
+        } else {
+            $upload_directory = __DIR__ . '/../uploads/ticket_attachments';
+            if (!is_dir($upload_directory) && !mkdir($upload_directory, 0755, true) && !is_dir($upload_directory)) {
+                $form_error = 'Hindi maihanda ang paglalagyan ng attachment.';
+            } else {
+                $stored_name = bin2hex(random_bytes(16)) . '.' . $extension;
+                $stored_file = $upload_directory . '/' . $stored_name;
+                if (move_uploaded_file($upload['tmp_name'], $stored_file)) {
+                    $attachment_path = 'uploads/ticket_attachments/' . $stored_name;
+                } else {
+                    $stored_file = null;
+                    $form_error = 'Hindi na-save ang attachment. Subukan ulit.';
+                }
+            }
+        }
+    }
 
     $date = date("Y-m-d");
 
@@ -65,15 +112,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $priority = "Normal";
     $status = "Pending";
 
-    $sql = "INSERT INTO ticket_management_tbl
+    $full_name = trim($full_name);
+    $ticket_statement = null;
+    if ($form_error === '') {
+        $ticket_sql = "INSERT INTO ticket_management_tbl
+            (customer_id, full_name, email_address, contact_number, concern_type, date_received, concern, description, status, date_submitted, attachment_path)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $ticket_statement = mysqli_prepare($conn, $ticket_sql);
+        if ($ticket_statement) {
+            mysqli_stmt_bind_param($ticket_statement, 'issssssssss', $customer_id, $full_name, $email_address, $contact_number, $concern_type, $date, $concern_type, $description, $status, $date, $attachment_path);
+        } else {
+            $form_error = 'Hindi naisumite ang ticket. Subukan ulit mamaya.';
+        }
+    }
 
-         ( customer_id, full_name, email_address, contact_number, concern_type, date_received, concern, description,status, date_submitted )
-             VALUES( '$customer_id', '$full_name', '$email_address', '$contact_number', '$concern_type', '$date', '$concern', '$description', '$status', '$date')";
-
-    if (mysqli_query($conn, $sql)) {
+    if ($ticket_statement && mysqli_stmt_execute($ticket_statement)) {
 
         // Get the newly created ticket ID
-        $ticket_id = mysqli_insert_id($conn);
+        $ticket_id = mysqli_stmt_insert_id($ticket_statement);
+        mysqli_stmt_close($ticket_statement);
 
      $mail = new PHPMailer(true);
 
@@ -129,16 +186,17 @@ try {
     $mail->Body = "
         <h2>New Customer Support Ticket</h2>
 
-        <p><strong>Ticket ID:</strong>$ticket_id</p>
-        <p> <strong>Customer Name:</strong> $full_name</p>
-        <p><strong>Contact Number:</strong> $contact_number</p>
-        <p> <strong>Customer Email:</strong> $email_address</p>
-        <p><strong>Concern Type:</strong>$concern_type</p>
-        <p><strong>Status:</strong>$status </p>
+        <p><strong>Ticket ID:</strong> $ticket_id</p>
+        <p><strong>Customer Name:</strong> " . htmlspecialchars($full_name, ENT_QUOTES, 'UTF-8') . "</p>
+        <p><strong>Contact Number:</strong> " . htmlspecialchars($contact_number, ENT_QUOTES, 'UTF-8') . "</p>
+        <p><strong>Customer Email:</strong> " . htmlspecialchars($email_address, ENT_QUOTES, 'UTF-8') . "</p>
+        <p><strong>Concern Type:</strong> " . htmlspecialchars($concern_type, ENT_QUOTES, 'UTF-8') . "</p>
+        <p><strong>Status:</strong> " . htmlspecialchars($status, ENT_QUOTES, 'UTF-8') . "</p>
         <hr>
         <h3>Customer Message</h3>
 
-        <p> $description</p>
+        <p>" . nl2br(htmlspecialchars($description, ENT_QUOTES, 'UTF-8')) . "</p>
+        " . ($attachment_path ? '<p><strong>Attachment:</strong> Available in the admin ticket details.</p>' : '') . "
 
         <hr>
 
@@ -171,11 +229,9 @@ try {
 }
 
     } else {
-
-        echo "<script>
-            alert('Error: " . mysqli_error($conn) . "');
-        </script>";
-
+        if ($ticket_statement) mysqli_stmt_close($ticket_statement);
+        if ($stored_file && is_file($stored_file)) unlink($stored_file);
+        if ($form_error === '') $form_error = 'Hindi naisumite ang ticket. Subukan ulit mamaya.';
     }
 }
 
@@ -207,7 +263,7 @@ try {
 
     <link
         rel="stylesheet"
-        href="../css/customer_support.css?v=6"
+        href="../css/customer_support.css?v=attachment-1"
     >
 
 </head>
@@ -225,7 +281,9 @@ try {
             <h2>Send Customer Ticket:</h2>
             <div class="form-section">
 
-                <form class="form-box" method="POST">
+                <?php if ($form_error !== ''): ?><div class="support-form-error" role="alert"><?php echo htmlspecialchars($form_error); ?></div><?php endif; ?>
+
+                <form class="form-box" method="POST" enctype="multipart/form-data">
                     <div class="row">
 
                         <div class="input-group">
@@ -278,6 +336,10 @@ try {
 
                         <textarea name="description" placeholder="Describe your concern..." required ></textarea>
 
+                    </div>
+                    <div class="input-group attachment-group">
+                        <label for="ticket-attachment">Attach file or image (optional):</label>
+                        <input id="ticket-attachment" type="file" name="attachment" accept="image/jpeg,image/png,image/gif,image/webp,application/pdf">
                     </div>
                     <button type="submit" class="submit-btn">Submit</button>
                 </form>

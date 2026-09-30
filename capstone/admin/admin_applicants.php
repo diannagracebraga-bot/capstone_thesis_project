@@ -1,6 +1,11 @@
 <?php
 include '../database/database_connection.php';
 
+$filled_by_column = mysqli_query($conn, "SHOW COLUMNS FROM internet_application_tbl LIKE 'filled_up_by'");
+if ($filled_by_column && mysqli_num_rows($filled_by_column) === 0) {
+    mysqli_query($conn, "ALTER TABLE internet_application_tbl ADD filled_up_by VARCHAR(150) NOT NULL DEFAULT ''");
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 $first_name = $_POST['first_name'];
@@ -14,15 +19,16 @@ $house_number = $_POST['house_number'];
 $street = $_POST['street'];
 $subdivision = $_POST['subdivision'];
 $internet_plan = $_POST['internet_plan'];
+$filled_up_by = mysqli_real_escape_string($conn, trim($_POST['filled_up_by'] ?? ''));
 $date_received = date("Y-m-d H:i:s");
 $status = "Pending";
 
 $sql = "INSERT INTO internet_application_tbl
 (first_name, middle_name, last_name, birth_date , sex, contact_number,barangay,house_number, street , subdivision,
-internet_plan, date_received, status)
+internet_plan, date_received, status, filled_up_by)
 VALUES
 ('$first_name', '$middle_name', '$last_name','$birth_date','$sex','$contact_number', '$barangay',
-'$house_number','$street','$subdivision','$internet_plan','$date_received', '$status')";
+'$house_number','$street','$subdivision','$internet_plan','$date_received', '$status', '$filled_up_by')";
 
 if(mysqli_query($conn, $sql)){
     echo "<script>  
@@ -294,6 +300,12 @@ while($row = mysqli_fetch_assoc($result)){
                                     Resolved
                                 </option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Filled Up By:</label>
+                            <input type="text" class="form-control bg-light" value="<?php echo htmlspecialchars($row['filled_up_by'] ?? ''); ?>" readonly>
                         </div>
                     </div>
                 </div>
