@@ -21,11 +21,12 @@ $about = mysqli_fetch_assoc($about_result);
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="css/index_style.css?v=landing-ref-2">
+    <link rel="stylesheet" href="css/index_style.css?v=landing-fit-3">
     <link rel="stylesheet" href="css/inquire.css?v=landing-ref-1">
     <link rel="stylesheet" href="css/plan.css">
     <link rel="stylesheet" href="css/about.css">
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="css/apply_internet.css?v=modal-form-1">
+    <link rel="stylesheet" href="css/login.css?v=login-ui-2">
 </head>
 
 <body>
@@ -130,12 +131,31 @@ $about = mysqli_fetch_assoc($about_result);
                 <h3><?php echo $plan['internet_mbps']; ?> Mbps</h3>
                 <h2>
                     ₱<?php echo number_format($plan['internet_price']); ?> / Month </h2>
-                     <a href="front_page_menus/apply_internet.php"> <button>APPLY NOW</button> </a>
+                     <button type="button" data-bs-toggle="modal" data-bs-target="#applicationModal">APPLY NOW</button>
               </div>
         <?php } ?>
     </section>
 
 </section>
+
+<div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="applicationModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="application-page">
+                <?php
+                $applicationAction = 'admin/admin_applicants.php';
+                include 'front_page_menus/application_form_fields.php';
+                ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <section id="about">
 <footer>
     <div class="container">
@@ -190,8 +210,8 @@ $about = mysqli_fetch_assoc($about_result);
 </footer>
 </section>
 
-<div class="modal fade" id="loginModal" tabindex="-1" >
-    <div class="modal-dialog modal-dialog-centered  modal-lg">
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -201,23 +221,21 @@ $about = mysqli_fetch_assoc($about_result);
             <div class="modal-body">
 
                 <div class="login-container">
-                    <h2>Login</h2>
+                    <h2 id="loginModalTitle">Login</h2>
                     <form action="database/login.php" method="POST">
                         <label for="username">Username:</label>
                         <input type="text" id="username" name="email" class="form-control"
                                placeholder="Username" required>
-                        <br>
                       <label for="password">Password:</label>
 
                 <div class="password-input">
                      <input type="password" id="password" name="password" class="form-control"
                          placeholder="Password" required>
 
-                     <span class="toggle-password" id="togglePassword">
-                            <i class="bi bi-eye"></i> </span>
+                     <button type="button" class="toggle-password" id="togglePassword" aria-label="Show password" aria-pressed="false">
+                            <i class="bi bi-eye"></i>
+                     </button>
                 </div>
-                        <br>
-                        <br>
                         <div class="forgot-password">
                             <a href="forgot_password.php">
                                 <i>Forgot Password?</i>
@@ -240,6 +258,45 @@ $about = mysqli_fetch_assoc($about_result);
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
+// Keep Apply Now usable even when the remote Bootstrap script is unavailable.
+document.addEventListener("DOMContentLoaded", function () {
+    var applicationModal = document.getElementById("applicationModal");
+    if (!applicationModal || window.bootstrap) return;
+
+    function closeApplicationModal() {
+        applicationModal.classList.remove("show");
+        applicationModal.style.display = "none";
+        applicationModal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("modal-open");
+        document.body.classList.remove("application-modal-fallback");
+        document.body.style.removeProperty("overflow");
+    }
+
+    document.querySelectorAll('[data-bs-target="#applicationModal"]').forEach(function (button) {
+        button.addEventListener("click", function (event) {
+            event.preventDefault();
+            applicationModal.style.display = "block";
+            applicationModal.classList.add("show");
+            applicationModal.removeAttribute("aria-hidden");
+            document.body.classList.add("modal-open");
+            document.body.classList.add("application-modal-fallback");
+            document.body.style.overflow = "hidden";
+        });
+    });
+
+    applicationModal.querySelectorAll('[data-bs-dismiss="modal"]').forEach(function (button) {
+        button.addEventListener("click", closeApplicationModal);
+    });
+    applicationModal.addEventListener("click", function (event) {
+        if (event.target === applicationModal) closeApplicationModal();
+    });
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && applicationModal.classList.contains("show")) closeApplicationModal();
+    });
+});
+</script>
+
+<script>
 const togglePassword = document.getElementById("togglePassword");
 const password = document.getElementById("password");
 const eyeIcon = togglePassword.querySelector("i");
@@ -249,6 +306,8 @@ togglePassword.addEventListener("click", function () {
     if (password.type === "password") {
 
         password.type = "text";
+        togglePassword.setAttribute("aria-label", "Hide password");
+        togglePassword.setAttribute("aria-pressed", "true");
 
         eyeIcon.classList.remove("bi-eye");
         eyeIcon.classList.add("bi-eye-slash");
@@ -256,6 +315,8 @@ togglePassword.addEventListener("click", function () {
     } else {
 
         password.type = "password";
+        togglePassword.setAttribute("aria-label", "Show password");
+        togglePassword.setAttribute("aria-pressed", "false");
 
         eyeIcon.classList.remove("bi-eye-slash");
         eyeIcon.classList.add("bi-eye");
