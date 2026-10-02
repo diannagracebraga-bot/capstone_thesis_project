@@ -11,32 +11,34 @@ body {
 .payment-container {
     display: flex;
     justify-content: center;
+    width: 100%;
     margin: 0;
 }
 .qr-section {
-    width: 500px;
-    background: #f2f2f2;
-    padding: 5px 25px 25px 25px;
-    border-radius: 8px;
+    width: min(100%, 380px);
+    background: transparent;
+    padding: 8px 12px 12px;
+    border-radius: 10px;
     text-align: center;
-     margin-top: -20px;
+    margin: 0;
 }
 
 .qr-box {
     width: 100%;
-    background: #e2dede;
-    border: 3px dashed #c0baba;
-    border-radius: 5px;
+    background: #fff;
+    border: 1px solid #dce6f1;
+    border-radius: 10px;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 5px;
+    padding: 10px;
     margin: 0;
+    box-shadow: 0 5px 16px rgba(30, 67, 112, .08);
 }
 
 .qr-section img {
-    width: 500px;
+    width: 100%;
     max-width: 100%;
     display: block;
 }
@@ -48,12 +50,15 @@ body {
     }
 
     .payment-container{
-        justify-content: stretch;
+        justify-content: center;
     }
 
     .qr-section{
         width: 100%;
-        padding: 16px;
+        max-width: 380px;
+        margin-right: auto;
+        margin-left: auto;
+        padding: 8px;
     }
 
     .qr-section h2{
@@ -63,7 +68,7 @@ body {
 
     .qr-section img{
         width: 100%;
-        max-width: 260px;
+        max-width: 340px;
     }
 
     .qr-section p{

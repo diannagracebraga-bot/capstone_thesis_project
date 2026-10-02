@@ -1,4 +1,5 @@
 <?php
+session_start();
 include '../database/database_connection.php';
 
 $customer_query = "SELECT 
@@ -22,13 +23,21 @@ if (!$customer_result) {
     die("Customer query failed: " . mysqli_error($conn));
 }
 
-
 /* Add payment */
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $user_id = $_POST['user_id'];
     $payment_method = $_POST['payment_method'];
+    $reference_number = $_POST['reference_number'];
     $amount = $_POST['amount'];
+
+     $account_id = $_SESSION['account_id'];
+
+    $user_id = mysqli_real_escape_string($conn, $user_id);
+    $payment_method = mysqli_real_escape_string($conn, $payment_method);
+    $reference_number = mysqli_real_escape_string($conn, $reference_number);
+    $amount = mysqli_real_escape_string($conn, $amount);
+    $account_id = mysqli_real_escape_string($conn, $account_id);
 
 
     /* Get customer information */
@@ -56,22 +65,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $plan_id = $customer['internet_plan'];
 
-    $f_name = $customer['f_name'];
-    $m_name = $customer['m_name'];
-    $l_name = $customer['l_name'];
+    $f_name = mysqli_real_escape_string($conn, $customer['f_name']);
+    $m_name = mysqli_real_escape_string($conn, $customer['m_name']);
+    $l_name = mysqli_real_escape_string($conn, $customer['l_name']);
 
     $payment_status = "Paid";
 
+
+    /* Insert payment */
+
     $query = "INSERT INTO payment_tbl
-              (plan_id, f_name, m_name, l_name, payment_method, amount, user_id, payment_status)
+              (plan_id, f_name, m_name, l_name, payment_method, reference_number,cash_added_by, amount, user_id, payment_status)
               VALUES
-              ('$plan_id', '$f_name', '$m_name', '$l_name', '$payment_method', '$amount', '$user_id', '$payment_status')";
+              ('$plan_id', '$f_name', '$m_name', '$l_name', '$payment_method', '$reference_number', '$account_id', '$amount', '$user_id', '$payment_status')";
 
     $result = mysqli_query($conn, $query);
 
     if (!$result) {
         die("Payment insert failed: " . mysqli_error($conn));
     }
+
+
+    /* Update due date */
 
     $update_due_date = "UPDATE customer_tbl
                         SET due_date = DATE_ADD(due_date, INTERVAL 1 MONTH)
@@ -172,10 +187,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <div class="form_group">
                     <label>Payment Method</label>
+                        <input type="text" value="Cash" class="form-control" readonly>
+                        <input type="hidden" name="payment_method" value="Cash">
+                    </div>
 
-                    <input type="text" value="Cash" class="form-control" readonly>
-                    <input type="hidden" name="payment_method" value="Cash">
-                </div>
+
+               <div class="form_group">
+                    <label>Reference Number</label>
+                        <input type="text" name="reference_number"class="form-control" placeholder="Enter reference number"
+                        required>
+</div>
 
                 <div class="form_group">
 

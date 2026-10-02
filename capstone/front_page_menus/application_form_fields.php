@@ -85,6 +85,11 @@
             <input type="file" class="form-control" name="id_back" id="application_id_back" accept="image/*">
         </div>
 
+        <div class="form_group application-filled-by">
+            <label for="application_filled_up_by">Filled Up By:</label>
+            <input type="text" id="application_filled_up_by" class="form-control" name="filled_up_by" autocomplete="name" required>
+        </div>
+
         <button type="submit" class="btn btn-primary">Submit Application</button>
     </div>
 </form>

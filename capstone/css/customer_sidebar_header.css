@@ -197,6 +197,110 @@
     }
 }
 
+/* Customer shell mirrors the Super Admin navigation and colors. */
+.customer-topbar {
+    display: flex;
+    height: 84px;
+    min-height: 84px;
+    padding: 0 28px;
+    background: linear-gradient(105deg, #16477f 0%, #1766b6 52%, #267bd0 100%);
+    box-shadow: 0 2px 8px rgba(20, 53, 89, .18);
+}
+.customer-topbar > .container-fluid { display: flex; align-items: center; min-height: 100%; padding: 0; }
+.customer-brand { display: inline-flex; flex: 0 0 280px; align-items: center; gap: 12px; color: #fff; text-decoration: none; }
+.customer-brand img { width: 56px; height: 56px; border: 2px solid rgba(255,255,255,.88); border-radius: 50%; background: #fff; object-fit: contain; }
+.customer-brand strong { display: block; font-size: 27px; letter-spacing: .04em; line-height: 1.05; }
+.customer-brand small { display: block; margin-top: 4px; font-size: 10px; font-weight: 700; letter-spacing: .22em; }
+.customer-topbar .navbar-toggler { display: none; flex: 0 0 auto; padding: 5px 8px; border-color: transparent; box-shadow: none; }
+.customer-topbar-actions { display: flex; align-items: center; gap: 20px; }
+.customer-notification-button,.customer-profile-button { display: inline-flex; align-items: center; border: 0; background: transparent; color: #fff; }
+.customer-notification-button { position: relative; padding: 10px; font-size: 20px; }
+.customer-notification-count { position: absolute; top: 2px; right: 0; display: grid; min-width: 18px; height: 18px; padding: 0 4px; place-items: center; border-radius: 20px; background: #f04452; color: #fff; font-size: 10px; font-weight: 700; }
+.customer-profile-divider { width: 1px; height: 36px; background: rgba(255,255,255,.34); }
+.customer-profile-button { gap: 12px; padding: 4px; text-align: left; }
+.customer-profile-button::after { margin-left: 2px; }
+.customer-avatar { display: grid; flex: 0 0 44px; width: 44px; height: 44px; place-items: center; border-radius: 50%; background: #e3edf9; color: #39638d; font-size: 25px; }
+.customer-profile-copy strong,.customer-profile-copy small { display: block; }
+.customer-profile-copy strong { max-width: 250px; overflow: hidden; font-size: 15px; text-overflow: ellipsis; white-space: nowrap; }
+.customer-profile-copy small { margin-top: 3px; font-size: 13px; opacity: .9; }
+.customer-topbar .dropdown-menu { z-index: 1200; }
+.customer-notification-menu { width: min(360px, calc(100vw - 24px)); max-height: 75vh; overflow-y: auto; padding: 8px; }
+.customer-payment-status { display: grid; gap: 4px; margin: 2px 8px 8px; padding: 10px 12px; border-radius: 8px; background: #edf4fc; color: #526a83; font-size: 12px; }
+.customer-payment-status strong { color: #183b61; font-size: 13px; }
+.customer-notice-item { display: flex; align-items: flex-start; gap: 10px; white-space: normal; }
+.customer-notice-item > i { margin-top: 2px; color: #176dc0; }
+.customer-notice-item strong,.customer-notice-item small { display: block; }
+.customer-notice-item strong { color: #183b61; font-size: 13px; }
+.customer-notice-item small { margin-top: 3px; color: #647b91; font-size: 12px; line-height: 1.4; }
+.customer-no-notices { padding: 14px 12px; color: #647b91; font-size: 13px; }
+.customer-sidebar {
+    display: flex;
+    flex-direction: column;
+    width: 280px;
+    top: 84px;
+    padding: 18px 7px 16px;
+    background: #fff;
+    border-right: 1px solid #dce5ef;
+    box-shadow: 2px 0 10px rgba(30, 67, 112, .04);
+}
+.customer-sidebar .customer-sidebar-label { padding: 12px 17px 8px; color: #7b91ab; font-size: 13px; font-weight: 700; letter-spacing: .08em; }
+.customer-sidebar .customer-sidebar-divider { margin: 10px 9px 4px; padding: 18px 8px 8px; border-top: 1px solid #dce5ef; }
+.customer-sidebar .dashboard {
+    display: flex;
+    width: auto;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 14px;
+    margin: 3px 9px;
+    padding: 14px;
+    border-radius: 6px;
+    color: #000;
+    font-size: 19px;
+    font-weight: 600;
+    line-height: 1.25;
+    text-align: left;
+    text-decoration: none;
+    white-space: normal;
+}
+.customer-sidebar .sidebar-icon { display: inline-flex; flex: 0 0 22px; width: 22px; justify-content: center; color: #496f9a; font-size: 22px; line-height: 1; }
+.customer-sidebar .dashboard.active { position: relative; background: #e7f1ff; color: #000; font-weight: 700; }
+.customer-sidebar .dashboard.active::before { position: absolute; top: 8px; bottom: 8px; left: -9px; width: 4px; border-radius: 0 4px 4px 0; background: #1675ea; content: ""; }
+.customer-sidebar .dashboard.active .sidebar-icon { color: #174f8e; }
+.customer-sidebar .dashboard:hover { background: #f0f5fb; color: #000; }
+.customer-sidebar .dashboard:hover .sidebar-icon { color: #174f8e; }
+body .content,body .support-content,body .ticket-content,body .profile-content {
+    box-sizing: border-box;
+    width: calc(100% - 280px);
+    margin-left: 280px !important;
+}
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+    .customer-topbar { height: 64px; min-height: 64px; padding: 0 12px; }
+    .customer-brand { flex-basis: auto; gap: 8px; }
+    .customer-brand img { width: 44px; height: 44px; }
+    .customer-brand strong { font-size: 19px; }
+    .customer-brand small { font-size: 8px; letter-spacing: .15em; }
+    .customer-topbar .navbar-toggler { display: block; margin-left: 8px; }
+    .customer-topbar-actions { gap: 9px; }
+    .customer-profile-divider { height: 28px; }
+    .customer-avatar { flex-basis: 36px; width: 36px; height: 36px; font-size: 21px; }
+    .customer-profile-copy strong { max-width: 34vw; font-size: 13px; }
+    .customer-profile-copy small { font-size: 11px; }
+    .customer-profile-button { gap: 6px; }
+    .customer-notification-button { padding: 7px; font-size: 18px; }
+    .customer-sidebar { width: min(300px, 84vw); top: 64px; height: calc(100dvh - 64px); transform: translateX(-105%); transition: transform .22s ease; overflow-y: auto; z-index: 1100; }
+    .customer-sidebar.mobile-open { transform: translateX(0); }
+    .customer-sidebar .dashboard { width: calc(100% - 16px); margin: 3px 8px; padding: 13px 14px; font-size: 17px; }
+    body .content,body .support-content,body .ticket-content,body .profile-content { width: 100%; margin-left: 0 !important; padding-right: 16px; padding-left: 16px; }
+}
+@media (max-width: 480px) {
+    .customer-brand strong { font-size: 16px; }
+    .customer-brand small { font-size: 7px; }
+    .customer-profile-copy { display: none; }
+    .customer-profile-divider { display: none; }
+    .customer-topbar-actions { gap: 5px; }
+    body .content,body .support-content,body .ticket-content,body .profile-content { padding-right: 10px; padding-left: 10px; }
+}
+
 /* Mobile drawer navigation: hidden until the hamburger button is tapped. */
 @media (max-width: 1024px), (hover: none) and (pointer: coarse) {
     .sidebar {
@@ -257,4 +361,22 @@
         inset: auto 0 auto auto !important;
         min-width: 170px;
     }
+}
+
+/* Final customer shell overrides keep the drawer aligned with the 64px mobile header. */
+.customer-topbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; }
+.customer-sidebar { position: fixed; left: 0; bottom: 0; z-index: 900; }
+body .content { padding-top: 130px; }
+body .support-content,body .ticket-content,body .profile-content { padding-top: 110px !important; }
+body.customer-payment-page .content { width: 100%; margin-left: 0 !important; padding-top: 0 !important; }
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+    .customer-topbar { height: 64px; min-height: 64px; padding: 0 12px; }
+    .customer-sidebar { width: min(300px, 84vw); top: 64px; bottom: auto; height: calc(100dvh - 64px); transform: translateX(-105%); }
+    .customer-sidebar.mobile-open { transform: translateX(0); }
+    body .content { padding-top: 96px; }
+    body .support-content,body .ticket-content,body .profile-content { padding-top: 96px !important; }
+}
+@media (max-width: 480px) {
+    body .content { padding-top: 84px; }
+    body .support-content,body .ticket-content,body .profile-content { padding-top: 84px !important; }
 }
