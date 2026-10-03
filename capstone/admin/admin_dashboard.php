@@ -42,6 +42,7 @@ $collection_query = "
 ";
 
 
+
 $collection_result = mysqli_query($conn, $collection_query);
 if (!$collection_result) {
     die("Collection query failed: " . mysqli_error($conn));
