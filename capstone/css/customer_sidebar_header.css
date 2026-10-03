@@ -43,6 +43,13 @@
     color: rgb(61, 113, 130);
 }
 
+.sidebar a.active,
+.sidebar a.active:hover {
+    background-color: #e8f1ff;
+    color: #004AAD;
+    font-weight: bold;
+}
+
 .dashboard{
     display: flex;
     padding: 12px;

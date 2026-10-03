@@ -101,6 +101,14 @@
     color: black;
     
 }
+.add-user-dropdown {
+    min-width: 0;
+    max-width: 100%;
+}
+.add-user-dropdown .dropbtn {
+    box-sizing: border-box;
+    max-width: 100%;
+}
 .searchbar-container button:hover{
     background: lightgray;
 }
@@ -111,4 +119,42 @@
     width: 100%;
     margin: 10px 0;
 
+}
+
+/* Keep the account list inside the phone viewport; only the table scrolls. */
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+    html, body { width: 100%; max-width: 100%; overflow-x: hidden; }
+    body > .card.w-75 {
+        box-sizing: border-box;
+        width: calc(100% - 24px) !important;
+        max-width: none;
+        margin: 12px 12px 20px !important;
+        padding: 12px;
+    }
+    .card-body { min-width: 0; padding: 8px; }
+    .table-container { width: 100%; max-height: calc(100dvh - 120px); overflow: auto; }
+    .aligned { align-items: stretch; flex-direction: column; gap: 10px; }
+    .searchbar-container { margin: 0; padding: 0; width: 100%; }
+    .searchbar-container form { display: flex; flex-wrap: wrap; gap: 8px; width: 100%; }
+    .searchbar-container input { box-sizing: border-box; flex: 1 1 150px; min-width: 0; }
+    .searchbar-container button, .searchbar-container .btn { flex: 0 0 auto; }
+    .add-user-dropdown {
+        display: flex;
+        justify-content: flex-end;
+        align-self: stretch;
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    .add-user-dropdown .dropbtn {
+        width: min(100%, 260px);
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .table-container > table { min-width: 680px; margin-bottom: 0; }
+    .table-container th, .table-container td { padding: 10px 8px; vertical-align: middle; }
+    .table-container td:last-child { white-space: nowrap; }
 }

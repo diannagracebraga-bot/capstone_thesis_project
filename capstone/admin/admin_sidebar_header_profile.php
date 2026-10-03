@@ -24,38 +24,51 @@ $admin = mysqli_fetch_assoc($admin_result);
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=mobile-layout-3">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
 <body>
 
-
-<nav class="navbar navbar-expand-lg navbar-dark ">
+<nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container-fluid">
-
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>  </button>
-
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="dropdown ms-auto">
-              <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
-
-                     <img src="" width="30" height="30" class="rounded-circle me-2">
-                         <?php
-                          echo $admin['f_name'] . " " . $admin['m_name'] . " " . $admin['l_name'] . " (" . $admin['role'] . ")";?>
-            </button>
-
-                <div class="dropdown-menu dropdown-menu-end">
-                    <div>
-                        <a class="dropdown-item text-danger" href="../database/logout.php">
-                            Logout
-                        </a>
-</div>
-</div>
+                <button
+                    class="btn btn-light rounded-circle d-flex align-items-center justify-content-center"
+                    type="button"
+                    data-bs-toggle="dropdown"
+                    style="width: 45px; height: 45px; padding: 0;"
+                >
+                    <i class="bi bi-person-fill fs-4"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end p-2">
+                    <div class="px-3 py-2">
+                        <strong>
+                            <?php
+                            echo $admin['f_name'] . " "
+                                . $admin['m_name'] . " "
+                                . $admin['l_name'];
+                            ?>
+                        </strong>
+                        <br>
+                        <small class="text-muted">
+                            <?php echo $admin['role']; ?>
+                        </small>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item text-danger" href="../database/logout.php">
+                        <i class="bi bi-box-arrow-right me-2"></i>
+                        Logout
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</nav> 
+</nav>
+
 <h1> USER MANAGEMENT TRACKING </h1>
 
         <div class="sidebar">
@@ -89,5 +102,20 @@ $admin = mysqli_fetch_assoc($admin_result);
         </div>
         
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var toggle = document.querySelector('.navbar-toggler');
+            var sidebar = document.querySelector('.sidebar');
+            if (!toggle || !sidebar) return;
+            toggle.addEventListener('click', function () {
+                if (window.matchMedia('(max-width: 1024px)').matches || navigator.maxTouchPoints > 0) {
+                    sidebar.classList.toggle('mobile-open');
+                }
+            });
+            sidebar.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function () { sidebar.classList.remove('mobile-open'); });
+            });
+        });
+        </script>
 </body>
 </html>

@@ -11,7 +11,7 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 $message = "";
-$edit_mode = isset($_GET['edit']);
+$edit_mode = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -84,7 +84,7 @@ $internet_plan = $customer['plan_name'] . " (" .
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=9">
+    <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=10">
     <link rel="stylesheet" href="../css/customer_profile.css?v=8">
 </head>
 <body>
@@ -97,7 +97,7 @@ $internet_plan = $customer['plan_name'] . " (" .
     <section class="profile-card">
 
         <div class="profile-title-row">
-            <h2>Customer Information</h2>
+            <h2>Account Information</h2>
                   <?php if($edit_mode){ ?>
 
                 <div class="profile-button-row">
@@ -111,11 +111,6 @@ $internet_plan = $customer['plan_name'] . " (" .
 
                 <?php } ?>
 
-            <?php if (!$edit_mode): ?>
-                <a href="customer_profile.php?edit=1" class="btn btn-primary profile-action-btn">
-                    Edit Customer Details
-                </a>
-            <?php endif; ?>
         </div>
 
         <?php if ($message != ""): ?>

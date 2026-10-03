@@ -61,7 +61,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                         <th>FIRST NAME</th>
                         <th>MIDDLE NAME</th>
                         <th>LAST NAME</th>
-                        <th>CONTACT NUMBER</th>
+                        <th>BARANGAY</th>
                         <th>STATUS</th>
                         <th>ACTION</th>
                     </tr>
@@ -76,7 +76,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                         <td><?php echo $row['f_name']; ?></td>
                         <td><?php echo $row['m_name']; ?></td>
                         <td><?php echo $row['l_name']; ?></td>
-                        <td><?php echo $row['contact_number']; ?></td>
+                        <td><?php echo $row['barangay']; ?></td>
                         <td><?php echo $row['connection_status']; ?></td>
                         <td>
                             <button 
@@ -286,6 +286,6 @@ document.addEventListener("DOMContentLoaded", function () {
     searchBtn.addEventListener("click", searchCustomers);
 });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

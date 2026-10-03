@@ -156,9 +156,9 @@ if ($status === "succeeded") {
     if (mysqli_num_rows($check_result) == 0) {
 
         $insert_sql = "INSERT INTO payment_tbl
-        ( plan_id,f_name, m_name, l_name, payment_method, amount, remarks, user_id,paymongo_payment_id, payment_status )
+        ( plan_id,f_name, m_name, l_name, payment_method, amount, user_id,paymongo_payment_id, payment_status )
         VALUES
-        ('$plan_id', '$f_name', '$m_name', '$l_name', '$payment_method', '$amount', '$remarks', '$user_id', '$payment_intent_id','$payment_status' )";
+        ('$plan_id', '$f_name', '$m_name', '$l_name', '$payment_method', '$amount', '$user_id', '$payment_intent_id','$payment_status' )";
 
        $insert_result = mysqli_query($conn, $insert_sql);
 
