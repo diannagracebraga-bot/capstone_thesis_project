@@ -1,7 +1,8 @@
+```php
 <?php
 include '../database/database_connection.php';
 
-if(isset($_GET['updated'])){
+if (isset($_GET['updated'])) {
     echo "<script>alert('Customer details updated successfully!');</script>";
 }
 
@@ -11,16 +12,25 @@ SELECT
     u.email,
     u.password,
     p.plan_id,
-    p.plan_name
+    p.plan_name,
+    p.internet_mbps,
+    p.internet_price
 FROM customer_tbl c
 INNER JOIN user_accounts_tbl u
     ON c.user_id = u.user_id
 LEFT JOIN internet_plan_tbl p
     ON c.internet_plan = p.plan_id
 ";
+
 $result = mysqli_query($conn, $sql);
+
+if (!$result) {
+    die("Query Failed: " . mysqli_error($conn));
+}
+
 $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,32 +41,38 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
     <link rel="stylesheet" href="../css/admin_customer.css">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
+
 <body>
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
 
-
 <div class="card w-75">
+
     <div class="card-body">
+
         <div class="table-container1">
+
             <div class="aligned">
+
                 <div class="searchbar-container">
-                    <input type="text" id="customerSearch" placeholder="Search customer..." autocomplete="off" >
+                    <input type="text" id="customerSearch" placeholder="Search customer..."autocomplete="off">
                 </div>
                 <div class="add_customer">
+
                     <form action="admin_user_management.php" method="GET">
                         <input type="hidden" name="page" value="add_customer">
-                        <button class="btn btn-primary" type="submit">
-                            Add Customer
-                        </button>
+                        <button class="btn btn-primary" type="submit"> Add Customer </button>
                     </form>
+
                 </div>
+
             </div>
             <br>
+
             <table class="table table-secondary table-hover" id="customerTable">
                 <thead class="table-info">
-                    <tr> 
+                    <tr>
                         <th>ACCOUNT NUMBER</th>
                         <th>FIRST NAME</th>
                         <th>MIDDLE NAME</th>
@@ -67,225 +83,298 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                     </tr>
                 </thead>
                 <tbody>
+
                 <?php
-                if(mysqli_num_rows($result) > 0){
-                    while($row = mysqli_fetch_assoc($result)){
+
+                if (mysqli_num_rows($result) > 0) {
+
+                    while ($row = mysqli_fetch_assoc($result)) {
                 ?>
-                    <tr>  
-                        <td><?php echo $row['account_number']; ?></td>
-                        <td><?php echo $row['f_name']; ?></td>
-                        <td><?php echo $row['m_name']; ?></td>
-                        <td><?php echo $row['l_name']; ?></td>
-                        <td><?php echo $row['barangay']; ?></td>
-                        <td><?php echo $row['connection_status']; ?></td>
-                        <td>
-                            <button 
-                                 class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                     data-bs-target="#editModal<?php echo $row['customer_id']; ?>">
-                                             View
+
+                    <tr>
+                        <td> <?php echo $row['account_number']; ?> </td>
+                        <td> <?php echo $row['f_name']; ?></td>
+                        <td> <?php echo $row['m_name']; ?> </td>
+                        <td> <?php echo $row['l_name']; ?>  </td>
+                        <td> <?php echo $row['barangay']; ?></td>
+                        <td> <?php echo $row['connection_status']; ?></td>
+                        <td><button class="btn btn-primary btn-sm"data-bs-toggle="modal"data-bs-target="#editModal<?php echo $row['customer_id']; ?>">
+                                View
                             </button>
+
                             <a href="../crud/delete_customer.php?id=<?php echo $row['customer_id']; ?>"
                                class="btn btn-danger btn-sm"
                                onclick="return confirm('Are you sure you want to delete this customer?')">
                                 Delete
-                             </a>
+                            </a>
                         </td>
                     </tr>
-            <div class="modal fade" id="editModal<?php echo $row['customer_id']; ?>" tabindex="-1">
-    <div class="modal-dialog modal-xl modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header bg-secondary text-white">
-                <h5 class="modal-title">
-                    <i class="fas fa-user-edit me-2"></i>Edit Customer Details
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <form action="../crud/admin_update_customer.php" method="POST">
-                <input type="hidden" name="customer_id" value="<?php echo $row['customer_id']; ?>">
-                <div class="modal-body">
-                    <h6 class="text-black border-bottom pb-2 mb-3">
-                        Account Information
-                    </h6>
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Account Number</label>
-                            <input type="text"
-                                   class="form-control bg-light"
-                                   value="<?php echo $row['account_number']; ?>"
-                                   readonly>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Email Address</label>
-                            <input type="email"
-                                   class="form-control bg-light"
-                                   name="email"
-                                   value="<?php echo $row['email']; ?>" readonly>
+                    <!-- EDIT CUSTOMER MODAL -->
+
+                    <div class="modal fade" id="editModal<?php echo $row['customer_id']; ?>" tabindex="-1">
+                        <div class="modal-dialog modal-xl modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header bg-secondary text-white">
+                                    <h5 class="modal-title">Edit Customer Details </h5>
+
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                </div>
+
+
+                                <form action="../crud/admin_update_customer.php" method="POST">
+                                    <input type="hidden" name="customer_id" value="<?php echo $row['customer_id']; ?>">
+                                    <div class="modal-body">
+                                        <!-- ACCOUNT INFORMATION -->
+
+                                        <h6 class="text-black border-bottom pb-2 mb-3"> Account Information</h6>
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label"> Account Number</label>
+                                                <input type="text" class="form-control bg-light" value="<?php echo $row['account_number']; ?>" readonly>
+
+                                            </div>
+
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label">Email Address</label>
+                                                <input type="email" class="form-control bg-light" name="email" value="<?php echo $row['email']; ?>"  readonly>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label"> Due Date</label>
+                                                <input type="date" class="form-control" name="due_date" value="<?php echo $row['due_date']; ?>">
+
+                                            </div>
+                                             <div class="col-md-3 mb-3">
+                                                 <label class="form-label">Installation Date </label>
+                                                 <input type="date"class="form-control"name="installation_date" value="<?php echo $row['installation_date']; ?>">
+                                                </div>
+                                        </div>
+                                        <!-- PERSONAL INFORMATION -->
+
+                                        <h6 class="text-black border-bottom pb-2 mt-3 mb-3">Personal Information</h6>
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label"> First Name</label>
+                                                <input type="text" class="form-control" name="f_name" value="<?php echo $row['f_name']; ?>">
+                                            </div>
+
+
+                                            <div class="col-md-4 mb-3">
+
+                                                <label class="form-label"> Middle Name </label>
+                                                <input type="text" class="form-control" name="m_name" value="<?php echo $row['m_name']; ?>">
+                                            </div>
+
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label"> Last Name</label>
+
+                                                <input type="text" class="form-control" name="l_name" value="<?php echo $row['l_name']; ?>">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+
+                                                <label class="form-label"> Contact Number </label>
+                                                <input type="tel" class="form-control" name="contact_number" value="<?php echo $row['contact_number']; ?>">
+                                            </div>
+
+                                            <div class="col-md-4 mb-3">
+
+                                                <label class="form-label">  Age </label>
+                                                <input type="number" class="form-control" name="age" value="<?php echo $row['age']; ?>">
+                                            </div>
+
+
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label"> Sex</label>
+                                                <select class="form-select"
+                                                        name="sex">
+
+                                                    <option value="Male"<?php
+                                                        if ($row['sex'] == "Male")
+                                                            echo "selected";
+                                                        ?>>  Male
+                                                    </option>
+                                                    <option value="Female"
+                                                        <?php
+                                                        if ($row['sex'] == "Female")
+                                                            echo "selected";
+                                                        ?>>
+                                                        Female
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <!-- ADDRESS INFORMATION -->
+                                        <h6 class="text-black border-bottom pb-2 mt-3 mb-3">Address Information </h6>
+                                        <div class="row">
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label"> Barangay</label>
+                                                <select class="form-select"  name="barangay">
+
+                                                    <option value="Bagtas"
+                                                        <?php
+                                                        if ($row['barangay'] == "Bagtas")
+                                                            echo "selected";
+                                                        ?>>
+                                                        Bagtas
+                                                    </option>
+                                                    <option value="Punta I"
+                                                        <?php
+                                                        if ($row['barangay'] == "Punta I")
+                                                            echo "selected";
+                                                        ?>>
+                                                        Punta I
+                                                    </option>
+                                                </select>
+                                            </div>
+                                               <div class="col-md-4 mb-3">
+
+                                                 <label class="form-label">House Address</label>
+                                                 <input type="text" class="form-control"  name="house_name"  value="<?php echo $row['house_name']; ?>"></div>
+                                        </div>
+
+                                        <!-- INTERNET SERVICE -->
+
+                                        <h6 class="text-black border-bottom pb-2 mt-3 mb-3"> Internet Service</h6>
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+
+                                                <label class="form-label">Internet Plan </label>
+                                                <select class="form-select" name="internet_plan">
+                                                    <?php
+                                                    mysqli_data_seek($plan_query, 0);
+                                                    while ($plan = mysqli_fetch_assoc($plan_query)) {
+                                                    ?>
+                                                        <option
+                                                            value="<?php echo $plan['plan_id']; ?>"
+                                                            <?php
+                                                            if ($row['internet_plan'] == $plan['plan_id']) {
+                                                                echo "selected";
+                                                            }
+                                                            ?>>
+                                                            <?php
+                                                            echo $plan['plan_name'] .
+                                                                 " - " .
+                                                                 $plan['internet_mbps'] .
+                                                                 " Mbps - ₱" .
+                                                                 number_format(
+                                                                     $plan['internet_price'],
+                                                                     2
+                                                                 );
+                                                            ?>
+                                                        </option>
+                                                    <?php
+                                                    }
+                                                    ?>
+
+                                                </select>
+
+                                            </div>
+                                            <div class="col-md-6 mb-3">
+                                                <label class="form-label"> Connection Status</label>
+                                                <select class="form-select" name="connection_status">
+                                                    <option value="Connected"
+                                                        <?php
+                                                        if ($row['connection_status'] == "Connected")
+                                                            echo "selected";
+                                                        ?>>
+                                                        Connected
+                                                    </option>
+
+                                                    <option value="Disconnected"
+                                                        <?php
+                                                        if ($row['connection_status'] == "Disconnected")
+                                                            echo "selected";
+                                                        ?>>
+                                                        Disconnected
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                            Cancel
+                                        </button>
+                                        <button type="submit"  name="update" class="btn btn-success">
+                                            Save Changes
+                                        </button>
+                                    </div>
+
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    <h6 class="text-black border-bottom pb-2 mt-3 mb-3">
-                        Personal Information
-                    </h6>
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">First Name</label>
-                            <input type="text" class="form-control" name="f_name" value="<?php echo $row['f_name']; ?>">
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Middle Name</label>
-                            <input type="text" class="form-control" name="m_name" value="<?php echo $row['m_name']; ?>">
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Last Name</label>
-                            <input type="text" class="form-control" name="l_name" value="<?php echo $row['l_name']; ?>">
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Contact Number</label>
-                            <input type="tel" class="form-control" name="contact_number" value="<?php echo $row['contact_number']; ?>">
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Age</label>
-                            <input type="number" class="form-control" name="age" value="<?php echo $row['age']; ?>">
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Sex</label>
-                            <select class="form-select" name="sex">
-                                <option <?php if($row['sex']=="Male") echo "selected"; ?>>Male</option>
-                                <option <?php if($row['sex']=="Female") echo "selected"; ?>>Female</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Civil Status</label>
-                            <select class="form-select" name="civil_status">
-                                <option <?php if($row['civil_status']=="Single") echo "selected"; ?>>Single</option>
-                                <option <?php if($row['civil_status']=="Married") echo "selected"; ?>>Married</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Birth Date</label>
-                            <input type="date" class="form-control" name="birth_date" value="<?php echo $row['birth_date']; ?>">
-                        </div>
-                    </div>
-                    <h6 class="text-black border-bottom pb-2 mt-3 mb-3">
-                        Address Information
-                    </h6>
-                    <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Barangay</label>
-                            <select class="form-select" name="barangay">
-                                <option <?php if($row['barangay']=="Bagtas") echo "selected"; ?>>Bagtas</option>
-                                <option <?php if($row['barangay']=="Punta I") echo "selected"; ?>>Punta I</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Subdivision</label>
-                            <input type="text" class="form-control" name="subdivision" value="<?php echo $row['subdivision']; ?>">
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">Street</label>
-                            <input type="text" class="form-control" name="street" value="<?php echo $row['street']; ?>">
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label">House Number</label>
-                            <input type="text" class="form-control" name="house_name" value="<?php echo $row['house_name']; ?>">
-                        </div>
-                    </div>
-                    <h6 class="text-black border-bottom pb-2 mt-3 mb-3">
-                        Internet Service
-                    </h6>
-                    <div class="row">
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Internet Plan</label>
-                            <select class="form-select" name="internet_plan">
-                                <?php
-                                mysqli_data_seek($plan_query,0);
-                                while($plan=mysqli_fetch_assoc($plan_query)){
-                                ?>
-                                <option value="<?php echo $plan['plan_id']; ?>"
-                                    <?php if($row['internet_plan']==$plan['plan_id']) echo "selected"; ?>>
-                                    <?php
-                                    echo $plan['plan_name']." - ".
-                                         $plan['internet_mbps']." Mbps - ₱".
-                                         number_format($plan['internet_price'],2);
-                                    ?>
-                                </option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Connection Status</label>
-                            <select class="form-select" name="connection_status">
-                                <option <?php if($row['connection_status']=="Connected") echo "selected"; ?>>Connected</option>
-                                <option <?php if($row['connection_status']=="Disconnected") echo "selected"; ?>>Disconnected</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                        Cancel
-                    </button>
-                    <button type="submit" name="update" class="btn btn-success">
-                        Save Changes
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-</form>
-</div>
-</div>
-</div>
-<?php }
-} else {
-    echo "<tr>
-    <td colspan='7' class='text-center'>
-    No Customer Registered
-    </td>
-    </tr>";
-}
-?>
+                <?php
+                    }
+
+                } else {
+                    echo "<tr>
+                        <td colspan='7'class='text-center'> No Customer Registered </td>
+                    </tr>";
+
+                }
+                ?>
                 </tbody>
             </table>
         </div>
+
     </div>
+
 </div>
+
+
 <script>
+
 document.addEventListener("DOMContentLoaded", function () {
-    const searchInput = document.getElementById("customerSearch");
-    const searchBtn = document.getElementById("searchBtn");
-    const table = document.getElementById("customerTable");
-    const rows = table.querySelectorAll("tbody tr");
+
+    const searchInput =
+        document.getElementById("customerSearch");
+    const table =
+        document.getElementById("customerTable");
+    const rows =
+        table.querySelectorAll("tbody tr");
     function searchCustomers() {
-        const searchValue = searchInput.value.toLowerCase().trim();
+        const searchValue =
+            searchInput.value.toLowerCase().trim();
         rows.forEach(function (row) {
             if (row.cells.length < 7) {
                 return;
             }
-            const accountNumber = row.cells[0].textContent.toLowerCase();
-            const firstName = row.cells[1].textContent.toLowerCase();
-            const middleName = row.cells[2].textContent.toLowerCase();
-            const lastName = row.cells[3].textContent.toLowerCase();
-            const contactNumber = row.cells[4].textContent.toLowerCase();
-            const status = row.cells[5].textContent.toLowerCase();
+            const accountNumber =
+                row.cells[0].textContent.toLowerCase();
+            const firstName =
+                row.cells[1].textContent.toLowerCase();
+            const middleName =
+                row.cells[2].textContent.toLowerCase();
+            const lastName =
+                row.cells[3].textContent.toLowerCase();
+            const barangay =
+                row.cells[4].textContent.toLowerCase();
+            const status =
+                row.cells[5].textContent.toLowerCase();
             const customerData =
                 accountNumber + " " +
                 firstName + " " +
                 middleName + " " +
                 lastName + " " +
-                contactNumber + " " +
+                barangay + " " +
                 status;
+
             if (customerData.includes(searchValue)) {
                 row.style.display = "";
             } else {
                 row.style.display = "none";
             }
         });
-    }
-    searchInput.addEventListener("keyup", searchCustomers);
-    searchBtn.addEventListener("click", searchCustomers);
-});
-</script>
 
+    }
+    searchInput.addEventListener(
+        "keyup",
+        searchCustomers
+    );
+
+});
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

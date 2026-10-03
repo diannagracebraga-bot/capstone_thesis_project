@@ -85,17 +85,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
                     <option>Female</option>
                 </select>
             </div>
-            <div class="form_group">
-                <label>Civil Status</label>
-                <select name="civil_status">
-                    <option>Single</option>
-                    <option>Married</option>
-                </select>
-            </div>
-            <div class="form_group">
-                <label>Birth Date</label>
-                <input type="date" name="birth_date">
-            </div>
+            
             <div class="form_group">
             <label>Barangay</label>
                 <select name="barangay">
@@ -105,16 +95,8 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
                 </select>
             </div>
             <div class="form_group">
-                <label>Subdivision</label>
-                <input type="text" name="subdivision">
-            </div>
-            <div class="form_group">
-                <label>Street</label>
-                <input type="text" name="street">
-            </div>
-            <div class="form_group">
-                <label>House Number</label>
-                <input type="text" name="house_number">
+                <label>House Address</label>
+                <input type="text" name="house_name">
             </div>
             <div class="form_group">
                 <label>Internet Plan</label>
@@ -139,7 +121,12 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
             <label for="due_date">Due Date</label>
 <input type="date" name="due_date" id="due_date" required>
 
-  </div>        
+  </div>      
+   <div class="form_group">
+            <label for="due_date">Installation Date</label>
+<input type="date" name="installation_date" id="installation_date" required>
+
+  </div>       
 
 <div class="form_group full_width">
            <input type="submit" class = "btn btn-success"name="register" value="Register">

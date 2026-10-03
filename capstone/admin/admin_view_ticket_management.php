@@ -159,6 +159,22 @@ $ticket = mysqli_fetch_assoc($result);
                 </label>
 
                 <textarea class="form-control" rows="5" readonly><?php echo $ticket['description']; ?></textarea>
+                <?php
+                $ticketAttachmentName = basename((string) ($ticket['attachment_path'] ?? ''));
+                $ticketAttachmentExtension = strtolower(pathinfo($ticketAttachmentName, PATHINFO_EXTENSION));
+                $ticketAttachmentUrl = '../uploads/ticket_attachments/' . rawurlencode($ticketAttachmentName);
+                ?>
+                <?php if ($ticketAttachmentName !== ''): ?>
+                    <div class="ticket-attachment-preview mt-3">
+                        <strong>Customer attachment:</strong>
+                        <?php if (in_array($ticketAttachmentExtension, ['jpg', 'jpeg', 'png', 'gif', 'webp'], true)): ?>
+                            <a href="<?php echo htmlspecialchars($ticketAttachmentUrl); ?>" target="_blank" rel="noopener">Open image</a>
+                            <img src="<?php echo htmlspecialchars($ticketAttachmentUrl); ?>" alt="Customer's uploaded problem image" style="display:block;max-width:100%;max-height:420px;margin-top:10px;border-radius:8px;">
+                        <?php else: ?>
+                            <a href="<?php echo htmlspecialchars($ticketAttachmentUrl); ?>" target="_blank" rel="noopener">View attached PDF</a>
+                        <?php endif; ?>
+                    </div>
+                <?php endif; ?>
                 <div class="text-end mt-4">
 
                     <a href="admin_ticket_management.php" class="btn btn-secondary">  Back

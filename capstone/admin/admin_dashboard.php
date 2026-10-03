@@ -40,9 +40,6 @@ $collection_query = "
     AND YEAR(created_at) = YEAR(CURDATE())
     AND MONTH(created_at) = MONTH(CURDATE())
 ";
-
-
-
 $collection_result = mysqli_query($conn, $collection_query);
 if (!$collection_result) {
     die("Collection query failed: " . mysqli_error($conn));
@@ -151,14 +148,24 @@ while ($row = mysqli_fetch_assoc($daily_collection_result)) {
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css" >
     <link rel="stylesheet" href="../css/admin_dashboard.css" >
+=======
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>MITZTIANPC WIRED INTERNET SERVICES</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/admin_dashboard.css?v=dashboard-cards-5">
+        <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
+
+>>>>>>> af8cc776a3fa47d9b182d4d66135dc898ed71792
 </head>
 <body>
+<<<<<<< HEAD
 <?php include 'admin_sidebar_header_profile.php'; ?>
 <div class="stats-container">
     <div class="stat">
@@ -182,6 +189,27 @@ while ($row = mysqli_fetch_assoc($daily_collection_result)) {
                 ₱<?php echo number_format($total_collected, 2); ?>
             </div>
             <small>  Paid payments this month </small>
+=======
+        <?php include 'admin_sidebar_header_profile.php'; ?>
+
+
+        <div class="stats-container">
+                <div class="stat stat-customers">
+                        <span class="stat-icon"><i class="bi bi-people-fill" aria-hidden="true"></i></span>
+                        <p>Total Customers</p>
+                        <h2><?php echo $total_customers; ?></h2>
+                </div>
+                <div class="stat stat-active">
+                        <span class="stat-icon"><i class="bi bi-person-fill" aria-hidden="true"></i></span>
+                        <p>Active Users</p>
+                        <h2><?php echo $active_users; ?></h2>
+                </div>
+                <div class="stat stat-applicants">
+                        <span class="stat-icon"><i class="bi bi-card-list" aria-hidden="true"></i></span>
+                        <p>Pending Applicants</p>
+                        <h2><?php echo $pending_applicants; ?></h2>
+                </div>
+>>>>>>> af8cc776a3fa47d9b182d4d66135dc898ed71792
         </div>
         <div class="summary-card">
             <h3>  Clients With Balance </h3>

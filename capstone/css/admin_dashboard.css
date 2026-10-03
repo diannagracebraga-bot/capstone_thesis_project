@@ -194,6 +194,7 @@ body {
         font-size: 36px;
     }
 
+<<<<<<< HEAD
     .stats-container .stat p {
         font-size: 16px;
     }
@@ -228,3 +229,88 @@ body {
     }
 
 }
+=======
+/* Modern summary cards matching the admin blue palette. */
+.stats-container {
+    width: calc(100% - 330px);
+    max-width: none;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin: 26px 24px 20px 304px;
+    padding: 0;
+}
+.stats-container .stat {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    min-height: 146px;
+    grid-template-columns: 78px minmax(0, 1fr);
+    grid-template-rows: auto 1fr;
+    align-content: center;
+    align-items: center;
+    column-gap: 18px;
+    padding: 22px 20px;
+    border: 1px solid #dce6f1;
+    border-left: 6px solid #1875e8;
+    border-radius: 13px;
+    background: linear-gradient(115deg, #fff 0%, #fbfdff 100%);
+    box-shadow: 0 5px 16px rgba(30, 74, 121, .09);
+    color: #123d70;
+    text-align: left;
+}
+.stats-container .stat-active { border-left-color: #19a9cf; }
+.stats-container .stat-applicants { border-left-color: #f0a000; }
+.stats-container .stat-icon {
+    display: grid;
+    width: 68px;
+    height: 68px;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    place-items: center;
+    border-radius: 50%;
+    background: #e1efff;
+    color: #1674e8;
+    font-size: 30px;
+}
+.stats-container .stat-active .stat-icon { background: #ddf6fb; color: #089fc5; }
+.stats-container .stat-applicants .stat-icon { background: #fff0d6; color: #e58f00; }
+.stats-container .stat p {
+    align-self: end;
+    margin: 0 0 5px;
+    color: #173b68;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+.stats-container .stat h2 {
+    align-self: start;
+    margin: 0;
+    color: #102f59;
+    font-size: 38px;
+    font-weight: 750;
+    line-height: 1.08;
+}
+@media (max-width: 1200px) and (min-width: 1025px) {
+    .stats-container { width: calc(100% - 330px); gap: 12px; }
+    .stats-container .stat { grid-template-columns: 54px minmax(0, 1fr); gap: 12px; padding: 18px 14px; }
+    .stats-container .stat-icon { width: 52px; height: 52px; font-size: 24px; }
+    .stats-container .stat p { font-size: 14px; }
+}
+@media (max-width: 1024px) {
+    .stats-container {
+        width: auto;
+        margin: 88px 16px 20px;
+        padding: 0;
+        gap: 14px;
+    }
+    .stats-container .stat { min-height: 128px; grid-template-columns: 58px minmax(0, 1fr); gap: 12px; padding: 18px 14px; }
+    .stats-container .stat-icon { width: 54px; height: 54px; font-size: 24px; }
+    .stats-container .stat p { font-size: 14px; }
+    .stats-container .stat h2 { font-size: 34px; }
+}
+@media (max-width: 560px) {
+    .stats-container { grid-template-columns: 1fr; margin-top: 84px; }
+    .stats-container .stat { min-height: 106px; }
+}
+
+>>>>>>> af8cc776a3fa47d9b182d4d66135dc898ed71792

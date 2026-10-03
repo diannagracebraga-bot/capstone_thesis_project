@@ -1,40 +1,143 @@
-.login-container{
-     font-family: Arial, sans-serif;
-     background: #ececec;
-     border-radius: 7px;
-     padding: 40px; 
+#loginModal .modal-dialog {
+    width: min(100% - 32px, 540px);
+    max-width: 540px;
 }
-.login-container label{
-    display: block;
-    margin-bottom: 8px;
+
+#loginModal .modal-content {
+    overflow: hidden;
+    border: 1px solid rgba(130, 190, 238, .45);
+    border-radius: 18px;
+    background: #f7fbff;
+    box-shadow: 0 24px 70px rgba(4, 30, 58, .32);
 }
-.login-container input{
-    padding: 7px;
-    border: 1px solid;
-    border-radius: 5px;     
+
+#loginModal .modal-header {
+    min-height: 64px;
+    justify-content: flex-end;
+    padding: 12px 18px;
+    border: 0;
+    background: linear-gradient(120deg, #103b69, #1762a6);
+}
+
+#loginModal .btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+    opacity: .9;
+}
+
+#loginModal .modal-body { padding: 0 22px 22px; }
+
+#loginModal .login-container {
     width: 100%;
-    margin-top: 30px;
-    margin-bottom: 5px;
+    margin: 0 auto;
+    padding: 25px 30px 28px;
+    border: 1px solid #d9eafa;
+    border-radius: 0 0 14px 14px;
+    background: #fff;
+    color: #173f6c;
+    font-family: "Segoe UI", Arial, sans-serif;
 }
-.login-container h2{
-    text-align: center;
-    margin-bottom: 50px;
-    color: black;
+
+#loginModal .login-container h2 {
+    margin: 0 0 25px;
+    color: #123f70;
+    font-size: 29px;
+    font-weight: 700;
+    text-align: left;
 }
-.login-container button{
-    width: 50%;
-    background-color: #004AAD;
-    color: white;
-    border-radius: 5px;
-    margin-left: 160px;
-    font-weight: bold;
+
+#loginModal .login-container label {
+    display: block;
+    margin: 0 0 7px;
+    color: #173f6c;
+    font-size: 14px;
+    font-weight: 600;
 }
-.forgot-password{
-    margin-bottom: 10px;
-    text-decoration: underline;
+
+#loginModal .login-container input.form-control {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    height: 46px;
+    margin: 0 0 19px;
+    padding: 10px 13px;
+    border: 1px solid #c8dced;
+    border-radius: 8px;
+    background: #f8fbff;
+    color: #173f6c;
+    font: inherit;
+    font-size: 15px;
+    box-shadow: none;
 }
-@media (max-width: 768px) {
-    .login-container { width: calc(100% - 28px); margin: 40px auto; padding: 24px 18px; }
-    .login-container h2 { margin-bottom: 28px; }
-    .login-container button { width: 100%; margin-left: 0; padding: 10px; }
+
+#loginModal .login-container input.form-control:focus {
+    border-color: #2185dc;
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(33, 133, 220, .15);
+}
+
+#loginModal .password-input {
+    position: relative;
+    width: 100%;
+}
+
+#loginModal .password-input input.form-control 
+   { padding-right: 50px; }
+
+#loginModal .toggle-password {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    display: flex;
+    width: 46px;
+    height: 46px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 0 8px 8px 0;
+    background: transparent;
+    color: #4775a4;
+    cursor: pointer;
+}
+
+#loginModal .toggle-password i 
+   { font-size: 18px; line-height: 1; }
+#loginModal .toggle-password:hover 
+   { color: #0878d8; }
+
+#loginModal .forgot-password {
+    margin: -3px 0 20px;
+    font-size: 14px;
+}
+
+#loginModal .forgot-password a 
+{ color: #0878d8; text-decoration: none; }
+#loginModal .forgot-password a:hover 
+{ text-decoration: underline; }
+
+#loginModal .login-container button[type="submit"] {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    margin: 0;
+    border: 0;
+    border-radius: 8px;
+    background: linear-gradient(110deg, #0755b5, #0878d8);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    box-shadow: 0 7px 16px rgba(8, 105, 199, .2);
+}
+
+#loginModal .login-container button[type="submit"]:hover {
+    background: linear-gradient(110deg, #06499d, #066bc4);
+}
+
+@media (max-width: 575.98px) {
+    #loginModal .modal-dialog { width: calc(100% - 24px); margin: 12px auto; }
+    #loginModal .modal-content { max-height: calc(100svh - 24px); }
+    #loginModal .modal-body { overflow-y: auto; padding: 0 12px 12px; }
+    #loginModal .login-container { padding: 22px 18px 20px; }
+    #loginModal .login-container h2 { margin-bottom: 20px; font-size: 25px; }
 }

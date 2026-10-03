@@ -174,7 +174,6 @@ td{
     
 }
 
-/* Prevent dashboard cards and headings from being squeezed on narrow displays. */
 @media (max-width: 1024px) {
     .content { margin-left: 128px; padding: 96px 16px 28px; }
     .top-section { flex-direction: column; gap: 16px; }
@@ -207,4 +206,185 @@ td{
 
 @media (max-width: 1024px), (hover: none) and (pointer: coarse) {
     .content { margin-left: 0 !important; width: 100%; padding: 96px 16px 28px; }
+}
+
+.customer-announcements {
+    margin: 0 0 24px;
+    padding: 20px 22px;
+    border: 1px solid #d9e4ef;
+    border-radius: 13px;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(30, 74, 121, .07);
+}
+.customer-announcements-heading { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.customer-announcement-icon { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 50%; background: #e4f0ff; color: #1674e8; font-size: 19px; }
+.customer-announcements-heading h3 { margin: 0; color: #153e6d; font-size: 19px; font-weight: 700; }
+.customer-announcements-heading p { margin: 3px 0 0; color: #72869c; font-size: 13px; }
+.customer-announcement-list { display: grid; gap: 10px; }
+.customer-announcement-item { padding: 14px 16px; border-left: 4px solid #2479d0; border-radius: 8px; background: #f4f8fd; scroll-margin-top: 100px; }
+.customer-announcement-date { color: #71869d; font-size: 12px; }
+.customer-announcement-item h4 { margin: 5px 0 4px; color: #173d68; font-size: 16px; font-weight: 700; }
+.customer-announcement-item p { margin: 0; color: #506a84; font-size: 14px; line-height: 1.55; white-space: pre-wrap; }
+.customer-announcement-empty { margin: 0; padding: 14px; border-radius: 8px; background: #f5f8fc; color: #71869c; }
+#payment-history { scroll-margin-top: 100px; }
+@media (max-width: 560px) {
+    .customer-announcements { padding: 16px; }
+    .customer-announcement-item { padding: 12px; }
+}
+
+/* Separate the customer identity from service and payment details. */
+.customer-welcome-banner {
+    position: relative;
+    display: flex;
+    min-height: 176px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    isolation: isolate;
+    overflow: hidden;
+    margin: 0 0 22px;
+    padding: 26px 34px;
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 16px;
+    background: linear-gradient(112deg, #123b70 0%, #1f5da5 58%, #3689d6 100%);
+    box-shadow: 0 8px 22px rgba(17, 57, 105, .2);
+    color: #fff;
+}
+.customer-welcome-banner::before,
+.customer-welcome-banner::after {
+    position: absolute;
+    z-index: -1;
+    border: 1px solid rgba(255,255,255,.1);
+    border-radius: 50%;
+    content: "";
+}
+.customer-welcome-banner::before { width: 390px; height: 390px; top: -245px; left: 31%; background: rgba(255,255,255,.045); }
+.customer-welcome-banner::after { width: 300px; height: 300px; right: 7%; bottom: -232px; background: rgba(255,255,255,.05); }
+.customer-welcome-copy { position: relative; z-index: 1; min-width: 0; }
+.customer-welcome-eyebrow { margin: 0 0 2px; color: #d4e8ff; font-size: 20px; }
+.customer-welcome-copy h1 { margin: 0; color: #fff; font-size: clamp(25px, 2.8vw, 36px); font-weight: 750; line-height: 1.2; overflow-wrap: anywhere; }
+.customer-welcome-subtitle { margin: 8px 0 0; color: #d4e8ff; font-size: 15px; }
+.customer-account-chip { display: inline-flex; align-items: center; gap: 8px; margin-top: 15px; padding: 7px 12px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px; background: rgba(5,31,67,.24); color: #e4f1ff; font-size: 13px; }
+.customer-account-chip i { color: #8fd8ff; }
+.customer-account-chip strong { color: #fff; font-size: 14px; letter-spacing: .02em; }
+.customer-welcome-art { position: relative; display: grid; width: 220px; height: 124px; flex: 0 0 220px; place-items: center; color: rgba(216,239,255,.93); }
+.customer-welcome-art .bi-router-fill { position: relative; z-index: 1; margin-top: 30px; font-size: 75px; filter: drop-shadow(0 7px 8px rgba(0,0,0,.18)); }
+.customer-wifi-signal { position: absolute; top: 0; right: 37px; font-size: 48px; color: #94eaff; }
+.customer-wifi-orbit { position: absolute; width: 120px; height: 120px; border: 1px solid rgba(207,237,255,.2); border-radius: 50%; }
+.customer-wifi-orbit-one { right: 18px; top: 4px; }
+.customer-wifi-orbit-two { right: -2px; top: -16px; width: 160px; height: 160px; }
+@media (max-width: 560px), (hover: none) and (pointer: coarse) {
+    .customer-welcome-banner { min-height: 148px; margin-bottom: 16px; padding: 20px; }
+    .customer-welcome-art { width: 94px; height: 100px; flex-basis: 94px; opacity: .85; }
+    .customer-welcome-art .bi-router-fill { font-size: 52px; }
+    .customer-wifi-signal { top: 2px; right: 8px; font-size: 32px; }
+    .customer-wifi-orbit-one { right: 0; top: 12px; width: 82px; height: 82px; }
+    .customer-wifi-orbit-two { right: -13px; top: 0; width: 108px; height: 108px; }
+    .customer-welcome-eyebrow { font-size: 14px; }
+    .customer-welcome-copy h1 { font-size: clamp(20px, 5vw, 26px); }
+    .customer-welcome-subtitle { max-width: 250px; font-size: 13px; }
+    .customer-account-chip { gap: 6px; padding: 6px 9px; font-size: 11px; }
+    .customer-account-chip strong { font-size: 12px; }
+}
+@media (max-width: 360px) {
+    .customer-welcome-banner { padding: 16px 14px; }
+    .customer-welcome-art { width: 70px; flex-basis: 70px; }
+    .customer-welcome-art .bi-router-fill { font-size: 42px; }
+}
+
+/* Refined customer dashboard presentation. */
+body { background: #f2f6fb; color: #183858; }
+body .content > .card.w-100 {
+    overflow: hidden;
+    border: 1px solid #e0e9f3;
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 10px 30px rgba(31, 67, 108, .08);
+}
+body .content > .card.w-100 > .card-body { padding: clamp(16px, 2.2vw, 28px); }
+.top-section { display: block; margin: 0; }
+.right-top {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0 0 20px;
+}
+.right-top .card,
+.summary .card {
+    box-sizing: border-box;
+    width: auto;
+    min-width: 0;
+    margin: 0;
+    border: 1px solid #dce7f3;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #fff, #f8fbff);
+    box-shadow: 0 4px 13px rgba(35, 76, 120, .07);
+}
+.right-top .card { min-height: 104px; padding: 18px 20px; text-align: left; }
+.right-top .date-card { border-top: 4px solid #2479d0; }
+.right-top .plan-card { border-top: 4px solid #13a5bd; }
+.right-top .card h3 { margin: 0 0 7px; color: #70839a; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.right-top .card h4 { margin: 0; color: #173d68; font-size: clamp(16px, 1.4vw, 20px); font-weight: 700; line-height: 1.35; }
+.summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 16px;
+    margin: 0 0 24px;
+}
+.summary .card { min-height: 118px; justify-content: center; padding: 20px; }
+.summary .card h4 { margin: 0 0 11px; color: #70839a; font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.summary .card span { font-size: clamp(16px, 1.5vw, 20px); line-height: 1.35; }
+.summary .status-connected { color: #138a59; }
+.summary .status-disconnected { color: #c43c4a; }
+.payment-btn {
+    min-height: 58px;
+    align-self: stretch;
+    border: 0;
+    border-radius: 12px;
+    background: linear-gradient(110deg, #1769bb, #318bd8);
+    box-shadow: 0 5px 13px rgba(23, 105, 187, .2);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    transition: transform .16s ease, box-shadow .16s ease;
+}
+.payment-btn:hover { transform: translateY(-1px); background: linear-gradient(110deg, #12579e, #2479c4); color: #fff; box-shadow: 0 7px 16px rgba(23, 105, 187, .25); }
+.customer-announcements { margin-bottom: 24px; border-color: #e0e9f3; border-radius: 13px; box-shadow: 0 4px 13px rgba(35, 76, 120, .06); }
+.customer-announcement-item { border-left-color: #3183d1; }
+#payment-history { min-width: 700px; margin: 0; overflow: hidden; border: 1px solid #e0e8f1; border-radius: 11px; border-collapse: separate; border-spacing: 0; background: #fff; }
+#payment-history th,
+#payment-history td { padding: 14px 12px; border-bottom: 1px solid #e8eef5; text-align: center; vertical-align: middle; }
+#payment-history th { background: #edf4fb; color: #365b7f; font-size: 12px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; }
+#payment-history td { color: #405a73; font-size: 14px; }
+#payment-history tbody tr:last-child td { border-bottom: 0; }
+#payment-history tbody tr:nth-child(even) { background: #f8fbfe; }
+.download { padding: 8px 15px; border-radius: 8px; background: #16875b; font-size: 13px; font-weight: 700; }
+.download:hover { background: #106f49; }
+
+@media (max-width: 900px), (hover: none) and (pointer: coarse) {
+    body .content > .card.w-100 > .card-body { padding: 18px; }
+    .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .summary .card { min-height: 106px; padding: 16px; }
+    .payment-btn { min-height: 58px; }
+}
+@media (max-width: 560px) {
+    body .content > .card.w-100 > .card-body { padding: 14px; }
+    .right-top, .summary { grid-template-columns: minmax(0, 1fr); gap: 11px; }
+    .right-top { margin-bottom: 14px; }
+    .right-top .card { min-height: 88px; padding: 15px 16px; }
+    .summary { margin-bottom: 18px; }
+    .summary .card { min-height: 92px; padding: 15px 16px; }
+    .customer-announcements { margin-bottom: 18px; }
+    #payment-history { min-width: 650px; }
+    #payment-history th, #payment-history td { padding: 11px 9px; }
+}
+
+/* Keep the QR payment dialog sized around the code instead of a tall blank iframe. */
+#paymentModal .modal-dialog { max-width: 560px; }
+#paymentModal .modal-body { overflow: hidden; background: #f5f8fc; }
+#paymentModal iframe { display: block; width: 100%; height: min(410px, calc(100vh - 150px)) !important; border: 0; }
+@media (max-width: 560px) {
+    #paymentModal .modal-dialog { margin: 12px; }
+    #paymentModal iframe { height: min(390px, calc(100dvh - 140px)) !important; }
 }

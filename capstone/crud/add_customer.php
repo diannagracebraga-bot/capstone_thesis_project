@@ -1,7 +1,9 @@
-﻿<?php
+﻿```php
+<?php
 include '../database/database_connection.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
+
     $email = $_POST['email'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
@@ -9,59 +11,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     $mname = $_POST['m_name'];
     $lname = $_POST['l_name'];
     $contact = $_POST['contact_number'];
-    $birth = $_POST['birth_date'];
     $age = $_POST['age'];
     $sex = $_POST['sex'];
-    $civil = $_POST['civil_status'];
     $barangay = $_POST['barangay'];
-    $subdivision = $_POST['subdivision'];
-    $street = $_POST['street'];
-    $house = $_POST['house_number'];
+    $house_name = $_POST['house_name'];
     $plan = $_POST['internet_plan'];
     $status = $_POST['connection_status'];
     $due_date = $_POST['due_date'];
 
-    $check = mysqli_query($conn, "SELECT * FROM user_accounts_tbl WHERE email='$email'");
+    /* Check if email already exists */
+    $check = mysqli_query(
+        $conn,
+        "SELECT * FROM user_accounts_tbl WHERE email='$email'"
+    );
 
-    if(mysqli_num_rows($check) > 0){
+    if (mysqli_num_rows($check) > 0) {
+
         echo "<script>
                 alert('Email already exists.');
                 window.location='../admin/admin_user_management.php?page=add_customer';
               </script>";
+
         exit();
     }
+
+    /* Customer role */
     $role = "customer";
 
-$sqlUser = "INSERT INTO user_accounts_tbl (email, password, role)
-            VALUES ('$email', '$password', '$role')";
+    /* Insert account */
+    $sqlUser = "INSERT INTO user_accounts_tbl
+                (email, password, role)
+                VALUES
+                ('$email', '$password', '$role')";
 
-    if(mysqli_query($conn, $sqlUser)){
+    if (mysqli_query($conn, $sqlUser)) {
+
         $id = mysqli_insert_id($conn);
 
-$result = mysqli_query($conn, "SELECT MAX(customer_id) AS last_id FROM customer_tbl");
-$row = mysqli_fetch_assoc($result);
+        /* Get next customer ID */
+        $result = mysqli_query(
+            $conn,
+            "SELECT MAX(customer_id) AS last_id FROM customer_tbl"
+        );
 
-$next_id = ($row['last_id'] ?? 0) + 1;
+        $row = mysqli_fetch_assoc($result);
 
-$account_number = "MPC-" . str_pad($next_id, 5, "0", STR_PAD_LEFT);
+        $next_id = ($row['last_id'] ?? 0) + 1;
 
-       $sqlCustomer = "INSERT INTO customer_tbl
-            ( user_id, account_number,f_name,m_name,l_name,contact_number, age,sex, civil_status, birth_date, barangay,  subdivision,
-                street, house_name, internet_plan, connection_status, due_date)
-            VALUES
-                ('$id', '$account_number', '$fname','$mname', '$lname', '$contact', '$age', '$sex', '$civil', '$birth',
-                    '$barangay','$subdivision', '$street', '$house', '$plan', '$status', '$due_date')";         
+        /* Generate Account Number */
+        $account_number = "MPC-" .
+                          str_pad($next_id, 5, "0", STR_PAD_LEFT);
 
-        if(mysqli_query($conn, $sqlCustomer)){
+
+        /* Insert Customer */
+        $sqlCustomer = "INSERT INTO customer_tbl
+            (user_id, f_name, m_name, l_name, contact_number, age, sex, barangay,house_name, internet_plan, connection_status, account_number, due_date)
+            VALUES('$id','$fname','$mname','$lname','$contact','$age','$sex','$barangay','$house_name','$plan','$status','$account_number','$due_date' )";
+
+        if (mysqli_query($conn, $sqlCustomer)) {
+
             echo "<script>
                     alert('Customer Registered Successfully');
                     window.location='../admin/admin_customer.php';
                   </script>";
-        }else{
+
+        } else {
+
             echo mysqli_error($conn);
+
         }
-    }else{
+    } else {
+
         echo mysqli_error($conn);
+
     }
 }
 ?>

@@ -65,30 +65,45 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
         <?php
 
-        if (empty($search)) {
+       if (empty($search)) {
 
-            $query = "SELECT payment_tbl.*, customer_tbl.account_number
-                        FROM payment_tbl
-                        INNER JOIN customer_tbl 
-                        ON payment_tbl.user_id = customer_tbl.user_id";
+    $query = "SELECT payment_tbl.*, 
+                     customer_tbl.account_number,
+                     admin_superadmin_accounts_tbl.f_name AS admin_f_name,
+                     admin_superadmin_accounts_tbl.m_name AS admin_m_name,
+                     admin_superadmin_accounts_tbl.l_name AS admin_l_name
+              FROM payment_tbl
+              INNER JOIN customer_tbl
+                  ON payment_tbl.user_id = customer_tbl.user_id
+              LEFT JOIN admin_superadmin_accounts_tbl
+                  ON payment_tbl.cash_added_by = admin_superadmin_accounts_tbl.account_id
+              ORDER BY payment_tbl.id ASC";
 
-        } else {
+} else {
 
-            $searchTerm = mysqli_real_escape_string($conn, $search);
+    $searchTerm = mysqli_real_escape_string($conn, $search);
 
-           $query = "SELECT payment_tbl.*, customer_tbl.account_number
-                       FROM payment_tbl
-                       INNER JOIN customer_tbl 
-                       ON payment_tbl.user_id = customer_tbl.user_id
-                       WHERE payment_tbl.id LIKE '%$searchTerm%' 
-                       OR customer_tbl.account_number LIKE '%$searchTerm%'
-                       OR payment_tbl.f_name LIKE '%$searchTerm%' 
-                       OR payment_tbl.m_name LIKE '%$searchTerm%' 
-                       OR payment_tbl.l_name LIKE '%$searchTerm%' 
-                       OR payment_tbl.payment_method LIKE '%$searchTerm%' 
-                       OR payment_tbl.amount LIKE '%$searchTerm%' 
-                       OR payment_tbl.paymongo_payment_id LIKE '%$searchTerm%'";
-        }
+    $query = "SELECT payment_tbl.*, 
+                     customer_tbl.account_number,
+                     admin_superadmin_accounts_tbl.f_name AS admin_f_name,
+                     admin_superadmin_accounts_tbl.m_name AS admin_m_name,
+                     admin_superadmin_accounts_tbl.l_name AS admin_l_name
+              FROM payment_tbl
+              INNER JOIN customer_tbl
+                  ON payment_tbl.user_id = customer_tbl.user_id
+              LEFT JOIN admin_superadmin_accounts_tbl
+                  ON payment_tbl.cash_added_by = admin_superadmin_accounts_tbl.account_id
+              WHERE payment_tbl.id LIKE '%$searchTerm%'
+                 OR customer_tbl.account_number LIKE '%$searchTerm%'
+                 OR payment_tbl.f_name LIKE '%$searchTerm%'
+                 OR payment_tbl.m_name LIKE '%$searchTerm%'
+                 OR payment_tbl.l_name LIKE '%$searchTerm%'
+                 OR payment_tbl.payment_method LIKE '%$searchTerm%'
+                 OR payment_tbl.amount LIKE '%$searchTerm%'
+                 OR payment_tbl.reference_number LIKE '%$searchTerm%'
+                 OR payment_tbl.paymongo_payment_id LIKE '%$searchTerm%'
+              ORDER BY payment_tbl.id ASC";
+}
 
         $result = mysqli_query($conn, $query);
 
@@ -110,6 +125,7 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
                     <th>PAYMENT METHOD</th>
                     <th>AMOUNT</th>
                     <th>REFERENCE NUMBER</th>
+                    <th>CASH ADDED BY</th>
                     <th>ACTION</th>
                 </tr>
 
@@ -132,15 +148,28 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
                     <td><?php echo $row['l_name']; ?></td>
                     <td><?php echo $row['payment_method']; ?></td>
                     <td> <?php echo $row['amount']; ?></td>
+                    
+                    
                    <td>
             <?php
                      if ($row['payment_method'] == 'Cash') {
-                        echo 'CASH';
+                        echo $row['reference_number'];
                    } else {
                         echo $row['paymongo_payment_id'];
                     }
                 ?>
                   </td>
+                  <td>
+    <?php
+    if ($row['payment_method'] == 'Cash') {
+        echo $row['admin_f_name'] . ' ' .
+             $row['admin_m_name'] . ' ' .
+             $row['admin_l_name'];
+    } else {
+        echo '-';
+    }
+    ?>
+</td>
                     <td>
                         <a href="../crud/delete_payment.php?id=<?php echo $row['id']; ?>"
                            class="btn btn-danger"
