@@ -1,8 +1,8 @@
+```php
 <?php
 session_start();
 
 include '../database/database_connection.php';
-
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../index.php");
@@ -13,24 +13,17 @@ $user_id = $_SESSION['user_id'];
 $message = "";
 $edit_mode = false;
 
+/* Update Profile */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $contact_number = $_POST['contact_number'];
-    $civil_status = $_POST['civil_status'];
     $barangay = $_POST['barangay'];
-    $subdivision = $_POST['subdivision'];
-    $street = $_POST['street'];
-    $house_name = $_POST['house_name'];
 
     $update = mysqli_query($conn, "
         UPDATE customer_tbl
         SET
             contact_number = '$contact_number',
-            civil_status = '$civil_status',
-            barangay = '$barangay',
-            subdivision = '$subdivision',
-            street = '$street',
-            house_name = '$house_name'
+            barangay = '$barangay'
         WHERE user_id = '$user_id'
     ");
 
@@ -42,10 +35,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+/* Success Message */
 if (isset($_GET['updated'])) {
     $message = "Profile updated successfully.";
 }
 
+/* Get Customer Information */
 $query = mysqli_query($conn, "
 SELECT
     c.*,
@@ -65,215 +60,371 @@ WHERE c.user_id = '$user_id'
 if (!$query) {
     die("Query Failed: " . mysqli_error($conn));
 }
+
 $customer = mysqli_fetch_assoc($query);
 
 if (!$customer) {
     die("Customer record not found.");
 }
+
 $email_address = $customer['email'];
 $role = $customer['role'];
 
 $internet_plan = $customer['plan_name'] . " (" .
-    $customer['internet_mbps'] . " Mbps) - ₱" .$customer['internet_price'];
+    $customer['internet_mbps'] . " Mbps) - ₱" .
+    $customer['internet_price'];
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Customer Profile</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-11">
-    <link rel="stylesheet" href="../css/customer_profile.css?v=8">
+
+    <link rel="stylesheet"
+          href="../css/customer_sidebar_header.css?v=customer-shell-11">
+
+    <link rel="stylesheet"
+          href="../css/customer_profile.css?v=8">
+
 </head>
+
 <body>
 
 <?php include 'customer_sidebar_header.php'; ?>
 
 <main class="profile-content">
-      <div class="card">
-  				<div class="card-body">
-    <section class="profile-card">
 
-        <div class="profile-title-row">
-            <h2>Account Information</h2>
-                  <?php if($edit_mode){ ?>
+    <div class="card">
 
-                <div class="profile-button-row">
-                    <a href="customer_profile.php" class="btn btn-secondary">
-                        Cancel
-                    </a>
-                    <button type="submit" class="btn btn-success">
-                        Save Changes
-                    </button>
-                </div>
+        <div class="card-body">
 
-                <?php } ?>
+            <section class="profile-card">
 
-        </div>
+                <div class="profile-title-row">
 
-        <?php if ($message != ""): ?>
-            <div class="alert alert-success">
-                <?php echo $message; ?>
-            </div>
-        <?php endif; ?>
+                    <h2>Account Information</h2>
 
-        <form method="POST">
+                    <?php if ($edit_mode) { ?>
 
-            <div class="row g-3">
+                        <div class="profile-button-row">
 
-                <div class="col-md-2">
-                    <label class="form-label">Account Number:</label>
-                    <input type="text" class="form-control"
-                        value="<?php echo $customer['account_number']; ?>" readonly>
-                </div>
+                            <a href="customer_profile.php"
+                               class="btn btn-secondary">
+                                Cancel
+                            </a>
 
-                <div class="col-md-7">
-                    <label class="form-label">Email Address</label>
-                    <input type="email" class="form-control"
-                        value="<?php echo $customer['email']; ?>" readonly>
-                </div>
+                            <button type="submit"
+                                    form="profileForm"
+                                    class="btn btn-success">
+                                Save Changes
+                            </button>
 
-                <div class="col-md-3">
-                    <label class="form-label">Password</label>
-                    <input type="password" class="form-control"
-                        value="password" readonly>
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">First Name</label>
-                    <input type="text" class="form-control"
-                        value="<?php echo $customer['f_name']; ?>" readonly>
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">Middle Name</label>
-                    <input type="text" class="form-control"
-                        value="<?php echo $customer['m_name']; ?>" readonly>
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">Last Name</label>
-                    <input type="text" class="form-control"
-                        value="<?php echo $customer['l_name']; ?>" readonly>
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">Contact Number</label>
-                    <input type="text"
-                        class="form-control"
-                        name="contact_number"
-                        value="<?php echo $customer['contact_number']; ?>"
-                        <?php echo $edit_mode ? "" : "readonly"; ?>>
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">Age</label>
-                    <input type="text"
-                        class="form-control"
-                        value="<?php echo $customer['age']; ?>" readonly>
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">Sex</label>
-                    <input type="text"
-                        class="form-control"
-                        value="<?php echo $customer['sex']; ?>" readonly>
-                </div>
-
-                <div class="col-md-4">
-                    <label class="form-label">Civil Status</label>
-
-                    <?php if($edit_mode){ ?>
-
-                        <select class="form-select" name="civil_status">
-                            <option value="Single" <?php if($customer['civil_status']=="Single") echo "selected"; ?>>Single</option>
-                            <option value="Married" <?php if($customer['civil_status']=="Married") echo "selected"; ?>>Married</option>
-                            <option value="Widowed" <?php if($customer['civil_status']=="Widowed") echo "selected"; ?>>Widowed</option>
-                            <option value="Separated" <?php if($customer['civil_status']=="Separated") echo "selected"; ?>>Separated</option>
-                        </select>
-
-                    <?php }else{ ?>
-
-                        <input type="text"
-                            class="form-control"
-                            value="<?php echo $customer['civil_status']; ?>" readonly>
+                        </div>
 
                     <?php } ?>
 
                 </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">Birth Date</label>
-                    <input type="text"
-                        class="form-control"
-                        value="<?php echo $customer['birth_date']; ?>" readonly>
-                </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">Barangay</label>
+                <?php if ($message != ""): ?>
 
-                    <?php if($edit_mode){ ?>
+                    <div class="alert alert-success">
 
-                        <select class="form-select" name="barangay">
-                            <option value="Bagtas " <?php if($customer['barangay']=="Bagtas") echo "selected"; ?>>Bagtas</option>
-                            <option value="Punta I" <?php if($customer['barangay']=="Punta I") echo "selected"; ?>>Punta I</option>
-                           
-                        </select>
+                        <?php echo $message; ?>
 
-                    <?php }else{ ?>
+                    </div>
 
-                        <input type="text" class="form-control"
-                            value="<?php echo $customer['barangay']; ?>" readonly>
-                    <?php } ?>
-                </div>
+                <?php endif; ?>
 
-                <div class="col-md-4">
-                    <label class="form-label">Subdivision</label>
-                    <input type="text" class="form-control"  name="subdivision"
-                        value="<?php echo $customer['subdivision']; ?>"
-                        <?php echo $edit_mode ? "" : "readonly"; ?>>
-                </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">Street</label>
-                    <input type="text" class="form-control" name="street"
-                        value="<?php echo $customer['street']; ?>"
-                        <?php echo $edit_mode ? "" : "readonly"; ?>>
-                </div>
+                <form method="POST" id="profileForm">
 
-                <div class="col-md-4">
-                    <label class="form-label">House Number</label>
-                    <input type="text" class="form-control" name="house_name"
-                        value="<?php echo $customer['house_name']; ?>"
-                        <?php echo $edit_mode ? "" : "readonly"; ?>>
-                </div>
+                    <div class="row g-3">
 
-                <div class="col-md-4">
-                    <label class="form-label">Role</label>
-                    <input type="text" class="form-control"
-                         value="<?php echo ucfirst($customer['role']); ?>" readonly>
-                </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">Internet Plan</label>
-                    <input type="text" class="form-control"
-                        value="<?php echo $internet_plan; ?>" readonly>
-                </div>
+                        <!-- Account Number -->
 
-                <div class="col-md-4">
-                    <label class="form-label">Connection Status</label>
-                    <input type="text" class="form-control"
-                        value="<?php echo $customer['connection_status']; ?>" readonly>
-                </div>
+                        <div class="col-md-2">
 
-          
-            </div>
-        </form>
-    </section>
+                            <label class="form-label">
+                                Account Number:
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="<?php echo $customer['account_number']; ?>"
+                                   readonly>
+
+                        </div>
+
+
+                        <!-- Email -->
+
+                        <div class="col-md-7">
+
+                            <label class="form-label">
+                                Email Address
+                            </label>
+
+                            <input type="email"
+                                   class="form-control"
+                                   value="<?php echo $customer['email']; ?>"
+                                   readonly>
+
+                        </div>
+
+
+                        <!-- Password -->
+
+                        <div class="col-md-3">
+
+                            <label class="form-label">
+                                Password
+                            </label>
+
+                            <input type="password"
+                                   class="form-control"
+                                   value="password"
+                                   readonly>
+
+                        </div>
+
+
+                        <!-- First Name -->
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                First Name
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="<?php echo $customer['f_name']; ?>"
+                                   readonly>
+
+                        </div>
+
+
+                        <!-- Middle Name -->
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Middle Name
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="<?php echo $customer['m_name']; ?>"
+                                   readonly>
+
+                        </div>
+
+
+                        <!-- Last Name -->
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Last Name
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="<?php echo $customer['l_name']; ?>"
+                                   readonly>
+
+                        </div>
+
+
+                        <!-- Contact Number -->
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Contact Number
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="contact_number"
+                                   value="<?php echo $customer['contact_number']; ?>"
+                                   <?php echo $edit_mode ? "" : "readonly"; ?>>
+
+                        </div>
+
+
+                        <!-- Age -->
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Age
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="<?php echo $customer['age']; ?>"
+                                   readonly>
+
+                        </div>
+
+
+                        <!-- Sex -->
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Sex
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="<?php echo $customer['sex']; ?>"
+                                   readonly>
+
+                        </div>
+
+
+                        <!-- Barangay -->
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Barangay
+                            </label>
+
+                            <?php if ($edit_mode) { ?>
+
+                                <select class="form-select"
+                                        name="barangay">
+
+                                    <option value="Bagtas"
+                                        <?php
+                                        if ($customer['barangay'] == "Bagtas")
+                                            echo "selected";
+                                        ?>>
+                                        Bagtas
+                                    </option>
+
+                                    <option value="Punta I"
+                                        <?php
+                                        if ($customer['barangay'] == "Punta I")
+                                            echo "selected";
+                                        ?>>
+                                        Punta I
+                                    </option>
+
+                                </select>
+
+                            <?php } else { ?>
+
+                                <input type="text"
+                                       class="form-control"
+                                       value="<?php echo $customer['barangay']; ?>"
+                                       readonly>
+
+                            <?php } ?>
+
+                        </div>
+
+                                  <div class="col-md-4">
+
+                            <label class="form-label">
+                                House Address
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="<?php echo ucfirst($customer['house_name']); ?>"
+                                   readonly>
+
+                        </div>
+                        <!-- Role -->
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Role
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="<?php echo ucfirst($customer['role']); ?>"
+                                   readonly>
+
+                        </div>
+
+
+                        <!-- Internet Plan -->
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Internet Plan
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="<?php echo $internet_plan; ?>"
+                                   readonly>
+
+                        </div>
+
+
+                        <!-- Connection Status -->
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Connection Status
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="<?php echo $customer['connection_status']; ?>"
+                                   readonly>
+
+                        </div>
+
+
+                        <!-- Due Date -->
+
+                        <div class="col-md-4">
+
+                            <label class="form-label">
+                                Due Date
+                            </label>
+
+                            <input type="text"
+                                   class="form-control"
+                                   value="<?php echo $customer['due_date']; ?>"
+                                   readonly>
+
+                        </div>
+
+
+                    </div>
+
+                </form>
+
+            </section>
+
         </div>
-        </div>
+
+    </div>
+
 </main>
+
 </body>
+
 </html>

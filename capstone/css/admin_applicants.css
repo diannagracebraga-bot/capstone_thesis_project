@@ -74,4 +74,21 @@ span.status-badge {
 .modal-body h6{
     font-size: 20px;
     font-weight: 100;
+
+}
+.modal-dialog-scrollable {
+    height: calc(100% - 1rem);
+}
+
+.modal-dialog-scrollable .modal-content {
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.modal-dialog-scrollable .modal-body {
+    overflow-y: auto;
+}
+.modal-dialog-scrollable .modal-body {
+    max-height: 80vh !important;
+    overflow-y: scroll !important;
 }
