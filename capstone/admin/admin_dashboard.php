@@ -40,6 +40,8 @@ $collection_query = "
     AND YEAR(created_at) = YEAR(CURDATE())
     AND MONTH(created_at) = MONTH(CURDATE())
 ";
+
+
 $collection_result = mysqli_query($conn, $collection_query);
 if (!$collection_result) {
     die("Collection query failed: " . mysqli_error($conn));
