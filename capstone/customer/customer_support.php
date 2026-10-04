@@ -186,20 +186,12 @@ try {
     $mail->Body = "
         <h2>New Customer Support Ticket</h2>
 
-<<<<<<< HEAD
-        <p><strong>Ticket ID:</strong>$ticket_id</p>
-        <p> <strong>Customer Name:</strong> $full_name</p>
-        <p><strong>Contact Number:</strong> $contact_number</p>
-        <p> <strong>Customer Email:</strong> $email_address</p>
-        <p><strong>Concern Type:</strong>$concern_type</p>
-=======
         <p><strong>Ticket ID:</strong> $ticket_id</p>
         <p><strong>Customer Name:</strong> " . htmlspecialchars($full_name, ENT_QUOTES, 'UTF-8') . "</p>
         <p><strong>Contact Number:</strong> " . htmlspecialchars($contact_number, ENT_QUOTES, 'UTF-8') . "</p>
         <p><strong>Customer Email:</strong> " . htmlspecialchars($email_address, ENT_QUOTES, 'UTF-8') . "</p>
         <p><strong>Concern Type:</strong> " . htmlspecialchars($concern_type, ENT_QUOTES, 'UTF-8') . "</p>
         <p><strong>Status:</strong> " . htmlspecialchars($status, ENT_QUOTES, 'UTF-8') . "</p>
->>>>>>> e7fd34261c6d02cd55c9ddf52be73a9172613a23
         <hr>
         <h3>Customer Message</h3>
 
@@ -350,6 +342,9 @@ try {
                         <input id="ticket-attachment" type="file" name="attachment" accept="image/jpeg,image/png,image/gif,image/webp,application/pdf">
                     </div>
                     <button type="submit" class="submit-btn">Submit</button>
+                    <a href="https://www.facebook.com/profile.php?id=100084288545449" target="_blank" rel="noopener noreferrer" class="facebook-btn">
+                         Message Us on Facebook
+                        </a>
                 </form>
             </div>
         </div>

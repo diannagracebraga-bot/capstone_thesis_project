@@ -1,7 +1,6 @@
 .card{
      width: 90%;
     padding: 20px;
-   margin: 80px auto 0;/* centers the card and gives a little top space */
     box-shadow: 0 6px 15px rgba(0,74,173,0.3);
 }
 body {
@@ -60,13 +59,16 @@ textarea {
     resize: none;
 }
 .submit-btn {
-    height: 40px;
+    font-weight: bold;
     width: 15%;
     background: green;
     color: white;
     border: none;
-    border-radius: 20px;
-    font-size: 18px;
+    border-radius: 6px;
+    margin-top: 15px;
+    text-decoration: none;
+    padding: 10px 20px;
+    text-align: center;
     cursor: pointer;
 }
 .submit-btn:hover {
@@ -80,6 +82,24 @@ input[readonly]{
     border: 1px dashed rgba(255,255,255,.75);
     background: rgba(255,255,255,.98);
     cursor: pointer;
+}
+
+
+.facebook-btn {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background-color: #1877f2;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.facebook-btn:hover {
+    background-color: #166fe5;
+    color: white;
 }
 .attachment-group small { margin-top: 7px; color: #d9e9ff; font-size: 12px; }
 .support-form-error { margin: 0 0 16px; padding: 12px 14px; border: 1px solid #f1aeb5; border-radius: 8px; background: #f8d7da; color: #842029; }
