@@ -64,7 +64,7 @@ $customerNotificationCount = count(array_filter($headerNotices, static function 
 }));
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-11">
+<link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-12">
 <nav class="navbar navbar-expand-lg navbar-dark customer-topbar">
     <div class="container-fluid">
         <a class="customer-brand" href="customer-dashboard.php" aria-label="MITZTIANPC Customer Dashboard">

@@ -1,5 +1,5 @@
 <?php
-include '../database/database_connection.php';
+require_once __DIR__ . '/require_super_admin.php';
 
 if (isset($_POST['submit'])) {
 

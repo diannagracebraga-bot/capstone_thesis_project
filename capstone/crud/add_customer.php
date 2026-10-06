@@ -1,6 +1,5 @@
-﻿```php
 <?php
-include '../database/database_connection.php';
+require_once __DIR__ . '/../admin/require_admin_access.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
 

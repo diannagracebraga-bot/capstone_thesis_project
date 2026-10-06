@@ -361,6 +361,19 @@ body .content > .card.w-100 > .card-body { padding: clamp(16px, 2.2vw, 28px); }
 #payment-history tbody tr:nth-child(even) { background: #f8fbfe; }
 .download { padding: 8px 15px; border-radius: 8px; background: #16875b; font-size: 13px; font-weight: 700; }
 .download:hover { background: #106f49; }
+.payment-history-extra[hidden] { display: none !important; }
+.payment-history-toggle {
+    display: block;
+    margin: 14px auto 0;
+    padding: 10px 18px;
+    border: 1px solid #c8d9ec;
+    border-radius: 8px;
+    background: #edf5ff;
+    color: #18568f;
+    font-size: 14px;
+    font-weight: 700;
+}
+.payment-history-toggle:hover { background: #e1efff; }
 
 @media (max-width: 900px), (hover: none) and (pointer: coarse) {
     body .content > .card.w-100 > .card-body { padding: 18px; }
@@ -387,4 +400,54 @@ body .content > .card.w-100 > .card-body { padding: clamp(16px, 2.2vw, 28px); }
 @media (max-width: 560px) {
     #paymentModal .modal-dialog { margin: 12px; }
     #paymentModal iframe { height: min(390px, calc(100dvh - 140px)) !important; }
+}
+
+/* On phones, turn each payment row into a labeled card so the SOA action stays visible. */
+@media (max-width: 600px), (hover: none) and (pointer: coarse) {
+    #payment-history {
+        display: block;
+        width: 100%;
+        min-width: 0;
+        border: 0;
+        overflow: visible;
+        background: transparent;
+    }
+    #payment-history thead { display: none; }
+    #payment-history tbody { display: grid; gap: 12px; }
+    #payment-history tbody tr {
+        display: block;
+        overflow: hidden;
+        border: 1px solid #dce7f3;
+        border-radius: 11px;
+        background: #fff;
+        box-shadow: 0 3px 10px rgba(35, 76, 120, .06);
+    }
+    #payment-history tbody tr:nth-child(even) { background: #fff; }
+    #payment-history tbody td {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        min-width: 0;
+        padding: 10px 12px;
+        border-bottom: 1px solid #edf1f6;
+        text-align: right;
+        overflow-wrap: anywhere;
+    }
+    #payment-history tbody td::before {
+        flex: 0 0 42%;
+        color: #607991;
+        content: attr(data-label);
+        font-size: 12px;
+        font-weight: 700;
+        text-align: left;
+        text-transform: uppercase;
+    }
+    #payment-history tbody td:last-child { border-bottom: 0; }
+    #payment-history tbody td[colspan] { display: block; text-align: center; }
+    #payment-history tbody td[colspan]::before { content: none; }
+    #payment-history .download { flex: 0 0 auto; min-height: 38px; padding: 8px 14px; }
+    .customer-announcement-item,
+    .customer-announcement-item h4,
+    .customer-announcement-item p { min-width: 0; overflow-wrap: anywhere; }
 }

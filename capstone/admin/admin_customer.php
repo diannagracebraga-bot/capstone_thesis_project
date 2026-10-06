@@ -1,4 +1,3 @@
-```php
 <?php
 include '../database/database_connection.php';
 
@@ -60,8 +59,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                 </div>
                 <div class="add_customer">
 
-                    <form action="admin_user_management.php" method="GET">
-                        <input type="hidden" name="page" value="add_customer">
+                    <form action="admin_add_customer_page.php" method="GET">
                         <button class="btn btn-primary" type="submit"> Add Customer </button>
                     </form>
 

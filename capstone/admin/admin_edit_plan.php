@@ -1,4 +1,4 @@
-<?php include '../database/database_connection.php';
+<?php require_once __DIR__ . '/require_super_admin.php';
 
 $sql_plan = "SELECT * FROM internet_plan_tbl";
 $plan_result = mysqli_query($conn, $sql_plan);

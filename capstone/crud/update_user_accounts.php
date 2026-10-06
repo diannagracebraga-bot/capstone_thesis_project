@@ -1,5 +1,5 @@
 <?php
-include '../database/database_connection.php';
+require_once __DIR__ . '/../admin/require_super_admin.php';
 
 if (!isset($_GET['id']) || !isset($_GET['role'])) {
     die("Invalid account.");

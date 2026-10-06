@@ -1,5 +1,5 @@
 <?php
-include '../database/database_connection.php';
+require_once __DIR__ . '/require_super_admin.php';
 
 $sql = "SELECT * FROM content_management_about_tbl WHERE about_id = 1";
 $result = mysqli_query($conn, $sql);

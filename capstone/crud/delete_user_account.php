@@ -1,5 +1,5 @@
 <?php
-include '../database/database_connection.php';
+require_once __DIR__ . '/../admin/require_super_admin.php';
 
 if (!isset($_GET['record_id']) || !isset($_GET['role'])) {
     header("Location: ../admin/admin_user_management.php");

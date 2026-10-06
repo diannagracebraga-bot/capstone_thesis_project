@@ -31,9 +31,10 @@ $payment_sql = "SELECT
                     p.created_at
                 FROM payment_tbl p
                 WHERE p.user_id = '$user_id'
-                ORDER BY p.id ASC";
+                ORDER BY p.created_at DESC, p.id DESC";
 
 $payment_result = mysqli_query($conn, $payment_sql);
+$payment_count = $payment_result ? mysqli_num_rows($payment_result) : 0;
 $announcement_result = mysqli_query($conn, 'SELECT announcement_id, title, message, created_at FROM announcements_tbl WHERE is_active = 1 ORDER BY created_at DESC, announcement_id DESC LIMIT 5');
 $due_date_value = trim((string) ($customer['due_date'] ?? ''));
 $due_date_valid = $due_date_value !== '' && $due_date_value !== '0000-00-00' && strtotime($due_date_value) !== false;
@@ -45,8 +46,8 @@ $due_date_valid = $due_date_value !== '' && $due_date_value !== '0000-00-00' && 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Customer Dashboard</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-11">
-<link rel="stylesheet" href="../css/customer_dashboard.css?v=customer-dashboard-hero-4">
+<link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-12">
+<link rel="stylesheet" href="../css/customer_dashboard.css?v=customer-dashboard-mobile-soa-5">
 
 </head>
 <body>
@@ -137,32 +138,34 @@ $due_date_valid = $due_date_value !== '' && $due_date_value !== '0000-00-00' && 
         </thead>
          <tbody>
                <?php
-if (mysqli_num_rows($payment_result) > 0) {
-
+if ($payment_count > 0) {
+    $paymentIndex = 0;
     while ($payment = mysqli_fetch_assoc($payment_result)) {
+        $paymentIndex++;
+        $hidePaymentRow = $paymentIndex > 5;
 ?>
 
-<tr>
-    <td><?php echo $payment['id']; ?></td>
+<tr<?php echo $hidePaymentRow ? ' class="payment-history-extra" hidden' : ''; ?>>
+    <td data-label="No."><?php echo $payment['id']; ?></td>
 
-    <td>
+    <td data-label="Date of Payment">
         <?php echo date('m-d-Y', strtotime($payment['created_at'])); ?>
     </td>
 
-    <td>
+    <td data-label="Amount">
         ₱<?php echo number_format($payment['amount'], 2); ?>
     </td>
 
-    <td>
+    <td data-label="Payment Method">
         <?php echo $payment['payment_method']; ?>
     </td>
 
-    <td>
+    <td data-label="Status">
         <?php echo $payment['payment_status']; ?>
     </td>
 
-    <td>
-        <button class="download">
+    <td data-label="SOA">
+        <button type="button" class="download">
             Download
         </button>
     </td>
@@ -187,12 +190,33 @@ if (mysqli_num_rows($payment_result) > 0) {
             </tbody>
 
         </table>
+        <?php if ($payment_count > 5): ?>
+            <button type="button" id="payment-history-toggle" class="payment-history-toggle" aria-expanded="false">
+                Tingnan lahat (<?php echo $payment_count; ?>)
+            </button>
+        <?php endif; ?>
 </div>
 </div>
     </div>
 
 </div>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var toggle = document.getElementById('payment-history-toggle');
+    if (!toggle) return;
+
+    var expanded = false;
+    toggle.addEventListener('click', function () {
+        expanded = !expanded;
+        document.querySelectorAll('#payment-history .payment-history-extra').forEach(function (row) {
+            row.hidden = !expanded;
+        });
+        toggle.setAttribute('aria-expanded', String(expanded));
+        toggle.textContent = expanded ? 'Ipakita lang ang 5 pinakabago' : 'Tingnan lahat (<?php echo $payment_count; ?>)';
+    });
+});
+</script>
 <!-- Payment Modal -->
 <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
 

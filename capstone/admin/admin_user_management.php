@@ -1,7 +1,6 @@
-```php
 <?php
+require_once __DIR__ . '/require_super_admin.php';
 $page = $_GET['page'] ?? 'users';
-include '../database/database_connection.php';
 ?>
 
 <!DOCTYPE html>

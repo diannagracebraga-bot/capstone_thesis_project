@@ -376,6 +376,28 @@ body.customer-payment-page .content { width: 100%; margin-left: 0 !important; pa
     body .content { padding-top: 96px; }
     body .support-content,body .ticket-content,body .profile-content { padding-top: 96px !important; }
 }
+
+/* Keep the notification panel inside the phone viewport instead of clipping it off-screen. */
+@media (max-width: 600px), (hover: none) and (pointer: coarse) {
+    .customer-notification-menu,
+    .customer-notification-menu.show {
+        position: fixed !important;
+        top: 72px !important;
+        right: 12px !important;
+        left: auto !important;
+        inset: 72px 12px auto auto !important;
+        width: min(360px, calc(100vw - 24px)) !important;
+        max-width: calc(100vw - 24px);
+        max-height: calc(100dvh - 88px);
+        overflow-x: hidden;
+        overflow-y: auto;
+        transform: none !important;
+    }
+    .customer-notice-item,
+    .customer-notice-item > span,
+    .customer-notice-item strong,
+    .customer-notice-item small { min-width: 0; overflow-wrap: anywhere; }
+}
 @media (max-width: 480px) {
     body .content { padding-top: 84px; }
     body .support-content,body .ticket-content,body .profile-content { padding-top: 84px !important; }
