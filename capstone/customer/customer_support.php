@@ -263,7 +263,7 @@ try {
 
     <link
         rel="stylesheet"
-        href="../css/customer_support.css?v=attachment-1"
+        href="../css/customer_support.css?v=support-theme-3"
     >
 
 </head>

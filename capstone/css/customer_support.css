@@ -1,151 +1,151 @@
-.card{
-     width: 90%;
-    padding: 20px;
-    box-shadow: 0 6px 15px rgba(0,74,173,0.3);
-}
+/* Match the customer dashboard's calm blue and white palette. */
 body {
-    background: #f5f5f5;
     margin: 0;
+    background: #f2f6fb;
+    color: #183858;
     font-family: Arial, sans-serif;
 }
-.support-content{
+
+.support-content {
     margin-left: 200px;
     padding: 72px 40px 30px;
 }
-.form-section {
-    width: 100%;
-    align-items: center;
+
+.support-content > .card {
+    width: min(100%, 1120px);
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #e0e9f3;
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 8px 24px rgba(31, 67, 108, .09);
 }
+
+.support-content h2 {
+    margin: 0 0 16px;
+    color: #173d68;
+    font-size: 24px;
+}
+
+.form-section { width: 100%; }
+
 .form-box {
-    background: #004AAD;
-    padding: 30px;
-    border: 1px solid #d38b00;
-    border-radius: 5px;
+    padding: 26px;
+    border: 1px solid #a9cde2;
+    border-radius: 12px;
+    background: #c6e0ef;
 }
-.row {
+
+.form-box .row {
     display: flex;
     gap: 25px;
-    margin-bottom: 20px;
+    margin-bottom: 12px;
 }
+
 .input-group {
-    flex: 1;
     display: flex;
+    flex: 1;
     flex-direction: column;
+    min-width: 0;
     margin-bottom: 15px;
 }
+
 .input-group label {
-    color: white;
     margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: bold;
+    color: #17466f;
+    font-size: 13px;
+    font-weight: 700;
 }
-input,
-select,
-textarea {
+
+.form-box input,
+.form-box select,
+.form-box textarea {
+    box-sizing: border-box;
     width: 100%;
-    padding: 14px;
-    border: none;
-    border-radius: 10px;
+    padding: 12px 14px;
+    border: 1px solid #cfdeed;
+    border-radius: 8px;
     outline: none;
-    font-size: 14px;
+    background: #fff;
+    color: #183858;
     font-family: Arial, sans-serif;
+    font-size: 14px;
+    transition: border-color .15s ease, box-shadow .15s ease;
 }
-input[type=file] {
-    background: white;
-    padding: 10px;
+
+.form-box input:focus,
+.form-box select:focus,
+.form-box textarea:focus {
+    border-color: #3183d1;
+    box-shadow: 0 0 0 3px rgba(49, 131, 209, .14);
 }
-textarea {
+
+.form-box input[readonly] {
+    border-color: #b4cfe0;
+    background: #e8f1f7;
+    color: #365b7f;
+}
+
+.form-box textarea {
     height: 130px;
-    resize: none;
+    resize: vertical;
 }
-.submit-btn {
-    font-weight: bold;
-    width: 15%;
-    background: green;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    margin-top: 15px;
-    text-decoration: none;
-    padding: 10px 20px;
-    text-align: center;
-    cursor: pointer;
-}
-.submit-btn:hover {
-    background: gray;
-}
-input[readonly]{
-    background-color: lightgray;
-    border: 1px solid #004AAD;
-}
-.attachment-group input[type="file"] {
-    border: 1px dashed rgba(255,255,255,.75);
-    background: rgba(255,255,255,.98);
+
+.form-box input[type="file"] {
+    padding: 9px;
+    border-style: dashed;
+    border-color: #9bbfd7;
+    background: #f8fbff;
     cursor: pointer;
 }
 
+.submit-btn,
+.facebook-btn {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4px;
+    padding: 10px 18px;
+    border: 0;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.submit-btn {
+    min-width: 130px;
+    background: linear-gradient(110deg, #1769bb, #318bd8);
+    box-shadow: 0 4px 10px rgba(23, 105, 187, .18);
+}
+
+.submit-btn:hover { background: linear-gradient(110deg, #12579e, #2479c4); }
 
 .facebook-btn {
-    display: inline-block;
-    margin-top: 15px;
-    padding: 10px 20px;
-    background-color: #1877f2;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-weight: bold;
-    text-align: center;
+    margin-left: 8px;
+    background: #1877f2;
 }
 
-.facebook-btn:hover {
-    background-color: #166fe5;
-    color: white;
-}
-.attachment-group small { margin-top: 7px; color: #d9e9ff; font-size: 12px; }
+.facebook-btn:hover { background: #166fe5; color: #fff; }
 .support-form-error { margin: 0 0 16px; padding: 12px 14px; border: 1px solid #f1aeb5; border-radius: 8px; background: #f8d7da; color: #842029; }
-
-@media (max-width: 768px){
-    .support-content{
-        margin-left: 140px;
-        padding: 92px 12px 30px;
-    }
-
-    .card{
-        width: 100%;
-        margin: 0;
-        padding: 14px;
-    }
-
-    .form-box{
-        padding: 18px;
-    }
-
-    .row{
-        display: block;
-        margin-bottom: 0;
-    }
-
-    input,
-    select,
-    textarea{
-        padding: 11px;
-        font-size: 14px;
-    }
-
-    .submit-btn{
-        width: 100%;
-        margin-top: 12px;
-        font-size: 16px;
-    }
-}
-
-@media (max-width: 1024px) {
-    .support-content { margin-left: 128px; padding: 96px 16px 30px; }
-}
-@media (max-width: 480px) {
-    .support-content { margin-left: 124px; padding: 84px 10px 24px; }
-}
 
 @media (max-width: 1024px), (hover: none) and (pointer: coarse) {
     .support-content { margin-left: 0 !important; width: 100%; padding: 96px 16px 30px; }
+}
+
+@media (max-width: 768px) {
+    .support-content > .card { padding: 16px; }
+    .form-box { padding: 18px; }
+    .form-box .row { display: block; margin-bottom: 0; }
+    .submit-btn { width: 100%; }
+    .facebook-btn { width: 100%; margin: 10px 0 0; }
+}
+
+@media (max-width: 480px) {
+    .support-content { padding: 84px 10px 24px; }
+    .support-content > .card { padding: 12px; }
+    .form-box { padding: 14px; }
 }
