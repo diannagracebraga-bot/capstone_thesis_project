@@ -80,7 +80,7 @@ if(mysqli_query($conn, $sql)){
 <html>
 <head>
 	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-	 <link rel="stylesheet" href="../css/admin_applicants.css">
+	 <link rel="stylesheet" href="../css/admin_applicants.css?v=admin-modal-palette-2">
 	 <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
 	<title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
@@ -186,7 +186,7 @@ while($row = mysqli_fetch_assoc($result)){
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
 
-            <div class="modal-header bg-secondary text-white">
+            <div class="modal-header applicant-modal-header">
                 <h5 class="modal-title">
                     <i class="fas fa-user me-2"></i>Applicant Information
                 </h5>
