@@ -92,16 +92,22 @@ td{
     border-radius: 10px;
 }
 .table-container{
+    position: relative;
     max-height: 450px;   /* adjust as needed */
     overflow-y: auto;
     overflow-x: auto;
+    overscroll-behavior: contain;
 }
 
 .table-container thead th{
     position: sticky;
     top: 0;
-    z-index: 2;
+    z-index: 3;
+    background: #cff4fc;
+    background-clip: padding-box;
+    box-shadow: 0 1px 0 #b6dfe8;
 }
+.table-container tr[id] { scroll-margin-top: 52px; }
 
 @media (max-width: 768px){
     .ticket-content{

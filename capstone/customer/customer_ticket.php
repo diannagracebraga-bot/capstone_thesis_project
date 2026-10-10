@@ -31,8 +31,8 @@ if (!$result) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Tickets</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-11">
-    <link rel="stylesheet" href="../css/customer_ticket.css?v=6">
+    <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-13">
+    <link rel="stylesheet" href="../css/customer_ticket.css?v=8">
 </head>
 <body>
     
@@ -47,20 +47,20 @@ if (!$result) {
         <table class = "table table-secondary table hover">
             <thead class = "table-info">
                 <tr>
-                    <td>Ticket ID</td>
-                    <td>Full Name</td>
-                    <td>Email Address</td>
-                    <td>Contact Number</td>
-                    <th>Concern Type</th>
-                    <th>Date Received</th>
-                    <th>Status</th>
-                    <th>Action</th>
+                    <th scope="col">Ticket ID</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Email Address</th>
+                    <th scope="col">Contact Number</th>
+                    <th scope="col">Concern Type</th>
+                    <th scope="col">Date Received</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
 
             <tbody>
                 <?php while ($ticket = mysqli_fetch_assoc($result)): ?>
-                    <tr>
+                    <tr id="customer-ticket-<?php echo (int) $ticket['ticket_id']; ?>">
                         <td><?php echo $ticket['ticket_id']; ?></td>
                         <td><?php echo ($ticket['full_name']); ?></td>
                         <td><?php echo ($ticket['email_address']); ?></td>
@@ -129,7 +129,6 @@ if (!$result) {
                     </div>
                 <?php endwhile; ?>
             </tbody>
-            </div>
         </table>
     </div>
                 </div>
@@ -138,5 +137,3 @@ if (!$result) {
 
 </body>
 </html>
-
-

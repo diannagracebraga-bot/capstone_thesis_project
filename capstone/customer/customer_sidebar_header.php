@@ -3,13 +3,15 @@ require_once '../database/announcements_helper.php';
 ensureAnnouncementsTable($conn);
 
 $headerUserId = mysqli_real_escape_string($conn, (string) ($_SESSION['user_id'] ?? ''));
-$headerCustomerResult = mysqli_query($conn, "SELECT f_name, m_name, l_name, due_date FROM customer_tbl WHERE user_id = '$headerUserId' LIMIT 1");
+$headerCustomerResult = mysqli_query($conn, "SELECT customer_id, f_name, m_name, l_name, due_date FROM customer_tbl WHERE user_id = '$headerUserId' LIMIT 1");
 $headerCustomer = $headerCustomerResult ? mysqli_fetch_assoc($headerCustomerResult) : null;
 $headerName = $headerCustomer ? trim($headerCustomer['f_name'] . ' ' . $headerCustomer['m_name'] . ' ' . $headerCustomer['l_name']) : 'Customer';
 $customerPage = basename($_SERVER['PHP_SELF']);
 $headerNotices = [];
 $paymentStatusText = 'Wala pang naitalang bayad';
 $paymentIsPending = false;
+$customerTicketUpdates = [];
+$customerTicketUpdateCount = 0;
 
 $latestPaymentResult = mysqli_query($conn, "SELECT payment_status, created_at FROM payment_tbl WHERE user_id = '$headerUserId' ORDER BY created_at DESC, id DESC LIMIT 1");
 $latestPayment = $latestPaymentResult ? mysqli_fetch_assoc($latestPaymentResult) : null;
@@ -22,6 +24,35 @@ if ($latestPayment) {
 
 if ($paymentIsPending) {
     $headerNotices[] = ['icon' => 'bi-credit-card-2-front-fill', 'title' => 'Kumpirmahin ang bayad', 'message' => 'May huling payment na hindi pa markadong Paid.', 'href' => 'customer-dashboard.php#payment-history', 'urgent' => true];
+}
+
+$headerCustomerId = (int) ($headerCustomer['customer_id'] ?? 0);
+if ($headerCustomerId > 0) {
+    $ticketUpdateCountResult = mysqli_query(
+        $conn,
+        "SELECT COUNT(*) AS total FROM ticket_management_tbl WHERE customer_id = $headerCustomerId AND status <> 'Pending'"
+    );
+    if ($ticketUpdateCountResult) {
+        $ticketUpdateCountRow = mysqli_fetch_assoc($ticketUpdateCountResult);
+        $customerTicketUpdateCount = (int) ($ticketUpdateCountRow['total'] ?? 0);
+    }
+
+    $ticketUpdatesResult = mysqli_query(
+        $conn,
+        "SELECT ticket_id, concern_type, status FROM ticket_management_tbl WHERE customer_id = $headerCustomerId AND status <> 'Pending' ORDER BY ticket_id DESC LIMIT 5"
+    );
+    if ($ticketUpdatesResult) {
+        while ($ticketUpdate = mysqli_fetch_assoc($ticketUpdatesResult)) {
+            $customerTicketUpdates[] = $ticketUpdate;
+            $headerNotices[] = [
+                'icon' => 'bi-ticket-detailed-fill',
+                'title' => 'Update sa Ticket #' . $ticketUpdate['ticket_id'],
+                'message' => trim($ticketUpdate['concern_type'] . ' · ' . $ticketUpdate['status']),
+                'href' => 'customer_ticket.php#customer-ticket-' . (int) $ticketUpdate['ticket_id'],
+                'urgent' => false,
+            ];
+        }
+    }
 }
 
 $dueDateString = trim((string) ($headerCustomer['due_date'] ?? ''));
@@ -60,11 +91,11 @@ if ($announcementResult) {
     }
 }
 $customerNotificationCount = count(array_filter($headerNotices, static function ($notice) {
-    return $notice['urgent'] || $notice['icon'] === 'bi-megaphone-fill' || $notice['icon'] === 'bi-calendar-event-fill';
+    return $notice['urgent'] || in_array($notice['icon'], ['bi-megaphone-fill', 'bi-calendar-event-fill', 'bi-ticket-detailed-fill'], true);
 }));
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-12">
+<link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-13">
 <nav class="navbar navbar-expand-lg navbar-dark customer-topbar">
     <div class="container-fluid">
         <a class="customer-brand" href="customer-dashboard.php" aria-label="MITZTIANPC Customer Dashboard">
@@ -81,7 +112,7 @@ $customerNotificationCount = count(array_filter($headerNotices, static function 
                     <?php if ($customerNotificationCount > 0): ?><span class="customer-notification-count"><?php echo $customerNotificationCount > 99 ? '99+' : $customerNotificationCount; ?></span><?php endif; ?>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end customer-notification-menu">
-                    <strong class="dropdown-header">Payments &amp; Announcements</strong>
+                    <strong class="dropdown-header">Payments, Tickets &amp; Announcements</strong>
                     <div class="customer-payment-status"><span>Latest payment</span><strong><?php echo htmlspecialchars($paymentStatusText); ?></strong></div>
                     <?php if ($headerNotices): ?>
                         <?php foreach ($headerNotices as $notice): ?>
@@ -114,7 +145,7 @@ $customerNotificationCount = count(array_filter($headerNotices, static function 
     <a class="dashboard <?php echo $customerPage === 'customer-dashboard.php' ? 'active' : ''; ?>" href="customer-dashboard.php" <?php echo $customerPage === 'customer-dashboard.php' ? 'aria-current="page"' : ''; ?>><i class="bi bi-grid-1x2-fill sidebar-icon" aria-hidden="true"></i><span>Dashboard</span></a>
     <div class="customer-sidebar-label customer-sidebar-divider">SUPPORT</div>
     <a class="dashboard <?php echo $customerPage === 'customer_support.php' ? 'active' : ''; ?>" href="customer_support.php" <?php echo $customerPage === 'customer_support.php' ? 'aria-current="page"' : ''; ?>><i class="bi bi-chat-left-text-fill sidebar-icon" aria-hidden="true"></i><span>Support</span></a>
-    <a class="dashboard <?php echo $customerPage === 'customer_ticket.php' ? 'active' : ''; ?>" href="customer_ticket.php" <?php echo $customerPage === 'customer_ticket.php' ? 'aria-current="page"' : ''; ?>><i class="bi bi-ticket-detailed-fill sidebar-icon" aria-hidden="true"></i><span>My Tickets</span></a>
+    <a class="dashboard <?php echo $customerPage === 'customer_ticket.php' ? 'active' : ''; ?>" href="customer_ticket.php" <?php echo $customerPage === 'customer_ticket.php' ? 'aria-current="page"' : ''; ?>><i class="bi bi-ticket-detailed-fill sidebar-icon" aria-hidden="true"></i><span>My Tickets</span><?php if ($customerTicketUpdateCount > 0): ?><span class="customer-ticket-badge" aria-label="<?php echo $customerTicketUpdateCount; ?> ticket updates"><?php echo $customerTicketUpdateCount > 99 ? '99+' : $customerTicketUpdateCount; ?></span><?php endif; ?></a>
     <div class="customer-sidebar-label customer-sidebar-divider">ACCOUNT</div>
     <a class="dashboard <?php echo $customerPage === 'customer_profile.php' ? 'active' : ''; ?>" href="customer_profile.php" <?php echo $customerPage === 'customer_profile.php' ? 'aria-current="page"' : ''; ?>><i class="bi bi-person-gear sidebar-icon" aria-hidden="true"></i><span>Profile</span></a>
 </aside>
