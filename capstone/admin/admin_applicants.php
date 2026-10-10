@@ -144,9 +144,12 @@ while($row = mysqli_fetch_assoc($result)) {
                 elseif($row['status']=="Ongoing"){
                      echo '<span class="badge status-badge bg-primary">Ongoing</span>';
                     }
+                    elseif($row['status']=="Not Resolved"){
+                     echo '<span class="badge status-badge bg-danger">Not Resolved</span>';
+                    }
                     elseif($row['status']=="Resolved"){
                      echo '<span class="badge status-badge bg-success">Resolved</span>';
-                    }
+}
 ?>
 </td>
         <td>
@@ -313,26 +316,49 @@ while($row = mysqli_fetch_assoc($result)){
 
                         </div>
 
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Status</label>
+                      <div class="col-md-6 mb-3">
+    <label class="form-label">Status</label>
 
-                            <select class="form-select" name="status">
-                                <option value="Pending"
-                                    <?php if($row['status']=="Pending") echo "selected"; ?>>
-                                    Pending
-                                </option>
+    <select class="form-select" name="status" required>
 
-                                <option value="Ongoing"
-                                    <?php if($row['status']=="Ongoing") echo "selected"; ?>>
-                                    Ongoing
-                                </option>
+        <option value="Pending"
+            <?php if($row['status']=="Pending") echo "selected"; ?>>
+            Pending
+        </option>
 
-                                <option value="Resolved"
-                                    <?php if($row['status']=="Resolved") echo "selected"; ?>>
-                                    Resolved
-                                </option>
-                            </select>
-                        </div>
+        <option value="Ongoing"
+            <?php if($row['status']=="Ongoing") echo "selected"; ?>>
+            Ongoing
+        </option>
+
+        <option value="Not Resolved"
+            <?php if($row['status']=="Not Resolved") echo "selected"; ?>>
+            Not Resolved
+        </option>
+
+        <option value="Resolved"
+            <?php if($row['status']=="Solved") echo "selected"; ?>>
+            Resolved
+        </option>
+
+    </select>
+</div>
+
+<div class="row mt-2">
+
+    <div class="col-md-12 mb-3">
+        <label class="form-label">Remarks</label>
+
+        <textarea
+            name="remarks"
+            class="form-control"
+            rows="4"
+            placeholder="Enter remarks for the applicant..."
+            required><?php echo $row['remarks'] ?? ''; ?></textarea>
+
+    </div>
+
+</div>
 
                     </div>
 
