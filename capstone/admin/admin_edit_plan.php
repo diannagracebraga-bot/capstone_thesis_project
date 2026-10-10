@@ -85,7 +85,7 @@ foreach($_POST['internet_price'] as $plan_id => $internet_price){
 <?php } ?>
 <br>
   <div class="form-group row">
-        <div class="col-sm-9 offset-sm-6">
+        <div class="col-sm-9 offset-sm-4">
             <button type="submit" name="save_plans" class="btn btn-success save-btn">
                 Save
             </button>

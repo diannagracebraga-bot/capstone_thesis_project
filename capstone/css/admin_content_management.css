@@ -1,91 +1,273 @@
-.card{
-    width: 75%;
-    padding: 20px;
-    margin: 0 0 0 305px;
-    box-shadow: 0 6px 15px rgba(0,74,173,0.3);
-}
-.business-info-card{
-     background-color: #e9eaec;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 5px 5px lightgray
-}
-.business-info-card .col-sm-2{
-    font-family: Arial;
-    font-size: large;
-}
-.business-info-card .form-control{
-    border: 2px solid lightgray;  
-    font-family: sans-serif;
-}
-.save-btn{
-    width: 35%;
 
+.card {
+    width: 75%;
+    padding: 25px;
+    margin: 0 0 30px 305px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 6px 20px rgba(0, 74, 173, 0.12);
+    transition: box-shadow 0.3s ease;
 }
+
+.card:hover {
+    box-shadow: 0 8px 25px rgba(0, 74, 173, 0.18);
+}
+
+/* Business Information Card */
+.business-info-card {
+    background-color: #f8fafc;
+    padding: 30px;
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Card Heading */
+.business-info-card h1 {
+    text-align: left;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #004aad;
+    margin-bottom: 25px;
+}
+
+/* Form Labels */
+.business-info-card .col-sm-2 {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #334155;
+    padding-top: 8px;
+}
+
+/* Form Inputs */
+.business-info-card .form-control {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #334155;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+.business-info-card .form-control:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+}
+
+.business-info-card .form-control:disabled,
+.business-info-card .form-control[readonly] {
+    background-color: #e9eef5;
+    color: #64748b;
+    cursor: not-allowed;
+}
+
+/* Form Row Spacing */
 .form-group.row {
     justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
 }
-.badge{
-    background-color: blue;
-}
-.edit-btn{
-    width: 20%;
-}
-.business-info-card h1{
-    text-align: left;
-}
-.pill-nav a {
-  display: inline-block;
-  color: black;
-  text-align: center;
-  padding: 14px;
-  text-decoration: none;
-  border-radius: 5px;
-}
-.pill-nav a:hover {
-  background-color:gray;
-  color: black;
-}
-.pill-nav a.active {
-  background-color: dodgerblue;
-  color: white;
-}
-/*
 
-.business-info-card{
-    width: 70%;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: large;
-    background: lightblue;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-.internet_plan {
+/* Save Button */
+.save-btn {
     width: 35%;
-    background-color: lightblue;
-    padding: 20px;
-    text-align: center;
-}
-
-.business-info-card input {
+    min-width: 140px;
+    padding: 11px 20px;
+    background-color: #004aad;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
     font-family: Arial, Helvetica, sans-serif;
-    border: none;
-    border-radius: 5px;
-    padding: 8px;
-}
-
-.business-info-card button, .save-btn{
-     background: #00c853;
-    border-radius: 20px;
-    width: 120px;
-    margin: 15px auto 0;
-    border: none;
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
-    height: 40px;
+    transition: background-color 0.3s ease,
+                transform 0.2s ease,
+                box-shadow 0.3s ease;
 }
 
-.business-info-card button:hover,.save-btn:hover{
-    background: #00b248;
+.save-btn:hover {
+    background-color: #003580;
+    box-shadow: 0 4px 10px rgba(0, 74, 173, 0.2);
+    transform: translateY(-2px);
+}
+
+.save-btn:active {
+    transform: translateY(0);
+}
+
+/* Edit Button */
+.edit-btn {
+    width: 20%;
+    min-width: 100px;
+    padding: 9px 16px;
+    background-color: #0d6efd;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-btn:hover {
+    background-color: #084298;
+}
+
+/* Badges */
+.badge {
+    background-color: #004aad;
+    color: #ffffff;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Pill Navigation */
+.pill-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 25px;
+    padding: 5px;
+    background-color: #f1f5f9;
+    border-radius: 10px;
+}
+
+.pill-nav a {
+    display: inline-block;
+    color: #475569;
+    text-align: center;
+    padding: 12px 18px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s ease,
+                color 0.3s ease;
+}
+
+.pill-nav a:hover {
+    background-color: #dbeafe;
+    color: #004aad;
+}
+
+.pill-nav a.active {
+    background-color: #0d6efd;
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(13, 110, 253, 0.2);
+}
+
+/* Button Focus for Accessibility */
+.save-btn:focus-visible,
+.edit-btn:focus-visible,
+.pill-nav a:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 3px;
+}
+
+/* Tablet Screens */
+@media (max-width: 992px) {
+    .card {
+        width: calc(100% - 275px);
+        margin-left: 255px;
+        padding: 20px;
+    }
+
+    .business-info-card {
+        padding: 22px;
+    }
+
+    .business-info-card h1 {
+        font-size: 24px;
+    }
+
+    .save-btn {
+        width: 50%;
+    }
+
+    .edit-btn {
+        width: 30%;
+    }
+}
+
+/* Mobile Screens */
+@media (max-width: 768px) {
+    .card {
+        width: 100%;
+        margin: 0 0 20px 0;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .business-info-card {
+        padding: 18px;
+        border-radius: 12px;
+    }
+
+    .business-info-card h1 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    .business-info-card .col-sm-2 {
+        font-size: 14px;
+        padding-top: 0;
+        margin-bottom: 6px;
+    }
+
+    .form-group.row {
+        margin-bottom: 16px;
+    }
+
+    .save-btn,
+    .edit-btn {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .pill-nav {
+        gap: 5px;
+    }
+
+    .pill-nav a {
+        flex: 1 1 auto;
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+}
+
+/* Small Mobile Screens */
+@media (max-width: 480px) {
+    .card {
+        padding: 10px;
+    }
+
+    .business-info-card {
+        padding: 14px;
+    }
+
+    .business-info-card h1 {
+        font-size: 20px;
+    }
+
+    .business-info-card .form-control {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .pill-nav a {
+        padding: 9px 10px;
+        font-size: 12px;
+    }
 }

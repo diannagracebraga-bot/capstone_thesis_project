@@ -1,32 +1,269 @@
-.card{
+
+/* Main Card */
+.card {
+    box-sizing: border-box;
     width: 75%;
-    padding: 20px;
-    margin: 0 0 0 305px;
-    box-shadow: 0 6px 15px rgba(0,74,173,0.3);
-}
-body{
-    font-family: Arial, Helvetica, sans-serif;
-}
-.section-title{
-    font-family: Arial, Helvetica, sans-serif;
+    margin: 0 0 30px 305px;
+    padding: 25px;
+    background-color: #ffffff;
+    border: 1px solid #e6edf5;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0, 74, 173, 0.12);
+    transition: box-shadow 0.3s ease;
 }
 
+.card:hover {
+    box-shadow: 0 8px 25px rgba(0, 74, 173, 0.17);
+}
+
+/* Section Title */
+.section-title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #004aad;
+    margin-bottom: 22px;
+    padding-bottom: 12px;
+}
+
+/* Consistent Font */
 .table td,
 .table th,
 .form-select,
 .form-control,
 .btn,
 label,
-textarea{
+textarea {
     font-family: Arial, Helvetica, sans-serif;
 }
-.section-title{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 22px ;
-    font-weight: bold;
+
+/* Form Labels */
+label {
+    color: #334155;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 7px;
 }
-span.status-badge{
-    font-size: 15px;
-    padding: 8px 15px;
+
+/* Input Fields */
+.form-control,
+.form-select,
+textarea {
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 10px 13px;
+    font-size: 14px;
+    color: #334155;
+    background-color: #ffffff;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.form-control:focus,
+.form-select:focus,
+textarea:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+}
+
+.form-control::placeholder,
+textarea::placeholder {
+    color: #94a3b8;
+}
+
+/* Tables */
+.table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: #ffffff;
+    vertical-align: middle;
+}
+
+.table thead th {
+    background-color: #004aad;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 14px 12px;
+    border-color: #dbe5f1;
+    white-space: nowrap;
+}
+
+.table tbody td {
+    padding: 13px 12px;
+    font-size: 14px;
+    color: #334155;
+    border-color: #e2e8f0;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.table tbody tr:hover td {
+    background-color: #f1f6ff;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 7px;
+    padding: 9px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: background-color 0.2s ease,
+                box-shadow 0.2s ease,
+                transform 0.2s ease;
+}
+
+.btn-primary {
+    background-color: #004aad;
+    border-color: #004aad;
+}
+
+.btn-primary:hover {
+    background-color: #003580;
+    border-color: #003580;
+    transform: translateY(-1px);
+}
+
+.btn-success {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.btn-success:hover {
+    background-color: #157347;
+    border-color: #157347;
+}
+
+.btn-danger:hover,
+.btn-warning:hover {
+    transform: translateY(-1px);
+}
+
+/* Status Badges */
+span.status-badge {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 20px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Status Colors - Add the matching class in your HTML */
+span.status-badge.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+span.status-badge.ongoing {
+    background-color: #cfe2ff;
+    color: #084298;
+}
+
+span.status-badge.resolved {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+span.status-badge.cancelled {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+/* Table Responsive Wrapper */
+.table-responsive {
     border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+/* Keyboard Focus */
+.btn:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 2px;
+}
+
+/* Tablet Screens */
+@media (max-width: 1024px) {
+    .card {
+        width: calc(100% - 275px);
+        margin-left: 255px;
+        padding: 20px;
+    }
+
+    .section-title {
+        font-size: 21px;
+    }
+
+    .table thead th,
+    .table tbody td {
+        padding: 10px;
+    }
+}
+
+/* Mobile Screens */
+@media (max-width: 768px) {
+    .card {
+        width: calc(100% - 24px);
+        margin: 12px auto 20px;
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .section-title {
+        font-size: 20px;
+        margin-bottom: 18px;
+    }
+
+    .table thead th,
+    .table tbody td {
+        font-size: 12px;
+        padding: 9px 10px;
+    }
+
+    span.status-badge {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+
+    .btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .form-control,
+    .form-select,
+    textarea {
+        font-size: 14px;
+    }
+}
+
+/* Small Mobile Screens */
+@media (max-width: 480px) {
+    .card {
+        width: calc(100% - 16px);
+        padding: 12px;
+        margin: 8px auto 16px;
+    }
+
+    .section-title {
+        font-size: 18px;
+    }
+
+    .table thead th,
+    .table tbody td {
+        padding: 8px;
+        font-size: 11px;
+    }
+
+    span.status-badge {
+        font-size: 11px;
+        padding: 5px 8px;
+    }
 }

@@ -1,20 +1,121 @@
-.card{
-    width: 75%;
-    padding: 20px;
-    margin: 0 0 0 305px;
-    box-shadow: 0 6px 15px rgba(0,74,173,0.3);
-}
-body{
+body {
     font-family: Arial, Helvetica, sans-serif;
-}
-.section-title{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 22px;
-    font-weight: bold;
-}
-span.status-badge{
-    font-size: 15px;
-    padding: 8px 15px;
-    border-radius: 10px;
+    background-color: #f4f7fb;
+    color: #333333;
+    margin: 0;
 }
 
+/* Main Card */
+.card {
+    box-sizing: border-box;
+    width: 75%;
+    margin: 0 0 30px 305px;
+    padding: 25px;
+    background-color: #ffffff;
+    border: 1px solid #e6edf5;
+    border-radius: 14px;
+    box-shadow: 0 6px 20px rgba(0, 74, 173, 0.12);
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 8px 25px rgba(0, 74, 173, 0.17);
+}
+
+/* Section Title */
+.section-title {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #004aad;
+    margin-bottom: 22px;
+    padding-bottom: 12px;
+ 
+}
+
+/* Status Badges */
+span.status-badge {
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 20px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+/* Pending Status */
+span.status-badge.pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+/* Ongoing Status */
+span.status-badge.ongoing {
+    background-color: #cfe2ff;
+    color: #084298;
+}
+
+/* Resolved Status */
+span.status-badge.resolved {
+    background-color: #d1e7dd;
+    color: #0f5132;
+}
+
+/* Cancelled Status */
+span.status-badge.cancelled {
+    background-color: #f8d7da;
+    color: #842029;
+}
+
+/* Tablet Screens */
+@media (max-width: 1024px) {
+    .card {
+        width: calc(100% - 275px);
+        margin-left: 255px;
+        padding: 20px;
+    }
+
+    .section-title {
+        font-size: 21px;
+    }
+}
+
+/* Mobile Screens */
+@media (max-width: 768px) {
+    .card {
+        width: calc(100% - 24px);
+        margin: 12px auto 20px;
+        padding: 16px;
+        border-radius: 12px;
+    }
+
+    .section-title {
+        font-size: 20px;
+        margin-bottom: 18px;
+    }
+
+    span.status-badge {
+        font-size: 12px;
+        padding: 7px 11px;
+    }
+}
+
+/* Small Mobile Screens */
+@media (max-width: 480px) {
+    .card {
+        width: calc(100% - 16px);
+        margin: 8px auto 16px;
+        padding: 12px;
+    }
+
+    .section-title {
+        font-size: 18px;
+    }
+
+    span.status-badge {
+        font-size: 11px;
+        padding: 6px 9px;
+    }
+}
