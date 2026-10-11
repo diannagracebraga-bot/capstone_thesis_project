@@ -130,61 +130,27 @@ $page = $_GET['page'] ?? 'users';
                 ?>
 
                     <tr>
-                        <td>
-                            <?php echo htmlspecialchars($row['name']); ?>
-                        </td>
-
-                        <td>
-                            <?php echo htmlspecialchars($row['email']); ?>
-                        </td>
-
-                        <td>
-                            <?php echo htmlspecialchars($row['role']); ?>
-                        </td>
-
+                        <td> <?php echo $row['name']; ?></td>
+                        <td> <?php echo $row['email']; ?> </td>
+                        <td> <?php echo $row['role']; ?></td>
+            
                         <td>
                             <?php if ($row['account_status'] == 'Active') { ?>
-
-                                <span class="text-success">
-                                    Active
-                                </span>
+                                <span class="text-success">Active</span>
 
                             <?php } else { ?>
 
-                                <span class="text-danger">
-                                    Deactivated
-                                </span>
-
+                                <span class="text-danger"> Deactivated</span>
                             <?php } ?>
                         </td>
-
                         <td>
-
                             <?php if ($row['account_status'] == 'Active') { ?>
 
-                                <form
-                                    action="../crud/update_account_status.php"
-                                    method="POST"
-                                    style="display: inline;"
-                                >
+                                <form action="../crud/update_account_status.php" method="POST" style="display: inline;">
+                                  <input type="hidden" name="record_id" value="<?php echo $row['record_id']; ?>" >
+                                    <input type="hidden" name="role" value="<?php echo htmlspecialchars($row['role']); ?>" >
 
-                                    <input
-                                        type="hidden"
-                                        name="record_id"
-                                        value="<?php echo $row['record_id']; ?>"
-                                    >
-
-                                    <input
-                                        type="hidden"
-                                        name="role"
-                                        value="<?php echo htmlspecialchars($row['role']); ?>"
-                                    >
-
-                                    <button
-                                        type="submit"
-                                        class="btn btn-warning btn-sm"
-                                        onclick="return confirm('Are you sure you want to deactivate this account?');"
-                                    >
+                                    <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to deactivate this account?');">
                                         Deactivate
                                     </button>
 
@@ -192,52 +158,25 @@ $page = $_GET['page'] ?? 'users';
 
                             <?php } else { ?>
 
-                                <form
-                                    action="../crud/update_account_status.php"
-                                    method="POST"
-                                    style="display: inline;"
-                                >
+                                <form action="../crud/update_account_status.php" method="POST" style="display: inline;" >
+                                    <input type="hidden" name="record_id" value="<?php echo $row['record_id']; ?>">
+                                    <input type="hidden" name="role" value="<?php echo htmlspecialchars($row['role']); ?>">
 
-                                    <input
-                                        type="hidden"
-                                        name="record_id"
-                                        value="<?php echo $row['record_id']; ?>"
-                                    >
-
-                                    <input
-                                        type="hidden"
-                                        name="role"
-                                        value="<?php echo htmlspecialchars($row['role']); ?>"
-                                    >
-
-                                    <button
-                                        type="submit"
-                                        class="btn btn-success btn-sm"
-                                        onclick="return confirm('Are you sure you want to activate this account?');"
-                                    >
+                                    <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to activate this account?');" >
                                         Activate
                                     </button>
-
                                 </form>
 
                             <?php } ?>
 
-                            <a
-                                href="../crud/update_user_accounts.php?id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>"
-                                class="btn btn-primary btn-sm"
-                            >
-                                Edit
+                            <a href="../crud/update_user_accounts.php?id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>" class="btn btn-primary btn-sm"> Edit
                             </a>
-
                         </td>
                     </tr>
-
                 <?php
                     }
-
                 } else {
                 ?>
-
                     <tr>
                         <td colspan="5" class="text-center">
                             No users found.
@@ -255,7 +194,6 @@ $page = $_GET['page'] ?? 'users';
             <?php
             }
             ?>
-
         </div>
 
     </div>
