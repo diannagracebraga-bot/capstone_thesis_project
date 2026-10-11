@@ -1,5 +1,7 @@
+
 <?php
 require_once __DIR__ . '/require_super_admin.php';
+
 $page = $_GET['page'] ?? 'users';
 ?>
 
@@ -75,7 +77,9 @@ $page = $_GET['page'] ?? 'users';
 
             <?php
             if ($page == 'add_customer') {
+
                 include 'admin_add_customer.php';
+
             } else {
             ?>
 
@@ -98,20 +102,21 @@ $page = $_GET['page'] ?? 'users';
                 $search = $_GET['search'] ?? '';
                 $search = mysqli_real_escape_string($conn, $search);
 
-                $sql = " 
-                         SELECT 
-                         CONCAT_WS(' ', a.f_name, a.m_name, a.l_name) AS name, 
-                            a.email AS email, 
-                            a.role AS role, 
-                            a.account_status AS account_status,
-                            a.account_id AS record_id 
-                        FROM admin_superadmin_accounts_tbl a 
-                        WHERE 
-                        CONCAT_WS(' ', a.f_name, a.m_name, a.l_name) LIKE '%$search%' 
-                             OR a.email LIKE '%$search%' 
-                             OR a.role LIKE '%$search%' 
-                             OR a.account_status LIKE '%$search%'
-                            ";
+                $sql = "
+                    SELECT
+                        CONCAT_WS(' ', a.f_name, a.m_name, a.l_name) AS name,
+                        a.email AS email,
+                        a.role AS role,
+                        a.account_status AS account_status,
+                        a.account_id AS record_id
+                    FROM admin_superadmin_accounts_tbl a
+                    WHERE
+                        CONCAT_WS(' ', a.f_name, a.m_name, a.l_name) LIKE '%$search%'
+                        OR a.email LIKE '%$search%'
+                        OR a.role LIKE '%$search%'
+                        OR a.account_status LIKE '%$search%'
+                    ORDER BY a.account_id DESC
+                ";
 
                 $result = mysqli_query($conn, $sql);
 
@@ -123,37 +128,120 @@ $page = $_GET['page'] ?? 'users';
 
                     while ($row = mysqli_fetch_assoc($result)) {
                 ?>
+
                     <tr>
-                        <td> <?php echo $row['name']; ?></td>
-                        <td> <?php echo $row['email']; ?> </td>
-                        <td> <?php echo $row['role']; ?></td>
-                        <td><?php echo $row['account_status']; ?></td>
+                        <td>
+                            <?php echo htmlspecialchars($row['name']); ?>
+                        </td>
+
+                        <td>
+                            <?php echo htmlspecialchars($row['email']); ?>
+                        </td>
+
+                        <td>
+                            <?php echo htmlspecialchars($row['role']); ?>
+                        </td>
+
                         <td>
                             <?php if ($row['account_status'] == 'Active') { ?>
-                              <a href="../crud/update_account_status.php?record_id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>"
-                                    class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to deactivate this account?');" >
-                                  Deactivate  </a>
 
-                             <?php } else { ?>
-                                  <a href="../crud/update_account_status.php?record_id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>"
-                                    class="btn btn-success btn-sm"onclick="return confirm('Are you sure you want to activate this account?');" >
-                                 Activate </a>
-                             <?php } ?>
-                                <a href="../crud/update_user_accounts.php?id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>"
-                                    class="btn btn-primary btn-sm"> Edit </a>
+                                <span class="text-success">
+                                    Active
+                                </span>
+
+                            <?php } else { ?>
+
+                                <span class="text-danger">
+                                    Deactivated
+                                </span>
+
+                            <?php } ?>
+                        </td>
+
+                        <td>
+
+                            <?php if ($row['account_status'] == 'Active') { ?>
+
+                                <form
+                                    action="../crud/update_account_status.php"
+                                    method="POST"
+                                    style="display: inline;"
+                                >
+
+                                    <input
+                                        type="hidden"
+                                        name="record_id"
+                                        value="<?php echo $row['record_id']; ?>"
+                                    >
+
+                                    <input
+                                        type="hidden"
+                                        name="role"
+                                        value="<?php echo htmlspecialchars($row['role']); ?>"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-warning btn-sm"
+                                        onclick="return confirm('Are you sure you want to deactivate this account?');"
+                                    >
+                                        Deactivate
+                                    </button>
+
+                                </form>
+
+                            <?php } else { ?>
+
+                                <form
+                                    action="../crud/update_account_status.php"
+                                    method="POST"
+                                    style="display: inline;"
+                                >
+
+                                    <input
+                                        type="hidden"
+                                        name="record_id"
+                                        value="<?php echo $row['record_id']; ?>"
+                                    >
+
+                                    <input
+                                        type="hidden"
+                                        name="role"
+                                        value="<?php echo htmlspecialchars($row['role']); ?>"
+                                    >
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-success btn-sm"
+                                        onclick="return confirm('Are you sure you want to activate this account?');"
+                                    >
+                                        Activate
+                                    </button>
+
+                                </form>
+
+                            <?php } ?>
+
+                            <a
+                                href="../crud/update_user_accounts.php?id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>"
+                                class="btn btn-primary btn-sm"
+                            >
+                                Edit
+                            </a>
+
                         </td>
                     </tr>
+
                 <?php
-}
+                    }
 
                 } else {
-
                 ?>
+
                     <tr>
                         <td colspan="5" class="text-center">
                             No users found.
                         </td>
-
                     </tr>
 
                 <?php

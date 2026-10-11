@@ -1,78 +1,117 @@
+
 <?php
 session_start();
 include 'database_connection.php';
 
-if(isset($_POST['login'])){
+if (isset($_POST['login'])) {
 
-    $email = $_POST['email'];
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
+    // Check customer accounts first
     $sql = "SELECT * FROM user_accounts_tbl WHERE email='$email'";
     $result = mysqli_query($conn, $sql);
 
-    if(mysqli_num_rows($result) == 0){
-        $sql = "SELECT * FROM admin_superadmin_accounts_tbl WHERE email='$email'";
+    // If not a customer, check Admin and Super Admin accounts
+    if ($result && mysqli_num_rows($result) == 0) {
+
+        $sql = "SELECT * FROM admin_superadmin_accounts_tbl
+                WHERE email='$email'";
+
         $result = mysqli_query($conn, $sql);
     }
 
-    if(mysqli_num_rows($result) == 1){
+    if ($result && mysqli_num_rows($result) == 1) {
+
         $user = mysqli_fetch_assoc($result);
-        if(password_verify($password, $user['password'])){
 
-          if($user['role'] == "customer"){
-    $_SESSION['user_id'] = $user['user_id'];
-}else{
-    $_SESSION['account_id'] = $user['account_id'];
-}
+        // Check password
+        if (password_verify($password, $user['password'])) {
 
-$_SESSION['email'] = $user['email'];
-$_SESSION['role'] = $user['role'];
+            // Check Admin and Super Admin account status
+            if (
+                ($user['role'] == "Admin" || $user['role'] == "Super Admin")
+                && $user['account_status'] != "Active"
+            ) {
 
-            if($user['role'] == "customer"){
+                echo "<script>
+                    alert('Your account has been deactivated. Please contact the Super Admin.');
+                    window.location='../index.php';
+                </script>";
+
+                exit();
+            }
+
+            // Set session according to account type
+            if ($user['role'] == "customer") {
+
+                $_SESSION['user_id'] = $user['user_id'];
+
+            } else {
+
+                $_SESSION['account_id'] = $user['account_id'];
+
+            }
+
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['role'] = $user['role'];
+
+            // Redirect according to role
+            if ($user['role'] == "customer") {
 
                 echo "<script>
                     alert('Welcome, Customer!');
                     window.location='../customer/customer-dashboard.php';
                 </script>";
+
                 exit();
 
-            }elseif($user['role'] == "Admin"){
+            } elseif ($user['role'] == "Admin") {
+
                 echo "<script>
                     alert('Welcome, Admin!');
                     window.location='../admin/admin_dashboard.php';
                 </script>";
+
                 exit();
 
-            }elseif($user['role'] == "Super Admin"){
+            } elseif ($user['role'] == "Super Admin") {
+
                 echo "<script>
                     alert('Welcome, Super Admin!');
                     window.location='../admin/admin_dashboard.php';
                 </script>";
+
                 exit();
-            }else{
+
+            } else {
 
                 echo "<script>
                     alert('Invalid user role.');
                     window.location='../index.php';
                 </script>";
-                exit();  }
-        }else{
+
+                exit();
+            }
+
+        } else {
+
             echo "<script>
                 alert('Incorrect password.');
                 window.location='../index.php';
             </script>";
+
             exit();
         }
-    }else{
+
+    } else {
+
         echo "<script>
             alert('Email not found.');
             window.location='../index.php';
         </script>";
+
         exit();
- }
+    }
 }
-?> 
-
-
-
-
+?>
