@@ -1,61 +1,63 @@
+
 <?php
 require_once __DIR__ . '/../admin/require_super_admin.php';
 
-if (!isset($_GET['record_id']) || !isset($_GET['role'])) {
+if ($_SERVER["REQUEST_METHOD"] != "POST") {
     header("Location: ../admin/admin_user_management.php");
     exit();
 }
 
-$record_id = $_GET['record_id'];
-$role = $_GET['role'];
+if (!isset($_POST['record_id']) || !isset($_POST['role'])) {
+    header("Location: ../admin/admin_user_management.php");
+    exit();
+}
 
-if ($role == 'Admin' || $role == 'Super Admin') {
+$record_id = intval($_POST['record_id']);
+$role = $_POST['role'];
 
-    // Get current status
-    $query = "SELECT account_status
-              FROM admin_superadmin_accounts_tbl
-              WHERE account_id='$record_id'
-              AND role='$role'";
+if ($record_id <= 0 || ($role != 'Admin' && $role != 'Super Admin')) {
+    header("Location: ../admin/admin_user_management.php");
+    exit();
+}
 
-    $result = mysqli_query($conn, $query);
+$role = mysqli_real_escape_string($conn, $role);
 
-    if (!$result || mysqli_num_rows($result) == 0) {
-        die("Account not found.");
-    }
+$query = "SELECT account_status
+          FROM admin_superadmin_accounts_tbl
+          WHERE account_id = '$record_id'
+          AND role = '$role'";
 
-    $account = mysqli_fetch_assoc($result);
+$result = mysqli_query($conn, $query);
 
-    $current_status = $account['account_status'];
+if (!$result || mysqli_num_rows($result) == 0) {
+    die("Account not found.");
+}
 
-    // Change status
-    if ($current_status == 'Active') {
-        $new_status = 'Deactivated';
-    } else {
-        $new_status = 'Active';
-    }
+$account = mysqli_fetch_assoc($result);
 
-    $update = "UPDATE admin_superadmin_accounts_tbl
-               SET account_status='$new_status'
-               WHERE account_id='$record_id'
-               AND role='$role'";
+if ($account['account_status'] == 'Active') {
+    $new_status = 'Deactivated';
+} else {
+    $new_status = 'Active';
+}
 
-    if (mysqli_query($conn, $update)) {
+$update = "UPDATE admin_superadmin_accounts_tbl
+           SET account_status = '$new_status'
+           WHERE account_id = '$record_id'
+           AND role = '$role'";
 
-        echo "<script>
-            alert('Account status changed to $new_status.');
-            window.location.href='../admin/admin_user_management.php';
-        </script>";
+if (mysqli_query($conn, $update)) {
 
-    } else {
+    echo "<script>
+        alert('Account status changed to $new_status.');
+        window.location.href = '../admin/admin_user_management.php';
+    </script>";
 
-        echo "Error updating account status: " . mysqli_error($conn);
-
-    }
+    exit();
 
 } else {
 
-    header("Location: ../admin/admin_user_management.php");
-    exit();
+    echo "Error updating account status.";
 
 }
 ?>

@@ -1,41 +1,256 @@
-.card{
+
+.card {
     width: 75%;
-    padding: 20px;
-     margin: 0 0 0 305px;
-    box-shadow: 0 6px 15px rgba(0,74,173,0.3);
-}
-.pill-nav a {
-  display: inline-block;
-  color: black;
-  text-align: center;
-  padding: 14px;
-  text-decoration: none;
-  border-radius: 5px;
-}
-.pill-nav a:hover {
-  background-color:gray;
-  color: black;
-}
-.pill-nav a.active {
-  background-color: dodgerblue;
-  color: white;
-}
-.container{
-    background-color: #e9eaec;
-    padding: 50px;
+    padding: 25px;
+    margin: 0 0 30px 305px;
+    background-color: #ffffff;
+    border: none;
     border-radius: 15px;
-    box-shadow: 5px 5px lightgray;
+    box-shadow: 0 6px 20px rgba(0, 74, 173, 0.12);
+    transition: box-shadow 0.3s ease;
 }
-.save-btn{
-    width: 30%;
+
+
+
+/* Inner Container */
+.plan-container .container {
+    width: 100%;
+    max-width: 100%;
+    padding: 30px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
-.form-group.row {
-    justify-content: center;
+
+/* Navigation */
+.pill-nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 25px;
+    padding: 5px;
+    background-color: #f1f5f9;
+    border-radius: 10px;
 }
-.plan-container .col-sm-2, .plan-container .col-sm-1{
-    font-family: Arial;
-    font-size: large;
+
+.pill-nav a {
+    display: inline-block;
+    color: #475569;
+    text-align: center;
+    padding: 12px 18px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: background-color 0.3s ease,
+                color 0.3s ease;
 }
-.plan-container .form-control{
-    border: 2px solid lightgray;  
+
+.pill-nav a:hover {
+    background-color: #dbeafe;
+    color: #004aad;
+}
+
+.pill-nav a.active {
+    background-color: #0d6efd;
+    color: #ffffff;
+    box-shadow: 0 3px 8px rgba(13, 110, 253, 0.2);
+}
+
+
+
+.plan-container .form-group.row:hover {
+    box-shadow: 0 6px 15px rgba(0, 74, 173, 0.08);
+}
+
+/* Form Labels */
+.plan-container .col-form-label {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: #334155;
+}
+
+/* Input Fields */
+.plan-container .form-control {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #334155;
+    background-color: #ffffff;
+    transition: border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+
+.plan-container .form-control:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
+}
+
+/* Save Button Row */
+.plan-container .form-group.row:last-child {
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    margin-bottom: 0 !important;
+}
+
+.plan-container .form-group.row:last-child:hover {
+    box-shadow: none;
+}
+
+/* Save Button */
+.save-btn {
+    width: 35%;
+    min-width: 140px;
+    padding: 11px 20px;
+    background-color: #004aad;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease,
+                transform 0.2s ease,
+                box-shadow 0.3s ease;
+}
+
+.save-btn:hover {
+    background-color: #003580;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 74, 173, 0.2);
+    transform: translateY(-2px);
+}
+
+.save-btn:active {
+    transform: translateY(0);
+}
+
+/* Keyboard Focus */
+.save-btn:focus-visible,
+.pill-nav a:focus-visible {
+    outline: 3px solid #93c5fd;
+    outline-offset: 3px;
+}
+
+/* Tablet Screens */
+@media (max-width: 992px) {
+    .card {
+        width: calc(100% - 275px);
+        margin-left: 255px;
+        padding: 20px;
+    }
+
+    .plan-container .container {
+        padding: 20px;
+    }
+
+    .plan-container .form-group.row {
+        padding: 15px 10px;
+    }
+
+    .plan-container .col-form-label {
+        font-size: 12px;
+    }
+
+    .save-btn {
+        width: 50%;
+    }
+}
+
+/* Mobile Screens */
+@media (max-width: 768px) {
+    .card {
+        width: 100%;
+        margin: 0 0 20px 0;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .card-body {
+        padding: 0;
+    }
+
+    .plan-container .container {
+        padding: 15px;
+        border-radius: 12px;
+    }
+
+    .pill-nav {
+        justify-content: flex-start;
+        gap: 5px;
+        margin-bottom: 20px;
+    }
+
+    .pill-nav a {
+        flex: 1 1 auto;
+        padding: 10px 12px;
+        font-size: 13px;
+    }
+
+    .plan-container .form-group.row {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 15px;
+        margin-bottom: 16px !important;
+    }
+
+    .plan-container .form-group.row > label {
+        width: 100%;
+        max-width: 100%;
+        padding-top: 0;
+        margin-bottom: 6px;
+    }
+
+    .plan-container .form-group.row > div {
+        width: 100%;
+        max-width: 100%;
+        margin-left: 0;
+        margin-bottom: 15px;
+    }
+
+    .plan-container .form-group.row > div:last-child {
+        margin-bottom: 0;
+    }
+
+    .save-btn {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+/* Small Mobile Screens */
+@media (max-width: 480px) {
+    .card {
+        padding: 10px;
+    }
+
+    .plan-container .container {
+        padding: 12px;
+    }
+
+    .plan-container .form-group.row {
+        padding: 12px;
+    }
+
+    .pill-nav a {
+        padding: 9px 10px;
+        font-size: 12px;
+    }
+
+    .plan-container .form-control {
+        padding: 10px;
+        font-size: 14px;
+    }
 }

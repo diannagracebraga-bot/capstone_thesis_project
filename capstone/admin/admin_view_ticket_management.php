@@ -98,10 +98,7 @@ $ticket = mysqli_fetch_assoc($result);
                     <td><?php echo $ticket['date_received']; ?></td>
                 </tr>
 
-                <tr>
-                    <td><strong>Priority:</strong></td>
-                    <td><?php echo $ticket['priority']; ?></td>
-                </tr>
+                
             </table>
         </div>
     </div>
@@ -146,11 +143,7 @@ $ticket = mysqli_fetch_assoc($result);
 
                         </select>
 
-                        <label class="mb-2">
-                            Priority
-                        </label>
-
-                        <input type="text" class="form-control" value="<?php echo $ticket['priority']; ?>" readonly>
+                       
                     </div>
                 <hr class="my-4">
 

@@ -37,7 +37,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
-    <link rel="stylesheet" href="../css/admin_customer.css">
+    <link rel="stylesheet" href="../css/admin_customer.css?v=admin-modal-palette-2">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
 <body>
@@ -117,7 +117,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                     <div class="modal fade" id="editModal<?php echo $row['customer_id']; ?>" tabindex="-1">
                         <div class="modal-dialog modal-xl modal-dialog-scrollable">
                             <div class="modal-content">
-                                <div class="modal-header bg-secondary text-white">
+                                <div class="modal-header customer-modal-header">
                                     <h5 class="modal-title">Edit Customer Details </h5>
                                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
                                 </div>
@@ -334,6 +334,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 matchesSearch && matchesStatus ? "" : "none";
         });
     }
+
     searchInput.addEventListener("input", filterCustomers);
     statusFilter.addEventListener("change", filterCustomers);
     filterCustomers();

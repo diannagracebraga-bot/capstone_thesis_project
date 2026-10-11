@@ -268,6 +268,7 @@
 .customer-sidebar .dashboard.active .sidebar-icon { color: #174f8e; }
 .customer-sidebar .dashboard:hover { background: #f0f5fb; color: #000; }
 .customer-sidebar .dashboard:hover .sidebar-icon { color: #174f8e; }
+.customer-sidebar .customer-ticket-badge { display: inline-grid; flex: 0 0 auto; min-width: 21px; height: 21px; margin-left: auto; padding: 0 5px; place-items: center; border-radius: 999px; background: #f04452; color: #fff; font-size: 11px; font-weight: 700; line-height: 1; }
 body .content,body .support-content,body .ticket-content,body .profile-content {
     box-sizing: border-box;
     width: calc(100% - 280px);

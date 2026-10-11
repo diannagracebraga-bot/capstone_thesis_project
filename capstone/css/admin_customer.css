@@ -86,6 +86,7 @@
 .table thead, tr{
     text-align: center;
 }
+<<<<<<< HEAD
 .status-filter {
     min-width: 180px;
 }
@@ -97,3 +98,73 @@
     gap: 12px;
     flex-wrap: wrap;
 }
+=======
+
+/* Customer edit modal styling, shared by Admin and Super Admin views. */
+.modal .modal-content {
+    overflow: hidden;
+    border: 1px solid #dce6f1;
+    border-radius: 15px;
+    background: #f8fafc;
+    box-shadow: 0 16px 42px rgba(0, 74, 173, .2);
+    font-family: Arial, sans-serif;
+    font-weight: 400;
+}
+.modal .customer-modal-header {
+    position: relative;
+    padding: 20px 26px;
+    border: 0;
+    background: #004aad;
+    color: #fff;
+}
+.customer-modal-header::after {
+    position: absolute;
+    right: 24px;
+    bottom: 0;
+    left: 24px;
+    height: 1px;
+    background: rgba(255,255,255,.22);
+    content: "";
+}
+.customer-modal-header .modal-title { font-size: 20px; font-weight: 700; letter-spacing: .01em; }
+.modal .customer-modal-header .btn-close { opacity: .9; }
+.modal .customer-modal-header .btn-close:hover { opacity: 1; }
+.modal .modal-body { padding: 24px 26px; background: #f8fafc; }
+.modal .modal-body > .row { margin-right: -10px; margin-left: -10px; }
+.modal .modal-body > .row > [class*="col-"] { padding-right: 10px; padding-left: 10px; }
+.modal .modal-body h6 {
+    padding: 12px 15px !important;
+    border: 0 !important;
+    border-left: 4px solid #004aad !important;
+    border-radius: 8px;
+    background: #dbeafe;
+    color: #004aad !important;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: .02em;
+}
+.modal .modal-body .form-label { margin-bottom: 6px; color: #334155; font-size: 13px; font-weight: 700; }
+.modal .modal-body .form-control,
+.modal .modal-body .form-select {
+    min-height: 42px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #334155;
+    font-size: 14px;
+    font-weight: 400;
+}
+.modal .modal-body .form-control:focus,
+.modal .modal-body .form-select:focus { border-color: #0d6efd; box-shadow: 0 0 0 3px rgba(13,110,253,.12); }
+.modal .modal-body .form-control[readonly],
+.modal .modal-body .form-control.bg-light { background-color: #e9eef5 !important; color: #64748b; }
+.modal .modal-footer { gap: 8px; padding: 15px 26px; border-top: 1px solid #dce7f3; background: #fff; }
+.modal .modal-footer .btn { min-width: 118px; border-radius: 8px; font-weight: 700; }
+
+@media (max-width: 575px) {
+    .modal .customer-modal-header { padding: 16px 18px; }
+    .modal .modal-body { padding: 18px; }
+    .modal .modal-footer { padding: 12px 18px; }
+    .modal .modal-footer .btn { flex: 1; }
+}
+>>>>>>> a8367f27be5c08463675ad6069f404e35b5f9f07
