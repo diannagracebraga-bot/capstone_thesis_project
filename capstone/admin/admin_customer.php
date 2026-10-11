@@ -284,8 +284,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 
                 } else {
                     echo "<tr>
-                        <td colspan='7'class='text-center'> No Customer Registered </td>
-                    </tr>";
+                        <td colspan='7'class='text-center'> No Customer Registered </td> </tr>";
 
                 }
                 ?>
