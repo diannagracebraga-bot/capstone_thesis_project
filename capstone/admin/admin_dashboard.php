@@ -40,8 +40,36 @@ $collection_query = "
     AND YEAR(created_at) = YEAR(CURDATE())
     AND MONTH(created_at) = MONTH(CURDATE())
 ";
+$frozen_query = "
+    SELECT COUNT(*) AS frozen_accounts
+    FROM customer_tbl
+    WHERE connection_status = 'Frozen'
+";
+
+$frozen_result = mysqli_query($conn, $frozen_query);
+
+if (!$frozen_result) {
+    die("Frozen accounts query failed: " . mysqli_error($conn));
+}
+
+$frozen_data = mysqli_fetch_assoc($frozen_result);
+$frozen_accounts = (int) $frozen_data['frozen_accounts'];
 
 
+$inactive_query = "
+    SELECT COUNT(*) AS inactive_clients
+    FROM customer_tbl
+    WHERE connection_status = 'Inactive'
+";
+
+$inactive_result = mysqli_query($conn, $inactive_query);
+
+if (!$inactive_result) {
+    die("Inactive clients query failed: " . mysqli_error($conn));
+}
+
+$inactive_data = mysqli_fetch_assoc($inactive_result);
+$inactive_clients = (int) $inactive_data['inactive_clients'];
 
 $collection_result = mysqli_query($conn, $collection_query);
 if (!$collection_result) {
@@ -157,124 +185,147 @@ while ($row = mysqli_fetch_assoc($daily_collection_result)) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css" >
     <link rel="stylesheet" href="../css/admin_dashboard.css?v=dashboard-cards-6">
+    <link rel="stylesheet" href="../css/admin_dashboard.css?v=dashboard-layout-11">
+    <link rel="stylesheet" href="../css/admin_dashboard.css?v=999999">
 </head>
 <body>
 <?php include 'admin_sidebar_header_profile.php'; ?>
+
 <div class="stats-container">
     <div class="stat">
-        <h2> <?php echo $total_customers; ?> </h2>
+        <h2><?php echo (int) $total_customers; ?></h2>
         <p>Total Customer</p>
     </div>
     <div class="stat">
-        <h2> <?php echo $active_users; ?> </h2>
+        <h2><?php echo (int) $active_users; ?></h2>
         <p>Active User</p>
     </div>
     <div class="stat">
-        <h2> <?php echo $pending_applicants; ?> </h2>
+        <h2><?php echo $frozen_accounts; ?></h2>
+        <p>Frozen Accounts</p>
+    </div>
+    <div class="stat">
+        <h2><?php echo (int) $pending_applicants; ?></h2>
         <p>Pending Applicants</p>
     </div>
 </div>
 <div class="dashboard">
     <div class="dashboard-summary">
+
         <div class="summary-card">
-            <h3> Total Collected This Month </h3>
+            <h3>Total Collected This Month</h3>
             <div class="summary-value">
-                ₱<?php echo number_format($total_collected, 2); ?>
+                ₱<?php echo number_format((float) $total_collected, 2); ?>
             </div>
-            <small>  Paid payments this month </small>
+            <small>Paid payments this month</small>
         </div>
         <div class="summary-card">
-            <h3>  Clients With Balance </h3>
+            <h3>Clients With Balance</h3>
             <div class="summary-value">
-                <?php echo $clients_with_balance; ?>
+                <?php echo (int) $clients_with_balance; ?>
             </div>
-            <small> Connected clients with remaining balance </small>
+            <small>Connected clients with remaining balance</small>
         </div>
         <div class="summary-card">
-            <h3> New Active Clients </h3>
+            <h3>New Active Clients</h3>
             <div class="summary-value">
-                <?php echo $new_active_clients; ?>
+                <?php echo (int) $new_active_clients; ?>
             </div>
-            <small> First payment made this month</small>
+            <small>First payment made this month</small>
+        </div>
+        <div class="summary-card">
+            <h3>Inactive Clients</h3>
+            <div class="summary-value">
+                <?php echo $inactive_clients; ?>
+            </div>
+            <small>Clients marked as inactive</small>
         </div>
     </div>
-    <div class="dashboard-charts">
-        <div class="chart-card">
-            <div class="chart-header">
-                <h3> Total Collected </h3>
-                <span> This Month </span>
-            </div>
-            <div class="chart-container">
-                <canvas id="collectionChart"></canvas>
-            </div>
+
+<div class="dashboard-charts">
+    <div class="chart-card">
+        <div class="chart-header">
+            <h3>Total Collected</h3>
+            <span>This Month</span>
         </div>
-        <div class="chart-card">
-            <div class="chart-header">
-                <h3> Client Balance </h3>
-                <span> Current Month </span>
-            </div>
-            <div class="chart-container">
-                <canvas id="balanceChart"></canvas>
-            </div>
+        <div class="chart-container">
+            <canvas id="collectionChart"></canvas>
         </div>
-        <div class="chart-card full-width">
-            <div class="chart-header">
-                <h3>  Clients Per Barangay </h3>
-                <span>  Customer Distribution </span>
-            </div>
-            <div class="chart-container">
-                <canvas id="barangayChart"></canvas>
-            </div>
+    </div>
+    <div class="chart-card">
+        <div class="chart-header">
+            <h3>Client Balance</h3>
+            <span>Current Month</span>
+        </div>
+        <div class="chart-container">
+            <canvas id="balanceChart"></canvas>
+        </div>
+    </div>
+    <div class="chart-card full-width">
+        <div class="chart-header">
+            <h3>Clients Per Barangay</h3>
+            <span>Customer Distribution</span>
+        </div>
+        <div class="chart-container">
+            <canvas id="barangayChart"></canvas>
         </div>
     </div>
 </div>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-const collectionDays =
-    <?php echo json_encode($collection_days); ?>;
-const collectionAmounts =
-    <?php echo json_encode($collection_amounts); ?>;
-const barangays =
-    <?php echo json_encode($barangays); ?>;
-const barangayCounts =
-    <?php echo json_encode($barangay_counts); ?>;
-const totalCollected =
-    <?php echo (float)$total_collected; ?>;
-const clientsWithBalance =
-    <?php echo (int)$clients_with_balance; ?>;
-const newActiveClients =
-    <?php echo (int)$new_active_clients; ?>;
-const collectionCanvas =
-    document.getElementById('collectionChart');
-new Chart(collectionCanvas, {
+const collectionDays = <?php
+    echo json_encode($collection_days);
+?>;
+const collectionAmounts = <?php
+    echo json_encode($collection_amounts);
+?>;
+const barangays = <?php
+    echo json_encode($barangays);
+?>;
+const barangayCounts = <?php
+    echo json_encode($barangay_counts);
+?>;
+const clientsWithBalance = <?php
+    echo (int) $clients_with_balance;
+?>;
+const activeUsers = <?php
+    echo (int) $active_users;
+?>;
+new Chart(document.getElementById('collectionChart'), {
     type: 'bar',
     data: {
         labels: collectionDays,
         datasets: [{
-            label: 'Collected',
+            label: 'Collected (₱)',
             data: collectionAmounts,
-            borderWidth: 1
+            backgroundColor: '#3b82f6',
+            borderColor: '#2563eb',
+            borderWidth: 1,
+            borderRadius: 5
         }]
     },
     options: {
         responsive: true,
         maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
         scales: {
             y: {
                 beginAtZero: true,
                 ticks: {
                     callback: function(value) {
-                        return '₱' +
-                            Number(value).toLocaleString();
+                        return '₱' + Number(value).toLocaleString();
                     }
                 }
             }
         }
     }
 });
-const balanceCanvas =
-    document.getElementById('balanceChart');
-new Chart(balanceCanvas, {
+new Chart(document.getElementById('balanceChart'), {
     type: 'doughnut',
     data: {
         labels: [
@@ -284,36 +335,48 @@ new Chart(balanceCanvas, {
         datasets: [{
             data: [
                 clientsWithBalance,
-                Math.max(
-                    <?php echo (int)$active_users; ?> -
-                    clientsWithBalance,
-                    0
-                )
+                Math.max(activeUsers - clientsWithBalance, 0)
             ],
-            borderWidth: 1
-        }]
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false
-    }
-});
-const barangayCanvas =
-    document.getElementById('barangayChart');
-new Chart(barangayCanvas, {
-    type: 'bar',
-    data: {
-        labels: barangays,
-        datasets: [{
-            label: 'Number of Clients',
-            data: barangayCounts,
+            backgroundColor: [
+                '#f59e0b',
+                '#10b981'
+            ],
+
             borderWidth: 1
         }]
     },
     options: {
         responsive: true,
         maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom'
+            }
+        }
+    }
+});
+new Chart(document.getElementById('barangayChart'), {
+    type: 'bar',
+    data: {
+        labels: barangays,
+        datasets: [{
+            label: 'Number of Clients',
+            data: barangayCounts,
+            backgroundColor: '#6366f1',
+            borderColor: '#4f46e5',
+            borderWidth: 1,
+            borderRadius: 4
+        }]
+    },
+    options: {
         indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
         scales: {
             x: {
                 beginAtZero: true,
@@ -325,6 +388,5 @@ new Chart(barangayCanvas, {
     }
 });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"> </script>
 </body>
 </html>

@@ -115,6 +115,8 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
                 <select name="connection_status">
                     <option>Connected</option>
                     <option>Disconnected</option>
+                    
+
                 </select>
             </div>
    <div class="form_group">

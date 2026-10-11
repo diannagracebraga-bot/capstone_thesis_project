@@ -157,13 +157,12 @@ body{
     border-right: 1px solid #ccc;
 }
 
-h1{
-    margin-top: 100px;   /* Moves title below the fixed navbar */
-    margin-left: 290px;  /* Moves title beside the sidebar */
+h1 {
+    margin-top: 100px;
+    margin-left: 290px;
     color: black;
     text-align: center;
 }
-
 .sidebar a{
     display: block;
     padding: 14px 20px;
@@ -181,11 +180,14 @@ h1{
     color: rgb(61, 113, 130);
 }
 
-.dashboard{
-    display: flex;
-    padding: 12px;
-    border-radius: 6px;
-    cursor: pointer;
+.dashboard {
+    display: block;
+    width: auto;
+    min-width: 0;
+    padding: 0;
+    margin-bottom: 40px;
+    border-radius: 0;
+    cursor: auto;
 }
 
 @media (max-width: 1024px), (hover: none) and (pointer: coarse) {
@@ -205,7 +207,6 @@ h1{
     body > h1 { margin: 88px 12px 16px; font-size: 1.4rem; }
 }
 
-/* Shared admin page layout for phones: remove desktop sidebar offsets. */
 @media (max-width: 1024px), (hover: none) and (pointer: coarse) {
     html, body { max-width: 100%; overflow-x: hidden; }
 
@@ -323,7 +324,6 @@ h1{
     .table-responsive > .table { min-width: 620px; }
 }
 
-/* Sidebar navigation icons and Super Admin pending counters. */
 .sidebar a {
     display: flex;
     align-items: center;
