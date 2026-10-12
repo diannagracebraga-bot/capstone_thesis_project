@@ -62,6 +62,7 @@ function renderSidebarBadge($count)
 	 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-header-sidebar-9">
+
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
 <body>
@@ -75,6 +76,7 @@ function renderSidebarBadge($count)
         <button class="navbar-toggler" type="button" aria-label="Toggle sidebar">
             <span class="navbar-toggler-icon"></span>
         </button>
+
 
         <div class="admin-topbar-actions ms-auto">
             <div class="dropdown admin-notification-dropdown">

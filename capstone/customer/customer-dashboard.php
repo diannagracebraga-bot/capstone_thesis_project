@@ -165,10 +165,20 @@ if ($payment_count > 0) {
     </td>
 
     <td data-label="SOA">
-        <button type="button" class="download">
-            Download
-        </button>
-    </td>
+    <?php
+    $paymentDate = strtotime($payment['created_at']);
+    $soaMonth = date('n', $paymentDate);
+    $soaYear = date('Y', $paymentDate);
+    ?>
+
+    <a
+        class="download"
+        href="download_soa.php?month=<?php echo $soaMonth; ?>&amp;year=<?php echo $soaYear; ?>"
+        style="text-decoration: none;"
+    >
+        Download SOA
+    </a>
+</td>
 </tr>
 
 <?php
