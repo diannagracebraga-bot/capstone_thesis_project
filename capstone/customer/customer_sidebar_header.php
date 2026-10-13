@@ -30,7 +30,7 @@ $headerCustomerId = (int) ($headerCustomer['customer_id'] ?? 0);
 if ($headerCustomerId > 0) {
     $ticketUpdateCountResult = mysqli_query(
         $conn,
-        "SELECT COUNT(*) AS total FROM ticket_management_tbl WHERE customer_id = $headerCustomerId AND status <> 'Pending'"
+        "SELECT COUNT(*) AS total FROM ticket_management_tbl WHERE customer_id = $headerCustomerId AND status = 'Pending'"
     );
     if ($ticketUpdateCountResult) {
         $ticketUpdateCountRow = mysqli_fetch_assoc($ticketUpdateCountResult);
@@ -145,7 +145,7 @@ $customerNotificationCount = count(array_filter($headerNotices, static function 
     <a class="dashboard <?php echo $customerPage === 'customer-dashboard.php' ? 'active' : ''; ?>" href="customer-dashboard.php" <?php echo $customerPage === 'customer-dashboard.php' ? 'aria-current="page"' : ''; ?>><i class="bi bi-grid-1x2-fill sidebar-icon" aria-hidden="true"></i><span>Dashboard</span></a>
     <div class="customer-sidebar-label customer-sidebar-divider">SUPPORT</div>
     <a class="dashboard <?php echo $customerPage === 'customer_support.php' ? 'active' : ''; ?>" href="customer_support.php" <?php echo $customerPage === 'customer_support.php' ? 'aria-current="page"' : ''; ?>><i class="bi bi-chat-left-text-fill sidebar-icon" aria-hidden="true"></i><span>Support</span></a>
-    <a class="dashboard <?php echo $customerPage === 'customer_ticket.php' ? 'active' : ''; ?>" href="customer_ticket.php" <?php echo $customerPage === 'customer_ticket.php' ? 'aria-current="page"' : ''; ?>><i class="bi bi-ticket-detailed-fill sidebar-icon" aria-hidden="true"></i><span>My Tickets</span><?php if ($customerTicketUpdateCount > 0): ?><span class="customer-ticket-badge" aria-label="<?php echo $customerTicketUpdateCount; ?> ticket updates"><?php echo $customerTicketUpdateCount > 99 ? '99+' : $customerTicketUpdateCount; ?></span><?php endif; ?></a>
+    <a class="dashboard <?php echo $customerPage === 'customer_ticket.php' ? 'active' : ''; ?>" href="customer_ticket.php" <?php echo $customerPage === 'customer_ticket.php' ? 'aria-current="page"' : ''; ?>><i class="bi bi-ticket-detailed-fill sidebar-icon" aria-hidden="true"></i><span>My Tickets</span><?php if ($customerTicketUpdateCount > 0): ?><span class="customer-ticket-badge" aria-label="<?php echo $customerTicketUpdateCount; ?> pending tickets"><?php echo $customerTicketUpdateCount > 99 ? '99+' : $customerTicketUpdateCount; ?></span><?php endif; ?></a>
     <div class="customer-sidebar-label customer-sidebar-divider">ACCOUNT</div>
     <a class="dashboard <?php echo $customerPage === 'customer_profile.php' ? 'active' : ''; ?>" href="customer_profile.php" <?php echo $customerPage === 'customer_profile.php' ? 'aria-current="page"' : ''; ?>><i class="bi bi-person-gear sidebar-icon" aria-hidden="true"></i><span>Profile</span></a>
 </aside>

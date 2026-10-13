@@ -45,7 +45,7 @@ if (!$result) {
 						<th>EMAIL ADDRESS</th>
 						<th>CONTACT NUMBER</th>
 						<th>CONCERN TYPE</th>
-						<th>DATE RECIEVED </th>
+						<th>DATE RECEIVED </th>
 						<th> STATUS </th>
 						<th> ACTION </th>
 					</tr>
