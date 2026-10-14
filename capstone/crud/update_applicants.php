@@ -54,8 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_status'])) {
                 $mail->Host = 'smtp.hostinger.com';
                 $mail->SMTPAuth = true;
 
-                $mail->Username = 'mitztianpc_tanza.com@mitztianpctanza.com';
-                $mail->Password = 'Mitztianpc_tanza05';
+                $mail->Username = 'mpc@mitztianpctanza.com';
+                $mail->Password = 'mpcTANZA05@';
 
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
                 $mail->Port = 587;
@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_status'])) {
                     );
 
                 $mail->setFrom(
-                    'mitztianpc_tanza.com@mitztianpctanza.com',
+                    'mpc@mitztianpctanza.com',
                     'MitztianPC Wired Internet Services'
                 );
                 $mail->addReplyTo(
