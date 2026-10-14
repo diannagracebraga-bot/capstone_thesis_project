@@ -93,21 +93,32 @@ function renderSidebarBadge($count)
                 </div>
             </div>
             <span class="admin-profile-divider"></span>
-            <div class="dropdown admin-profile-dropdown">
-                <button class="admin-profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="admin-avatar"><i class="bi bi-person-fill" aria-hidden="true"></i></span>
-                    <span class="admin-profile-copy">
-                        <strong><?php echo htmlspecialchars(trim($admin['f_name'] . ' ' . $admin['m_name'] . ' ' . $admin['l_name'])); ?></strong>
-                        <small><?php echo htmlspecialchars($admin['role']); ?></small>
-                    </span>
-                </button>
-                <div class="dropdown-menu dropdown-menu-end">
-                    <a class="dropdown-item text-danger" href="../database/logout.php">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</nav>
+                <div class="dropdown admin-profile-dropdown">
+                    <button class="admin-profile-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Account profile">    
+                        <span class="admin-avatar">
+                            <?php
+                                $photo_path = __DIR__ . '/../uploads/admin_profiles/';
+                                $photo_url = '../uploads/admin_profiles/';
+
+                                   if (!empty($admin['profile_photo']) && file_exists($photo_path . basename($admin['profile_photo']))) {
+                                    ?> <img src="<?php echo htmlspecialchars($photo_url . rawurlencode(basename($admin['profile_photo']))); ?>"alt="Profile Photo" class="admin-profile-photo">
+                             <?php
+                                         } else {
+                                        ?> <i class="bi bi-person-fill" aria-hidden="true"></i> <?php } ?>
+                                </span>
+                         </button>
+
+                            <div class="dropdown-menu dropdown-menu-end admin-profile-menu">
+                                 <div class="admin-profile-info">
+                                     <strong> <?php echo htmlspecialchars(trim($admin['f_name'] . ' ' . $admin['m_name'] . ' ' . $admin['l_name'])); ?> </strong>
+                                          <small> <?php echo htmlspecialchars($admin['role']); ?> </small>
+                                     </div>
+                                <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item text-danger" href="../database/logout.php"> <i class="bi bi-box-arrow-right me-2"></i> Logout</a> </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </nav>
 <h1>USER MANAGEMENT TRACKING</h1>
 
         <aside class="sidebar">

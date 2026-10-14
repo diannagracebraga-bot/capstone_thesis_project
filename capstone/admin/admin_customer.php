@@ -35,7 +35,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
     <link rel="stylesheet" href="../css/admin_customer.css?v=admin-modal-palette-2">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
@@ -339,6 +339,6 @@ document.addEventListener("DOMContentLoaded", function () {
     filterCustomers();
 });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

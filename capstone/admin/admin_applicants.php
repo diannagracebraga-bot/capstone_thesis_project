@@ -332,7 +332,7 @@ while($row = mysqli_fetch_assoc($result)){
         </option>
 
         <option value="Not Resolved"
-            <?php if($row['status']=="Not Resolved") echo "selected"; ?>>
+            <?php if($row['status']=="Not Solved") echo "selected"; ?>>
             Not Resolved
         </option>
 
@@ -388,10 +388,6 @@ while($row = mysqli_fetch_assoc($result)){
 }
 ?>
 
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-
 <script src="../javascript/admin_applicants.js"></script>
-
 </body>
 </html>

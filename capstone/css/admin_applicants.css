@@ -1,9 +1,15 @@
-.card{
+
+
+.card {
     width: 75%;
+    max-width: calc(100% - 325px);
     padding: 20px;
     margin: 0 0 0 305px;
+    position: relative;
+    z-index: 1;
     box-shadow: 0 6px 15px rgba(0,74,173,0.3);
 }
+
 .table-container{
     max-height: 550px;
     overflow-y: auto; /* vertical scroll */

@@ -115,7 +115,7 @@ $page = $_GET['page'] ?? 'users';
                         OR a.email LIKE '%$search%'
                         OR a.role LIKE '%$search%'
                         OR a.account_status LIKE '%$search%'
-                    ORDER BY a.account_id DESC
+                    ORDER BY a.account_id ASC
                 ";
 
                 $result = mysqli_query($conn, $sql);
