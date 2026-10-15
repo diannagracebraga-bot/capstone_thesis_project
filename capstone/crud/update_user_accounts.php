@@ -295,17 +295,14 @@ if (isset($_POST['update'])) {
                            class="form-control" accept="image/jpeg,image/png,image/gif,image/webp">
                     <small class="text-muted">JPG, PNG, GIF, or WEBP. Maximum 5 MB.</small>
                 </div>
-
                 <?php if ($role == "Customer") { ?>
                     <div class="mb-3">
                         <label class="form-label">Account Status</label>
-
                         <select name="account_status" class="form-select" required>
                             <option value="Connected"
                                 <?php if ($account_status == "Connected") echo "selected"; ?>>
                                 Connected
                             </option>
-
                             <option value="Disconnected"
                                 <?php if ($account_status == "Disconnected") echo "selected"; ?>>
                                 Disconnected
