@@ -91,7 +91,7 @@ span.status-badge {
 
 /* Applicant details modal: rich blue header and clear, readable sections. */
 .modal .modal-content {
-    overflow: hidden;
+    overflow: hidden;   
     border: 1px solid #dce6f1;
     border-radius: 15px;
     background: #f8fafc;
