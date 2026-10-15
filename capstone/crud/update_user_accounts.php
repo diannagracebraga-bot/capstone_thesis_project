@@ -331,24 +331,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                         </select>
                     </div>
                 <?php } ?>
-                <button
-                    type="submit"
-                    name="update"
-                    class="btn btn-success">
-                    Update Account
-                </button>
-                <a
-                    href="delete_user_account.php?record_id=<?php echo urlencode($id); ?>&role=<?php echo urlencode($role); ?>"
-                    class="btn btn-danger"
-                    onclick="return confirm('Are you sure you want to delete this account?');">
-                    Delete Account </a>
-                <a
-                    href="../admin/admin_user_management.php"
-                    class="btn btn-secondary">
-                    Cancel </a>
+                <button type="submit" name="update" class="btn btn-success"> Update Account </button>
+                <a href="delete_user_account.php?record_id=<?php echo urlencode($id); ?>&role=<?php echo urlencode($role); ?>" class="btn btn-danger"
+                    onclick="return confirm('Are you sure you want to delete this account?');"> Delete Account </a>
+                    <a href="../admin/admin_user_management.php" class="btn btn-secondary"> Cancel </a>
             </form>
         </div>
     </div>
 </div>
+
 </body>
 </html>
