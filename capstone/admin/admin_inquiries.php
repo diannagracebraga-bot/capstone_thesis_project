@@ -32,15 +32,25 @@ $result = mysqli_query($conn, $sql);
 <div class="card w-75">
     <div class="card-body">
         <div class="table-container">
-            <div class="aligned">
-                <form method="GET" action="" class="searchbar-container">
-                    <input type="text" placeholder="Search inquiries..." name="search" value="<?php echo htmlspecialchars($search); ?>" >
-                    <button type="submit" class="btn btn-primary"> Search </button>
-                    <?php if ($search !== '') { ?>
-                        <a href="admin_inquiries.php" class="btn btn-secondary"> Clear </a>
-                    <?php } ?>
-                </form>
-            </div>
+    
+<div class="aligned">
+    <form method="GET" action="" class="searchbar-container">
+        <div class="input-group">
+            <input type="text" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($search); ?>" autocomplete="off">
+
+            <button type="submit" class="btn btn-primary">
+                Search
+            </button>
+ <?php if (!empty($search)) { ?>
+                <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"
+                   class="btn btn-secondary">
+                    Clear
+                </a>
+            <?php }?>
+        </div>
+    </form>
+</div>
+
             <br>
             <table class="table table-secondary table-hover">
                 <thead class="table-info">
