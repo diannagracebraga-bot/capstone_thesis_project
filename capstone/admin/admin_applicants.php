@@ -90,10 +90,29 @@ if(mysqli_query($conn, $sql)){
 			<div class="card w-75">
   				<div class="card-body">
 			<div class = "table-container">
-       <div class="searchbar-container">
-    <input type="text" id="searchInput" placeholder="Search applicant..." name="search">
-    <button type="button" id="searchButton"> Search</button>
+              
+<div class="aligned">
+    <div class="searchbar-container">
+        <form method="GET" action="">
+            <div class="input-group">
+                <input type="text" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($_GET['search'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" autocomplete="off">
+
+                <button type="submit" class="btn btn-primary">
+                    Search
+                </button>
+
+                <?php if (!empty($_GET['search'])) { ?>
+                    <a
+                        href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'); ?>"
+                        class="btn btn-secondary">
+                        Clear
+                    </a>
+                <?php } ?>
+            </div>
+        </form>
+    </div>
 </div>
+
 		<br>
 				<table id="applicantTable" class="table table-secondary table-hover">
 					<thead class = "table-info">
@@ -111,17 +130,39 @@ if(mysqli_query($conn, $sql)){
 					</thead>
 					<tbody>
 <?php
-$sql = "SELECT 
+
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+
+$sql = "SELECT
             a.*,
             p.plan_name,
             p.internet_price,
             p.internet_mbps
         FROM internet_application_tbl a
         LEFT JOIN internet_plan_tbl p
-            ON a.internet_plan = p.plan_id
-        ORDER BY a.applicant_id ASC";
+            ON a.internet_plan = p.plan_id";
+
+if ($search !== '') {
+    $search_safe = mysqli_real_escape_string($conn, $search);
+
+    $sql .= " WHERE
+                a.applicant_id LIKE '%$search_safe%'
+                OR a.first_name LIKE '%$search_safe%'
+                OR a.middle_name LIKE '%$search_safe%'
+                OR a.last_name LIKE '%$search_safe%'
+                OR a.contact_number LIKE '%$search_safe%'
+                OR p.plan_name LIKE '%$search_safe%'
+                OR a.date_received LIKE '%$search_safe%'
+                OR a.status LIKE '%$search_safe%'";
+}
+
+$sql .= " ORDER BY a.applicant_id ASC";
 
 $result = mysqli_query($conn, $sql);
+
+if (!$result) {
+    die("Query Failed: " . mysqli_error($conn));
+}
 
 while($row = mysqli_fetch_assoc($result)) {
 ?>
@@ -333,12 +374,12 @@ while($row = mysqli_fetch_assoc($result)){
 
         <option value="Not Resolved"
             <?php if($row['status']=="Not Solved") echo "selected"; ?>>
-            Not Resolved
+            Not Solved
         </option>
 
         <option value="Resolved"
             <?php if($row['status']=="Solved") echo "selected"; ?>>
-            Resolved
+            Solved
         </option>
 
     </select>

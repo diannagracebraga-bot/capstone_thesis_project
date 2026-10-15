@@ -25,31 +25,25 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 
         <div class="aligned">
 
-            <div class="searchbar-container">
-                <form method="GET" action="">
+<div class="searchbar-container">
+    <form method="GET" action="">
+        <div class="input-group">
+            <input type="text" id="searchInput" placeholder="Search..." name="search" class="form-control" value="<?php echo htmlspecialchars($search); ?>" autocomplete="off">
 
-                    <input 
-                        type="text"
-                        placeholder="Search.."
-                        name="search"
-                        value="<?php echo htmlspecialchars($search); ?>"
-                    >
+            <button type="submit" class="btn btn-primary">
+                Search
+            </button>
 
-                    <button type="submit" class="btn btn-primary">
-                        Search
-                    </button>
+            <?php if (!empty($search)) { ?>
+                <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"
+                   class="btn btn-secondary">
+                    Clear
+                </a>
+            <?php } ?>
+        </div>
+    </form>
+</div>
 
-                    <?php if (!empty($search)) { ?>
-
-                        <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"
-                           class="btn btn-secondary">
-                            Clear
-                        </a>
-
-                    <?php } ?>
-
-                </form>
-            </div>
 
             <div class="payment-plus">
                 <form action="admin_add_payment.php" method="get">

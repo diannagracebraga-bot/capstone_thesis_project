@@ -1,64 +1,183 @@
-.card{
-    width: 75%;
-    padding: 20px;
-    margin: 0 0 0 305px;
-    box-shadow: 0 6px 15px rgba(0,74,173,0.3);
-}
+
 body {
     margin: 0;
+    background-color: #f5f7fb;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Main Card */
+.card {
+    width: 75%;
+    margin: 30px 0 30px 305px;
+    padding: 20px;
+    border: none;
+    border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 6px 20px rgba(0, 74, 173, 0.12);
+}
+
+/* Payment Form Container */
 .add_payment {
-    background-color: #eef6ff;;
-    border-radius: 7px;
-    padding: 40px;
+    background-color: #eef6ff;
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+    padding: 35px 40px;
     width: 100%;
-    margin: 40px auto;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin: 0 auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-.form_grid {
-    display: grid;
-    gap: 15px;
-    padding: 5px
+/* Page Heading */
+.add_payment h3 {
+    color: #004aad;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #d6e7ff;
 }
+
+/* Form Layout */
+.add_payment form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 25px;
+}
+
 .form_group {
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
+
+/* Labels */
 .form_group label {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: large;
+    font-size: 15px;
+    font-weight: 600;
+    color: #243447;
+    margin-bottom: 8px;
 }
+
+/* Input Fields */
 .form_group input,
 .form_group select {
-    width: 50%;
-    padding: 6px;
-    border: 1px solid;
-    border-radius: 4px;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 13px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background-color: #ffffff;
+    color: #212529;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
+
+/* Focus Effect */
+.form_group input:focus,
+.form_group select:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.13);
+}
+
+/* Read-only Fields */
+.form_group input[readonly] {
+    background-color: #f1f5f9;
+    color: #475569;
+    cursor: default;
+}
+
+/* Placeholder */
+.form_group input::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+}
+
+/* Full-Width Fields */
 .full_width {
-    grid-column: span 3;
+    grid-column: 1 / -1;
 }
 
-input[type="submit"] {
-    margin: auto;
-    width: 20%;
-    padding: 10px;
+/* Add Payment Button */
+.payment-plus {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #004aad;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
-    background-color: cyan
-}
-input[type="submit"]:hover{
-  background-color: lightcyan;
-}
-.payment-plus button{
-    margin-left: auto;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    
-}
-.payment-plus button:hover, .searchbar-container button:hover{
-    background: lightgray;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease,
+                transform 0.2s ease;
 }
 
+.payment-plus:hover {
+    background-color: #003780;
+    box-shadow: 0 4px 10px rgba(0, 74, 173, 0.2);
+}
+
+.payment-plus:active {
+    transform: scale(0.99);
+}
+
+/* Responsive Layout */
+@media (max-width: 1200px) {
+    .card {
+        width: calc(100% - 280px);
+        margin-left: 260px;
+    }
+
+    .add_payment {
+        padding: 30px;
+    }
+}
+
+@media (max-width: 768px) {
+    .card {
+        width: calc(100% - 30px);
+        margin: 15px;
+        padding: 10px;
+    }
+
+    .add_payment {
+        padding: 22px 18px;
+        margin: 0;
+    }
+
+    .add_payment h3 {
+        font-size: 22px;
+    }
+
+    .add_payment form {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .full_width {
+        grid-column: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .card {
+        width: calc(100% - 20px);
+        margin: 10px;
+    }
+
+    .add_payment {
+        padding: 18px 14px;
+    }
+
+    .add_payment h3 {
+        font-size: 20px;
+    }
+
+    .form_group label {
+        font-size: 14px;
+    }
+}
