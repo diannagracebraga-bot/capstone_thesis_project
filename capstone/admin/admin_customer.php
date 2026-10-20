@@ -1,8 +1,18 @@
 <?php
 include '../database/database_connection.php';
+require_once '../database/customer_balance.php';
 
 if (isset($_GET['updated'])) {
     echo "<script>alert('Customer details updated successfully!');</script>";
+} elseif (isset($_GET['error'])) {
+    $messages = [
+        'invalid_customer' => 'Invalid customer record.',
+        'missing_fields' => 'May kulang na field. Pakisubukang i-save ulit.',
+        'invalid_fields' => 'May maling value o petsa. Pakisuri ang mga inilagay.',
+        'save_failed' => 'Hindi na-save ang customer. Suriin ang database settings at error log.',
+    ];
+    $message = $messages[$_GET['error']] ?? 'Hindi na-save ang pagbabago.';
+    echo '<script>alert(' . json_encode($message) . ');</script>';
 }
 
 $sql = "
@@ -37,7 +47,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
-    <link rel="stylesheet" href="../css/admin_customer.css?v=admin-modal-palette-2">
+    <link rel="stylesheet" href="../css/admin_customer.css?v=admin-modal-balance-5">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
 <body>
@@ -91,6 +101,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                         <th>LAST NAME</th>
                         <th>BARANGAY</th>
                         <th>STATUS</th>
+                        <th>UNPAID BALANCE</th>
                         <th>ACTION</th>
                     </tr>
                 </thead>
@@ -106,6 +117,17 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                         <td> <?php echo $row['l_name']; ?>  </td>
                         <td> <?php echo $row['barangay']; ?></td>
                         <td> <?php echo $row['connection_status']; ?></td>
+                        <?php $rowBalance = calculateCustomerBalance($row['internet_price'] ?? 0, $row['due_date'] ?? ''); ?>
+                        <td>
+                            <?php if ($rowBalance['has_due_date']): ?>
+                                <strong>₱<?php echo number_format($rowBalance['balance'], 2); ?></strong>
+                                <small class="customer-balance-cycles d-block">
+                                    <?php echo (int) $rowBalance['cycle_count']; ?> unpaid month<?php echo $rowBalance['cycle_count'] === 1 ? '' : 's'; ?>
+                                </small>
+                            <?php else: ?>
+                                <span class="text-muted">Not set</span>
+                            <?php endif; ?>
+                        </td>
                         <td><button class="btn btn-primary btn-sm"data-bs-toggle="modal"data-bs-target="#editModal<?php echo $row['customer_id']; ?>">  View </button>
                             <a href="../crud/delete_customer.php?id=<?php echo $row['customer_id']; ?>"
                                class="btn btn-danger btn-sm"
@@ -137,6 +159,11 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                                             <div class="col-md-4 mb-3">
                                                 <label class="form-label"> Due Date</label>
                                                 <input type="date" class="form-control" name="due_date" value="<?php echo $row['due_date']; ?>">
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <label class="form-label">Unpaid Balance</label>
+                                                <?php $modalBalance = calculateCustomerBalance($row['internet_price'] ?? 0, $row['due_date'] ?? ''); ?>
+                                                <input type="text" class="form-control bg-light" value="<?php echo $modalBalance['has_due_date'] ? '₱' . number_format($modalBalance['balance'], 2) . ' (' . $modalBalance['cycle_count'] . ' unpaid month' . ($modalBalance['cycle_count'] === 1 ? '' : 's') . ')' : 'Due date not set'; ?>" readonly>
                                             </div>
                                              <div class="col-md-3 mb-3">
                                                  <label class="form-label">Installation Date </label>
@@ -267,11 +294,11 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
-                                            Cancel
-                                        </button>
                                         <button type="submit"  name="update" class="btn btn-success">
                                             Save Changes
+                                        </button>
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                            Cancel
                                         </button>
                                     </div>
 
@@ -284,7 +311,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 
                 } else {
                     echo "<tr>
-                        <td colspan='7'class='text-center'> No Customer Registered </td> </tr>";
+                        <td colspan='8'class='text-center'> No Customer Registered </td> </tr>";
 
                 }
                 ?>

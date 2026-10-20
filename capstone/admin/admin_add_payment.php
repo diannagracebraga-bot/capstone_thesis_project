@@ -116,6 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
     <link rel="stylesheet" href="../css/admin_add_payment.css?v=999">
+    <link rel="stylesheet" href="../css/admin_registration_forms.css?v=2">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
 
@@ -205,9 +206,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <input type="number" name="amount" id="amount" class="form-control" readonly required >
                 </div>
 
-                <div class="form_group full_width">
-
-                    <button type="submit" name="add" class="payment-plus"> Add Payment </button>
+                <div class="form_group full_width form_actions">
+                    <button type="submit" name="add" class="payment-plus">Add Payment</button>
+                    <a href="admin_payment.php" class="btn btn-danger">Cancel</a>
                 </div>
             </form>
 

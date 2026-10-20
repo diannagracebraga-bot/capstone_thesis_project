@@ -1,94 +1,123 @@
 <?php
-include '../database/database_connection.php';
+require_once __DIR__ . '/../database/database_connection.php';
 
-if(isset($_POST['update'])){
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['update'])) {
+    header('Location: ../admin/admin_customer.php');
+    exit;
+}
 
-    $customer_id = $_POST['customer_id'];
+$customerId = filter_input(INPUT_POST, 'customer_id', FILTER_VALIDATE_INT);
+$requiredFields = [
+    'f_name', 'm_name', 'l_name', 'contact_number', 'age', 'sex',
+    'barangay', 'house_name', 'internet_plan', 'connection_status',
+    'due_date', 'installation_date',
+];
 
-    $email = $_POST['email'];
-    $password = $_POST['password'] ?? '';
+if (!$customerId) {
+    header('Location: ../admin/admin_customer.php?error=invalid_customer');
+    exit;
+}
 
-    $f_name = $_POST['f_name'];
-    $m_name = $_POST['m_name'];
-    $l_name = $_POST['l_name'];
+foreach ($requiredFields as $field) {
+    if (!isset($_POST[$field])) {
+        header('Location: ../admin/admin_customer.php?error=missing_fields');
+        exit;
+    }
+}
 
-    $contact_number = $_POST['contact_number'];
-    $age = $_POST['age'];
-    $sex = $_POST['sex'];
+$fName = trim($_POST['f_name']);
+$mName = trim($_POST['m_name']);
+$lName = trim($_POST['l_name']);
+$contactNumber = trim($_POST['contact_number']);
+$age = filter_var($_POST['age'], FILTER_VALIDATE_INT);
+$sex = $_POST['sex'];
+$barangay = $_POST['barangay'];
+$houseName = trim($_POST['house_name']);
+$internetPlan = filter_var($_POST['internet_plan'], FILTER_VALIDATE_INT);
+$connectionStatus = $_POST['connection_status'];
+$dueDate = $_POST['due_date'];
+$installationDate = $_POST['installation_date'];
 
-    $barangay = $_POST['barangay'];
-    $house_name = $_POST['house_name'];
+$allowedSexes = ['Male', 'Female'];
+$allowedBarangays = ['Bagtas', 'Punta I'];
+$allowedStatuses = ['Connected', 'Disconnected', 'Frozen', 'Inactive'];
+$validDate = static function ($value) {
+    if ($value === '') {
+        return true;
+    }
+    $date = DateTime::createFromFormat('Y-m-d', $value);
+    return $date && $date->format('Y-m-d') === $value;
+};
 
-    $internet_plan = $_POST['internet_plan'];
-    $connection_status = $_POST['connection_status'];
+if (
+    $fName === '' || $lName === '' || $contactNumber === '' || $age === false || $age < 0 ||
+    !$internetPlan || !in_array($sex, $allowedSexes, true) ||
+    !in_array($barangay, $allowedBarangays, true) ||
+    !in_array($connectionStatus, $allowedStatuses, true) ||
+    !$validDate($dueDate) || !$validDate($installationDate)
+) {
+    header('Location: ../admin/admin_customer.php?error=invalid_fields');
+    exit;
+}
 
-    $due_date = $_POST['due_date'];
-    $installation_date = $_POST['installation_date'];
+try {
+    mysqli_begin_transaction($conn);
 
-    // Get the user_id of this customer
-    $getUser = mysqli_query(
+    $planCheck = mysqli_prepare($conn, 'SELECT plan_id FROM internet_plan_tbl WHERE plan_id = ?');
+    mysqli_stmt_bind_param($planCheck, 'i', $internetPlan);
+    mysqli_stmt_execute($planCheck);
+    $planResult = mysqli_stmt_get_result($planCheck);
+    if (!$planResult || mysqli_num_rows($planResult) !== 1) {
+        throw new RuntimeException('Invalid internet plan.');
+    }
+    mysqli_stmt_close($planCheck);
+
+    $update = mysqli_prepare(
         $conn,
-        "SELECT user_id
-         FROM customer_tbl
-         WHERE customer_id='$customer_id'"
+        'UPDATE customer_tbl SET f_name = ?, m_name = ?, l_name = ?, contact_number = ?, age = ?, sex = ?, barangay = ?, house_name = ?, internet_plan = ?, connection_status = ?, due_date = IF(? = \'\', due_date, ?), installation_date = IF(? = \'\', installation_date, ?) WHERE customer_id = ?'
     );
-
-    $user = mysqli_fetch_assoc($getUser);
-
-    $user_id = $user['user_id'];
-
-    // Update customer table
-    $updateCustomer = "UPDATE customer_tbl SET
-
-        f_name='$f_name',
-        m_name='$m_name',
-        l_name='$l_name',
-        contact_number='$contact_number',
-        age='$age',
-        sex='$sex',
-        barangay='$barangay',
-        house_name='$house_name',
-        internet_plan='$internet_plan',
-        connection_status='$connection_status',
-        due_date='$due_date',
-        installation_date='$installation_date'
-
-        WHERE customer_id='$customer_id'";
-
-    if(mysqli_query($conn, $updateCustomer)){
-
-        // Update email and password
-        if(!empty($password)){
-
-            $password = password_hash($password, PASSWORD_DEFAULT);
-
-            mysqli_query(
-                $conn,
-                "UPDATE user_accounts_tbl
-                 SET
-                    email='$email',
-                    password='$password'
-                 WHERE user_id='$user_id'"
-            );
-
-        }else{
-
-            mysqli_query(
-                $conn,
-                "UPDATE user_accounts_tbl
-                 SET email='$email'
-                 WHERE user_id='$user_id'"
-            );
+    mysqli_stmt_bind_param(
+        $update,
+        'ssssisssisssssi',
+        $fName,
+        $mName,
+        $lName,
+        $contactNumber,
+        $age,
+        $sex,
+        $barangay,
+        $houseName,
+        $internetPlan,
+        $connectionStatus,
+        $dueDate,
+        $dueDate,
+        $installationDate,
+        $installationDate,
+        $customerId
+    );
+    if (!mysqli_stmt_execute($update)) {
+        throw new RuntimeException(mysqli_stmt_error($update));
+    }
+    if (mysqli_stmt_affected_rows($update) === 0) {
+        $exists = mysqli_prepare($conn, 'SELECT customer_id FROM customer_tbl WHERE customer_id = ?');
+        mysqli_stmt_bind_param($exists, 'i', $customerId);
+        mysqli_stmt_execute($exists);
+        $existsResult = mysqli_stmt_get_result($exists);
+        $customerExists = $existsResult && mysqli_num_rows($existsResult) === 1;
+        mysqli_stmt_close($exists);
+        if (!$customerExists) {
+            throw new RuntimeException('Customer record not found.');
         }
-
-        header("Location: ../admin/admin_customer.php?updated=1");
-        exit();
-
-    }else{
-
-        echo "Error updating customer: " . mysqli_error($conn);
-
     }
 
+    mysqli_stmt_close($update);
+    mysqli_commit($conn);
+    header('Location: ../admin/admin_customer.php?updated=1');
+    exit;
+} catch (Throwable $error) {
+    mysqli_rollback($conn);
+    error_log('Customer update failed: ' . $error->getMessage());
+    header('Location: ../admin/admin_customer.php?error=save_failed');
+    exit;
 }
 ?>

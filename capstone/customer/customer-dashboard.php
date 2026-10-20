@@ -2,6 +2,7 @@
 session_start();
 include '../database/database_connection.php';
 require_once '../database/announcements_helper.php';
+require_once '../database/customer_balance.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] != "customer") {
     header("Location: ../index.php");
@@ -38,6 +39,7 @@ $payment_count = $payment_result ? mysqli_num_rows($payment_result) : 0;
 $announcement_result = mysqli_query($conn, 'SELECT announcement_id, title, message, created_at FROM announcements_tbl WHERE is_active = 1 ORDER BY created_at DESC, announcement_id DESC LIMIT 5');
 $due_date_value = trim((string) ($customer['due_date'] ?? ''));
 $due_date_valid = $due_date_value !== '' && $due_date_value !== '0000-00-00' && strtotime($due_date_value) !== false;
+$customer_balance = calculateCustomerBalance($customer['internet_price'] ?? 0, $due_date_value);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +49,7 @@ $due_date_valid = $due_date_value !== '' && $due_date_value !== '0000-00-00' && 
 <title>Customer Dashboard</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-12">
-<link rel="stylesheet" href="../css/customer_dashboard.css?v=customer-dashboard-mobile-soa-5">
+<link rel="stylesheet" href="../css/customer_dashboard.css?v=customer-dashboard-balance-6">
 
 </head>
 <body>
@@ -99,6 +101,20 @@ $due_date_valid = $due_date_value !== '' && $due_date_value !== '0000-00-00' && 
             <span>
         <?php echo $due_date_valid ? date('F d, Y', strtotime($due_date_value)) : 'Not set'; ?>
     </span>
+        </div>
+        <div class="card balance-card">
+            <h4>Unpaid Balance</h4>
+            <strong><?php echo $customer_balance['has_due_date'] ? '₱' . number_format($customer_balance['balance'], 2) : 'Not set'; ?></strong>
+            <?php if ($customer_balance['cycle_count'] > 0): ?>
+                <small>
+                    <?php echo (int) $customer_balance['cycle_count']; ?> unpaid month<?php echo $customer_balance['cycle_count'] === 1 ? '' : 's'; ?>:
+                    <?php echo htmlspecialchars(implode(', ', $customer_balance['months'])); ?><?php if ($customer_balance['remaining_months'] > 0): ?> + <?php echo (int) $customer_balance['remaining_months']; ?> earlier<?php endif; ?>
+                </small>
+            <?php elseif ($customer_balance['has_due_date']): ?>
+                <small>Walang overdue na buwan.</small>
+            <?php else: ?>
+                <small>Wala pang nakatakdang due date.</small>
+            <?php endif; ?>
         </div>
 <button type="button" class="payment-btn" data-bs-toggle="modal" data-bs-target="#paymentModal">
     Payment
