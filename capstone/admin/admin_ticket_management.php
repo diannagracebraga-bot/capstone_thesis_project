@@ -1,13 +1,32 @@
 <?php
 include '../database/database_connection.php';
 
-$query = "SELECT * FROM ticket_management_tbl ORDER BY ticket_id ASC";
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+
+if ($search !== '') {
+    $search_safe = mysqli_real_escape_string($conn, $search);
+
+    $query = "SELECT * FROM ticket_management_tbl
+              WHERE ticket_id LIKE '%$search_safe%'
+              OR full_name LIKE '%$search_safe%'
+              OR email_address LIKE '%$search_safe%'
+              OR contact_number LIKE '%$search_safe%'
+              OR concern_type LIKE '%$search_safe%'
+              OR date_received LIKE '%$search_safe%'
+              OR status LIKE '%$search_safe%'
+              ORDER BY ticket_id DESC";
+} else {
+    $query = "SELECT * FROM ticket_management_tbl
+              ORDER BY ticket_id ASC";
+}
+
 $result = mysqli_query($conn, $query);
 
 if (!$result) {
     die("Ticket query failed: " . mysqli_error($conn));
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -27,14 +46,24 @@ if (!$result) {
   				<div class="card-body">
 			<div class = "table-container">
 				<div class = "aligned" >
+
 <div class="searchbar-container">
-    <div class="input-group">
-        <input  type="text" id="ticketSearch" placeholder="Search tickets..." class="form-control" >
-        <button type="button" id="searchBtn" class="btn btn-primary">
+    <form method="GET" action="" class="input-group">
+        <input type="text" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($search); ?>" autocomplete="off">
+
+        <button type="submit" class="btn btn-primary">
             Search
         </button>
-    </div>
+
+        <?php if ($search !== '') { ?>
+            <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"
+               class="btn btn-secondary">
+                Clear
+            </a>
+        <?php } ?>
+    </form>
 </div>
+
 </div>
 		<br>
 				<table class = "table table-secondary table-hover">

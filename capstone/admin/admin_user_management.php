@@ -29,28 +29,27 @@ $page = $_GET['page'] ?? 'users';
 
             <div class="aligned">
 
-                <div class="searchbar-container">
-                    <form method="GET" action="admin_user_management.php">
+              
+<div class="searchbar-container">
+    <form method="GET" action="admin_user_management.php">
+        <div class="input-group">
+            <input type="text" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($_GET['search'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" autocomplete="off">
+            <input type="hidden" name="page" value="users">
+            <button type="submit" class="btn btn-primary">
+                Search
+            </button>
 
-                        <input
-                            type="text"
-                            placeholder=" Search "
-                            name="search"
-                            value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>"
-                        >
+            <?php if (!empty($_GET['search'])) { ?>
+                <a
+                    href="admin_user_management.php"
+                    class="btn btn-secondary">
+                    Clear
+                </a>
+            <?php } ?>
+        </div>
+    </form>
+</div>
 
-                        <input type="hidden" name="page" value="users">
-
-                        <button type="submit">Search</button>
-
-                        <?php if (!empty($_GET['search'])): ?>
-                            <a href="admin_user_management.php" class="btn btn-secondary btn-sm">
-                                Clear
-                            </a>
-                        <?php endif; ?>
-
-                    </form>
-                </div>
 
                 <div class="dropdown add-user-dropdown">
                     <select
@@ -115,7 +114,7 @@ $page = $_GET['page'] ?? 'users';
                         OR a.email LIKE '%$search%'
                         OR a.role LIKE '%$search%'
                         OR a.account_status LIKE '%$search%'
-                    ORDER BY a.account_id DESC
+                    ORDER BY a.account_id ASC
                 ";
 
                 $result = mysqli_query($conn, $sql);
@@ -150,7 +149,7 @@ $page = $_GET['page'] ?? 'users';
                                   <input type="hidden" name="record_id" value="<?php echo $row['record_id']; ?>" >
                                     <input type="hidden" name="role" value="<?php echo htmlspecialchars($row['role']); ?>" >
 
-                                    <button type="submit" class="btn btn-warning btn-sm" onclick="return confirm('Are you sure you want to deactivate this account?');">
+                                    <button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure you want to deactivate this account?');">
                                         Deactivate
                                     </button>
 
@@ -162,14 +161,14 @@ $page = $_GET['page'] ?? 'users';
                                     <input type="hidden" name="record_id" value="<?php echo $row['record_id']; ?>">
                                     <input type="hidden" name="role" value="<?php echo htmlspecialchars($row['role']); ?>">
 
-                                    <button type="submit" class="btn btn-success btn-sm" onclick="return confirm('Are you sure you want to activate this account?');" >
+                                    <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to activate this account?');" >
                                         Activate
                                     </button>
                                 </form>
 
                             <?php } ?>
 
-                            <a href="../crud/update_user_accounts.php?id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>" class="btn btn-primary btn-sm"> Edit
+                            <a href="../crud/update_user_accounts.php?id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>" class="btn btn-primary"> Edit
                             </a>
                         </td>
                     </tr>

@@ -15,6 +15,8 @@ if (isset($_GET['updated'])) {
     echo '<script>alert(' . json_encode($message) . ');</script>';
 }
 
+$search = isset($_GET['search']) ? trim($_GET['search']) : '';
+
 $sql = "
 SELECT
     c.*,
@@ -31,6 +33,21 @@ LEFT JOIN internet_plan_tbl p
     ON c.internet_plan = p.plan_id
 ";
 
+if ($search !== '') {
+    $search_safe = mysqli_real_escape_string($conn, $search);
+
+    $sql .= "
+    WHERE c.account_number LIKE '%$search_safe%'
+       OR c.f_name LIKE '%$search_safe%'
+       OR c.m_name LIKE '%$search_safe%'
+       OR c.l_name LIKE '%$search_safe%'
+       OR c.barangay LIKE '%$search_safe%'
+       OR c.connection_status LIKE '%$search_safe%'
+    ";
+}
+
+$sql .= " ORDER BY c.customer_id ASC";
+
 $result = mysqli_query($conn, $sql);
 
 if (!$result) {
@@ -38,6 +55,7 @@ if (!$result) {
 }
 
 $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
+
 ?>
 
 <!DOCTYPE html>
@@ -45,7 +63,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
     <link rel="stylesheet" href="../css/admin_customer.css?v=admin-modal-balance-5">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
@@ -56,27 +74,30 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
     <div class="card-body">
         <div class="table-container1">
             <div class="aligned">
-    <div class="searchbar-container">
-        <form method="GET" action="">
-            <input
-                type="text"
-                id="customerSearch"
-                name="search"
-                placeholder="Search.."
-                value="<?php echo htmlspecialchars($_GET['search'] ?? '', ENT_QUOTES, 'UTF-8'); ?>"
-                autocomplete="off" >
-            <button type="submit" class="btn btn-primary"> Search </button>
-            <?php if (!empty($_GET['search'])) { ?>
-                <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'); ?>"
-                   class="btn btn-secondary">
+<div class="searchbar-container">
+    <form method="GET" action="">
+        <div class="input-group">
+            <input type="text" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($search, ENT_QUOTES, 'UTF-8'); ?>" autocomplete="off">
+
+            <button type="submit" class="btn btn-primary">
+                Search
+            </button>
+
+            <?php if ($search !== '') { ?>
+                <a
+                    href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'); ?>"
+                    class="btn btn-secondary">
                     Clear
                 </a>
             <?php } ?>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>
+
+
     <div class="status-filter">
         <select id="statusFilter" class="form-select">
-            <option value="">All Statuses</option>
+            <option value="" selected disabled hidden>Select Status</option>
             <option value="connected">Connected    </option>
             <option value="inactive">Inactive</option>
             <option value="disconnected">Disconnected</option>
@@ -117,6 +138,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                         <td> <?php echo $row['l_name']; ?>  </td>
                         <td> <?php echo $row['barangay']; ?></td>
                         <td> <?php echo $row['connection_status']; ?></td>
+<<<<<<< HEAD
                         <?php $rowBalance = calculateCustomerBalance($row['internet_price'] ?? 0, $row['due_date'] ?? ''); ?>
                         <td>
                             <?php if ($rowBalance['has_due_date']): ?>
@@ -129,8 +151,11 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                             <?php endif; ?>
                         </td>
                         <td><button class="btn btn-primary btn-sm"data-bs-toggle="modal"data-bs-target="#editModal<?php echo $row['customer_id']; ?>">  View </button>
+=======
+                        <td><button class="btn btn-primary"data-bs-toggle="modal"data-bs-target="#editModal<?php echo $row['customer_id']; ?>">  View </button>
+>>>>>>> dcd392ab72088891dd35722d701cab0afdaf723b
                             <a href="../crud/delete_customer.php?id=<?php echo $row['customer_id']; ?>"
-                               class="btn btn-danger btn-sm"
+                               class="btn btn-danger"
                                onclick="return confirm('Are you sure you want to delete this customer?')">
                                 Delete
                             </a>
@@ -366,6 +391,6 @@ document.addEventListener("DOMContentLoaded", function () {
     filterCustomers();
 });
 </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

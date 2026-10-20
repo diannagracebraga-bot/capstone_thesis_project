@@ -55,10 +55,10 @@ while ($customer = mysqli_fetch_assoc($result)) {
         $mail->SMTPAuth   = true;
 
         // YOUR GMAIL
-        $mail->Username   = 'mitztianpc_tanza.com@mitztianpctanza.com';
+        $mail->Username   = 'mpc@mitztianpctanza.com';
 
         // YOUR GOOGLE APP PASSWORD
-        $mail->Password   = 'Mitztianpc_tanza05';
+        $mail->Password   = 'mpcTANZA05@';
 
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
@@ -73,7 +73,7 @@ while ($customer = mysqli_fetch_assoc($result)) {
 
         // Sender
         $mail->setFrom(
-            'mitztianpc_tanza.com@mitztianpctanza.com',
+            'mpc@mitztianpctanza.com',
             'MitztianPC Wired Internet Service'
         );
 

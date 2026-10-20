@@ -129,7 +129,6 @@ $customerNotificationCount = count(array_filter($headerNotices, static function 
             <span class="customer-profile-divider"></span>
             <div class="dropdown customer-profile-dropdown">
                 <button class="customer-profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="customer-avatar"><i class="bi bi-person-fill" aria-hidden="true"></i></span>
                     <span class="customer-profile-copy"><strong><?php echo htmlspecialchars($headerName); ?></strong><small>Customer</small></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
