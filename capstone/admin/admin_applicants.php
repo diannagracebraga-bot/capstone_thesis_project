@@ -80,7 +80,7 @@ if(mysqli_query($conn, $sql)){
 <html>
 <head>
 	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-      <link rel="icon" type="image/png" href="/favicon.png">
+      <link rel="icon" type="image/png" href="/favicon.png?v=2">
 	 <link rel="stylesheet" href="../css/admin_applicants.css?v=admin-modal-palette-2">
 	 <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
 	<title>MITZTIANPC WIRED INTERNET SERVICES</title>

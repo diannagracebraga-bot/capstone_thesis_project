@@ -20,7 +20,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
 
 ?>
 <link rel="stylesheet" href="../css/admin_add_customer.css">
-<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" type="image/png" href="/favicon.png?v=2">
 
 <div class="customer_registration">
     <h3>Customer Registration</h3>
