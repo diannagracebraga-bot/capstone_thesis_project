@@ -19,8 +19,8 @@ if ($number < 10) {
 $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan_id ASC");
 
 ?>
-<link rel="stylesheet" href="../css/admin_add_customer.css?v=1">
-<link rel="stylesheet" href="../css/admin_registration_forms.css?v=2">
+<link rel="stylesheet" href="../css/admin_add_customer.css">
+<link rel="icon" type="image/png" href="/favicon.png?v=2">
 
 <div class="customer_registration">
     <h3>Customer Registration</h3>
@@ -36,7 +36,19 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
 
             <div class="form_group">
                 <label>Account Number</label>
-                <input type="text" class="account_number" value="<?php echo htmlspecialchars($account_number, ENT_QUOTES, 'UTF-8'); ?>" readonly>
+                <input type="text"
+                       class="account_number"
+                       value="<?php echo $account_number; ?>"
+                       readonly>
+
+                <input type="hidden"
+                       name="account_number"
+                       value="<?php echo $account_number; ?>">
+            </div>
+            
+        <div class="form_group">
+              <label>Account Number</label>
+              <input type="text" class = "account_number" value="<?php echo $account_number; ?>"  readonly>
                 <input type="hidden" name="account_number" value="<?php echo $account_number; ?>">
             </div>
             <div class="form_group">
@@ -119,10 +131,9 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
 
   </div>       
 
-            <div class="form_group full_width form_actions">
-                <input type="submit" class="btn btn-success" name="register" value="Register">
-                <a href="admin_customer.php" class="btn btn-danger">Cancel</a>
-            </div>
+<div class="form_group full_width">
+           <input type="submit" class = "btn btn-success"name="register" value="Register">
+           </div>
         </div>
     </form>
 </div>

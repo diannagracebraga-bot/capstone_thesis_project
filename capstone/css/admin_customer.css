@@ -67,104 +67,17 @@ span.status-badge {
     padding: 10px;
     border-radius: 10px;
 }
-.modal .modal-dialog {
-    max-width: 1000px;
+.modal-content{
+    font-family: arial;
+    font-weight: bold;
 }
-<<<<<<< HEAD
-.modal .modal-content {
-    overflow: hidden;
-    border: 0;
-    border-radius: 12px;
-    background: #fff;
-    box-shadow: 0 18px 55px rgba(0, 25, 60, .25);
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 400;
-}
-.modal .modal-header {
-    padding: 18px 24px;
-    border-bottom: 1px solid #e4eaf1;
-    background: #fff;
-}
-.modal .modal-title {
-    color: #243247;
-    font-size: 20px;
-    font-weight: 600;
-}
-.modal .modal-body {
-    padding: 22px 24px;
-    background: #f1f7fd;
-}
-.modal .modal-body h6 {
-    margin-top: 8px !important;
-    margin-bottom: 16px !important;
-    padding-bottom: 10px !important;
-    border-color: #dce4ed !important;
-    color: #004aad !important;
-    font-size: 17px;
-    font-weight: 600;
-}
-.modal .modal-body .form-label {
-    margin-bottom: 6px;
-    color: #344054;
-    font-size: 14px;
-    font-weight: 600;
-}
-.modal .modal-body .form-control,
-.modal .modal-body .form-select {
-    min-height: 42px;
-    border-color: #d3dce6;
-    border-radius: 7px;
-    font-size: 14px;
-}
-.modal .modal-body .form-control:focus,
-.modal .modal-body .form-select:focus {
-    border-color: #3978c5;
-    box-shadow: 0 0 0 .2rem rgba(0, 74, 173, .12);
-}
-.modal .modal-footer {
-    position: sticky;
-    bottom: 0;
-    z-index: 2;
-    gap: 8px;
-    padding: 14px 24px;
-    border-top: 1px solid #e4eaf1;
-    background: #fff;
-}
-.modal .modal-footer .btn {
-    min-width: 96px;
-    border-radius: 7px;
-    font-weight: 600;
-}
-.modal .modal-footer .btn-danger {
-    background: #dc3545;
-}
-.modal .modal-footer .btn-success {
-    background: #198754;
-}
-@media (max-width: 767.98px) {
-    .modal .modal-dialog {
-        margin: 12px;
-    }
-    .modal .modal-header,
-    .modal .modal-body,
-    .modal .modal-footer {
-        padding-right: 16px;
-        padding-left: 16px;
-    }
-=======
 .modal-body h6{
     font-size: 20px;
     font-weight: 100;
 
->>>>>>> dcd392ab72088891dd35722d701cab0afdaf723b
 }
 .modal-dialog-scrollable {
     height: calc(100% - 1rem);
-}
-.customer-balance-cycles {
-    margin-top: 3px;
-    color: #71839a;
-    font-size: 12px;
 }
 
 .modal-dialog-scrollable .modal-content {
@@ -253,4 +166,86 @@ span.status-badge {
     .modal-dialog-scrollable .modal-body { max-height: calc(100vh - 185px) !important; }
     .modal .modal-footer { padding: 12px 18px; }
     .modal .modal-footer .btn { flex: 1; }
+}
+
+/* Keep the customer edit modal header/footer visible while only the form scrolls. */
+[id^="editModal"].modal {
+    z-index: 1060;
+    padding: 0 !important;
+}
+
+[id^="editModal"] .modal-dialog {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 40px);
+    max-width: 1100px;
+    height: calc(100vh - 110px);
+    max-height: calc(100vh - 110px);
+    margin: 90px auto 20px;
+    overflow: hidden;
+}
+
+[id^="editModal"] .modal-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+[id^="editModal"] .customer-modal-header {
+    flex: 0 0 auto;
+    padding: 20px 26px;
+    border: 0;
+    background: #004aad;
+    color: #fff;
+}
+
+[id^="editModal"] .customer-modal-header .modal-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+[id^="editModal"] .customer-modal-header .btn-close {
+    opacity: .9;
+}
+
+[id^="editModal"] form {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+[id^="editModal"] .modal-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    max-height: none !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+[id^="editModal"] .modal-footer {
+    flex: 0 0 auto;
+    background: #fff;
+}
+
+@media (max-width: 768px) {
+    [id^="editModal"] .modal-dialog {
+        width: calc(100% - 16px);
+        height: calc(100vh - 100px);
+        max-height: calc(100vh - 100px);
+        margin: 90px auto 10px;
+    }
+}
+
+@media (max-width: 575px) {
+    [id^="editModal"] .customer-modal-header {
+        padding: 16px 18px;
+    }
 }

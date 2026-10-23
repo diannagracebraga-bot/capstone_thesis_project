@@ -327,7 +327,7 @@ body .content > .card.w-100 > .card-body { padding: clamp(16px, 2.2vw, 28px); }
 .right-top .card h4 { margin: 0; color: #173d68; font-size: clamp(16px, 1.4vw, 20px); font-weight: 700; line-height: 1.35; }
 .summary {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: stretch;
     gap: 16px;
     margin: 0 0 24px;
@@ -337,25 +337,6 @@ body .content > .card.w-100 > .card-body { padding: clamp(16px, 2.2vw, 28px); }
 .summary .card span { font-size: clamp(16px, 1.5vw, 20px); line-height: 1.35; }
 .summary .status-connected { color: #138a59; }
 .summary .status-disconnected { color: #c43c4a; }
-.summary .balance-card {
-    border-top: 4px solid #e2a52c;
-    background: linear-gradient(145deg, #fff, #fffaf0);
-}
-.summary .balance-card strong {
-    display: block;
-    color: #173d68;
-    font-size: clamp(20px, 1.8vw, 25px);
-    font-weight: 750;
-    line-height: 1.2;
-}
-.summary .balance-card small {
-    display: block;
-    margin-top: 8px;
-    color: #70839a;
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 1.4;
-}
 .payment-btn {
     min-height: 58px;
     align-self: stretch;
