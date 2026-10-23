@@ -80,6 +80,7 @@ if (isset($_POST['submit'])) {
     <title>Create Super Admin</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="stylesheet" href="../css/admin_add_admin.css?v=layout-fix-2">
 </head>
 

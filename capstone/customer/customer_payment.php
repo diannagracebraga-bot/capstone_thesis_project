@@ -20,6 +20,7 @@ $customer = mysqli_fetch_assoc($result);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Customer Payment</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-11">
     <link rel="stylesheet" href="../css/customer_payment.css?v=qr-modal-fit-2">
 </head>

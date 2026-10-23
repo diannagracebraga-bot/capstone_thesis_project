@@ -183,6 +183,7 @@ while ($row = mysqli_fetch_assoc($daily_collection_result)) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css" >
     <link rel="stylesheet" href="../css/admin_dashboard.css?v=dashboard-cards-6">
     <link rel="stylesheet" href="../css/admin_dashboard.css?v=dashboard-layout-11">
