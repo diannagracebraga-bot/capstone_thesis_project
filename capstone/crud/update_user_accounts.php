@@ -200,9 +200,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
         body {
             background: #f3f7fc;
         }
-        .edit-container {
-            max-width: 800px;
-            margin: 35px auto;
+        .container.edit-container {
+            box-sizing: border-box;
+            width: calc(100vw - 260px);
+            max-width: 1100px;
+            margin: 35px 20px 35px max(240px, calc((100vw - 880px) / 2));
+        }
+        @media (max-width: 1024px) {
+            .container.edit-container {
+                width: calc(100% - 32px);
+                max-width: 800px;
+                margin: 35px auto;
+            }
         }
         .profile-preview {
             width: 110px;
