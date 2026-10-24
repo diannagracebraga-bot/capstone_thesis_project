@@ -1,53 +1,167 @@
+
 body {
     margin: 0;
 }
 
+/* Customer Registration Container */
 .customer_registration {
     background-color: #eef6ff;
-    border-radius: 7px;
-    padding: 40px;
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+    padding: 35px 40px;
     width: 100%;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    margin: 0 auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
 }
 
+/* Page Heading */
+.customer_registration h3 {
+    color: #004aad;
+    font-size: 26px;
+    font-weight: 700;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #d6e7ff;
+}
+
+/* Form Layout */
 .form_grid {
     display: grid;
-    gap: 15px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px 18px;
 }
 
+/* Form Groups */
 .form_group {
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
+/* Labels */
 .form_group label {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: large;
-
+    font-size: 15px;
+    font-weight: 600;
+    color: #243447;
 }
 
+/* Input Fields */
 .form_group input,
 .form_group select {
     width: 100%;
-    padding: 6px;
-    border: 1px solid;
-    border-radius: 4px;
+    padding: 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background-color: #ffffff;
+    color: #212529;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* submit button full width */
+/* Focus Effect */
+.form_group input:focus,
+.form_group select:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.13);
+}
+
+/* Read-only Fields */
+.form_group input[readonly] {
+    background-color: #f1f5f9;
+    color: #475569;
+    cursor: default;
+}
+
+/* Placeholder */
+.form_group input::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+}
+
+/* Account Number */
+.account_number {
+    background-color: #f1f5f9 !important;
+    color: #004aad !important;
+    font-weight: 700;
+    border: 1px solid #cbd5e1;
+}
+
+/* Full-Width Fields */
 .full_width {
-    grid-column: span 3;
+    grid-column: 1 / -1;
 }
 
+/* Submit Button */
 input[type="submit"] {
-    margin: auto;
-    width: 20%;
+    width: 100%;
+    margin: 0;
     border: none;
-    padding: 10px;
+    border-radius: 8px;
+    background-color: #004aad;
+    color: #ffffff;
+    font-size: 16px;
+    font-weight: 600;
     cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease,
+                transform 0.2s ease;
 }
-.account_number{
-    background-color: lightgray;
-    color: #004AAD;            
-    font-weight: bold;
+
+/* Button Hover */
+input[type="submit"]:hover {
+    background-color: #003780;
+    box-shadow: 0 4px 10px rgba(0, 74, 173, 0.2);
+}
+
+/* Button Active */
+input[type="submit"]:active {
+    transform: scale(0.99);
+}
+
+/* Tablet Layout */
+@media (max-width: 1200px) {
+    .customer_registration {
+        padding: 30px;
+    }
+
+    .form_grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* Mobile Layout */
+@media (max-width: 768px) {
+    .customer_registration {
+        padding: 22px 18px;
+    }
+
+    .customer_registration h3 {
+        font-size: 22px;
+    }
+
+    .form_grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .full_width {
+        grid-column: auto;
+    }
+}
+
+/* Small Mobile Layout */
+@media (max-width: 480px) {
+    .customer_registration {
+        padding: 18px 14px;
+    }
+
+    .customer_registration h3 {
+        font-size: 20px;
+    }
+
+    .form_group label {
+        font-size: 14px;
+    }
 }
