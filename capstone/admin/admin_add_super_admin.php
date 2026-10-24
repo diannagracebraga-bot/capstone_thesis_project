@@ -137,9 +137,12 @@ if (isset($_POST['submit'])) {
                     </small>
                 </div>
 
-                <button type="submit" name="submit" class="btn btn-success">
-                    Create
-                </button>
+                 <div class="button-container">
+                    <button type="submit" name="submit" class="btn btn-success">
+                         Create
+                     </button>
+            </div>
+
             </form>
         </div>
     </div>
