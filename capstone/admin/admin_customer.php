@@ -68,7 +68,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 <div class="searchbar-container">
     <form method="GET" action="">
         <div class="input-group">
-            <input type="text" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($search, ENT_QUOTES, 'UTF-8'); ?>" autocomplete="off">
+         <input type="text" id="customerSearch" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($search, ENT_QUOTES, 'UTF-8'); ?>" autocomplete="off">
 
             <button type="submit" class="btn btn-primary">
                 Search
@@ -86,15 +86,15 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 </div>
 
 
-    <div class="status-filter">
-        <select id="statusFilter" class="form-select">
-            <option value="" selected disabled hidden>Select Status</option>
-            <option value="connected">Connected    </option>
-            <option value="inactive">Inactive</option>
-            <option value="disconnected">Disconnected</option>
-            <option value="frozen">Frozen</option>
-        </select>
-    </div>
+   <div class="status-filter">
+    <select id="statusFilter" class="form-select">
+        <option value="" selected>All Status</option>
+        <option value="connected">Connected</option>
+        <option value="inactive">Inactive</option>
+        <option value="disconnected">Disconnected</option>
+        <option value="frozen">Frozen</option>
+    </select>
+</div>
     <div class="add_customer">
         <form action="admin_add_customer_page.php" method="GET">
             <button class="btn btn-primary" type="submit">
@@ -319,27 +319,36 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+
     const searchInput = document.getElementById("customerSearch");
     const statusFilter = document.getElementById("statusFilter");
     const table = document.getElementById("customerTable");
+
     if (!searchInput || !statusFilter || !table) {
         console.error("Search input, status filter, or table not found.");
         return;
     }
+
     const rows = table.querySelectorAll("tbody tr");
+
     function filterCustomers() {
+
         const searchValue = searchInput.value.toLowerCase().trim();
         const selectedStatus = statusFilter.value.toLowerCase().trim();
+
         rows.forEach(function (row) {
+
             if (row.cells.length < 7) {
                 return;
             }
+
             const accountNumber = row.cells[0].textContent.toLowerCase().trim();
             const firstName = row.cells[1].textContent.toLowerCase().trim();
             const middleName = row.cells[2].textContent.toLowerCase().trim();
             const lastName = row.cells[3].textContent.toLowerCase().trim();
             const barangay = row.cells[4].textContent.toLowerCase().trim();
             const status = row.cells[5].textContent.toLowerCase().trim();
+
             const customerData = [
                 accountNumber,
                 firstName,
@@ -348,9 +357,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 barangay,
                 status
             ].join(" ");
+
             const matchesSearch = customerData.includes(searchValue);
+
             const matchesStatus =
                 selectedStatus === "" || status === selectedStatus;
+
             row.style.display =
                 matchesSearch && matchesStatus ? "" : "none";
         });
@@ -358,7 +370,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     searchInput.addEventListener("input", filterCustomers);
     statusFilter.addEventListener("change", filterCustomers);
+
     filterCustomers();
+
 });
 </script>
 
