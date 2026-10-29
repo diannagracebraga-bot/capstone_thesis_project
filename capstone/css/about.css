@@ -1,19 +1,19 @@
 footer{
-    background: whitesmoke;
-    color: #1f2937;
+    background: #FFFFFF;
+    color: #000000;
     padding: 60px 0 25px;
     margin-top: 60px;
 }
 
-footer h6{
+.footer-main-row h6{
     font-size: 20px;
     font-weight: 700;
     text-transform: uppercase;
     margin-bottom: 40px;
-    color: #fbbf24;
+    color: #004AAD;
 }
 
-footer p{
+.footer-main-row p{
     font-size: 20px;
 }
 
@@ -24,15 +24,15 @@ footer p{
 footer hr{
     border: 0;
     height: 1px;
-    background: rgba(255,255,255,.15);
+    background: rgba(255, 255, 255, .15);
     margin: 35px 0;
 }
 
 .copyright-text a:hover{
-    color: #ffffff;
+    color: #FFFFFF;
 }
 
-.contact-item{
+.footer-main-row .contact-item{
     margin-left: 80px;
     display: flex;
     align-items: flex-start;
@@ -40,41 +40,42 @@ footer hr{
     margin-bottom: 18px;
 }
 
-.contact-item i{
+.footer-main-row .contact-item i{
     width: 20px;
     font-size: 18px;
-    color: #fbbf24;
+    color: #004AAD;
     margin-top: 3px;
 }
 
-.contact-item span{
+.footer-main-row .contact-item span{
     font-size: 20px;
     word-break: break-word;   /* ADDED */
 }
 
-.contact-title{
+.footer-main-row .contact-title{
     padding-left: 120px;
 }
 
-.contact-item img{
+.footer-main-row .contact-item img{
     width: 30px;
     height: 30px;
+    filter: brightness(0) saturate(100%) invert(13%) sepia(78%) saturate(2400%) hue-rotate(207deg) brightness(88%) contrast(104%);
 }
 
 @media (max-width: 768px) {
     footer { padding: 35px 20px 22px; margin-top: 35px; }
-    footer h6 { font-size: 16px; margin: 20px 0 14px; }
-    footer p, .footer-links .mb-2, .contact-item span { font-size: 15px; }
-    .contact-title { padding-left: 0; }
-    .contact-item { margin-left: 0; gap: 10px; margin-bottom: 12px; }
+    .footer-main-row h6 { font-size: 16px; margin: 20px 0 14px; }
+    .footer-main-row p, .footer-links .mb-2, .footer-main-row .contact-item span { font-size: 15px; }
+    .footer-main-row .contact-title { padding-left: 0; }
+    .footer-main-row .contact-item { margin-left: 0; gap: 10px; margin-bottom: 12px; }
 }
 
 /* Footer sections stack on mobile so email, phone, and address do not break letter-by-letter. */
 @media (max-width: 768px) {
     footer .row { row-gap: 22px; }
     footer .row > [class*="col-"] { flex: 0 0 100%; width: 100%; max-width: 100%; }
-    footer .contact-item { width: 100%; margin-left: 0; }
-    footer .contact-item span { flex: 1; min-width: 0; overflow-wrap: anywhere; word-break: normal; }
+    footer .footer-main-row .contact-item { width: 100%; margin-left: 0; }
+    footer .footer-main-row .contact-item span { flex: 1; min-width: 0; overflow-wrap: anywhere; word-break: normal; }
     footer .copyright-text { text-align: center; }
 }
 
@@ -84,9 +85,17 @@ footer hr{
     footer .container { width: 100%; max-width: 100%; padding: 0; }
     footer .row { display: flex; flex-direction: column; row-gap: 24px; margin: 0; }
     footer .row > [class*="col-"] { flex: 0 0 100%; width: 100%; max-width: 100%; padding: 0; }
-    footer h6, .contact-title { padding-left: 0; margin: 0 0 14px; font-size: 17px; }
-    footer p { font-size: 16px; line-height: 1.55; }
-    footer .contact-item { display: flex; align-items: flex-start; width: 100%; margin: 0 0 14px; gap: 12px; }
-    footer .contact-item img { flex: 0 0 24px; width: 24px; height: 24px; margin-top: 1px; }
-    footer .contact-item span { display: block; flex: 1 1 auto; min-width: 0; font-size: 16px; line-height: 1.45; overflow-wrap: anywhere; word-break: normal; }
+    .footer-main-row h6, .footer-main-row .contact-title { padding-left: 0; margin: 0 0 14px; font-size: 17px; }
+    .footer-main-row p { font-size: 16px; line-height: 1.55; }
+    footer .footer-main-row .contact-item { display: flex; align-items: flex-start; width: 100%; margin: 0 0 14px; gap: 12px; }
+    footer .footer-main-row .contact-item img { flex: 0 0 24px; width: 24px; height: 24px; margin-top: 1px; }
+    footer .footer-main-row .contact-item span { display: block; flex: 1 1 auto; min-width: 0; font-size: 16px; line-height: 1.45; overflow-wrap: anywhere; word-break: normal; }
 }
+
+footer .footer-main-row { justify-content: center; color: #000000; }
+footer .footer-copyright-row { justify-content: center; text-align: center; }
+.copyright-text a { color: #004AAD; }
+.copyright-text a:hover { color: #003580; }
+
+.footer-main-row .contact-item i { color: #000000; }
+.footer-main-row .contact-item img { filter: brightness(0); }

@@ -29,7 +29,7 @@ $plan_result = mysqli_query($conn, $plan_query);
             <input type="text" id="application_last_name" class="form-control" name="last_name" autocomplete="family-name" required>
         </div>
 
-        <fieldset class="form_group application-sex-field">
+        <fieldset class="form_group application-choice-field">
             <legend>Sex</legend>
 
             <label class="application-radio">
@@ -77,10 +77,7 @@ $plan_result = mysqli_query($conn, $plan_query);
 
             <input type="text" id="application_address" class="form-control" name="address" placeholder="Example: B17 L17 P2 / 333 CALLE 60 / B1 L1 S1 P1 PABAHAY" required >
 
-            <small class="form-text text-muted">
-                <strong>Address in this format ONLY!</strong><br>
-                B = BLOCK, L = LOT, P = PHASE, S = SECTION
-            </small>
+
         </div>
 
 
@@ -128,22 +125,17 @@ $plan_result = mysqli_query($conn, $plan_query);
             <label>HOA Requirement</label>
         </div>
 
-        <div class="form_group">
-            <label for="application_carissa_phase">
-                Are you from Phase 7 Carissa?
+        <fieldset class="form_group application-choice-field">
+            <legend>Are you from Phase 7 Carissa?</legend>
+            <label class="application-radio">
+                <input class="form-check-input" type="radio" name="phase_7_carissa" value="Yes" required>
+                Yes
             </label>
-
-            <select
-                class="form-control"
-                id="application_carissa_phase"
-                name="phase_7_carissa"
-                required
-            >
-                <option value="">-- Select --</option>
-                <option value="Yes">Yes</option>
-                <option value="No">No</option>
-            </select>
-        </div>
+            <label class="application-radio">
+                <input class="form-check-input" type="radio" name="phase_7_carissa" value="No">
+                No
+            </label>
+        </fieldset>
 
         <div class="form_group">
             <label for="application_hoa_certificate">

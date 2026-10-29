@@ -3,15 +3,36 @@ body {
 }
 
 .customer_registration {
-    background-color: #eef6ff;
-    border-radius: 7px;
-    padding: 40px;
+    box-sizing: border-box;
+    background-color: #FFFFFF;
+    border: 1px solid #dce6f1;
+    border-radius: 14px;
+    padding: 28px;
     width: 100%;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 16px rgba(30, 74, 121, .09);
+}
+
+.customer-registration-page {
+    box-sizing: border-box;
+    width: calc(100% - 330px) !important;
+    margin: 90px 26px 40px 304px !important;
+}
+
+body:has(.customer-registration-page) > h1 {
+    display: none;
+}
+
+.customer_registration h3 {
+    display: block !important;
+    margin: 0 0 20px;
+    color: #123d70;
+    font-size: 24px;
+    font-weight: 700;
 }
 
 .form_grid {
     display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 15px;
 }
 
@@ -22,16 +43,22 @@ body {
 
 .form_group label {
     font-family: Arial, Helvetica, sans-serif;
-    font-size: large;
-
+    margin-bottom: 6px;
+    color: #23496f;
+    font-size: 14px;
+    font-weight: 700;
 }
 
 .form_group input,
 .form_group select {
     width: 100%;
-    padding: 6px;
-    border: 1px solid;
-    border-radius: 4px;
+    box-sizing: border-box;
+    min-height: 42px;
+    padding: 9px 11px;
+    border: 1px solid #ccd9e7;
+    border-radius: 8px;
+    background: #FFFFFF;
+    color: #000000;
 }
 
 /* submit button full width */
@@ -39,15 +66,72 @@ body {
     grid-column: span 3;
 }
 
+.form_actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 4px;
+}
+
 input[type="submit"] {
-    margin: auto;
-    width: 20%;
+    margin: 0;
+    width: auto;
+    min-width: 150px;
     border: none;
     padding: 10px;
     cursor: pointer;
+}
+.form_actions > .btn {
+    box-sizing: border-box;
+    width: auto !important;
+    min-width: 150px;
+    padding: 10px 18px;
+    border-radius: 8px;
+}
+.form_actions .btn {
+    min-width: 150px;
+    padding: 10px 18px;
+}
+.form_actions .btn-primary {
+    border-color: #004AAD;
+    background: #004AAD;
+}
+.form_actions .btn-primary:hover,
+.form_actions .btn-primary:focus {
+    border-color: #003580;
+    background: #003580;
+}
+.form_actions .btn-outline-primary {
+    border-color: #003580;
+    color: #003580;
+}
+.form_actions .btn-outline-primary:hover,
+.form_actions .btn-outline-primary:focus {
+    border-color: #003580;
+    background: #003580;
+    color: #FFFFFF;
 }
 .account_number{
     background-color: lightgray;
     color: #004AAD;            
     font-weight: bold;
+}
+
+@media (max-width: 1024px) {
+    .customer-registration-page {
+        width: auto;
+        margin: 15px 16px 30px;
+    }
+    .form_grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .customer_registration { padding: 20px; }
+}
+
+@media (max-width: 520px) {
+    .customer-registration-page { margin: 12px 10px 24px; }
+    .form_grid { grid-template-columns: minmax(0, 1fr); }
+    .customer_registration { padding: 16px; }
+    .form_actions { flex-wrap: wrap; }
+    .form_actions > .btn { flex: 1 1 140px; }
 }

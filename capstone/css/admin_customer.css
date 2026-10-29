@@ -1,6 +1,7 @@
 .card{
-    width: 75%;
-    padding: 20px;
+    box-sizing: border-box;
+    width: calc(100% - 330px);
+    padding: 0;
     margin: 0 0 0 305px;
     box-shadow: 0 6px 15px rgba(0,74,173,0.3);
 }
@@ -249,3 +250,28 @@ span.status-badge {
         padding: 16px 18px;
     }
 }
+
+@media (max-width: 1024px) {
+    .card {
+    box-sizing: border-box; padding: 0; }
+}
+
+@media (max-width: 520px) {
+    .card {
+    box-sizing: border-box; padding: 0; }
+}
+
+.card-body { padding: 28px; }
+@media (max-width: 1024px) { .card-body { padding: 20px; } }
+@media (max-width: 520px) { .card-body { padding: 16px; } }
+
+.card > .card-body { padding: 16px !important; }
+@media (max-width: 1024px) { .card > .card-body { padding: 12px !important; } }
+@media (max-width: 520px) { .card > .card-body { padding: 10px !important; } }
+
+/* Match the Announcement card's inner spacing. */
+.card {
+    box-sizing: border-box; padding: 0; }
+.card > .card-body { padding: 28px !important; }
+@media (max-width: 1024px) { .card > .card-body { padding: 20px !important; } }
+@media (max-width: 520px) { .card > .card-body { padding: 16px !important; } }

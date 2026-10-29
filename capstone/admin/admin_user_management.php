@@ -13,17 +13,17 @@ $page = $_GET['page'] ?? 'users';
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_user_management.css?v=mobile-layout-3">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=mobile-layout-3">
+    <link rel="stylesheet" href="../css/admin_user_management.css?v=announcement-card-padding-20261029-5">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-3">
 
     <title>User Management</title>
 </head>
 
-<body>
+<body class="admin-module-page">
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
-<div class="card w-75">
+<div class="card">
     <div class="card-body">
 
         <div class="table-container">

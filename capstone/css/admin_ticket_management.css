@@ -1,13 +1,23 @@
 .card{
-    width: 75%;
-    padding: 20px;
+    box-sizing: border-box;
+    width: calc(100% - 330px);
+    padding: 0;
     margin: 0 0 0 305px;
     box-shadow: 0 6px 15px rgba(0,74,173,0.3);
 }
 .table-container{
-    max-height: 550px;
+    position: relative;
+    max-height: clamp(240px, calc(100vh - 340px), 460px);
     overflow-y: auto; /* vertical scroll */
     overflow-x: auto; /*horizontal scroll  */
+}
+.table-container thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    background: #cff4fc;
+    background-clip: padding-box;
+    box-shadow: 0 1px 0 #b6dfe8;
 }
  .table_inquiries{
     width: 90%;
@@ -78,3 +88,28 @@ span.status-badge {
     padding: 10px;
     border-radius: 10px;
 }
+
+@media (max-width: 1024px) {
+    .card {
+    box-sizing: border-box; padding: 0; }
+}
+
+@media (max-width: 520px) {
+    .card {
+    box-sizing: border-box; padding: 0; }
+}
+
+.card-body { padding: 28px; }
+@media (max-width: 1024px) { .card-body { padding: 20px; } }
+@media (max-width: 520px) { .card-body { padding: 16px; } }
+
+.card > .card-body { padding: 16px !important; }
+@media (max-width: 1024px) { .card > .card-body { padding: 12px !important; } }
+@media (max-width: 520px) { .card > .card-body { padding: 10px !important; } }
+
+/* Match the Announcement card's inner spacing. */
+.card {
+    box-sizing: border-box; padding: 0; }
+.card > .card-body { padding: 28px !important; }
+@media (max-width: 1024px) { .card > .card-body { padding: 20px !important; } }
+@media (max-width: 520px) { .card > .card-body { padding: 16px !important; } }

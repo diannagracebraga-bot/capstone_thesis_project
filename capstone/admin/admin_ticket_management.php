@@ -35,17 +35,16 @@ if (!$result) {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
-	<link rel="stylesheet" href="../css/admin_ticket_management.css">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-3">
+    <link rel="stylesheet" href="../css/admin_ticket_management.css?v=table-scroll-height-7">
 	<title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
-<body>
+<body class="admin-module-page">
 	<?php include 'admin_sidebar_header_profile.php'; ?>
 		
 		
-			<div class="card w-75">
+			<div class="card">
   				<div class="card-body">
-			<div class = "table-container">
 				<div class = "aligned" >
 
 <div class="searchbar-container">
@@ -67,6 +66,7 @@ if (!$result) {
 
 </div>
 		<br>
+				<div class="table-container">
 				<table class = "table table-secondary table-hover">
 					<thead class = "table-info">
 					<tr>

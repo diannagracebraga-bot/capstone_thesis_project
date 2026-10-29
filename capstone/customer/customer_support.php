@@ -264,7 +264,7 @@ try {
 
     <link
         rel="stylesheet"
-        href="../css/customer_support.css?v=support-theme-3"
+        href="../css/customer_support.css?v=customer-module-extend-4"
     >
 
 </head>

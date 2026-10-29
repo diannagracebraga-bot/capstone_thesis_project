@@ -1,7 +1,8 @@
 .card {
-    width: 90%;
-    max-width: 1400px;
-    padding: 20px;
+    box-sizing: border-box;
+    width: calc(100% - 330px);
+    max-width: none;
+    padding: 0;
     margin: 0 0 0 305px;
     background: #ffffff;
     border-radius: 16px;
@@ -139,9 +140,9 @@
         width: calc(100% - 24px) !important;
         max-width: none;
         margin: 12px 12px 20px !important;
-        padding: 12px;
+        padding: 0;
     }
-    .card-body { min-width: 0; padding: 8px; }
+    .card-body { min-width: 0; padding: 20px; }
     .table-container { width: 100%; max-height: calc(100dvh - 120px); overflow: auto; }
     .aligned { align-items: stretch; flex-direction: column; gap: 10px; }
     .searchbar-container { margin: 0; padding: 0; width: 100%; }
@@ -168,3 +169,22 @@
     .table-container th, .table-container td { padding: 10px 8px; vertical-align: middle; }
     .table-container td:last-child { white-space: nowrap; }
 }
+
+@media (max-width: 520px) {
+    body > .card.w-75 { padding: 0; }
+}
+
+.card-body { padding: 28px; }
+@media (max-width: 1024px) { .card-body { padding: 20px; } }
+@media (max-width: 520px) { .card-body { padding: 16px; } }
+
+.card > .card-body { padding: 16px !important; }
+@media (max-width: 1024px) { .card > .card-body { padding: 12px !important; } }
+@media (max-width: 520px) { .card > .card-body { padding: 10px !important; } }
+
+/* Match the Announcement card's inner spacing. */
+.card {
+    box-sizing: border-box; padding: 0; }
+.card > .card-body { padding: 28px !important; }
+@media (max-width: 1024px) { .card > .card-body { padding: 20px !important; } }
+@media (max-width: 520px) { .card > .card-body { padding: 16px !important; } }

@@ -18,11 +18,11 @@ $about = mysqli_fetch_assoc($about_result);
     <link rel="icon" type="image/png" href="/favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="css/index_style.css?v=landing-fit-3">
+    <link rel="stylesheet" href="css/index_style.css?v=anchor-spacing-5">
     <link rel="stylesheet" href="css/inquire.css?v=landing-ref-1">
-    <link rel="stylesheet" href="css/plan.css">
-    <link rel="stylesheet" href="css/about.css">
-    <link rel="stylesheet" href="css/apply_internet.css?v=modal-form-1">
+    <link rel="stylesheet" href="css/plan.css?v=plans-solid-1">
+    <link rel="stylesheet" href="css/about.css?v=footer-colors-2">
+    <link rel="stylesheet" href="css/apply_internet.css?v=apply-solid-1">
     <link rel="stylesheet" href="css/login.css?v=login-ui-2">
 </head>
 <body>
@@ -112,7 +112,9 @@ $about = mysqli_fetch_assoc($about_result);
 </main>
 
 <section id="plan">
-    <section class="plans">
+    <div class="plans-carousel">
+        <button class="plans-carousel-control" type="button" data-plans-direction="-1" aria-label="Previous internet plans"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
+        <section class="plans" id="plansTrack" tabindex="0" aria-label="Internet plans">
 
         <?php while ($plan = mysqli_fetch_assoc($plan_result)) { ?>
 
@@ -127,7 +129,9 @@ $about = mysqli_fetch_assoc($about_result);
                      <button type="button" data-bs-toggle="modal" data-bs-target="#applicationModal">APPLY NOW</button>
               </div>
         <?php } ?>
-    </section>
+        </section>
+        <button class="plans-carousel-control" type="button" data-plans-direction="1" aria-label="Next internet plans"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
+    </div>
 
 </section>
 
@@ -152,7 +156,7 @@ $about = mysqli_fetch_assoc($about_result);
 <section id="about">
 <footer>
     <div class="container">
-        <div class="row">
+        <div class="row footer-main-row">
             <div class="col-sm-12 col-md-6">
                 <h6>About</h6>
 
@@ -190,8 +194,8 @@ $about = mysqli_fetch_assoc($about_result);
     </div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-sm-6 col-xs-12">
+        <div class="row footer-copyright-row">
+            <div class="col-md-8 col-sm-6 col-xs-12 copyright-text">
 
                     <a href="#">
                         <?php echo $about['business_name']; ?>
@@ -339,6 +343,36 @@ document.querySelectorAll(".site-nav .navbar-nav .nav-link[href^='#']").forEach(
         link.classList.add("active");
         link.setAttribute("aria-current", "page");
     });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var track = document.getElementById("plansTrack");
+    if (!track) return;
+
+    var controls = document.querySelectorAll("[data-plans-direction]");
+    function updatePlanControls() {
+        var maxScroll = track.scrollWidth - track.clientWidth;
+        controls.forEach(function (control) {
+            var direction = Number(control.dataset.plansDirection);
+            control.disabled = maxScroll <= 1 || (direction < 0 && track.scrollLeft <= 1) || (direction > 0 && track.scrollLeft >= maxScroll - 1);
+        });
+    }
+
+    controls.forEach(function (control) {
+        control.addEventListener("click", function () {
+            track.scrollBy({ left: Number(control.dataset.plansDirection) * track.clientWidth * 0.85, behavior: "smooth" });
+        });
+    });
+    track.addEventListener("scroll", updatePlanControls, { passive: true });
+    track.addEventListener("keydown", function (event) {
+        if (event.key === "ArrowRight" || event.key === "ArrowLeft") {
+            event.preventDefault();
+            track.scrollBy({ left: (event.key === "ArrowRight" ? 1 : -1) * track.clientWidth * 0.85, behavior: "smooth" });
+        }
+    });
+    window.addEventListener("resize", updatePlanControls);
+    updatePlanControls();
 });
 </script>
 </body>

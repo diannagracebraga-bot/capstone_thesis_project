@@ -55,13 +55,13 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
-    <link rel="stylesheet" href="../css/admin_customer.css?v=customer-modal-fixed-1">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-3">
+    <link rel="stylesheet" href="../css/admin_customer.css?v=announcement-card-padding-20261029-5">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
-<body>
+<body class="admin-module-page">
 <?php include 'admin_sidebar_header_profile.php'; ?>
-<div class="card w-75">
+<div class="card">
     <div class="card-body">
         <div class="table-container1">
             <div class="aligned">

@@ -559,3 +559,111 @@ h1 {
     border-radius: 50%;
     display: block;
 }
+
+/* Keep search controls aligned with the left edge of each module table. */
+body .card > .card-body .aligned {
+    box-sizing: border-box;
+    width: 100% !important;
+    margin: 0 0 14px !important;
+}
+body .card > .card-body .aligned > .searchbar-container {
+    box-sizing: border-box;
+    flex: 0 1 300px;
+    width: 300px !important;
+    max-width: 100% !important;
+    min-width: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+body .card > .card-body .aligned > .searchbar-container form,
+body .card > .card-body .aligned > .searchbar-container .input-group {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+}
+
+/* Shared Announcement-style cards, tables, and form controls for data modules. */
+body.admin-module-page {
+    background: #FFFFFF;
+    color: #3e5872;
+}
+body.admin-module-page > .card {
+    box-sizing: border-box;
+    width: calc(100% - 330px) !important;
+    max-width: none !important;
+    margin: 24px 26px 40px 304px !important;
+    padding: 0 !important;
+    border: 1px solid #dce6f1 !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 5px 16px rgba(30, 74, 121, .09) !important;
+}
+body.admin-module-page > .card > .card-body {
+    padding: 28px !important;
+}
+body.admin-module-page h2,
+body.admin-module-page h3 {
+    color: #123d70;
+}
+body.admin-module-page h1 {
+    color: #000000;
+}
+body.admin-module-page .card .table thead > tr > th {
+    background: #e1efff !important;
+    color: #123d70 !important;
+    border-color: #dce6f1 !important;
+}
+body.admin-module-page .card .table tbody > tr > * {
+    background: #FFFFFF !important;
+    color: #000000;
+    border-color: #e0e8f1 !important;
+}
+body.admin-module-page .card .table tbody > tr:nth-child(even) > * {
+    background: #f9fbfe !important;
+}
+body.admin-module-page .card .table tbody > tr:hover > * {
+    background: #edf4fb !important;
+}
+body.admin-module-page .card .searchbar-container .form-control,
+body.admin-module-page .card .form-select,
+body.admin-module-page .card .dropbtn {
+    border-color: #ccd9e7;
+    border-radius: 8px;
+    color: #173b5f;
+}
+body.admin-module-page .card .searchbar-container .form-control:focus,
+body.admin-module-page .card .form-select:focus,
+body.admin-module-page .card .dropbtn:focus {
+    border-color: #267bd0;
+    box-shadow: 0 0 0 3px rgba(28, 117, 205, .14);
+}
+body.admin-module-page .card .btn-primary {
+    border-color: #315a7d;
+    border-radius: 8px;
+    background: #315a7d;
+    color: #FFFFFF;
+}
+body.admin-module-page .card .btn-primary:hover,
+body.admin-module-page .card .btn-primary:focus {
+    border-color: #264762;
+    background: #264762;
+}
+@media (max-width: 1024px), (hover: none) and (pointer: coarse) {
+    body.admin-module-page > .card {
+        width: auto !important;
+        margin-right: 16px !important;
+        margin-left: 16px !important;
+    }
+    body.admin-module-page > .card > .card-body {
+        padding: 20px !important;
+    }
+}
+@media (max-width: 520px) {
+    body.admin-module-page > .card {
+        margin-right: 10px !important;
+        margin-left: 10px !important;
+    }
+    body.admin-module-page > .card > .card-body {
+        padding: 16px !important;
+    }
+}

@@ -62,7 +62,7 @@ function renderSidebarBadge($count)
 	 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
      
 	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-header-sidebar-9">
+	 <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-header-sidebar-10">
 
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>

@@ -198,20 +198,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     <title>Edit User Account</title>
     <style>
         body {
-            background: #f3f7fc;
+            background: #FFFFFF;
         }
+        body > h1 { color: #000000 !important; }
         .container.edit-container {
             box-sizing: border-box;
-            width: calc(100vw - 260px);
-            max-width: 1100px;
-            margin: 35px 20px 35px max(240px, calc((100vw - 880px) / 2));
+            width: calc(100% - 330px) !important;
+            max-width: none !important;
+            margin: 24px 26px 40px 304px !important;
+            padding: 0 !important;
         }
+        .edit-container > .card {
+            overflow: hidden;
+            border: 1px solid #dce6f1;
+            border-radius: 14px;
+            background: #FFFFFF;
+            box-shadow: 0 5px 16px rgba(30, 74, 121, .09) !important;
+        }
+        .edit-container .card-header.bg-primary {
+            padding: 20px 28px;
+            border: 0;
+            border-bottom: 1px solid #dce6f1;
+            background: #FFFFFF !important;
+            color: #123d70 !important;
+        }
+        .edit-container .card-header h3 {
+            margin: 0;
+            color: #123d70;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .edit-container .card-body { padding: 28px; }
+        .edit-container .form-label {
+            margin-bottom: 6px;
+            color: #23496f;
+            font-weight: 700;
+        }
+        .edit-container .form-control,
+        .edit-container .form-select {
+            min-height: 42px;
+            border-color: #ccd9e7;
+            border-radius: 8px;
+            color: #000000;
+        }
+        .edit-container .form-control:focus,
+        .edit-container .form-select:focus {
+            border-color: #267bd0;
+            box-shadow: 0 0 0 3px rgba(28, 117, 205, .14);
+        }
+        .edit-user-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+        .edit-user-actions .btn { min-width: 130px; padding: 10px 17px; border-radius: 8px; font-weight: 700; }
+        .edit-user-actions .btn-primary { border-color: #315a7d; background: #315a7d; }
+        .edit-user-actions .btn-primary:hover { border-color: #264762; background: #264762; }
+        .edit-user-actions .btn-secondary { border-color: #ccd9e7; background: #FFFFFF; color: #315a7d; }
+        .edit-user-actions .btn-secondary:hover { background: #f1f6fc; color: #264762; }
         @media (max-width: 1024px) {
             .container.edit-container {
-                width: calc(100% - 32px);
-                max-width: 800px;
-                margin: 35px auto;
+                width: auto !important;
+                margin: 15px 16px 30px !important;
             }
+            .edit-container .card-body { padding: 20px; }
+            .edit-container .card-header.bg-primary { padding: 18px 20px; }
+        }
+        @media (max-width: 520px) {
+            .container.edit-container { margin: 12px 10px 24px !important; }
+            .edit-container .card-body { padding: 16px; }
+            .edit-user-actions .btn { flex: 1 1 130px; }
         }
         .profile-preview {
             width: 110px;
@@ -225,7 +277,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 </head>
 <body>
 <?php include '../admin/admin_sidebar_header_profile.php'; ?>
-<div class="container edit-container">
+<main class="container edit-container">
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
             <h3 class="mb-0">
@@ -340,14 +392,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                         </select>
                     </div>
                 <?php } ?>
-                <button type="submit" name="update" class="btn btn-success"> Update Account </button>
+                <div class="edit-user-actions">
+                <button type="submit" name="update" class="btn btn-primary"> Update Account </button>
                 <a href="delete_user_account.php?record_id=<?php echo urlencode($id); ?>&role=<?php echo urlencode($role); ?>" class="btn btn-danger"
                     onclick="return confirm('Are you sure you want to delete this account?');"> Delete Account </a>
                     <a href="../admin/admin_user_management.php" class="btn btn-secondary"> Cancel </a>
+                </div>
             </form>
         </div>
     </div>
-</div>
+</main>
 
 </body>
 </html>

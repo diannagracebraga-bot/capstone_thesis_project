@@ -7,7 +7,7 @@ $applicationAction = '../admin/admin_applicants.php';
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="../bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="../css/apply_internet.css?v=modal-form-1">
+	<link rel="stylesheet" href="../css/apply_internet.css?v=modal-form-radio-2">
 	<title>MITZTIANPC Wired Internet Services | Apply</title>
 </head>
 <body class="application-page">

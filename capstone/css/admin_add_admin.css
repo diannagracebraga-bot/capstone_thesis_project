@@ -85,3 +85,73 @@ label {
     .container h2 { font-size: 22px; margin-bottom: 18px; }
     .form-control { padding: 9px 10px; }
 }
+
+/* Add-user form uses the same page width, card, and spacing as Announcements. */
+.add-super-admin-page {
+    box-sizing: border-box;
+    width: calc(100% - 330px);
+    margin: 24px 24px 40px 304px;
+}
+.add-super-admin-card {
+    box-sizing: border-box;
+    padding: 28px;
+    border: 1px solid #dce6f1;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 5px 16px rgba(30, 74, 121, .09);
+}
+.add-super-admin-card h2 {
+    margin: 0 0 24px;
+    color: #123d70;
+    font-size: 24px;
+    font-weight: 700;
+}
+.add-super-admin-card label {
+    color: #23496f;
+    font-weight: 700;
+}
+.add-super-admin-card .form-control {
+    min-height: 42px;
+    border-color: #ccd9e7;
+    border-radius: 8px;
+    color: #000000;
+}
+.add-super-admin-card .form-control:focus {
+    border-color: #267bd0;
+    box-shadow: 0 0 0 3px rgba(28, 117, 205, .14);
+}
+.add-super-admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.add-super-admin-actions .btn {
+    min-width: 120px;
+    padding: 10px 17px;
+    border-radius: 8px;
+    font-weight: 700;
+}
+.add-super-admin-actions .btn-primary {
+    border-color: #315a7d;
+    background: #315a7d;
+}
+.add-super-admin-actions .btn-primary:hover {
+    border-color: #264762;
+    background: #264762;
+}
+.add-super-admin-actions .btn-outline-primary {
+    border-color: #315a7d;
+    color: #315a7d;
+}
+.add-super-admin-actions .btn-outline-primary:hover {
+    background: #315a7d;
+    color: #FFFFFF;
+}
+@media (max-width: 1024px) {
+    .add-super-admin-page { width: auto; margin: 15px 16px 30px; }
+    .add-super-admin-card { padding: 20px; }
+}
+@media (max-width: 520px) {
+    .add-super-admin-page { margin: 12px 10px 24px; }
+    .add-super-admin-card { padding: 16px; }
+}

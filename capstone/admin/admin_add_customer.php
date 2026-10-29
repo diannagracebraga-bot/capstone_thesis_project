@@ -19,7 +19,7 @@ if ($number < 10) {
 $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan_id ASC");
 
 ?>
-<link rel="stylesheet" href="../css/admin_add_customer.css">
+<link rel="stylesheet" href="../css/admin_add_customer.css?v=module-layout-20261029-4">
 <link rel="icon" type="image/png" href="/favicon.png?v=2">
 
 <div class="customer_registration">
@@ -131,8 +131,9 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
 
   </div>       
 
-<div class="form_group full_width">
-           <input type="submit" class = "btn btn-success"name="register" value="Register">
+<div class="form_group full_width form_actions">
+           <a class="btn btn-outline-primary" href="admin_customer.php">Cancel</a>
+           <input type="submit" class="btn btn-primary" name="register" value="Register">
            </div>
         </div>
     </form>

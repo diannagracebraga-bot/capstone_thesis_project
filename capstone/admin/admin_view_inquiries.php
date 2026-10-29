@@ -16,8 +16,8 @@ $row = mysqli_fetch_assoc($result);
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
-    <link rel="stylesheet" href="../css/admin_view_inquiries.css">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-layout-2">
+    <link rel="stylesheet" href="../css/admin_view_inquiries.css?v=announcement-layout-2">
     <title>View Inquiry</title>
 </head>
 
@@ -25,11 +25,11 @@ $row = mysqli_fetch_assoc($result);
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
  
-<div class="main-content">
+<main class="view-inquiry-page">
 
-    <div class="card shadow">
+    <section class="view-inquiry-card">
 
-        <div class="card-body p-4">
+        <div class="view-inquiry-card-body">
 
             <form action="../crud/update_inquiries.php"  method="POST">
 
@@ -124,7 +124,7 @@ $row = mysqli_fetch_assoc($result);
                 
             </form>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 </body>
 </html>

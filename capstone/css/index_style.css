@@ -11,6 +11,7 @@ body {
     box-shadow: 0 1px 0 rgba(64, 143, 210, .08);
     z-index: 1050;
 }
+#home, #inquire, #plan, #about { scroll-margin-top: 96px; }
 .site-nav > .container-fluid { height: 100%; padding: 0; }
 .site-brand {
     display: flex;
@@ -322,7 +323,7 @@ body { background: #123f70; }
      line-height: 1.15; }
     .center_lower_name { margin: 0; font-size: clamp(15px, 4.5vw, 21px); }
     .image-container img { width: min(100%, 420px); height: auto; }
-    section#inquire, section#plan, section#about { scroll-margin-top: 72px; }
+    section#home, section#inquire, section#plan, section#about { scroll-margin-top: 82px; }
     .modal-dialog { margin: 12px; }
     .modal-content { max-height: calc(100svh - 24px); overflow-y: auto; }
 }
@@ -457,4 +458,54 @@ body { background: #123f70; }
     .landing-split #inquire .inquiry-field-description { margin-bottom: 7px; }
     .landing-split #inquire .inquiry-submit { min-height: 36px; }
 }
+/* Service highlights: individual cards on desktop, stacked rows on phones. */
+.brand-hero .service-highlights {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
+    max-width: 760px;
+    align-items: stretch;
+}
+.brand-hero .service-highlight,
+.brand-hero .service-highlight + .service-highlight {
+    box-sizing: border-box;
+    display: flex;
+    min-width: 0;
+    min-height: 72px;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1px solid rgba(207, 231, 252, .35);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, .08);
+    color: #f0f7ff;
+    font-size: 14px;
+    text-align: left;
+    white-space: normal;
+}
+.brand-hero .service-icon {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+    background: rgba(222, 241, 255, .16);
+    color: #d7edff;
+    font-size: 22px;
+}
 
+@media (max-width: 768px) {
+    .brand-hero .service-highlights {
+        grid-template-columns: minmax(0, 1fr);
+        width: min(100%, 360px);
+        gap: 10px;
+        margin: 24px auto 0;
+    }
+    .brand-hero .service-highlight,
+    .brand-hero .service-highlight + .service-highlight {
+        min-height: 58px;
+        justify-content: flex-start;
+        padding: 10px 14px;
+        font-size: 15px;
+    }
+}

@@ -24,17 +24,15 @@ $result = mysqli_query($conn, $sql);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" >
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
-    <link rel="stylesheet" href="../css/admin_inquiries.css">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-3">
+    <link rel="stylesheet" href="../css/admin_inquiries.css?v=card-layout-2">
     <title>MITZIANPC WIRED INTERNET SERVICES</title>
 </head>
-<body>
+<body class="admin-module-page">
 <?php include 'admin_sidebar_header_profile.php'; ?>
-<div class="card w-75">
+<div class="card">
     <div class="card-body">
-        <div class="table-container">
-    
-<div class="aligned">
+        <div class="aligned">
     <form method="GET" action="" class="searchbar-container">
         <div class="input-group">
             <input type="text" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($search); ?>" autocomplete="off">
@@ -53,6 +51,7 @@ $result = mysqli_query($conn, $sql);
 </div>
 
             <br>
+            <div class="table-container">
             <table class="table table-secondary table-hover">
                 <thead class="table-info">
                     <tr>
