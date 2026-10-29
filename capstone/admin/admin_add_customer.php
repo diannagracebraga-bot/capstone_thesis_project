@@ -19,7 +19,12 @@ if ($number < 10) {
 $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan_id ASC");
 
 ?>
+<<<<<<< HEAD
 <link rel="stylesheet" href="../css/admin_add_customer.css?v=module-layout-20261029-4">
+=======
+
+<link rel="stylesheet" href="../css/admin_add_customer.css">
+>>>>>>> 8c73eb223ac7245ff0eb2ff87d4e9233dc8fb79a
 <link rel="icon" type="image/png" href="/favicon.png?v=2">
 
 <div class="customer_registration">

@@ -150,7 +150,7 @@ $page = $_GET['page'] ?? 'users';
                                   <input type="hidden" name="record_id" value="<?php echo $row['record_id']; ?>" >
                                     <input type="hidden" name="role" value="<?php echo htmlspecialchars($row['role']); ?>" >
 
-                                    <button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure you want to deactivate this account?');">
+                                    <button type="submit" class="btn-deactivate" onclick="return confirm('Are you sure you want to deactivate this account?');">
                                         Deactivate
                                     </button>
 
@@ -162,14 +162,14 @@ $page = $_GET['page'] ?? 'users';
                                     <input type="hidden" name="record_id" value="<?php echo $row['record_id']; ?>">
                                     <input type="hidden" name="role" value="<?php echo htmlspecialchars($row['role']); ?>">
 
-                                    <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to activate this account?');" >
+                                    <button type="submit"  class="btn-activate" onclick="return confirm('Are you sure you want to activate this account?');" >
                                         Activate
                                     </button>
                                 </form>
 
                             <?php } ?>
 
-                            <a href="../crud/update_user_accounts.php?id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>" class="btn btn-primary"> Edit
+                            <a href="../crud/update_user_accounts.php?id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>" class="btn-edit"> Edit
                             </a>
                         </td>
                     </tr>

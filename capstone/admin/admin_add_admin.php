@@ -71,7 +71,6 @@ if (isset($_POST['submit'])) {
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -82,7 +81,7 @@ if (isset($_POST['submit'])) {
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_add_admin.css?v=layout-fix-2">
+    <link rel="stylesheet" href="../css/admin_add_admin.css?v=layout-fix-3">
 </head>
 
 <body>
@@ -98,53 +97,64 @@ if (isset($_POST['submit'])) {
             <form method="POST" enctype="multipart/form-data">
 
                 <div class="mb-3">
-                    <label>Email</label>
-                    <input type="email" name="email" class="form-control" required>
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" id="email"
+                           class="form-control" required>
                 </div>
 
                 <div class="mb-3">
-                    <label>Password</label>
-                    <input type="password" name="password" class="form-control" required>
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="password" id="password"
+                           class="form-control" required>
                 </div>
 
                 <div class="mb-3">
-                    <label>First Name</label>
-                    <input type="text" name="f_name" class="form-control" required>
+                    <label for="f_name" class="form-label">First Name</label>
+                    <input type="text" name="f_name" id="f_name"
+                           class="form-control" required>
                 </div>
 
                 <div class="mb-3">
-                    <label>Middle Name</label>
-                    <input type="text" name="m_name" class="form-control">
+                    <label for="m_name" class="form-label">Middle Name</label>
+                    <input type="text" name="m_name" id="m_name"
+                           class="form-control">
                 </div>
 
                 <div class="mb-3">
-                    <label>Last Name</label>
-                    <input type="text" name="l_name" class="form-control" required>
+                    <label for="l_name" class="form-label">Last Name</label>
+                    <input type="text" name="l_name" id="l_name"
+                           class="form-control" required>
                 </div>
 
                 <div class="mb-3">
-                    <label>Contact Number</label>
-                    <input type="text" name="contact_number" class="form-control" required>
+                    <label for="contact_number" class="form-label">Contact Number</label>
+                    <input type="text" name="contact_number" id="contact_number"
+                           class="form-control" required>
                 </div>
 
                 <div class="mb-3">
-                    <label>Profile Photo (Optional)</label>
-                    <input
-                        type="file"
-                        name="profile_photo"
-                        class="form-control"
-                        accept=".jpg,.jpeg,.png,.webp"
-                    >
+                    <label for="profile_photo" class="form-label">Profile Photo (Optional)</label>
+                    <input type="file" name="profile_photo" id="profile_photo"
+                           class="form-control"
+                           accept=".jpg,.jpeg,.png,.webp">
+
                     <small class="text-muted">
                         Accepted formats: JPG, PNG, WebP. Maximum size: 2 MB.
                     </small>
                 </div>
-                <button type="submit" name="submit" class="btn btn-success">
-                    Create
-                </button>
+
+                
+<div class="button-container">
+    <button type="submit" name="submit" class="btn btn-success">
+        Create
+    </button>
+</div>
+
+
             </form>
         </div>
     </div>
 </div>
+
 </body>
 </html>

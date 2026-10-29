@@ -136,10 +136,19 @@ if (isset($_POST['submit'])) {
                     </small>
                 </div>
 
+<<<<<<< HEAD
                 <div class="add-super-admin-actions">
                     <a href="admin_user_management.php" class="btn btn-outline-primary">Cancel</a>
                     <button type="submit" name="submit" class="btn btn-primary">Create</button>
                 </div>
+=======
+                 <div class="button-container">
+                    <button type="submit" name="submit" class="btn btn-success">
+                         Create
+                     </button>
+            </div>
+
+>>>>>>> 8c73eb223ac7245ff0eb2ff87d4e9233dc8fb79a
             </form>
     </section>
 </main>
