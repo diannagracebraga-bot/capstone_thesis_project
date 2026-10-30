@@ -19,7 +19,11 @@ if ($number < 10) {
 $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan_id ASC");
 
 ?>
+<<<<<<< HEAD
 <link rel="stylesheet" href="../css/admin_add_customer.css?v=password-toggle-1">
+=======
+<link rel="stylesheet" href="../css/admin_add_customer.css?v=module-layout-20261029-4">
+>>>>>>> 5b8ff1140d6016dd43993b8e2ab13c3134149f33
 <link rel="icon" type="image/png" href="/favicon.png?v=2">
 
 <div class="customer_registration">
@@ -51,6 +55,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
               <input type="text" class = "account_number" value="<?php echo $account_number; ?>"  readonly>
                 <input type="hidden" name="account_number" value="<?php echo $account_number; ?>">
             </div>
+<<<<<<< HEAD
             <div class="form_group">
                 <label>Email Address</label>
                 <input type="email" name="email" required>
@@ -64,6 +69,25 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
                     </button>
                 </div>
             </div>
+=======
+        
+     <div class="form_group">
+    <label>Email Address</label>
+    <input type="email" name="email" class="form-control"
+        autocomplete="email"
+        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)"
+        title="Please enter a valid email ending in .com, .ph, .net, .org, .edu, or .gov."
+        required>
+</div>
+          <div class="form_group">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" minlength="8"
+           pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
+           title="Password must contain at least 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character."
+           autocomplete="new-password"
+           required>
+</div>
+>>>>>>> 5b8ff1140d6016dd43993b8e2ab13c3134149f33
             <div class="form_group">
                 <label>First Name</label>
                 <input type="text" name="f_name" required>
@@ -76,10 +100,12 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
                 <label>Last Name</label>
                 <input type="text" name="l_name" required>
             </div>
+        
             <div class="form_group">
-                <label>Contact Number</label>
-                <input type="number" name="contact_number" required>
+                 <label>Contact Number</label>
+                  <input type="tel" name="contact_number" maxlength="11" pattern="[0-9]{11}" title="Please enter exactly 11 digits." required>
             </div>
+
             <div class="form_group">
                 <label>Age</label>
                 <input type="number" name="age" required>

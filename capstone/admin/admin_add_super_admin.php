@@ -3,8 +3,37 @@ require_once __DIR__ . '/require_super_admin.php';
 
 if (isset($_POST['submit'])) {
 
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+ 
+    $email = trim($_POST['email'] ?? '');
+
+    if (
+        !filter_var($email, FILTER_VALIDATE_EMAIL) ||
+        !preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)$/i', $email)
+    ) {
+        echo "<script>
+                alert('Invalid email! Please enter a valid email, such as name@gmail.com.');
+                window.history.back();
+              </script>";
+        exit;
+    }
+
+$password = $_POST['password'] ?? '';
+
+if (
+    strlen($password) < 8 ||
+    !preg_match('/[a-z]/', $password) ||
+    !preg_match('/[A-Z]/', $password) ||
+    !preg_match('/[0-9]/', $password) ||
+    !preg_match('/[^A-Za-z0-9]/', $password)
+) {
+    echo "<script>
+            alert('Weak password! Use at least 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character.');
+            window.history.back();
+          </script>";
+    exit;
+}
+
+$password = password_hash($password, PASSWORD_DEFAULT);
     $f_name = mysqli_real_escape_string($conn, $_POST['f_name']);
     $m_name = mysqli_real_escape_string($conn, $_POST['m_name']);
     $l_name = mysqli_real_escape_string($conn, $_POST['l_name']);
@@ -95,11 +124,16 @@ if (isset($_POST['submit'])) {
 
             <form method="POST" enctype="multipart/form-data">
 
-                <div class="mb-3">
-                    <label>Email</label>
-                    <input type="email" name="email" class="form-control" required>
-                </div>
+    <div class="mb-3">
+    <label for="email" class="form-label">Email</label>
+    <input type="email" name="email" id="email"
+           class="form-control"
+           pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)"
+           title="Please enter a valid email ending in .com, .ph, .net, .org, .edu, or .gov."
+           required>
+</div>
 
+<<<<<<< HEAD
                 <div class="mb-3">
                     <label>Password</label>
                     <div class="password-field">
@@ -109,6 +143,18 @@ if (isset($_POST['submit'])) {
                         </button>
                     </div>
                 </div>
+=======
+<div class="mb-3">
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password"
+           class="form-control"
+           minlength="8"
+           pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
+           title="Password must contain at least 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character."
+           autocomplete="new-password"
+           required>
+</div>
+>>>>>>> 5b8ff1140d6016dd43993b8e2ab13c3134149f33
 
                 <div class="mb-3">
                     <label>First Name</label>
@@ -125,10 +171,12 @@ if (isset($_POST['submit'])) {
                     <input type="text" name="l_name" class="form-control" required>
                 </div>
 
-                <div class="mb-3">
-                    <label>Contact Number</label>
-                    <input type="text" name="contact_number" class="form-control" required>
-                </div>
+             <div class="mb-3">
+    <label for="contact_number" class="form-label">Contact Number</label>
+            <input type="tel" name="contact_number" id="contact_number" class="form-control" maxlength="11" pattern="09[0-9]{9}"
+           title="Please enter a valid 11-digit contact number."
+           required>
+</div>
 
                 <div class="mb-3">
                     <label>Profile Photo (Optional)</label>

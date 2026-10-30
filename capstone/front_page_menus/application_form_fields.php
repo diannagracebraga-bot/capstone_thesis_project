@@ -48,15 +48,21 @@ $plan_result = mysqli_query($conn, $plan_query);
             <label>Contact and Address Details</label>
         </div>
 
-        <div class="form_group">
-            <label for="application_contact_number">Contact Number</label>
-            <input type="tel" id="application_contact_number" class="form-control" name="contact_number" autocomplete="tel" required >
-        </div>
+       
+<div class="form_group">
+    <label for="application_contact_number">Contact Number</label>
+    <input type="tel" id="application_contact_number" class="form-control" name="contact_number" autocomplete="tel" maxlength="11"
+           pattern="09[0-9]{9}" title="Please enter exactly 11 digits starting with 09." required>
+</div>
 
-        <div class="form_group">
-            <label for="application_email">Email Address</label>
-            <input type="email" id="application_email" class="form-control" name="email" autocomplete="email" placeholder="Enter your email address" required>
-        </div>
+<div class="form_group">
+    <label for="application_email">Email Address</label>
+    <input type="email" id="application_email" class="form-control" name="email" autocomplete="email"
+        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)"
+        title="Please enter an email ending in .com, .ph, .net, .org, .edu, or .gov."
+        required>
+</div>
+
 
         <div class="form_group">
             <label for="application_facebook_account">Facebook Account</label>
