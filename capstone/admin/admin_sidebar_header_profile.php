@@ -173,5 +173,21 @@ function renderSidebarBadge($count)
             });
         });
         </script>
+        <script>
+        document.addEventListener('click', function (event) {
+            var toggle = event.target.closest('.password-visibility-toggle');
+            if (!toggle) return;
+            var field = toggle.parentElement;
+            var input = field.querySelector('input');
+            var icon = toggle.querySelector('i');
+            if (!input) return;
+
+            var showPassword = input.type === 'password';
+            input.type = showPassword ? 'text' : 'password';
+            toggle.setAttribute('aria-label', showPassword ? 'Hide password' : 'Show password');
+            toggle.setAttribute('aria-pressed', showPassword ? 'true' : 'false');
+            if (icon) icon.className = showPassword ? 'bi bi-eye-slash' : 'bi bi-eye';
+        });
+        </script>
 </body>
 </html>

@@ -81,7 +81,7 @@ if (isset($_POST['submit'])) {
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_add_admin.css?v=announcement-layout-1">
+    <link rel="stylesheet" href="../css/admin_add_admin.css?v=password-toggle-1">
 </head>
 
 <body>
@@ -102,7 +102,12 @@ if (isset($_POST['submit'])) {
 
                 <div class="mb-3">
                     <label>Password</label>
-                    <input type="password" name="password" class="form-control" required>
+                    <div class="password-field">
+                        <input type="password" name="password" class="form-control" required>
+                        <button type="button" class="password-visibility-toggle" aria-label="Show password" aria-pressed="false">
+                            <i class="bi bi-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -136,19 +141,10 @@ if (isset($_POST['submit'])) {
                     </small>
                 </div>
 
-<<<<<<< HEAD
                 <div class="add-super-admin-actions">
                     <a href="admin_user_management.php" class="btn btn-outline-primary">Cancel</a>
                     <button type="submit" name="submit" class="btn btn-primary">Create</button>
                 </div>
-=======
-                 <div class="button-container">
-                    <button type="submit" name="submit" class="btn btn-success">
-                         Create
-                     </button>
-            </div>
-
->>>>>>> 8c73eb223ac7245ff0eb2ff87d4e9233dc8fb79a
             </form>
     </section>
 </main>

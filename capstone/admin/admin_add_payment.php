@@ -115,8 +115,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
-    <link rel="stylesheet" href="../css/admin_add_payment.css?v=999">
+<link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-4">
+<link rel="stylesheet" href="../css/admin_add_payment.css?v=announcement-theme-4">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
 
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
-<div class="card w-75">
+<div class="card w-75 add-payment-page-card">
     <div class="card-body">
         <div class="add_payment">
             <h3>Add Cash Payment</h3>

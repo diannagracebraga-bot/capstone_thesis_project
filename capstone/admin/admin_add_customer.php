@@ -19,12 +19,7 @@ if ($number < 10) {
 $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan_id ASC");
 
 ?>
-<<<<<<< HEAD
-<link rel="stylesheet" href="../css/admin_add_customer.css?v=module-layout-20261029-4">
-=======
-
-<link rel="stylesheet" href="../css/admin_add_customer.css">
->>>>>>> 8c73eb223ac7245ff0eb2ff87d4e9233dc8fb79a
+<link rel="stylesheet" href="../css/admin_add_customer.css?v=password-toggle-1">
 <link rel="icon" type="image/png" href="/favicon.png?v=2">
 
 <div class="customer_registration">
@@ -62,7 +57,12 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
             </div>
             <div class="form_group">
                 <label>Password</label>
-                <input type="password" name="password" required>
+                <div class="password-field">
+                    <input type="password" name="password" required>
+                    <button type="button" class="password-visibility-toggle" aria-label="Show password" aria-pressed="false">
+                        <i class="bi bi-eye" aria-hidden="true"></i>
+                    </button>
+                </div>
             </div>
             <div class="form_group">
                 <label>First Name</label>

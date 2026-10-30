@@ -81,16 +81,17 @@ if (isset($_POST['submit'])) {
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_add_admin.css?v=layout-fix-3">
+<link rel="stylesheet" href="../css/admin_add_admin.css?v=password-toggle-1">
 </head>
 
 <body>
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
-<div class="card">
-    <div class="card-body">
-        <div class="container mt-4">
+<main class="create-admin-page">
+    <section class="card create-admin-card">
+    <div class="card-body create-admin-card-body">
+        <div class="create-admin-form">
 
             <h2>Create Admin</h2>
 
@@ -104,8 +105,13 @@ if (isset($_POST['submit'])) {
 
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" name="password" id="password"
-                           class="form-control" required>
+                    <div class="password-field">
+                        <input type="password" name="password" id="password"
+                               class="form-control" required>
+                        <button type="button" class="password-visibility-toggle" aria-label="Show password" aria-pressed="false">
+                            <i class="bi bi-eye" aria-hidden="true"></i>
+                        </button>
+                    </div>
                 </div>
 
                 <div class="mb-3">
@@ -149,12 +155,11 @@ if (isset($_POST['submit'])) {
         Create
     </button>
 </div>
-
-
             </form>
         </div>
     </div>
-</div>
+</section>
+</main>
 
 </body>
 </html>

@@ -24,19 +24,19 @@ $ticket = mysqli_fetch_assoc($result);
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
-    <link rel="stylesheet" href="../css/admin_view_ticket_management.css">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-4">
+    <link rel="stylesheet" href="../css/admin_view_ticket_management.css?v=announcement-theme-4">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
 <body>
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
-<div class="main-content">
+<main class="ticket-detail-page">
 
-    <div class="card shadow">
+    <section class="card shadow ticket-detail-card">
 
-        <div class="card-body p-4">
+        <div class="card-body p-4 ticket-detail-card-body">
 
             <form action = "../crud/update_ticket.php" method="POST">
 
@@ -146,6 +146,7 @@ $ticket = mysqli_fetch_assoc($result);
 
                        
                     </div>
+                </div>
                 <hr class="my-4">
 
                 <label class="section-title">
@@ -178,7 +179,7 @@ $ticket = mysqli_fetch_assoc($result);
                 </div>
             </form>
         </div>
-    </div>
-</div>
+    </section>
+</main>
 </body>
 </html>

@@ -181,3 +181,56 @@ body {
         font-size: 14px;
     }
 }
+
+/* Match the Add Payment card and fields to the Announcement module. */
+.add-payment-page-card {
+    box-sizing: border-box;
+    width: calc(100% - 330px) !important;
+    max-width: none !important;
+    margin: 24px 26px 40px 304px !important;
+    padding: 0 !important;
+    border: 1px solid #dce6f1 !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 5px 16px rgba(30, 74, 121, .09) !important;
+}
+.add-payment-page-card > .card-body { padding: 28px !important; }
+.add-payment-page-card .add_payment {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: #FFFFFF;
+    box-shadow: none;
+}
+.add-payment-page-card .add_payment h3 {
+    margin: 0 0 24px;
+    padding: 0;
+    border: 0;
+    color: #123d70;
+    font-size: 24px;
+}
+.add-payment-page-card .form_group label { color: #23496f; font-weight: 700; }
+.add-payment-page-card .form_group input,
+.add-payment-page-card .form_group select { color: #000000; border-color: #ccd9e7; border-radius: 8px; }
+.add-payment-page-card .form_group input[readonly] { color: #000000; background: #f9fbfe; }
+.add-payment-page-card .form_group input:focus,
+.add-payment-page-card .form_group select:focus { border-color: #267bd0; box-shadow: 0 0 0 3px rgba(28, 117, 205, .14); }
+.add-payment-page-card .payment-plus {
+    width: auto;
+    min-width: 160px;
+    border-radius: 8px;
+    background: #315a7d;
+}
+.add-payment-page-card .payment-plus:hover { background: #264762; }
+@media (max-width: 1024px) {
+    .add-payment-page-card { width: auto !important; margin: 15px 16px 30px !important; }
+    .add-payment-page-card > .card-body { padding: 20px !important; }
+}
+@media (max-width: 768px) {
+    .add-payment-page-card { padding: 0 !important; }
+}
+@media (max-width: 520px) {
+    .add-payment-page-card { margin: 12px 10px 24px !important; }
+    .add-payment-page-card > .card-body { padding: 16px !important; }
+}

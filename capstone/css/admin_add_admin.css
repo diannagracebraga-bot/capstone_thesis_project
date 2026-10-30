@@ -342,3 +342,101 @@ input[type="file"].form-control {
     .add-super-admin-page { margin: 12px 10px 24px; }
     .add-super-admin-card { padding: 16px; }
 }
+
+/* Password reveal control shared by the Admin and Super Admin creation forms. */
+.password-field { position: relative; width: 100%; }
+.password-field > input { padding-right: 48px !important; }
+.password-visibility-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 0 8px 8px 0;
+    background: transparent;
+    color: #315a7d;
+    cursor: pointer;
+}
+.password-visibility-toggle:hover,
+.password-visibility-toggle:focus-visible { color: #004AAD; }
+
+/* Create Admin uses the same card spacing and colors as the Announcement page. */
+.create-admin-page {
+    box-sizing: border-box;
+    width: calc(100% - 330px);
+    margin: 24px 24px 40px 304px;
+}
+.create-admin-card {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid #dce6f1 !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 5px 16px rgba(30, 74, 121, .09) !important;
+}
+.create-admin-card-body {
+    padding: 28px !important;
+    border: 0 !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    box-shadow: none !important;
+}
+.create-admin-form {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+.create-admin-form h2 {
+    margin: 0 0 24px;
+    padding: 0;
+    border: 0;
+    color: #123d70;
+    font-size: 24px;
+    font-weight: 700;
+}
+.create-admin-form form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 20px;
+}
+.create-admin-form form .mb-3 {
+    min-width: 0;
+    margin: 0 !important;
+}
+.create-admin-form .form-label { color: #23496f; font-weight: 700; }
+.create-admin-form .form-control { color: #000000; border-color: #ccd9e7; border-radius: 8px; }
+.create-admin-form .form-control:focus { border-color: #267bd0; box-shadow: 0 0 0 3px rgba(28, 117, 205, .14); }
+.create-admin-form .text-muted { color: #000000 !important; }
+.create-admin-form .button-container {
+    grid-column: 1 / -1;
+    width: auto;
+    padding: 0;
+}
+.create-admin-form .button-container .btn-success {
+    width: auto;
+    min-width: 150px;
+    min-height: 42px;
+    padding: 10px 18px;
+    border: 1px solid #315a7d;
+    border-radius: 8px;
+    background: #315a7d;
+}
+.create-admin-form .button-container .btn-success:hover { border-color: #264762; background: #264762; }
+@media (max-width: 1024px) {
+    .create-admin-page { width: auto; margin: 15px 16px 30px; }
+    .create-admin-card-body { padding: 20px !important; }
+}
+@media (max-width: 600px) {
+    .create-admin-page { margin: 12px 10px 24px; }
+    .create-admin-card-body { padding: 16px !important; }
+    .create-admin-form form { grid-template-columns: 1fr; }
+}

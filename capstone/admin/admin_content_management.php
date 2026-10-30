@@ -14,7 +14,8 @@ $row = mysqli_fetch_assoc($result);
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-	<link rel="stylesheet" href="../css/admin_content_management.css">   
+	<link rel="stylesheet" href="../css/admin_content_management.css?v=announcement-theme-6">   
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-4">
 	<title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
 <body>
@@ -30,19 +31,20 @@ $row = mysqli_fetch_assoc($result);
     </div>-->
     
  
-    <div class="card w-75">
+    <div class="card w-75 content-management-page-card">
   				<div class="card-body">
                     <div class="content-management-container">
    <form action="../crud/update_content_management.php" method="POST" class="form-horizontal">
     <div class="content-wrapper">
 
-    <div class="pill-nav offset-sm-9 mb-3">
+    <div class="pill-nav mb-3">
          <a class="active" href="admin_content_management.php">Edit Services</a>
          <a href="admin_edit_plan.php">Edit Internet Plan</a>
  
 </div>
         
         <div class="business-info-card">
+            <h2 class="content-section-title">Business Information</h2>
             <div class="form-group row mb-3">
                 <label class="col-sm-2 col-form-label">BUSINESS NAME:</label>
                 <div class="col-sm-7">

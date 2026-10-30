@@ -31,18 +31,18 @@ foreach($_POST['internet_price'] as $plan_id => $internet_price){
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-	<link rel="stylesheet" href="../css/admin_edit_plan.css">
+	<link rel="stylesheet" href="../css/admin_edit_plan.css?v=announcement-theme-5">
      <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
 <body>
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
-<div class="card w-75">
+<div class="card plan-page-card">
   				<div class="card-body">
 <form method="POST" class="plan-container">
 
-         <div class="pill-nav offset-sm-9 mb-3">
+         <div class="pill-nav mb-3">
          <a href="admin_content_management.php">Edit Services</a>
          <a class="active" href="admin_edit_plan.php">Edit Internet Plan</a>
  

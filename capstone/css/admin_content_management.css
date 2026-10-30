@@ -271,3 +271,49 @@
         font-size: 12px;
     }
 }
+
+/* Content Management card follows the Announcement page's spacing and palette. */
+body > .content-management-page-card {
+    box-sizing: border-box;
+    width: calc(100% - 330px) !important;
+    max-width: none !important;
+    margin: 24px 26px 40px 304px !important;
+    padding: 0 !important;
+    border: 1px solid #dce6f1;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 5px 16px rgba(30, 74, 121, .09);
+}
+.content-management-page-card > .card-body { padding: 28px !important; }
+.content-management-page-card .business-info-card {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: #FFFFFF;
+    box-shadow: none;
+}
+.content-management-page-card .content-section-title {
+    margin: 0 0 22px;
+    color: #123d70;
+    font-size: 24px;
+    font-weight: 700;
+}
+.content-management-page-card .business-info-card .col-form-label { color: #23496f; font-weight: 700; }
+.content-management-page-card .business-info-card .form-control { color: #000000; border-color: #ccd9e7; border-radius: 8px; }
+.content-management-page-card .business-info-card .form-control:focus { border-color: #267bd0; box-shadow: 0 0 0 3px rgba(28, 117, 205, .14); }
+.content-management-page-card .pill-nav {
+    justify-content: flex-end;
+    background: #f5f8fc;
+}
+.content-management-page-card .pill-nav a.active { background: #315a7d; color: #FFFFFF; box-shadow: none; }
+.content-management-page-card .pill-nav a:hover:not(.active) { background: #e1efff; color: #123d70; }
+.content-management-page-card .save-btn { background: #315a7d; border-radius: 8px; }
+.content-management-page-card .save-btn:hover { background: #264762; }
+@media (max-width: 1024px) {
+    body > .content-management-page-card { width: auto !important; margin: 15px 16px 30px !important; }
+    .content-management-page-card > .card-body { padding: 20px !important; }
+}
+@media (max-width: 520px) {
+    body > .content-management-page-card { margin: 12px 10px 24px !important; }
+    .content-management-page-card > .card-body { padding: 16px !important; }
+}
