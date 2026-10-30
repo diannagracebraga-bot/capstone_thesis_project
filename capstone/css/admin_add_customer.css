@@ -6,9 +6,8 @@ body {
 .customer-registration-page {
     box-sizing: border-box;
     width: calc(100% - 330px) !important;
-    margin: 90px 26px 40px 304px !important;
+    margin: 24px 26px 40px 304px !important;
 }
-body:has(.customer-registration-page) > h1 { display: none; }
 .customer_registration {
     box-sizing: border-box;
     width: 100%;
