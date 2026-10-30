@@ -57,12 +57,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $f_name = mysqli_real_escape_string($conn, trim($_POST['f_name'] ?? ''));
     $m_name = mysqli_real_escape_string($conn, trim($_POST['m_name'] ?? ''));
     $l_name = mysqli_real_escape_string($conn, trim($_POST['l_name'] ?? ''));
-    $email = mysqli_real_escape_string($conn, trim($_POST['email'] ?? ''));
+    $email = trim($_POST['email'] ?? '');
     $new_password = $_POST['password'] ?? '';
-    $profile_photo = basename($_POST['old_profile_photo'] ?? 'default.png');
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("Please enter a valid email address.");
+
+    if (
+        !filter_var($email, FILTER_VALIDATE_EMAIL) ||
+        !preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)$/i', $email)
+    ) {
+        echo "<script>
+                alert('Invalid email! Please enter a valid email ending in .com, .ph, .net, .org, .edu, or .gov.');
+                window.history.back();
+              </script>";
+        exit;
     }
+
+    $email = mysqli_real_escape_string($conn, $email);
+    $profile_photo = basename($_POST['old_profile_photo'] ?? 'default.png');
+   
     if (isset($_FILES['profile_photo']) &&
         $_FILES['profile_photo']['error'] !== UPLOAD_ERR_NO_FILE) {
         if ($_FILES['profile_photo']['error'] !== UPLOAD_ERR_OK) {
@@ -312,27 +323,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                         value="<?php echo htmlspecialchars($l_name); ?>"
                         required>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Email Address</label>
-                    <input
-                        type="email"
-                        name="email"
-                        class="form-control"
-                        value="<?php echo htmlspecialchars($email); ?>"
-                        required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">New Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        class="form-control"
-                        placeholder="Leave blank to keep current password"
-                        autocomplete="new-password">
-                    <small class="text-muted">
-                        Leave blank if you do not want to change the password.
-                    </small>
-                </div>
+            
+<div class="mb-3">
+    <label for="email" class="form-label">Email Address</label>
+    <input
+        type="email"
+        name="email"
+        id="email"
+        class="form-control"
+        value="<?php echo htmlspecialchars($email); ?>"
+        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)"
+        title="Please enter a valid email address."
+        required>
+</div>
+
+               
+<div class="mb-3">
+    <label class="form-label">New Password</label>
+    <input type="password" name="password" class="form-control" placeholder="Leave blank to keep current password" minlength="8"
+        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
+        title="Password must contain at least 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character."
+        autocomplete="new-password">
+    <small class="text-muted">
+        Leave blank if you do not want to change the password.
+    </small>
+</div>
+
                 <div class="mb-3">
                     <label class="form-label">Profile Photo</label>
                     <br>

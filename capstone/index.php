@@ -92,14 +92,27 @@ $about = mysqli_fetch_assoc($about_result);
                         <label for="name"><i class="bi bi-person" aria-hidden="true"></i><span>Full Name</span></label>
                         <input type="text" id="name" name="name" placeholder="Enter your full name" autocomplete="name" required>
                     </div>
-                    <div class="inquiry-field">
-                        <label for="email"><i class="bi bi-envelope" aria-hidden="true"></i><span>Email Address</span></label>
-                        <input type="email" id="email" name="email" placeholder="Enter your email address" autocomplete="email" required>
-                    </div>
-                    <div class="inquiry-field">
-                        <label for="contact"><i class="bi bi-telephone-fill" aria-hidden="true"></i><span>Contact Number</span></label>
-                        <input type="text" id="contact" name="contact" placeholder="Enter your contact number" autocomplete="tel" required>
-                    </div>
+                   
+    
+                <div class="inquiry-field">
+                         <label for="email">
+                             <i class="bi bi-envelope" aria-hidden="true"></i>
+                           <span>Email Address</span>
+                         </label>
+
+                 <input type="email"id="email" name="email" placeholder="Enter your email address" autocomplete="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)"
+                         title="Enter an email ending in .com, .ph, .net, .org, .edu, or .gov."
+                            required>   
+</div>
+
+                  <div class="inquiry-field">
+    <label for="contact">
+        <i class="bi bi-telephone-fill" aria-hidden="true"></i>
+        <span>Contact Number</span>
+    </label>
+    <input type="tel" id="contact" name="contact" placeholder="Enter your contact number" autocomplete="tel" maxlength="11"
+           pattern="09[0-9]{9}" title="Please enter exactly 11 digits starting with 09." required>
+</div>
                     <div class="inquiry-field inquiry-field-description">
                         <label for="description"><i class="bi bi-file-earmark-text" aria-hidden="true"></i><span>Description</span></label>
                         <textarea id="description" name="description" rows="3" placeholder="Tell us about your inquiry..." required></textarea>

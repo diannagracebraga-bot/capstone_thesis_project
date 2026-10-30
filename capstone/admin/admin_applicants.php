@@ -13,7 +13,18 @@ $middle_name = $_POST['middle_name'];
 $last_name = $_POST['last_name'];
 $sex = $_POST['sex'];
 $contact_number = $_POST['contact_number'];
-$email = $_POST['email'];
+$email = trim($_POST['email'] ?? '');
+
+if (
+    !filter_var($email, FILTER_VALIDATE_EMAIL) ||
+    !preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)$/i', $email)
+) {
+    echo "<script>
+            alert('Please enter a valid email address, such as name@gmail.com.');
+            window.history.back();
+          </script>";
+    exit;
+}
 $facebook_account = $_POST['facebook_account'];
 $barangay = $_POST['barangay'];
 $address = $_POST['address'];
