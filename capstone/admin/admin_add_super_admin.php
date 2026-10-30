@@ -133,28 +133,23 @@ $password = password_hash($password, PASSWORD_DEFAULT);
            required>
 </div>
 
-<<<<<<< HEAD
-                <div class="mb-3">
-                    <label>Password</label>
-                    <div class="password-field">
-                        <input type="password" name="password" class="form-control" required>
-                        <button type="button" class="password-visibility-toggle" aria-label="Show password" aria-pressed="false">
-                            <i class="bi bi-eye" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-=======
 <div class="mb-3">
     <label for="password">Password</label>
-    <input type="password" name="password" id="password"
-           class="form-control"
-           minlength="8"
-           pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
-           title="Password must contain at least 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character."
-           autocomplete="new-password"
-           required>
+    <div class="password-field">
+        <input type="password" name="password" id="password"
+               class="form-control"
+               minlength="8"
+               pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
+               title="Password must contain at least 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character."
+               autocomplete="new-password"
+               required>
+
+        <button type="button" class="password-visibility-toggle" aria-label="Show password" aria-pressed="false">
+            <i class="bi bi-eye" aria-hidden="true"></i>
+        </button>
+    </div>
 </div>
->>>>>>> 5b8ff1140d6016dd43993b8e2ab13c3134149f33
+
 
                 <div class="mb-3">
                     <label>First Name</label>
