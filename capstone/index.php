@@ -21,8 +21,8 @@ $about = mysqli_fetch_assoc($about_result);
     <link rel="stylesheet" href="css/index_style.css?v=hero-balance-6">
     <link rel="stylesheet" href="css/inquire.css?v=tablet-spacing-2">
     <link rel="stylesheet" href="css/plan.css?v=plans-mobile-4">
-    <link rel="stylesheet" href="css/about.css?v=footer-colors-2">
-    <link rel="stylesheet" href="css/apply_internet.css?v=apply-solid-1">
+    <link rel="stylesheet" href="css/about.css?v=footer-spacing-5">
+    <link rel="stylesheet" href="css/apply_internet.css?v=privacy-modal-logo-3">
     <link rel="stylesheet" href="css/login.css?v=login-ui-2">
 </head>
 <body>
@@ -307,6 +307,22 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 <script>
+// Reopen the homepage application modal when returning from the Privacy Statement.
+document.addEventListener("DOMContentLoaded", function () {
+    var params = new URLSearchParams(window.location.search);
+    var applicationModal = document.getElementById("applicationModal");
+    if (params.get("openApplication") !== "1" || !applicationModal) return;
+
+    if (window.bootstrap && window.bootstrap.Modal) {
+        window.bootstrap.Modal.getOrCreateInstance(applicationModal).show();
+        return;
+    }
+
+    var applyButton = document.querySelector('[data-bs-target="#applicationModal"]');
+    if (applyButton) applyButton.click();
+});
+</script>
+<script>
 const togglePassword = document.getElementById("togglePassword");
 const password = document.getElementById("password");
 const eyeIcon = togglePassword.querySelector("i");
@@ -345,9 +361,14 @@ togglePassword.addEventListener("click", function () {
 
 <script>
 document.querySelectorAll(".site-nav .navbar-nav .nav-link[href^='#']").forEach(function (link) {
-    if (link.hasAttribute("data-bs-toggle")) return;
-
     link.addEventListener("click", function () {
+        var menu = document.getElementById("offcanvasNavbar");
+        if (menu && window.bootstrap && window.bootstrap.Offcanvas) {
+            window.bootstrap.Offcanvas.getOrCreateInstance(menu).hide();
+        }
+
+        if (link.hasAttribute("data-bs-toggle")) return;
+
         document.querySelectorAll(".site-nav .navbar-nav .nav-link").forEach(function (item) {
             item.classList.remove("active");
             item.removeAttribute("aria-current");

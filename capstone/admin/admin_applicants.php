@@ -8,6 +8,11 @@ if ($filled_by_column && mysqli_num_rows($filled_by_column) === 0) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+if (empty($_POST["privacy_notice_acknowledged"])) {
+    echo "<script>alert('Please acknowledge the Privacy Notice before submitting.'); window.history.back();</script>";
+    exit;
+}
+
 $first_name = $_POST['first_name'];
 $middle_name = $_POST['middle_name'];
 $last_name = $_POST['last_name'];

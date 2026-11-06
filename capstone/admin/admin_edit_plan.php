@@ -45,6 +45,7 @@ foreach($_POST['internet_price'] as $plan_id => $internet_price){
          <div class="pill-nav mb-3">
          <a href="admin_content_management.php">Edit Services</a>
          <a class="active" href="admin_edit_plan.php">Edit Internet Plan</a>
+         <a href="admin_content_management.php?section=privacy">Privacy Statement</a>
  
          
 </div>

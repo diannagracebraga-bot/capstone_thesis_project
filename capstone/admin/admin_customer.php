@@ -55,11 +55,11 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-3">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-mobile-actions-4">
     <link rel="stylesheet" href="../css/admin_customer.css?v=announcement-card-padding-20261029-5">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
-<body class="admin-module-page">
+<body class="admin-module-page admin-customer-page">
 <?php include 'admin_sidebar_header_profile.php'; ?>
 <div class="card">
     <div class="card-body">
@@ -128,13 +128,12 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                         <td> <?php echo $row['l_name']; ?>  </td>
                         <td> <?php echo $row['barangay']; ?></td>
                         <td> <?php echo $row['connection_status']; ?></td>
-                        <td><button class="btn btn-primary"data-bs-toggle="modal"data-bs-target="#editModal<?php echo $row['customer_id']; ?>">  View </button>
-                            <a href="../crud/delete_customer.php?id=<?php echo $row['customer_id']; ?>"
-                               class="btn btn-danger"
-                               onclick="return confirm('Are you sure you want to delete this customer?')">
-                                Delete
-                            </a>
-                        </td>
+                        <td>
+    <div class="table-action-buttons">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $row['customer_id']; ?>">View</button>
+        <a href="../crud/delete_customer.php?id=<?php echo $row['customer_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this customer?')">Delete</a>
+    </div>
+</td>
                     </tr>
                     <div class="modal fade" id="editModal<?php echo $row['customer_id']; ?>" tabindex="-1">
                         <div class="modal-dialog modal-xl modal-dialog-scrollable">

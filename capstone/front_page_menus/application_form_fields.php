@@ -4,6 +4,10 @@ $plan_query = "SELECT plan_id, plan_name, internet_mbps, internet_price
                ORDER BY plan_id ASC";
 
 $plan_result = mysqli_query($conn, $plan_query);
+
+$privacyStatementHref = strpos((string)($applicationAction ?? ""), "../") === 0
+    ? "privacy_statement.php"
+    : "front_page_menus/privacy_statement.php";
 ?>
 
 <form class="application-form" action="<?php echo htmlspecialchars($applicationAction, ENT_QUOTES, 'UTF-8'); ?>" method="POST" enctype="multipart/form-data">
@@ -161,9 +165,62 @@ $plan_result = mysqli_query($conn, $plan_query);
 
             <input type="text" id="application_filled_up_by" class="form-control" name="filled_up_by" autocomplete="name" required >
         </div>
-        <button type="submit" class="btn btn-primary">
+        <section class="privacy-notice" aria-labelledby="application-privacy-title">
+            <h2 id="application-privacy-title">Privacy Notice</h2>
+            <p>Your personal information will be collected and processed for account registration, subscription management, payment monitoring, and customer support. Please read our Privacy Policy to understand how your information is handled.</p>
+            <a class="privacy-policy-link" href="<?php echo htmlspecialchars($privacyStatementHref, ENT_QUOTES, 'UTF-8'); ?>" data-open-privacy-modal aria-haspopup="dialog">
+                <span aria-hidden="true">↗</span> Read our Privacy Policy
+            </a>
+            <hr>
+            <label class="privacy-acknowledgement" for="application_privacy_acknowledged">
+                <input type="checkbox" id="application_privacy_acknowledged" name="privacy_notice_acknowledged" value="1" required>
+                <span>I acknowledge that I have read the Privacy Notice.</span>
+            </label>
+            <p class="privacy-disclaimer">This acknowledgment is not automatically the same as consent to every type of data processing. Separate consent will be requested when it is the applicable lawful basis.</p>
+        </section>
+        <div class="privacy-statement-overlay" data-privacy-modal aria-hidden="true">
+            <section class="privacy-statement-dialog" role="dialog" aria-modal="true" aria-label="Privacy Statement" tabindex="-1">
+                <header class="privacy-statement-modal-header">
+                    <img class="privacy-statement-modal-logo" src="<?php echo strpos((string)($applicationAction ?? ''), '../') === 0 ? '../images/bg_logo.png' : 'images/bg_logo.png'; ?>" alt="MITZTIANPC Wired Internet Services">
+                    <button type="button" class="privacy-statement-close" data-close-privacy-modal aria-label="Close Privacy Statement">&times;</button>
+                </header>
+                <iframe src="<?php echo htmlspecialchars($privacyStatementHref . '?embed=1', ENT_QUOTES, 'UTF-8'); ?>" title="MitztianPC Privacy Statement" loading="lazy"></iframe>
+            </section>
+        </div>        <button type="submit" class="btn btn-primary">
             Submit Application
         </button>
 
     </div>
 </form>
+<script>
+document.querySelectorAll("[data-open-privacy-modal]").forEach(function (link) {
+    link.addEventListener("click", function (event) {
+        var form = link.closest(".application-form");
+        var overlay = form && form.querySelector("[data-privacy-modal]");
+        if (!overlay) return;
+
+        event.preventDefault();
+        overlay.classList.add("is-open");
+        overlay.setAttribute("aria-hidden", "false");
+        var closeButton = overlay.querySelector("[data-close-privacy-modal]");
+        if (closeButton) closeButton.focus();
+    });
+});
+
+document.querySelectorAll("[data-privacy-modal]").forEach(function (overlay) {
+    function closePrivacyModal() {
+        overlay.classList.remove("is-open");
+        overlay.setAttribute("aria-hidden", "true");
+        var link = overlay.closest(".application-form")?.querySelector("[data-open-privacy-modal]");
+        if (link) link.focus();
+    }
+
+    overlay.querySelector("[data-close-privacy-modal]").addEventListener("click", closePrivacyModal);
+    overlay.addEventListener("click", function (event) {
+        if (event.target === overlay) closePrivacyModal();
+    });
+    overlay.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") closePrivacyModal();
+    });
+});
+</script>

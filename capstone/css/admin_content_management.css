@@ -301,6 +301,7 @@ body > .content-management-page-card {
 .content-management-page-card .business-info-card .col-form-label { color: #23496f; font-weight: 700; }
 .content-management-page-card .business-info-card .form-control { color: #000000; border-color: #ccd9e7; border-radius: 8px; }
 .content-management-page-card .business-info-card .form-control:focus { border-color: #267bd0; box-shadow: 0 0 0 3px rgba(28, 117, 205, .14); }
+.content-management-page-card .privacy-editor-textarea { min-height: 110px; resize: vertical; line-height: 1.5; color: #000000; }
 .content-management-page-card .pill-nav {
     justify-content: flex-end;
     background: #f5f8fc;

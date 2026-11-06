@@ -17,6 +17,8 @@ footer{
     font-size: 20px;
 }
 
+.footer-main-row p strong { text-transform: uppercase; }
+
 .footer-links .mb-2{
     font-size: 20px;
 }
@@ -53,7 +55,8 @@ footer hr{
 }
 
 .footer-main-row .contact-title{
-    padding-left: 120px;
+    /* Align the heading with the text after the contact icons. */
+    padding-left: 125px;
 }
 
 .footer-main-row .contact-item img{
@@ -77,6 +80,7 @@ footer hr{
     footer .footer-main-row .contact-item { width: 100%; margin-left: 0; }
     footer .footer-main-row .contact-item span { flex: 1; min-width: 0; overflow-wrap: anywhere; word-break: normal; }
     footer .copyright-text { text-align: center; }
+    footer .footer-copyright-row { margin-top: 20px; }
 }
 
 /* Phone browsers in desktop-mode still use this touch-device layout. */
@@ -90,11 +94,12 @@ footer hr{
     footer .footer-main-row .contact-item { display: flex; align-items: flex-start; width: 100%; margin: 0 0 14px; gap: 12px; }
     footer .footer-main-row .contact-item img { flex: 0 0 24px; width: 24px; height: 24px; margin-top: 1px; }
     footer .footer-main-row .contact-item span { display: block; flex: 1 1 auto; min-width: 0; font-size: 16px; line-height: 1.45; overflow-wrap: anywhere; word-break: normal; }
+    footer .footer-copyright-row { margin-top: 20px; }
 }
 
 footer .footer-main-row { justify-content: center; color: #000000; }
 footer .footer-copyright-row { justify-content: center; text-align: center; }
-.copyright-text a { color: #004AAD; }
+.copyright-text a { color: #004AAD; text-transform: uppercase; }
 .copyright-text a:hover { color: #003580; }
 
 .footer-main-row .contact-item i { color: #000000; }

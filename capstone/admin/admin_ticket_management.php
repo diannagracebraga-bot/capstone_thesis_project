@@ -35,11 +35,11 @@ if (!$result) {
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-3">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-mobile-actions-4">
     <link rel="stylesheet" href="../css/admin_ticket_management.css?v=table-scroll-height-7">
 	<title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
-<body class="admin-module-page">
+<body class="admin-module-page admin-ticket-page">
 	<?php include 'admin_sidebar_header_profile.php'; ?>
 		
 		
@@ -104,14 +104,10 @@ if (!$result) {
 ?>
 </td>
 		<td>
-    <a href="admin_view_ticket_management.php?ticket_id=<?php echo $ticket['ticket_id']; ?>"
-        class="btn btn-primary">View
-    </a>
-<a href="../crud/delete_ticket.php?ticket_id=<?php echo $ticket['ticket_id']; ?>"
-   class="btn btn-danger"
-   onclick="return confirm('Are you sure you want to delete this ticket?');">
-    Delete
-</a>
+    <div class="table-action-buttons">
+        <a href="admin_view_ticket_management.php?ticket_id=<?php echo $ticket['ticket_id']; ?>" class="btn btn-primary">View</a>
+        <a href="../crud/delete_ticket.php?ticket_id=<?php echo $ticket['ticket_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this ticket?');">Delete</a>
+    </div>
 </td>
 </tr>
 <?php endwhile; ?>

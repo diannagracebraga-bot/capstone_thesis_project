@@ -11,11 +11,11 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
     <link rel="stylesheet" href="../css/admin_payment.css?v=announcement-card-padding-20261029-5">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-3">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-mobile-actions-4">
     <title>Payments</title>
 </head>
 
-<body class="admin-module-page">
+<body class="admin-module-page admin-payment-page">
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
