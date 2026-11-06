@@ -77,7 +77,7 @@
 #plan .plans-carousel .plan-card {
     box-sizing: border-box;
     display: flex;
-    flex: 0 0 clamp(260px, 24vw, 360px);
+    flex: 0 0 clamp(220px, calc((100vw - 260px) / 4), 360px);
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -117,8 +117,31 @@
 @media (max-width: 768px) {
     #plan .plans-carousel { grid-template-columns: 36px minmax(0, 1fr) 36px; gap: 6px; padding: 20px 10px; }
     #plan .plans-carousel .plans { gap: 16px; padding: 12px 4px; }
-    #plan .plans-carousel .plan-card { flex-basis: min(74vw, 320px); min-height: 290px; padding: 28px 18px; }
+    #plan .plans-carousel .plan-card { flex-basis: min(72vw, 320px, calc(100% - 8px)); min-height: 260px; padding: 24px 18px; }
     #plan .plans-carousel .plan-card:hover { transform: none; }
-    #plan .plans-carousel .plan-name { font-size: clamp(38px, 10vw, 54px); }
+    #plan .plans-carousel .plan-name { font-size: clamp(36px, 10vw, 50px); }
     #plan .plans-carousel-control { width: 36px; height: 36px; font-size: 16px; }
+}
+
+@media (max-width: 768px) { #about footer { margin-top: 18px; } }
+
+/* Fit three complete plan cards on medium-width phones, tablets and small laptop windows. */
+@media (min-width: 769px) and (max-width: 1100px) {
+    #plan .plans-carousel {
+        grid-template-columns: 34px minmax(0, 1fr) 34px;
+        gap: 8px;
+        padding: 18px 12px;
+    }
+    #plan .plans-carousel .plans { gap: 12px; padding: 12px 6px; }
+    #plan .plans-carousel .plan-card {
+        flex-basis: calc((100% - 24px) / 3);
+        min-height: 260px;
+        padding: 22px 12px;
+        border-radius: 26px;
+    }
+    #plan .plans-carousel .plan-name { font-size: clamp(26px, 3.4vw, 36px); }
+    #plan .plans-carousel .plan-card h3 { font-size: clamp(16px, 2.2vw, 20px); }
+    #plan .plans-carousel .plan-card h2 { font-size: clamp(15px, 2vw, 18px); line-height: 1.25; }
+    #plan .plans-carousel .plan-card button { padding: 8px 12px; font-size: 12px; }
+    #plan .plans-carousel-control { width: 34px; height: 34px; font-size: 16px; }
 }

@@ -18,9 +18,9 @@ $about = mysqli_fetch_assoc($about_result);
     <link rel="icon" type="image/png" href="/favicon.png">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="css/index_style.css?v=anchor-spacing-5">
-    <link rel="stylesheet" href="css/inquire.css?v=landing-ref-1">
-    <link rel="stylesheet" href="css/plan.css?v=plans-solid-1">
+    <link rel="stylesheet" href="css/index_style.css?v=hero-balance-6">
+    <link rel="stylesheet" href="css/inquire.css?v=tablet-spacing-2">
+    <link rel="stylesheet" href="css/plan.css?v=plans-mobile-4">
     <link rel="stylesheet" href="css/about.css?v=footer-colors-2">
     <link rel="stylesheet" href="css/apply_internet.css?v=apply-solid-1">
     <link rel="stylesheet" href="css/login.css?v=login-ui-2">

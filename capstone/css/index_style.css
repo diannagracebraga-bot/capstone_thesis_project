@@ -509,3 +509,14 @@ body { background: #123f70; }
         font-size: 15px;
     }
 }
+
+/* Keep the benefit row aligned with the hero wordmark and center it on phones. */
+.brand-hero .service-highlights { max-width: 620px; }
+@media (max-width: 768px) {
+    .brand-hero .service-highlights { width: min(100%, 360px); }
+    .brand-hero .service-highlight,
+    .brand-hero .service-highlight + .service-highlight {
+        justify-content: center;
+        text-align: center;
+    }
+}
