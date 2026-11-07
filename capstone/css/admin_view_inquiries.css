@@ -267,3 +267,56 @@ span.status-badge.cancelled {
         padding: 5px 8px;
     }
 }
+
+/* Inquiry detail page follows the Announcement module's content card layout. */
+.view-inquiry-page {
+    box-sizing: border-box;
+    width: calc(100% - 330px) !important;
+    max-width: none !important;
+    margin: 24px 26px 40px 304px !important;
+    padding: 0 !important;
+    overflow-x: clip;
+}
+.view-inquiry-card {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 28px;
+    border: 1px solid #dce6f1;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 5px 16px rgba(30, 74, 121, .09);
+}
+.view-inquiry-card-body { padding: 0; }
+.view-inquiry-card .row { margin-right: 0; margin-left: 0; }
+.view-inquiry-card .section-title {
+    display: block;
+    margin: 0 0 18px;
+    color: #123d70;
+    font-size: 20px;
+    font-weight: 700;
+}
+.view-inquiry-card label { color: #23496f; font-weight: 700; }
+.view-inquiry-card .table td { color: #000000; }
+.view-inquiry-card .form-select,
+.view-inquiry-card .form-control {
+    border-color: #ccd9e7;
+    border-radius: 8px;
+    color: #000000;
+}
+.view-inquiry-card .form-select:focus,
+.view-inquiry-card .form-control:focus {
+    border-color: #267bd0;
+    box-shadow: 0 0 0 3px rgba(28, 117, 205, .14);
+}
+.view-inquiry-card .btn { border-radius: 8px; font-weight: 700; }
+.view-inquiry-card .btn-primary { background: #315a7d; border-color: #315a7d; }
+.view-inquiry-card .btn-primary:hover { background: #264762; border-color: #264762; }
+@media (max-width: 1024px) {
+    .view-inquiry-page { width: auto !important; margin: 15px 16px 30px !important; }
+    .view-inquiry-card { padding: 20px; }
+}
+@media (max-width: 520px) {
+    .view-inquiry-page { margin: 12px 10px 24px; }
+    .view-inquiry-card { padding: 16px; }
+}

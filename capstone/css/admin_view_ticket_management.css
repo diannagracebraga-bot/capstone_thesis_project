@@ -119,3 +119,48 @@ span.status-badge.cancelled {
         padding: 6px 9px;
     }
 }
+
+/* Match the ticket detail card and its information fields to Announcements. */
+.ticket-detail-page {
+    box-sizing: border-box;
+    width: calc(100% - 330px) !important;
+    max-width: none !important;
+    margin: 24px 26px 40px 304px !important;
+    padding: 0 !important;
+}
+.ticket-detail-card {
+    box-sizing: border-box;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid #dce6f1 !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 5px 16px rgba(30, 74, 121, .09) !important;
+}
+.ticket-detail-card-body { padding: 28px !important; }
+.ticket-detail-card .section-title {
+    display: block;
+    margin: 0 0 16px;
+    color: #123d70;
+    font-size: 20px;
+    font-weight: 700;
+}
+.ticket-detail-card .table td,
+.ticket-detail-card textarea,
+.ticket-detail-card .form-select { color: #000000; }
+.ticket-detail-card .form-select,
+.ticket-detail-card textarea { border-color: #ccd9e7; border-radius: 8px; }
+.ticket-detail-card .form-select:focus,
+.ticket-detail-card textarea:focus { border-color: #267bd0; box-shadow: 0 0 0 3px rgba(28, 117, 205, .14); }
+.ticket-detail-card .btn { border-radius: 8px; font-weight: 700; }
+.ticket-detail-card .btn-primary { border-color: #315a7d; background: #315a7d; }
+.ticket-detail-card .btn-primary:hover { border-color: #264762; background: #264762; }
+@media (max-width: 1024px) {
+    .ticket-detail-page { width: auto !important; margin: 15px 16px 30px !important; }
+    .ticket-detail-card-body { padding: 20px !important; }
+}
+@media (max-width: 520px) {
+    .ticket-detail-page { margin: 12px 10px 24px !important; }
+    .ticket-detail-card-body { padding: 16px !important; }
+}

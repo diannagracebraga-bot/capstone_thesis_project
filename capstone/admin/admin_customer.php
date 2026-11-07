@@ -54,20 +54,21 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
-    <link rel="stylesheet" href="../css/admin_customer.css?v=admin-modal-palette-2">
+    <link rel="icon" type="image/png" href="/favicon.png?v=2">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-mobile-actions-4">
+    <link rel="stylesheet" href="../css/admin_customer.css?v=announcement-card-padding-20261029-5">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
-<body>
+<body class="admin-module-page admin-customer-page">
 <?php include 'admin_sidebar_header_profile.php'; ?>
-<div class="card w-75">
+<div class="card">
     <div class="card-body">
         <div class="table-container1">
             <div class="aligned">
 <div class="searchbar-container">
     <form method="GET" action="">
         <div class="input-group">
-            <input type="text" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($search, ENT_QUOTES, 'UTF-8'); ?>" autocomplete="off">
+         <input type="text" id="customerSearch" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($search, ENT_QUOTES, 'UTF-8'); ?>" autocomplete="off">
 
             <button type="submit" class="btn btn-primary">
                 Search
@@ -85,15 +86,15 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 </div>
 
 
-    <div class="status-filter">
-        <select id="statusFilter" class="form-select">
-            <option value="" selected disabled hidden>Select Status</option>
-            <option value="connected">Connected    </option>
-            <option value="inactive">Inactive</option>
-            <option value="disconnected">Disconnected</option>
-            <option value="frozen">Frozen</option>
-        </select>
-    </div>
+   <div class="status-filter">
+    <select id="statusFilter" class="form-select">
+        <option value="" selected>All Status</option>
+        <option value="connected">Connected</option>
+        <option value="inactive">Inactive</option>
+        <option value="disconnected">Disconnected</option>
+        <option value="frozen">Frozen</option>
+    </select>
+</div>
     <div class="add_customer">
         <form action="admin_add_customer_page.php" method="GET">
             <button class="btn btn-primary" type="submit">
@@ -127,13 +128,12 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
                         <td> <?php echo $row['l_name']; ?>  </td>
                         <td> <?php echo $row['barangay']; ?></td>
                         <td> <?php echo $row['connection_status']; ?></td>
-                        <td><button class="btn btn-primary"data-bs-toggle="modal"data-bs-target="#editModal<?php echo $row['customer_id']; ?>">  View </button>
-                            <a href="../crud/delete_customer.php?id=<?php echo $row['customer_id']; ?>"
-                               class="btn btn-danger"
-                               onclick="return confirm('Are you sure you want to delete this customer?')">
-                                Delete
-                            </a>
-                        </td>
+                        <td>
+    <div class="table-action-buttons">
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $row['customer_id']; ?>">View</button>
+        <a href="../crud/delete_customer.php?id=<?php echo $row['customer_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this customer?')">Delete</a>
+    </div>
+</td>
                     </tr>
                     <div class="modal fade" id="editModal<?php echo $row['customer_id']; ?>" tabindex="-1">
                         <div class="modal-dialog modal-xl modal-dialog-scrollable">
@@ -318,27 +318,36 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+
     const searchInput = document.getElementById("customerSearch");
     const statusFilter = document.getElementById("statusFilter");
     const table = document.getElementById("customerTable");
+
     if (!searchInput || !statusFilter || !table) {
         console.error("Search input, status filter, or table not found.");
         return;
     }
+
     const rows = table.querySelectorAll("tbody tr");
+
     function filterCustomers() {
+
         const searchValue = searchInput.value.toLowerCase().trim();
         const selectedStatus = statusFilter.value.toLowerCase().trim();
+
         rows.forEach(function (row) {
+
             if (row.cells.length < 7) {
                 return;
             }
+
             const accountNumber = row.cells[0].textContent.toLowerCase().trim();
             const firstName = row.cells[1].textContent.toLowerCase().trim();
             const middleName = row.cells[2].textContent.toLowerCase().trim();
             const lastName = row.cells[3].textContent.toLowerCase().trim();
             const barangay = row.cells[4].textContent.toLowerCase().trim();
             const status = row.cells[5].textContent.toLowerCase().trim();
+
             const customerData = [
                 accountNumber,
                 firstName,
@@ -347,9 +356,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 barangay,
                 status
             ].join(" ");
+
             const matchesSearch = customerData.includes(searchValue);
+
             const matchesStatus =
                 selectedStatus === "" || status === selectedStatus;
+
             row.style.display =
                 matchesSearch && matchesStatus ? "" : "none";
         });
@@ -357,7 +369,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     searchInput.addEventListener("input", filterCustomers);
     statusFilter.addEventListener("change", filterCustomers);
+
     filterCustomers();
+
 });
 </script>
 

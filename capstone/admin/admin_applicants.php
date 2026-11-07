@@ -8,12 +8,29 @@ if ($filled_by_column && mysqli_num_rows($filled_by_column) === 0) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
+if (empty($_POST["privacy_notice_acknowledged"])) {
+    echo "<script>alert('Please acknowledge the Privacy Notice before submitting.'); window.history.back();</script>";
+    exit;
+}
+
 $first_name = $_POST['first_name'];
 $middle_name = $_POST['middle_name'];
 $last_name = $_POST['last_name'];
 $sex = $_POST['sex'];
 $contact_number = $_POST['contact_number'];
-$email = $_POST['email'];
+$email = trim($_POST['email'] ?? '');
+
+if (
+    !filter_var($email, FILTER_VALIDATE_EMAIL) ||
+    !preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)$/i', $email)
+) {
+    echo "<script>
+            alert('Please enter a valid email address, such as name@gmail.com.');
+            window.history.back();
+          </script>";
+    exit;
+} 
+
 $facebook_account = $_POST['facebook_account'];
 $barangay = $_POST['barangay'];
 $address = $_POST['address'];
@@ -24,34 +41,79 @@ $filled_up_by = mysqli_real_escape_string($conn, trim($_POST['filled_up_by'] ?? 
 $date_received = date("Y-m-d H:i:s");
 $status = "Pending";
 
+
 $hoa_certificate = "";
 
-if (isset($_FILES['hoa_certificate']) && $_FILES['hoa_certificate']['error'] == 0) {
+if (isset($_FILES['hoa_certificate'])) {
 
-    $upload_folder = "../uploads/hoa_certificates/";
+    if ($_FILES['hoa_certificate']['error'] != 4) {
 
-    if (!is_dir($upload_folder)) {
-        mkdir($upload_folder, 0777, true);
+        if ($_FILES['hoa_certificate']['error'] != 0) {
+            echo "<script>
+                    alert('There was a problem uploading your HOA Certificate. Please try again.');
+                    window.history.back();
+                  </script>";
+            exit;
+        }
+
+        $file_name = $_FILES['hoa_certificate']['name'];
+        $tmp_name = $_FILES['hoa_certificate']['tmp_name'];
+
+        $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+        $allowed_extensions = ['jpg', 'jpeg', 'png', 'pdf'];
+
+        $allowed_types = [
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'pdf' => 'application/pdf'
+        ];
+
+        $file_info = finfo_open(FILEINFO_MIME_TYPE);
+        $file_type = finfo_file($file_info, $tmp_name);
+        finfo_close($file_info);
+
+        if (
+            !in_array($file_extension, $allowed_extensions) ||
+            !isset($allowed_types[$file_extension]) ||
+            $file_type != $allowed_types[$file_extension]
+        ) {
+            echo "<script>
+                    alert('Invalid file! Please upload JPG, JPEG, PNG, or PDF only.');
+                    window.history.back();
+                  </script>";
+            exit;
+        }
+
+        $upload_folder = "../uploads/hoa_certificates/";
+
+        if (!is_dir($upload_folder)) {
+            mkdir($upload_folder, 0777, true);
+        }
+
+        $new_file_name = uniqid() . "." . $file_extension;
+
+        if (move_uploaded_file($tmp_name, $upload_folder . $new_file_name)) {
+
+            $hoa_certificate = $new_file_name;
+
+        } else {
+            echo "<script>
+                    alert('Failed to upload HOA Certificate. Please try again.');
+                    window.history.back();
+                  </script>";
+            exit;
+        }
     }
+}
 
-    $file_name = $_FILES['hoa_certificate']['name'];
-    $tmp_name = $_FILES['hoa_certificate']['tmp_name'];
-
-    $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-
-    $allowed_extensions = ['jpg', 'jpeg', 'png', 'pdf'];
-
-    if (in_array($file_extension, $allowed_extensions)) {
-
-        $new_file_name = time() . "_" . basename($file_name);
-
-        move_uploaded_file(
-            $tmp_name,
-            $upload_folder . $new_file_name
-        );
-
-        $hoa_certificate = $new_file_name;
-    }
+if ($phase_7_carissa == "Yes" && empty($hoa_certificate)) {
+    echo "<script>
+            alert('HOA Certificate is required for customers from Phase 7 Carissa.');
+            window.history.back();
+          </script>";
+    exit;
 }
 
 
@@ -62,32 +124,35 @@ VALUES
 ('$first_name', '$middle_name', '$last_name','$sex', '$contact_number', '$email', '$facebook_account', '$barangay', '$address',
 '$internet_plan', '$desired_installation_date', '$phase_7_carissa', '$hoa_certificate', '$date_received', '$status', '$filled_up_by')";
 
-if(mysqli_query($conn, $sql)){
+    if(mysqli_query($conn, $sql)){
 
-    $applicant_id = mysqli_insert_id($conn);
+        $applicant_id = mysqli_insert_id($conn);
 
-    echo "<script>  
-            alert('Internet Application submitted successfully!\\n\\nYour reference number is: " . $applicant_id . "');
-            window.location='../index.php';
-          </script>";
+        echo "<script>
+                alert('Your Internet Application has been submitted successfully!\\n\\nYour reference number is: " . $applicant_id . "');
+                window.location='../index.php';
+              </script>";
 
-}else{
-    echo "Failed to Submit Application " . mysqli_error($conn);
-}}
+    }else{
+        echo "Failed to Submit Application " . mysqli_error($conn);
+    }
+
+}
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
 	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-	 <link rel="stylesheet" href="../css/admin_applicants.css?v=admin-modal-palette-2">
-	 <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css">
+      <link rel="icon" type="image/png" href="/favicon.png?v=2">
+	 <link rel="stylesheet" href="../css/admin_applicants.css?v=announcement-theme-3">
+	 <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-3">
 	<title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
-<body>
+<body class="admin-module-page">
 	<?php include 'admin_sidebar_header_profile.php'; ?>
 	
-			<div class="card w-75">
+			<div class="card">
   				<div class="card-body">
 			<div class = "table-container">
               

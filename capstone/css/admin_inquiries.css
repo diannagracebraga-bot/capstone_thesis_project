@@ -1,11 +1,12 @@
 .card{
-    width: 75%;
-    padding: 20px;
+    box-sizing: border-box;
+    width: calc(100% - 330px);
+    padding: 0;
     margin: 0 0 0 305px;
     box-shadow: 0 6px 15px rgba(0,74,173,0.3);
 }
 .table-container{
-    max-height: 550px;
+    max-height: clamp(220px, calc(100vh - 390px), 550px);
     overflow-y: auto; /* vertical scroll */
     overflow-x: auto; /*horizontal scroll  */
 }
@@ -78,3 +79,7 @@ span.status-badge {
     padding: 10px;
     border-radius: 10px;
 }
+
+.card > .card-body { padding: 28px !important; }
+@media (max-width: 1024px) { .card > .card-body { padding: 20px !important; } }
+@media (max-width: 520px) { .card > .card-body { padding: 16px !important; } }

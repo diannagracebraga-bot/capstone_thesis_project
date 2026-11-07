@@ -1,87 +1,442 @@
+
 body {
-    background-color: #f4f7fb;
-    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f5f7fb;
+    font-family: Arial, Helvetica, sans-serif;
     color: #333;
 }
-h1 {
-    margin: 30px 0 20px 305px;
-    font-size: 28px;
-    font-weight: 600;
-    color: #004aad;
-}
+
+/* Main Card */
 .card {
-    background-color: #ffffff;
+    width: 75%;
+    margin: 30px 0 30px 305px;
+    padding: 20px;
     border: none;
     border-radius: 12px;
+    background-color: #ffffff;
+    box-shadow: 0 6px 20px rgba(0, 74, 173, 0.12);
     box-sizing: border-box;
-    width: min(900px, calc(100% - 280px));
-    max-width: 900px;
-    margin: 30px 0 20px max(250px, calc((100% - 900px + 230px) / 2));
-    padding: 20px;
-    box-shadow: 0 6px 15px rgba(0,74,173,0.3);
 }
+
+/* Card Body */
+.card-body {
+    background-color: #eef6ff;
+    border: 1px solid #dbeafe;
+    border-radius: 12px;
+    padding: 25px;
+    width: 100%;
+    margin: 0 auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
+/* Add Admin Form Container */
 .container {
-    max-width: 840px;
-    margin: auto;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 15px;
+    border-radius: 12px;
+    box-sizing: border-box;
 }
+
+/* Page Heading */
 .container h2 {
     color: #004aad;
     font-size: 26px;
-    font-weight: 600;
-    margin-bottom: 25px;
-}
-.form-label,
-label {
-    font-weight: 500;
-    color: #333;
-    margin-bottom: 7px;
-}
-.form-control {
-    border: 1px solid #ced4da;
-    border-radius: 7px;
-    padding: 10px 12px;
-    font-size: 15px;
-    transition: 0.2s ease;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 30px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #d6e7ff;
 }
 
-.form-control:focus {
-    border-color: #004aad;
-    box-shadow: 0 0 0 0.2rem rgba(0, 74, 173, 0.15);
+/* Two-Column Form Layout */
+.container form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 22px 25px;
 }
-.btn-success {
-    background-color: #198754;
-    border: none;
+
+/* Form Groups */
+.container form .mb-3 {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    margin-bottom: 0 !important;
+}
+
+/* Form Labels */
+.form-label {
+    display: block;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: #243447;
+    margin-bottom: 8px;
+}
+
+/* Form Inputs */
+.form-control {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 13px;
+    border: 1px solid #cbd5e1;
     border-radius: 7px;
-    padding: 10px 25px;
-    font-weight: 500;
-    transition: 0.2s ease;
+    background-color: #ffffff;
+    color: #212529;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-.btn-success:hover {
-    background-color: #157347;
-    transform: translateY(-1px);
+
+/* Input Focus */
+.form-control:focus {
+    border-color: #0d6efd;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.13);
 }
-.mb-3 {
-    margin-bottom: 18px !important;
+
+/* File Input */
+input[type="file"].form-control {
+    padding: 7px 10px;
 }
-@media (max-width: 1024px) {
-    h1 {
-        margin-left: 0;
-        font-size: 22px;
+
+/* Input Placeholder */
+.form-control::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+}
+
+/* Help Text */
+.text-muted {
+    display: block;
+    margin-top: 7px;
+    color: #64748b !important;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Full-Width Fields */
+.full_width {
+    grid-column: 1 / -1;
+}
+
+/* Create Button Container */
+.button-container {
+    display: flex;
+    align-items: flex-start;
+    width: 100%;
+    min-width: 0;
+    padding-top: 29px;
+    box-sizing: border-box;
+}
+
+/* Create Button - Same Width as Input */
+.button-container .btn-success {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    padding: 10px 13px;
+    margin: 0;
+    border: 1px solid #004aad;
+    border-radius: 7px;
+    background-color: #004aad;
+    color: #ffffff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    box-sizing: border-box;
+    cursor: pointer;
+    transition: background-color 0.2s ease,
+                box-shadow 0.2s ease,
+                transform 0.2s ease;
+}
+
+/* Button Hover */
+.button-container .btn-success:hover {
+    background-color: #003780;
+    border-color: #003780;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 74, 173, 0.2);
+}
+
+/* Button Focus */
+.button-container .btn-success:focus {
+    background-color: #004aad;
+    border-color: #0d6efd;
+    color: #ffffff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.13);
+}
+
+/* Button Active */
+.button-container .btn-success:active {
+    background-color: #003780 !important;
+    border-color: #003780 !important;
+    color: #ffffff !important;
+    transform: scale(0.99);
+}
+
+/* Tablet Layout */
+@media (max-width: 1200px) {
+    .card {
+        width: calc(100% - 280px);
+        margin-left: 260px;
     }
 
+    .card-body {
+        padding: 20px;
+    }
+
+    .container {
+        max-width: 100%;
+        padding: 15px;
+    }
+}
+
+/* Mobile Layout */
+@media (max-width: 768px) {
     .card {
-        width: calc(100% - 24px);
-        max-width: 700px;
-        margin: 12px auto 20px;
-        padding: 16px;
+        width: calc(100% - 30px);
+        margin: 15px;
+        padding: 10px;
+    }
+
+    .card-body {
+        padding: 15px;
     }
 
     .container {
         width: 100%;
         max-width: 100%;
-        padding-right: 0;
-        padding-left: 0;
+        padding: 10px;
+        margin: 0;
     }
-    .container h2 { font-size: 22px; margin-bottom: 18px; }
-    .form-control { padding: 9px 10px; }
+
+    /* Switch to One Column */
+    .container form {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .full_width {
+        grid-column: auto;
+    }
+
+    .container h2 {
+        font-size: 22px;
+        margin-bottom: 22px;
+    }
+
+    .form-control {
+        padding: 9px 10px;
+    }
+
+    /* Remove Desktop Alignment Spacing */
+    .button-container {
+        padding-top: 0;
+    }
+
+    .button-container .btn-success {
+        min-height: 44px;
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
+/* Small Mobile Layout */
+@media (max-width: 480px) {
+    .card {
+        width: calc(100% - 20px);
+        margin: 10px;
+        padding: 10px;
+    }
+
+    .card-body {
+        padding: 12px;
+    }
+
+    .container {
+        padding: 6px;
+    }
+
+    .container h2 {
+        font-size: 20px;
+    }
+
+    .form-label {
+        font-size: 14px;
+    }
+}
+
+/* Add-user form uses the same page width, card, and spacing as Announcements. */
+.add-super-admin-page {
+    box-sizing: border-box;
+    width: calc(100% - 330px);
+    margin: 24px 24px 40px 304px;
+}
+.add-super-admin-card {
+    box-sizing: border-box;
+    padding: 28px;
+    border: 1px solid #dce6f1;
+    border-radius: 14px;
+    background: #FFFFFF;
+    box-shadow: 0 5px 16px rgba(30, 74, 121, .09);
+}
+.add-super-admin-card h2 {
+    margin: 0 0 24px;
+    color: #123d70;
+    font-size: 24px;
+    font-weight: 700;
+}
+.add-super-admin-card label {
+    color: #23496f;
+    font-weight: 700;
+}
+.add-super-admin-card .form-control {
+    min-height: 42px;
+    border-color: #ccd9e7;
+    border-radius: 8px;
+    color: #000000;
+}
+.add-super-admin-card .form-control:focus {
+    border-color: #267bd0;
+    box-shadow: 0 0 0 3px rgba(28, 117, 205, .14);
+}
+.add-super-admin-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.add-super-admin-actions .btn {
+    min-width: 120px;
+    padding: 10px 17px;
+    border-radius: 8px;
+    font-weight: 700;
+}
+.add-super-admin-actions .btn-primary {
+    border-color: #315a7d;
+    background: #315a7d;
+}
+.add-super-admin-actions .btn-primary:hover {
+    border-color: #264762;
+    background: #264762;
+}
+.add-super-admin-actions .btn-outline-primary {
+    border-color: #315a7d;
+    color: #315a7d;
+}
+.add-super-admin-actions .btn-outline-primary:hover {
+    background: #315a7d;
+    color: #FFFFFF;
+}
+@media (max-width: 1024px) {
+    .add-super-admin-page { width: auto; margin: 15px 16px 30px; }
+    .add-super-admin-card { padding: 20px; }
+}
+@media (max-width: 520px) {
+    .add-super-admin-page { margin: 12px 10px 24px; }
+    .add-super-admin-card { padding: 16px; }
+}
+
+/* Password reveal control shared by the Admin and Super Admin creation forms. */
+.password-field { position: relative; width: 100%; }
+.password-field > input { padding-right: 48px !important; }
+.password-visibility-toggle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 0 8px 8px 0;
+    background: transparent;
+    color: #315a7d;
+    cursor: pointer;
+}
+.password-visibility-toggle:hover,
+.password-visibility-toggle:focus-visible { color: #004AAD; }
+
+/* Create Admin uses the same card spacing and colors as the Announcement page. */
+.create-admin-page {
+    box-sizing: border-box;
+    width: calc(100% - 330px);
+    margin: 24px 24px 40px 304px;
+}
+.create-admin-card {
+    box-sizing: border-box;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 1px solid #dce6f1 !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 5px 16px rgba(30, 74, 121, .09) !important;
+}
+.create-admin-card-body {
+    padding: 28px !important;
+    border: 0 !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    box-shadow: none !important;
+}
+.create-admin-form {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+.create-admin-form h2 {
+    margin: 0 0 24px;
+    padding: 0;
+    border: 0;
+    color: #123d70;
+    font-size: 24px;
+    font-weight: 700;
+}
+.create-admin-form form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 20px;
+}
+.create-admin-form form .mb-3 {
+    min-width: 0;
+    margin: 0 !important;
+}
+.create-admin-form .form-label { color: #23496f; font-weight: 700; }
+.create-admin-form .form-control { color: #000000; border-color: #ccd9e7; border-radius: 8px; }
+.create-admin-form .form-control:focus { border-color: #267bd0; box-shadow: 0 0 0 3px rgba(28, 117, 205, .14); }
+.create-admin-form .text-muted { color: #000000 !important; }
+.create-admin-form .button-container {
+    grid-column: 1 / -1;
+    width: auto;
+    padding: 0;
+}
+.create-admin-form .button-container .btn-success {
+    width: auto;
+    min-width: 150px;
+    min-height: 42px;
+    padding: 10px 18px;
+    border: 1px solid #315a7d;
+    border-radius: 8px;
+    background: #315a7d;
+}
+.create-admin-form .button-container .btn-success:hover { border-color: #264762; background: #264762; }
+@media (max-width: 1024px) {
+    .create-admin-page { width: auto; margin: 15px 16px 30px; }
+    .create-admin-card-body { padding: 20px !important; }
+}
+@media (max-width: 600px) {
+    .create-admin-page { margin: 12px 10px 24px; }
+    .create-admin-card-body { padding: 16px !important; }
+    .create-admin-form form { grid-template-columns: 1fr; }
 }

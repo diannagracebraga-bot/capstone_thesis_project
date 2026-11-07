@@ -60,8 +60,9 @@ function renderSidebarBadge($count)
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+     
 	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-header-sidebar-9">
+	 <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-header-sidebar-10">
 
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
@@ -170,6 +171,22 @@ function renderSidebarBadge($count)
             sidebar.querySelectorAll('a').forEach(function (link) {
                 link.addEventListener('click', function () { sidebar.classList.remove('mobile-open'); });
             });
+        });
+        </script>
+        <script>
+        document.addEventListener('click', function (event) {
+            var toggle = event.target.closest('.password-visibility-toggle');
+            if (!toggle) return;
+            var field = toggle.parentElement;
+            var input = field.querySelector('input');
+            var icon = toggle.querySelector('i');
+            if (!input) return;
+
+            var showPassword = input.type === 'password';
+            input.type = showPassword ? 'text' : 'password';
+            toggle.setAttribute('aria-label', showPassword ? 'Hide password' : 'Show password');
+            toggle.setAttribute('aria-pressed', showPassword ? 'true' : 'false');
+            if (icon) icon.className = showPassword ? 'bi bi-eye-slash' : 'bi bi-eye';
         });
         </script>
 </body>

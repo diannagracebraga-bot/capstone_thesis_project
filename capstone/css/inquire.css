@@ -40,3 +40,37 @@
     .form input, .form textarea { width: 100%; margin-left: 0; }
     .form button { width: 100%; }
 }
+
+/* Avoid a viewport-height gap below the landing content on tablet-width screens. */
+@media (max-width: 991.98px) {
+    main.landing-split { min-height: 0; height: auto; max-height: none; }
+}
+
+/* Keep the hero logo proportional to the inquiry card in tablet landscape. */
+@media (min-width: 769px) and (max-width: 991.98px) {
+    main.landing-split {
+        grid-template-columns: minmax(0, .9fr) minmax(360px, 1.1fr);
+        gap: clamp(22px, 3vw, 32px);
+        padding: 36px clamp(22px, 3.8vw, 34px);
+        align-items: center;
+    }
+    .brand-hero .hero-logo { width: min(25vw, 220px); margin-bottom: 16px; }
+    .brand-hero .hero-wordmark { font-size: clamp(34px, 5vw, 46px); letter-spacing: 1px; }
+    .brand-hero .hero-submark {
+        font-size: clamp(15px, 2.5vw, 22px);
+        letter-spacing: clamp(1px, .35vw, 3px);
+        white-space: normal;
+    }
+    .brand-hero .hero-rule { margin: 14px auto 10px; }
+    .brand-hero .hero-tagline { font-size: 16px; }
+    .brand-hero .service-highlights { gap: 8px; margin-top: 20px; }
+    .brand-hero .service-highlight,
+    .brand-hero .service-highlight + .service-highlight { gap: 8px; padding: 10px 8px; font-size: 12px; }
+    .brand-hero .service-icon { width: 36px; height: 36px; flex-basis: 36px; font-size: 19px; }
+}
+
+@media (min-width: 769px) and (max-width: 850px) {
+    main.landing-split { grid-template-columns: minmax(0, 1fr); gap: 26px; padding: 34px 24px; }
+    .brand-hero .hero-logo { width: min(45vw, 220px); }
+    .landing-split #inquire .inquiry-card { max-width: 680px; }
+}

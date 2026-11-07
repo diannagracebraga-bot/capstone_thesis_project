@@ -1,10 +1,37 @@
-<?php
+﻿<?php
 require_once __DIR__ . '/../admin/require_admin_access.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
 
-    $email = $_POST['email'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+$email = trim($_POST['email'] ?? '');
+
+if (
+    !filter_var($email, FILTER_VALIDATE_EMAIL) ||
+    !preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)$/i', $email)
+) {
+    echo "<script>
+            alert('Invalid email address! Please enter a valid email, such as name@gmail.com.');
+            window.history.back();
+          </script>";
+    exit;
+}
+$password = $_POST['password'] ?? '';
+
+if (
+    strlen($password) < 8 ||
+    !preg_match('/[a-z]/', $password) ||
+    !preg_match('/[A-Z]/', $password) ||
+    !preg_match('/[0-9]/', $password) ||
+    !preg_match('/[^A-Za-z0-9]/', $password)
+) {
+    echo "<script>
+            alert('Password must contain at least 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character.');
+            window.history.back();
+          </script>";
+    exit;
+}
+
+$password = password_hash($password, PASSWORD_DEFAULT);
 
     $fname = $_POST['f_name'];
     $mname = $_POST['m_name'];

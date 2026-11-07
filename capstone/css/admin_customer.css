@@ -1,6 +1,7 @@
 .card{
-    width: 75%;
-    padding: 20px;
+    box-sizing: border-box;
+    width: calc(100% - 330px);
+    padding: 0;
     margin: 0 0 0 305px;
     box-shadow: 0 6px 15px rgba(0,74,173,0.3);
 }
@@ -167,3 +168,110 @@ span.status-badge {
     .modal .modal-footer { padding: 12px 18px; }
     .modal .modal-footer .btn { flex: 1; }
 }
+
+/* Keep the customer edit modal header/footer visible while only the form scrolls. */
+[id^="editModal"].modal {
+    z-index: 1060;
+    padding: 0 !important;
+}
+
+[id^="editModal"] .modal-dialog {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 40px);
+    max-width: 1100px;
+    height: calc(100vh - 110px);
+    max-height: calc(100vh - 110px);
+    margin: 90px auto 20px;
+    overflow: hidden;
+}
+
+[id^="editModal"] .modal-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+[id^="editModal"] .customer-modal-header {
+    flex: 0 0 auto;
+    padding: 20px 26px;
+    border: 0;
+    background: #004aad;
+    color: #fff;
+}
+
+[id^="editModal"] .customer-modal-header .modal-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+[id^="editModal"] .customer-modal-header .btn-close {
+    opacity: .9;
+}
+
+[id^="editModal"] form {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+}
+
+[id^="editModal"] .modal-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    height: auto;
+    max-height: none !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+[id^="editModal"] .modal-footer {
+    flex: 0 0 auto;
+    background: #fff;
+}
+
+@media (max-width: 768px) {
+    [id^="editModal"] .modal-dialog {
+        width: calc(100% - 16px);
+        height: calc(100vh - 100px);
+        max-height: calc(100vh - 100px);
+        margin: 90px auto 10px;
+    }
+}
+
+@media (max-width: 575px) {
+    [id^="editModal"] .customer-modal-header {
+        padding: 16px 18px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .card {
+    box-sizing: border-box; padding: 0; }
+}
+
+@media (max-width: 520px) {
+    .card {
+    box-sizing: border-box; padding: 0; }
+}
+
+.card-body { padding: 28px; }
+@media (max-width: 1024px) { .card-body { padding: 20px; } }
+@media (max-width: 520px) { .card-body { padding: 16px; } }
+
+.card > .card-body { padding: 16px !important; }
+@media (max-width: 1024px) { .card > .card-body { padding: 12px !important; } }
+@media (max-width: 520px) { .card > .card-body { padding: 10px !important; } }
+
+/* Match the Announcement card's inner spacing. */
+.card {
+    box-sizing: border-box; padding: 0; }
+.card > .card-body { padding: 28px !important; }
+@media (max-width: 1024px) { .card > .card-body { padding: 20px !important; } }
+@media (max-width: 520px) { .card > .card-body { padding: 16px !important; } }

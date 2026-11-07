@@ -254,3 +254,68 @@
         font-size: 14px;
     }
 }
+
+/* Announcement-style layout for Internet Plan editing. */
+body > div.plan-page-card {
+    box-sizing: border-box;
+    width: calc(100% - 330px) !important;
+    max-width: none !important;
+    margin: 24px 26px 40px 304px !important;
+    padding: 0 !important;
+    border: 1px solid #dce6f1 !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 2px 8px rgba(30, 74, 121, .07) !important;
+}
+body > div.plan-page-card:hover {
+    box-shadow: 0 2px 8px rgba(30, 74, 121, .07) !important;
+}
+.plan-page-card > .card-body { padding: 28px !important; }
+.plan-page-card .plan-container { width: 100%; }
+.plan-page-card .plan-container > .container {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: #FFFFFF;
+    box-shadow: none;
+}
+.plan-page-card .pill-nav {
+    justify-content: flex-end;
+    gap: 8px;
+    margin: 0 0 22px;
+    padding: 5px;
+    border-radius: 10px;
+    background: #f5f8fc;
+}
+.plan-page-card .pill-nav a.active { background: #315a7d; color: #FFFFFF; box-shadow: none; }
+.plan-page-card .pill-nav a:hover:not(.active) { background: #e1efff; color: #123d70; }
+.plan-page-card .form-group.row:not(:last-child) {
+    align-items: center;
+    margin: 0 0 14px !important;
+    padding: 14px 10px;
+    border: 1px solid #e0e8f1;
+    border-radius: 10px;
+    background: #f9fbfe;
+    transition: background-color .2s ease;
+}
+.plan-page-card .form-group.row:not(:last-child):hover { background: #edf4fb; box-shadow: none; }
+.plan-page-card .col-form-label { color: #23496f; font-weight: 700; }
+.plan-page-card .form-control { color: #000000; border-color: #ccd9e7; border-radius: 8px; }
+.plan-page-card .form-control:focus { border-color: #267bd0; box-shadow: 0 0 0 3px rgba(28, 117, 205, .14); }
+.plan-page-card .save-btn { background: #315a7d; border-radius: 8px; }
+.plan-page-card .save-btn:hover { background: #264762; }
+@media (max-width: 1024px) {
+    body > div.plan-page-card { width: auto !important; margin: 15px 16px 30px !important; }
+    .plan-page-card > .card-body { padding: 20px !important; }
+}
+@media (max-width: 768px) {
+    body > div.plan-page-card { padding: 0 !important; }
+    .plan-page-card > .card-body { padding: 20px !important; }
+}
+@media (max-width: 520px) {
+    body > div.plan-page-card { margin: 12px 10px 24px !important; }
+    .plan-page-card > .card-body { padding: 16px !important; }
+}

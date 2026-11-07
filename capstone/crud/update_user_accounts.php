@@ -57,12 +57,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $f_name = mysqli_real_escape_string($conn, trim($_POST['f_name'] ?? ''));
     $m_name = mysqli_real_escape_string($conn, trim($_POST['m_name'] ?? ''));
     $l_name = mysqli_real_escape_string($conn, trim($_POST['l_name'] ?? ''));
-    $email = mysqli_real_escape_string($conn, trim($_POST['email'] ?? ''));
+    $email = trim($_POST['email'] ?? '');
     $new_password = $_POST['password'] ?? '';
-    $profile_photo = basename($_POST['old_profile_photo'] ?? 'default.png');
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("Please enter a valid email address.");
+
+    if (
+        !filter_var($email, FILTER_VALIDATE_EMAIL) ||
+        !preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)$/i', $email)
+    ) {
+        echo "<script>
+                alert('Invalid email! Please enter a valid email ending in .com, .ph, .net, .org, .edu, or .gov.');
+                window.history.back();
+              </script>";
+        exit;
     }
+
+    $email = mysqli_real_escape_string($conn, $email);
+    $profile_photo = basename($_POST['old_profile_photo'] ?? 'default.png');
+   
     if (isset($_FILES['profile_photo']) &&
         $_FILES['profile_photo']['error'] !== UPLOAD_ERR_NO_FILE) {
         if ($_FILES['profile_photo']['error'] !== UPLOAD_ERR_OK) {
@@ -198,11 +209,72 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     <title>Edit User Account</title>
     <style>
         body {
-            background: #f3f7fc;
+            background: #FFFFFF;
         }
-        .edit-container {
-            max-width: 800px;
-            margin: 35px auto;
+        body > h1 { color: #000000 !important; }
+        .container.edit-container {
+            box-sizing: border-box;
+            width: calc(100% - 330px) !important;
+            max-width: none !important;
+            margin: 24px 26px 40px 304px !important;
+            padding: 0 !important;
+        }
+        .edit-container > .card {
+            overflow: hidden;
+            border: 1px solid #dce6f1;
+            border-radius: 14px;
+            background: #FFFFFF;
+            box-shadow: 0 5px 16px rgba(30, 74, 121, .09) !important;
+        }
+        .edit-container .card-header.bg-primary {
+            padding: 20px 28px;
+            border: 0;
+            border-bottom: 1px solid #dce6f1;
+            background: #FFFFFF !important;
+            color: #123d70 !important;
+        }
+        .edit-container .card-header h3 {
+            margin: 0;
+            color: #123d70;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        .edit-container .card-body { padding: 28px; }
+        .edit-container .form-label {
+            margin-bottom: 6px;
+            color: #23496f;
+            font-weight: 700;
+        }
+        .edit-container .form-control,
+        .edit-container .form-select {
+            min-height: 42px;
+            border-color: #ccd9e7;
+            border-radius: 8px;
+            color: #000000;
+        }
+        .edit-container .form-control:focus,
+        .edit-container .form-select:focus {
+            border-color: #267bd0;
+            box-shadow: 0 0 0 3px rgba(28, 117, 205, .14);
+        }
+        .edit-user-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+        .edit-user-actions .btn { min-width: 130px; padding: 10px 17px; border-radius: 8px; font-weight: 700; }
+        .edit-user-actions .btn-primary { border-color: #315a7d; background: #315a7d; }
+        .edit-user-actions .btn-primary:hover { border-color: #264762; background: #264762; }
+        .edit-user-actions .btn-secondary { border-color: #ccd9e7; background: #FFFFFF; color: #315a7d; }
+        .edit-user-actions .btn-secondary:hover { background: #f1f6fc; color: #264762; }
+        @media (max-width: 1024px) {
+            .container.edit-container {
+                width: auto !important;
+                margin: 15px 16px 30px !important;
+            }
+            .edit-container .card-body { padding: 20px; }
+            .edit-container .card-header.bg-primary { padding: 18px 20px; }
+        }
+        @media (max-width: 520px) {
+            .container.edit-container { margin: 12px 10px 24px !important; }
+            .edit-container .card-body { padding: 16px; }
+            .edit-user-actions .btn { flex: 1 1 130px; }
         }
         .profile-preview {
             width: 110px;
@@ -216,7 +288,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
 </head>
 <body>
 <?php include '../admin/admin_sidebar_header_profile.php'; ?>
-<div class="container edit-container">
+<main class="container edit-container">
     <div class="card shadow-sm">
         <div class="card-header bg-primary text-white">
             <h3 class="mb-0">
@@ -251,27 +323,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                         value="<?php echo htmlspecialchars($l_name); ?>"
                         required>
                 </div>
-                <div class="mb-3">
-                    <label class="form-label">Email Address</label>
-                    <input
-                        type="email"
-                        name="email"
-                        class="form-control"
-                        value="<?php echo htmlspecialchars($email); ?>"
-                        required>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label">New Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        class="form-control"
-                        placeholder="Leave blank to keep current password"
-                        autocomplete="new-password">
-                    <small class="text-muted">
-                        Leave blank if you do not want to change the password.
-                    </small>
-                </div>
+            
+<div class="mb-3">
+    <label for="email" class="form-label">Email Address</label>
+    <input
+        type="email"
+        name="email"
+        id="email"
+        class="form-control"
+        value="<?php echo htmlspecialchars($email); ?>"
+        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)"
+        title="Please enter a valid email address."
+        required>
+</div>
+
+               
+<div class="mb-3">
+    <label class="form-label">New Password</label>
+    <input type="password" name="password" class="form-control" placeholder="Leave blank to keep current password" minlength="8"
+        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
+        title="Password must contain at least 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character."
+        autocomplete="new-password">
+    <small class="text-muted">
+        Leave blank if you do not want to change the password.
+    </small>
+</div>
+
                 <div class="mb-3">
                     <label class="form-label">Profile Photo</label>
                     <br>
@@ -331,14 +408,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
                         </select>
                     </div>
                 <?php } ?>
-                <button type="submit" name="update" class="btn btn-success"> Update Account </button>
+                <div class="edit-user-actions">
+                <button type="submit" name="update" class="btn btn-primary"> Update Account </button>
                 <a href="delete_user_account.php?record_id=<?php echo urlencode($id); ?>&role=<?php echo urlencode($role); ?>" class="btn btn-danger"
                     onclick="return confirm('Are you sure you want to delete this account?');"> Delete Account </a>
                     <a href="../admin/admin_user_management.php" class="btn btn-secondary"> Cancel </a>
+                </div>
             </form>
         </div>
     </div>
-</div>
+</main>
 
 </body>
 </html>

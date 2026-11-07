@@ -12,17 +12,18 @@ $page = $_GET['page'] ?? 'users';
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../css/admin_user_management.css?v=mobile-layout-3">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=mobile-layout-3">
+    <link rel="icon" type="image/png" href="/favicon.png?v=2">
+    <link rel="stylesheet" href="../css/admin_user_management.css?v=announcement-card-padding-20261029-5">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-mobile-actions-4">
 
     <title>User Management</title>
 </head>
 
-<body>
+<body class="admin-module-page admin-user-page">
 
 <?php include 'admin_sidebar_header_profile.php'; ?>
 
-<div class="card w-75">
+<div class="card">
     <div class="card-body">
 
         <div class="table-container">
@@ -149,7 +150,7 @@ $page = $_GET['page'] ?? 'users';
                                   <input type="hidden" name="record_id" value="<?php echo $row['record_id']; ?>" >
                                     <input type="hidden" name="role" value="<?php echo htmlspecialchars($row['role']); ?>" >
 
-                                    <button type="submit" class="btn btn-warning" onclick="return confirm('Are you sure you want to deactivate this account?');">
+                                    <button type="submit" class="btn-deactivate" onclick="return confirm('Are you sure you want to deactivate this account?');">
                                         Deactivate
                                     </button>
 
@@ -161,14 +162,14 @@ $page = $_GET['page'] ?? 'users';
                                     <input type="hidden" name="record_id" value="<?php echo $row['record_id']; ?>">
                                     <input type="hidden" name="role" value="<?php echo htmlspecialchars($row['role']); ?>">
 
-                                    <button type="submit" class="btn btn-success" onclick="return confirm('Are you sure you want to activate this account?');" >
+                                    <button type="submit"  class="btn-activate" onclick="return confirm('Are you sure you want to activate this account?');" >
                                         Activate
                                     </button>
                                 </form>
 
                             <?php } ?>
 
-                            <a href="../crud/update_user_accounts.php?id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>" class="btn btn-primary"> Edit
+                            <a href="../crud/update_user_accounts.php?id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>" class="btn-edit"> Edit
                             </a>
                         </td>
                     </tr>

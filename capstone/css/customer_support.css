@@ -12,14 +12,16 @@ body {
 }
 
 .support-content > .card {
-    width: min(100%, 1120px);
-    margin: 0 auto;
-    padding: 20px;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 0;
     border: 1px solid #e0e9f3;
     border-radius: 14px;
     background: #fff;
     box-shadow: 0 8px 24px rgba(31, 67, 108, .09);
 }
+.support-content > .card > .card-body { padding: 28px !important; }
 
 .support-content h2 {
     margin: 0 0 16px;
@@ -134,10 +136,10 @@ body {
 
 @media (max-width: 1024px), (hover: none) and (pointer: coarse) {
     .support-content { margin-left: 0 !important; width: 100%; padding: 96px 16px 30px; }
+    .support-content > .card > .card-body { padding: 20px !important; }
 }
 
 @media (max-width: 768px) {
-    .support-content > .card { padding: 16px; }
     .form-box { padding: 18px; }
     .form-box .row { display: block; margin-bottom: 0; }
     .submit-btn { width: 100%; }
@@ -146,6 +148,6 @@ body {
 
 @media (max-width: 480px) {
     .support-content { padding: 84px 10px 24px; }
-    .support-content > .card { padding: 12px; }
+    .support-content > .card > .card-body { padding: 16px !important; }
     .form-box { padding: 14px; }
 }
