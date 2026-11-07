@@ -1,13 +1,8 @@
-```php
 <?php
-session_start();
+include '../admin/check_customer_access.php';
 
 include '../database/database_connection.php';
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../index.php");
-    exit();
-}
 
 $user_id = $_SESSION['user_id'];
 $message = "";
@@ -424,7 +419,13 @@ $internet_plan = $customer['plan_name'] . " (" .
     </div>
 
 </main>
-
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+</script>
 </body>
 
 </html>

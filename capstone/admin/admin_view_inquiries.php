@@ -1,4 +1,6 @@
 <?php
+include '../admin/check_admin_access.php';
+
 include '../database/database_connection.php';
 
 $inquiries_id = $_GET['inquiries_id'];
@@ -126,5 +128,12 @@ $row = mysqli_fetch_assoc($result);
         </div>
     </section>
 </main>
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+</script>
 </body>
 </html>

@@ -1,12 +1,9 @@
 <?php
-session_start();
+include '../admin/check_customer_access.php';
+
 include '../database/database_connection.php';
 require_once '../database/announcements_helper.php';
 
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] != "customer") {
-    header("Location: ../index.php");
-    exit();
-}
 $user_id = $_SESSION['user_id'];
 ensureAnnouncementsTable($conn);
 

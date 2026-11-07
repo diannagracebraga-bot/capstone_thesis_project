@@ -1,5 +1,5 @@
 <?php
-session_start();
+include '../admin/check_super_admin_access.php';
 include '../database/database_connection.php';
 require_once '../database/announcements_helper.php';
 
@@ -111,5 +111,12 @@ $announcements = mysqli_query($conn, 'SELECT announcement_id, title, message, cr
         </div>
     </section>
 </main>
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+</script>
 </body>
 </html>

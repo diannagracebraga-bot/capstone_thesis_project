@@ -1,4 +1,5 @@
 <?php
+include '../admin/check_admin_access.php';
 include '../database/database_connection.php';
 
 if (isset($_GET['updated'])) {
@@ -372,6 +373,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     filterCustomers();
 
+});
+</script>
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
 });
 </script>
 

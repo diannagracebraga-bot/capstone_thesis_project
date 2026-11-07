@@ -1,6 +1,6 @@
 <?php
+include '../admin/check_customer_access.php';
 
-session_start();
 include '../database/database_connection.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -9,11 +9,6 @@ use PHPMailer\PHPMailer\Exception;
 require '../PHPMailer-master/src/Exception.php';
 require '../PHPMailer-master/src/PHPMailer.php';
 require '../PHPMailer-master/src/SMTP.php';
-
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../index.php");
-    exit();
-}
 
 $user_id = $_SESSION['user_id'];
 
@@ -351,5 +346,12 @@ try {
         </div>
     </div>
 </div>
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+</script>
 </body>
 </html>
