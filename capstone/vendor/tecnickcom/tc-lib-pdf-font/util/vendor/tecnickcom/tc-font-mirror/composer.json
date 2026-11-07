@@ -1,0 +1,20 @@
+{
+  "name": "tecnickcom/tc-font-mirror",
+  "description": "Mirror for open font files",
+  "type": "library",
+  "homepage": "http://www.tecnick.com",
+  "keywords": [
+    "fonts",
+    "tc-font-mirror",
+    "font"
+  ],
+  "authors": [
+    {
+      "name": "Nicola Asuni",
+      "email": "info@tecnick.com",
+      "role": "lead"
+    }
+  ],
+  "require": {},
+  "require-dev": {}
+}

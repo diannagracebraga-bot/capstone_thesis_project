@@ -1,0 +1,23 @@
+{
+    "packages": [
+        {
+            "name": "tecnickcom/tc-font-mirror",
+            "version": "2.4.0",
+            "version_normalized": "2.4.0.0",
+            "dist": {
+                "type": "zip",
+                "url": "https://github.com/tecnickcom/tc-font-mirror/archive/refs/tags/2.4.0.zip"
+            },
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "classmap": [
+                    "."
+                ]
+            },
+            "install-path": "../tecnickcom/tc-font-mirror"
+        }
+    ],
+    "dev": false,
+    "dev-package-names": []
+}

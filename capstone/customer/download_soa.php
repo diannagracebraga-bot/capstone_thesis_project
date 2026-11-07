@@ -1,9 +1,10 @@
 <?php
 session_start();
 
-require_once '../database/database_connection.php';
-require_once '../pdf_library/fpdf19/fpdf.php';
+require_once __DIR__ . '/../database/database_connection.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
+// CUSTOMER ACCESS VALIDATION
 if (
     !isset($_SESSION['user_id']) ||
     !isset($_SESSION['role']) ||
@@ -15,6 +16,7 @@ if (
 
 $user_id = (int) $_SESSION['user_id'];
 
+// BILLING MONTH VALIDATION
 $month = filter_input(INPUT_GET, 'month', FILTER_VALIDATE_INT);
 $year  = filter_input(INPUT_GET, 'year', FILTER_VALIDATE_INT);
 
@@ -27,11 +29,9 @@ if (
 }
 
 $start_date = sprintf('%04d-%02d-01', $year, $month);
-$end_date = date(
-    'Y-m-d',
-    strtotime($start_date . ' +1 month')
-);
+$end_date = date('Y-m-d', strtotime($start_date . ' +1 month'));
 
+// GET CUSTOMER INFORMATION
 $sql = "SELECT
             c.user_id,
             c.account_number,
@@ -61,6 +61,7 @@ if (!$customer) {
     exit('Customer account not found.');
 }
 
+// GET PAYMENT HISTORY
 $payment_sql = "SELECT
                     id,
                     amount,
@@ -74,6 +75,7 @@ $payment_sql = "SELECT
                 ORDER BY created_at ASC, id ASC";
 
 $stmt = mysqli_prepare($conn, $payment_sql);
+
 mysqli_stmt_bind_param(
     $stmt,
     'iss',
@@ -81,26 +83,38 @@ mysqli_stmt_bind_param(
     $start_date,
     $end_date
 );
+
 mysqli_stmt_execute($stmt);
 
 $payment_result = mysqli_stmt_get_result($stmt);
+
 $payments = [];
-$total_paid = 0.0;
+$total_paid = 0.00;
 
 while ($payment = mysqli_fetch_assoc($payment_result)) {
+
     $payments[] = $payment;
 
-    if (strcasecmp(trim($payment['payment_status']), 'Paid') === 0) {
+    if (
+        strcasecmp(
+            trim($payment['payment_status']),
+            'Paid'
+        ) === 0
+    ) {
         $total_paid += (float) $payment['amount'];
     }
 }
 
 mysqli_stmt_close($stmt);
 
+// BILLING COMPUTATION
 $monthly_charge = (float) $customer['internet_price'];
+
 $balance = $monthly_charge - $total_paid;
+
 $amount_due = max(0, $balance);
 $credit = max(0, -$balance);
+
 $customer_name = trim(
     ($customer['f_name'] ?? '') . ' ' .
     ($customer['m_name'] ?? '') . ' ' .
@@ -108,26 +122,88 @@ $customer_name = trim(
 );
 
 $billing_period = date('F Y', strtotime($start_date));
-$pdf = new FPDF('P', 'mm', 'A4');
-$pdf->SetTitle('Statement of Account - ' . $customer['account_number']);
+
+$due_date = (
+    !empty($customer['due_date']) &&
+    $customer['due_date'] !== '0000-00-00'
+)
+    ? date('F d, Y', strtotime($customer['due_date']))
+    : 'Not set';
+
+// PDF PASSWORD: CUSTOMER ACCOUNT NUMBER
+$pdf_password = trim((string) $customer['account_number']);
+
+if ($pdf_password === '') {
+    http_response_code(500);
+    exit('Unable to generate PDF password.');
+}
+
+// CREATE PDF
+$pdf = new TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
+
+$pdf->SetCreator('MITZTIANPC');
+$pdf->SetAuthor('MITZTIANPC');
+$pdf->SetTitle(
+    'Statement of Account - ' . $customer['account_number']
+);
+
 $pdf->SetMargins(15, 15, 15);
 $pdf->SetAutoPageBreak(true, 15);
+
+$pdf->setPrintHeader(false);
+$pdf->setPrintFooter(false);
+
+// PASSWORD PROTECTION
+// Customer must enter account number to open the PDF.
+$pdf->SetProtection(
+    ['print', 'copy'],
+    $pdf_password,
+    null,
+    3
+);
+
 $pdf->AddPage();
-$pdf->SetFont('Arial', 'B', 18);
-$pdf->Cell(0, 10, 'MITZTIANPC', 0, 1, 'C');
-$pdf->SetFont('Arial', 'B', 15);
-$pdf->Cell(0, 9, 'STATEMENT OF ACCOUNT', 0, 1, 'C');
-$pdf->SetFont('Arial', '', 10);
-$pdf->Cell(0, 7, 'Billing Period: ' . $billing_period, 0, 1, 'C');
+
+// COMPANY HEADER
+$pdf->SetFont('helvetica', 'B', 18);
+$pdf->Cell(
+    0, 10,
+    'MITZTIANPC',
+    0, 1, 'C'
+);
+
+$pdf->SetFont('helvetica', 'B', 15);
+$pdf->Cell(
+    0, 9,
+    'STATEMENT OF ACCOUNT',
+    0, 1, 'C'
+);
+
+$pdf->SetFont('helvetica', '', 10);
+$pdf->Cell(
+    0, 7,
+    'Billing Period: ' . $billing_period,
+    0, 1, 'C'
+);
+
 $pdf->Ln(6);
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(0, 7, 'CUSTOMER INFORMATION', 0, 1);
-$pdf->SetFont('Arial', '', 10);
+
+// CUSTOMER INFORMATION
+$pdf->SetFont('helvetica', 'B', 11);
+$pdf->Cell(
+    0, 7,
+    'CUSTOMER INFORMATION',
+    0, 1
+);
+
+$pdf->SetFont('helvetica', '', 10);
+
 $pdf->Cell(
     95, 7,
     'Customer: ' . $customer_name,
     0, 0
 );
+
 $pdf->Cell(
     0, 7,
     'Account No.: ' . $customer['account_number'],
@@ -139,6 +215,7 @@ $pdf->Cell(
     'Plan: ' . $customer['plan_name'],
     0, 0
 );
+
 $pdf->Cell(
     0, 7,
     'Speed: ' . $customer['internet_mbps'] . ' Mbps',
@@ -147,30 +224,42 @@ $pdf->Cell(
 
 $pdf->Cell(
     0, 7,
-    'Due Date: ' .
-    (
-        !empty($customer['due_date']) &&
-        $customer['due_date'] !== '0000-00-00'
-            ? date('F d, Y', strtotime($customer['due_date']))
-            : 'Not set'
-    ),
+    'Due Date: ' . $due_date,
     0, 1
 );
 
 $pdf->Ln(6);
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(0, 7, 'BILLING SUMMARY', 0, 1);
-$pdf->SetFont('Arial', '', 10);
+
+// BILLING SUMMARY
+$pdf->SetFont('helvetica', 'B', 11);
+$pdf->Cell(
+    0, 7,
+    'BILLING SUMMARY',
+    0, 1
+);
+
 $summary = [
     ['Monthly Internet Charge', $monthly_charge],
     ['Payments Received', -$total_paid],
-    ['AMOUNT DUE', $amount_due],
+    ['AMOUNT DUE', $amount_due]
 ];
 
 foreach ($summary as $item) {
+
     $is_total = ($item[0] === 'AMOUNT DUE');
-    $pdf->SetFont('Arial', $is_total ? 'B' : '', 10);
-    $pdf->Cell(120, 8, $item[0], 1, 0);
+
+    $pdf->SetFont(
+        'helvetica',
+        $is_total ? 'B' : '',
+        10
+    );
+
+    $pdf->Cell(
+        120, 8,
+        $item[0],
+        1, 0
+    );
+
     $pdf->Cell(
         0, 8,
         ($item[1] < 0 ? '- ' : '') .
@@ -178,64 +267,129 @@ foreach ($summary as $item) {
         1, 1, 'R'
     );
 }
+
 if ($credit > 0) {
-    $pdf->SetFont('Arial', 'B', 10);
-    $pdf->Cell(120, 8, 'CUSTOMER CREDIT', 1, 0);
+
+    $pdf->SetFont('helvetica', 'B', 10);
+
+    $pdf->Cell(
+        120, 8,
+        'CUSTOMER CREDIT',
+        1, 0
+    );
+
     $pdf->Cell(
         0, 8,
         'PHP ' . number_format($credit, 2),
         1, 1, 'R'
     );
 }
+
 $pdf->Ln(7);
-$pdf->SetFont('Arial', 'B', 11);
-$pdf->Cell(0, 7, 'PAYMENT HISTORY FOR THIS BILLING PERIOD', 0, 1);
-$pdf->SetFont('Arial', 'B', 9);
+
+// PAYMENT HISTORY
+$pdf->SetFont('helvetica', 'B', 11);
+
+$pdf->Cell(
+    0, 7,
+    'PAYMENT HISTORY FOR THIS BILLING PERIOD',
+    0, 1
+);
+
+$pdf->SetFont('helvetica', 'B', 9);
+
 $pdf->Cell(30, 8, 'Date', 1);
 $pdf->Cell(55, 8, 'Payment Method', 1);
 $pdf->Cell(35, 8, 'Status', 1);
 $pdf->Cell(55, 8, 'Amount', 1, 1, 'R');
-$pdf->SetFont('Arial', '', 9);
+
+$pdf->SetFont('helvetica', '', 9);
 
 if (count($payments) === 0) {
-    $pdf->Cell(175, 9, 'No payment records for this month.', 1, 1);
+
+    $pdf->Cell(
+        175, 9,
+        'No payment records for this month.',
+        1, 1
+    );
+
 } else {
+
     foreach ($payments as $payment) {
+
+        // Prevent payment rows from breaking across pages.
+        if ($pdf->GetY() > 260) {
+            $pdf->AddPage();
+
+            $pdf->SetFont('helvetica', 'B', 9);
+            $pdf->Cell(30, 8, 'Date', 1);
+            $pdf->Cell(55, 8, 'Payment Method', 1);
+            $pdf->Cell(35, 8, 'Status', 1);
+            $pdf->Cell(55, 8, 'Amount', 1, 1, 'R');
+
+            $pdf->SetFont('helvetica', '', 9);
+        }
+
         $pdf->Cell(
             30, 8,
             date('m-d-Y', strtotime($payment['created_at'])),
             1
         );
+
         $pdf->Cell(
             55, 8,
             substr($payment['payment_method'], 0, 28),
             1
         );
+
         $pdf->Cell(
             35, 8,
             substr($payment['payment_status'], 0, 16),
             1
         );
+
         $pdf->Cell(
             55, 8,
-            'PHP ' . number_format((float) $payment['amount'], 2),
+            'PHP ' . number_format(
+                (float) $payment['amount'],
+                2
+            ),
             1, 1, 'R'
         );
     }
 }
+
+// FOOTER NOTE
 $pdf->Ln(8);
-$pdf->SetFont('Arial', 'I', 9);
+
+$pdf->SetFont('helvetica', 'I', 9);
+
 $pdf->MultiCell(
     0, 6,
-    'This statement is based on the customer plan and payment records ' .
-    'available in the system for the selected billing period.'
+    'This statement is based on the customer plan and payment records available in the system for the selected billing period.'
 );
-$pdf->Output(
-    'D',
-    'SOA_' . preg_replace(
-        '/[^A-Za-z0-9_-]/',
-        '_',
-        (string) $customer['account_number']
-    ) . '_' . $year . '_' . sprintf('%02d', $month) . '.pdf'
+
+$pdf->Ln(4);
+
+$pdf->SetFont('helvetica', 'B', 9);
+
+$pdf->MultiCell(
+    0, 6,
+    'PDF PASSWORD: Use your account number to open this Statement of Account.'
 );
+
+// DOWNLOAD PDF
+$account_filename = preg_replace(
+    '/[^A-Za-z0-9_-]/',
+    '_',
+    (string) $customer['account_number']
+);
+
+$filename = 'SOA_' .
+    $account_filename . '_' .
+    $year . '_' .
+    sprintf('%02d', $month) . '.pdf';
+
+$pdf->Output($filename, 'D');
+
 exit;

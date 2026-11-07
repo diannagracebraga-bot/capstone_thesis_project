@@ -1,0 +1,14 @@
+**/*.bak
+**/*.tmp
+**/.#*
+**/.DS_Store
+**/._*
+**/.idea
+**/.vagrant
+**/auth.json
+**/nbproject
+__TMP
+composer.lock
+phpunit.xml
+target
+vendor
