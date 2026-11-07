@@ -147,19 +147,19 @@ $privacyStatementHref = strpos((string)($applicationAction ?? ""), "../") === 0
             </label>
         </fieldset>
 
-        <div class="form_group">
-            <label for="application_hoa_certificate">
-                HOA Certificate
-            </label>
+      <div class="form_group">
+    <label for="application_hoa_certificate">
+        HOA Certificate
+    </label>
 
-            <input type="file" id="application_hoa_certificate" class="form-control" name="hoa_certificate" accept=".jpg,.jpeg,.png,.pdf">
+    <input type="file" id="application_hoa_certificate" class="form-control" name="hoa_certificate" accept=".jpg,.jpeg,.png,.pdf">
 
-            <small class="form-text text-muted">
-                <strong>Required for customers from Phase 7 Carissa.</strong>
-                Please upload your HOA Certificate if applicable.
-                Accepted file types: JPG, JPEG, PNG, and PDF.
-            </small>
-        </div>
+    <small class="form-text text-muted">
+        <strong>Required for customers from Phase 7 Carissa.</strong>
+        Please upload your HOA Certificate if applicable.
+        Accepted file types: JPG, JPEG, PNG, and PDF.
+    </small>
+</div>
         <div class="form_group application-filled-by">
             <label for="application_filled_up_by"> Filled Up By:</label>
 

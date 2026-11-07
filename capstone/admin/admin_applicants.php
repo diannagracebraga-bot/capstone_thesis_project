@@ -6,7 +6,7 @@ if ($filled_by_column && mysqli_num_rows($filled_by_column) === 0) {
     mysqli_query($conn, "ALTER TABLE internet_application_tbl ADD filled_up_by VARCHAR(150) NOT NULL DEFAULT ''");
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") 
 
 if (empty($_POST["privacy_notice_acknowledged"])) {
     echo "<script>alert('Please acknowledge the Privacy Notice before submitting.'); window.history.back();</script>";
@@ -40,34 +40,79 @@ $filled_up_by = mysqli_real_escape_string($conn, trim($_POST['filled_up_by'] ?? 
 $date_received = date("Y-m-d H:i:s");
 $status = "Pending";
 
+
 $hoa_certificate = "";
 
-if (isset($_FILES['hoa_certificate']) && $_FILES['hoa_certificate']['error'] == 0) {
+if (isset($_FILES['hoa_certificate'])) {
 
-    $upload_folder = "../uploads/hoa_certificates/";
+    if ($_FILES['hoa_certificate']['error'] != 4) {
 
-    if (!is_dir($upload_folder)) {
-        mkdir($upload_folder, 0777, true);
+        if ($_FILES['hoa_certificate']['error'] != 0) {
+            echo "<script>
+                    alert('There was a problem uploading your HOA Certificate. Please try again.');
+                    window.history.back();
+                  </script>";
+            exit;
+        }
+
+        $file_name = $_FILES['hoa_certificate']['name'];
+        $tmp_name = $_FILES['hoa_certificate']['tmp_name'];
+
+        $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
+
+        $allowed_extensions = ['jpg', 'jpeg', 'png', 'pdf'];
+
+        $allowed_types = [
+            'jpg' => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png' => 'image/png',
+            'pdf' => 'application/pdf'
+        ];
+
+        $file_info = finfo_open(FILEINFO_MIME_TYPE);
+        $file_type = finfo_file($file_info, $tmp_name);
+        finfo_close($file_info);
+
+        if (
+            !in_array($file_extension, $allowed_extensions) ||
+            !isset($allowed_types[$file_extension]) ||
+            $file_type != $allowed_types[$file_extension]
+        ) {
+            echo "<script>
+                    alert('Invalid file! Please upload JPG, JPEG, PNG, or PDF only.');
+                    window.history.back();
+                  </script>";
+            exit;
+        }
+
+        $upload_folder = "../uploads/hoa_certificates/";
+
+        if (!is_dir($upload_folder)) {
+            mkdir($upload_folder, 0777, true);
+        }
+
+        $new_file_name = uniqid() . "." . $file_extension;
+
+        if (move_uploaded_file($tmp_name, $upload_folder . $new_file_name)) {
+
+            $hoa_certificate = $new_file_name;
+
+        } else {
+            echo "<script>
+                    alert('Failed to upload HOA Certificate. Please try again.');
+                    window.history.back();
+                  </script>";
+            exit;
+        }
     }
+}
 
-    $file_name = $_FILES['hoa_certificate']['name'];
-    $tmp_name = $_FILES['hoa_certificate']['tmp_name'];
-
-    $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-
-    $allowed_extensions = ['jpg', 'jpeg', 'png', 'pdf'];
-
-    if (in_array($file_extension, $allowed_extensions)) {
-
-        $new_file_name = time() . "_" . basename($file_name);
-
-        move_uploaded_file(
-            $tmp_name,
-            $upload_folder . $new_file_name
-        );
-
-        $hoa_certificate = $new_file_name;
-    }
+if ($phase_7_carissa == "Yes" && empty($hoa_certificate)) {
+    echo "<script>
+            alert('HOA Certificate is required for customers from Phase 7 Carissa.');
+            window.history.back();
+          </script>";
+    exit;
 }
 
 
@@ -82,14 +127,14 @@ if(mysqli_query($conn, $sql)){
 
     $applicant_id = mysqli_insert_id($conn);
 
-    echo "<script>  
-            alert('Internet Application submitted successfully!\\n\\nYour reference number is: " . $applicant_id . "');
+    echo "<script>
+            alert('Your Internet Application has been submitted successfully!\\n\\nYour reference number is: " . $applicant_id . "');
             window.location='../index.php';
           </script>";
 
 }else{
     echo "Failed to Submit Application " . mysqli_error($conn);
-}}
+}
 ?>
 
 <!DOCTYPE html>
