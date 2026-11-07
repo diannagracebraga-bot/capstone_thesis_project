@@ -6,7 +6,7 @@ if ($filled_by_column && mysqli_num_rows($filled_by_column) === 0) {
     mysqli_query($conn, "ALTER TABLE internet_application_tbl ADD filled_up_by VARCHAR(150) NOT NULL DEFAULT ''");
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 if (empty($_POST["privacy_notice_acknowledged"])) {
     echo "<script>alert('Please acknowledge the Privacy Notice before submitting.'); window.history.back();</script>";
@@ -29,7 +29,8 @@ if (
             window.history.back();
           </script>";
     exit;
-}
+} 
+
 $facebook_account = $_POST['facebook_account'];
 $barangay = $_POST['barangay'];
 $address = $_POST['address'];
@@ -123,17 +124,19 @@ VALUES
 ('$first_name', '$middle_name', '$last_name','$sex', '$contact_number', '$email', '$facebook_account', '$barangay', '$address',
 '$internet_plan', '$desired_installation_date', '$phase_7_carissa', '$hoa_certificate', '$date_received', '$status', '$filled_up_by')";
 
-if(mysqli_query($conn, $sql)){
+    if(mysqli_query($conn, $sql)){
 
-    $applicant_id = mysqli_insert_id($conn);
+        $applicant_id = mysqli_insert_id($conn);
 
-    echo "<script>
-            alert('Your Internet Application has been submitted successfully!\\n\\nYour reference number is: " . $applicant_id . "');
-            window.location='../index.php';
-          </script>";
+        echo "<script>
+                alert('Your Internet Application has been submitted successfully!\\n\\nYour reference number is: " . $applicant_id . "');
+                window.location='../index.php';
+              </script>";
 
-}else{
-    echo "Failed to Submit Application " . mysqli_error($conn);
+    }else{
+        echo "Failed to Submit Application " . mysqli_error($conn);
+    }
+
 }
 ?>
 
