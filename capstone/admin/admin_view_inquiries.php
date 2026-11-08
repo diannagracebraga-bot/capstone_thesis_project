@@ -33,7 +33,7 @@ $row = mysqli_fetch_assoc($result);
 
         <div class="view-inquiry-card-body">
 
-            <form action="../crud/update_inquiries.php"  method="POST">
+            <form action="../crud/update_inquiries.php" method="POST" id="inquiryForm">
 
                 <input type="hidden" name="inquiries_id" value="<?php echo $row['inquiries_id']; ?>">
                 <div class="row">
@@ -87,40 +87,44 @@ $row = mysqli_fetch_assoc($result);
                             Change Status
                         </label>
 
-                        <select name="status" class="form-select mb-3">
+                      <select name="status" id="status" class="form-select mb-3">
 
-                            <option value="Pending"
-                            <?php if($row['status']=="Pending") echo "selected"; ?>>
-                                Pending
+                            <option value="Pending" <?php if($row['status']=="Pending") echo "selected"; ?>>
+                                         Pending
+                             </option>
+
+                             <option value="Ongoing" <?php if($row['status']=="Ongoing") echo "selected"; ?>>
+                                                 Ongoing
                             </option>
 
-                            <option value="Ongoing"
-                            <?php if($row['status']=="Ongoing") echo "selected"; ?>>
-                                Ongoing
-                            </option>
-
-                            <option value="Resolved"
-                            <?php if($row['status']=="Resolved") echo "selected"; ?>>
-                                Resolved
-                            </option>
+                               <option value="Resolved" <?php if($row['status']=="Resolved") echo "selected"; ?>>
+                                               Resolved
+                                 </option>
 
                         </select>
 
                     </div>
                 </div>
-                <hr class="my-4">
+                <hr class="my-2">
 
-                <label class="section-title">
-                    Description:
-                </label>
-                <textarea
-                    class="form-control"rows="8" readonly><?php echo $row['description']; ?></textarea>
-                <div class="text-end mt-4">
+              <label class="section-title">
+    Description:
+</label>
+
+<textarea class="form-control" rows="4" readonly><?php echo $row['description']; ?></textarea>
+<label class="section-title mt-2">
+    Admin Remarks:
+</label>
+
+<textarea name="remarks" id="remarks" class="form-control" rows="4" placeholder="Enter remarks or updates for the customer..."><?php echo $row['remarks'] ?? ''; ?></textarea>
+                <div class="text-end mt-3">
 
                     <a href="admin_inquiries.php"  class="btn btn-secondary">
                         Back
                     </a>
-                    <button type="submit" name = "update_status"class="btn btn-primary"> Update Status</button>
+                   <button type="submit" name="update_status" id="updateButton" class="btn btn-primary" disabled>
+    Update Status
+</button>
                 </div>
 
                 
@@ -134,6 +138,31 @@ window.addEventListener('pageshow', function(event) {
         window.location.reload();
     }
 });
+</script>
+<script>
+
+const originalStatus = document.getElementById('status').value;
+const originalRemarks = document.getElementById('remarks').value;
+
+const statusField = document.getElementById('status');
+const remarksField = document.getElementById('remarks');
+const updateButton = document.getElementById('updateButton');
+
+function checkChanges() {
+
+    const statusChanged = statusField.value !== originalStatus;
+    const remarksChanged = remarksField.value !== originalRemarks;
+
+    if (statusChanged || remarksChanged) {
+        updateButton.disabled = false;
+    } else {
+        updateButton.disabled = true;
+    }
+}
+
+statusField.addEventListener('change', checkChanges);
+remarksField.addEventListener('input', checkChanges);
+
 </script>
 </body>
 </html>

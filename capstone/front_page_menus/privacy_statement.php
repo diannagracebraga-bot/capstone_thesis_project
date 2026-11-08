@@ -12,7 +12,7 @@ $privacyText = static function (string $text): string {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Privacy Statement | MitztianPC Wired Internet Service</title>
-    <link rel="icon" type="image/png" href="/favicon.png">
+      <link rel="icon" type="image/png" href="/favicon.png?v=2">
     <link href="../bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/apply_internet.css?v=privacy-page-2">
 </head>
