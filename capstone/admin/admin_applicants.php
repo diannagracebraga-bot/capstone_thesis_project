@@ -410,7 +410,7 @@ while($row = mysqli_fetch_assoc($result)){
 
                                 <br>
 
-                                <a href="../uploads/hoa_certificates/<?php echo $row['hoa_certificate']; ?>"
+                                <a href="../crud/uploads/hoa_certificates/<?php echo $row['hoa_certificate']; ?>"
                                    target="_blank"
                                    class="btn btn-outline-primary">
                                     View HOA Certificate
