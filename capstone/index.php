@@ -157,8 +157,8 @@ $about = mysqli_fetch_assoc($about_result);
             <div class="modal-body">
                 <div class="application-page">
                 <?php
-                $applicationAction = 'admin/admin_applicants.php';
-                include 'front_page_menus/application_form_fields.php';
+               $applicationAction = 'crud/submit_application.php';
+include 'front_page_menus/application_form_fields.php';
                 ?>
                 </div>
             </div>

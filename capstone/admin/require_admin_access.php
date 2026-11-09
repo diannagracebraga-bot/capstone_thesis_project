@@ -4,8 +4,13 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 if (!isset($_SESSION['account_id'])) {
-    header('Location: ../index.php');
+  
+    echo "<script>
+            alert('You are not authorized to access this page!');
+            window.location='../index.php';
+          </script>";
     exit();
+
 }
 
 require_once __DIR__ . '/../database/database_connection.php';

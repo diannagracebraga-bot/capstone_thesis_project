@@ -85,11 +85,11 @@ while ($customer = mysqli_fetch_assoc($result)) {
         );
 
 
-        // Calculate days remaining
-        $today = new DateTime();
-        $dueDate = new DateTime($customer['due_date']);
+       // Calculate days remaining
+$today = new DateTime(date('Y-m-d'));
+$dueDate = new DateTime($customer['due_date']);
 
-        $daysLeft = $today->diff($dueDate)->days;
+$daysLeft = (int) $today->diff($dueDate)->format('%r%a');
 
 
         if ($daysLeft == 1) {

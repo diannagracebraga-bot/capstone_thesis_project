@@ -1,4 +1,6 @@
 <?php
+include '../admin/check_admin_access.php';
+
 include '../database/database_connection.php';
 
 if (!isset($_GET['ticket_id'])) {
@@ -38,7 +40,7 @@ $ticket = mysqli_fetch_assoc($result);
 
         <div class="card-body p-4 ticket-detail-card-body">
 
-            <form action = "../crud/update_ticket.php" method="POST">
+           <form action="../crud/update_ticket.php" method="POST" id="ticketForm">
 
                <input type="hidden" name="ticket_id" value="<?php echo $ticket['ticket_id']; ?>">
                 <div class="row">
@@ -128,32 +130,39 @@ $ticket = mysqli_fetch_assoc($result);
 
                         <label class="mb-2"> Change Status</label>
 
-                        <select name="status" class="form-select mb-4">
+                     <select name="status" id="status" class="form-select mb-4">
 
-                            <option value="Pending" <?php if($ticket['status']=="Pending") echo "selected"; ?>>
-                                Pending
+                              <option value="Pending" <?php if($ticket['status']=="Pending") echo "selected"; ?>>
+                                      Pending
                             </option>
 
-                            <option value="Ongoing" <?php if($ticket['status']=="Ongoing") echo "selected"; ?>>
-                                Ongoing
-                            </option>
+                             <option value="Ongoing" <?php if($ticket['status']=="Ongoing") echo "selected"; ?>>
+                                       Ongoing
+                             </option>
 
-                            <option value="Resolved" <?php if($ticket['status']=="Resolved") echo "selected"; ?>>
-                                Resolved
-                            </option>
+                               <option value="Resolved" <?php if($ticket['status']=="Resolved") echo "selected"; ?>>
+                                          Resolved
+                                 </option>
 
                         </select>
 
                        
                     </div>
                 </div>
-                <hr class="my-4">
+                <hr class="my-2">
 
                 <label class="section-title">
                     Description:
                 </label>
 
-                <textarea class="form-control" rows="5" readonly><?php echo $ticket['description']; ?></textarea>
+                <textarea class="form-control" rows="4" readonly><?php echo $ticket['description']; ?></textarea>
+
+               <label class="section-title mt-3">
+    Admin Remarks:
+</label>
+
+<textarea name="remarks" id="remarks" class="form-control" rows="3"
+    placeholder="Enter remarks or updates for the customer..."><?php echo $ticket['remarks'] ?? ''; ?></textarea>
                 <?php
                 $ticketAttachmentName = basename((string) ($ticket['attachment_path'] ?? ''));
                 $ticketAttachmentExtension = strtolower(pathinfo($ticketAttachmentName, PATHINFO_EXTENSION));
@@ -175,11 +184,45 @@ $ticket = mysqli_fetch_assoc($result);
                     <a href="admin_ticket_management.php" class="btn btn-secondary">  Back
                     </a>
 
-                    <button type="submit" name= "update_status"class="btn btn-primary"> Update Status</button>
+                   <button type="submit" name="update_status" id="updateButton" class="btn btn-primary" disabled>
+    Update Status
+</button>
                 </div>
             </form>
         </div>
     </section>
 </main>
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+</script>
+<script>
+
+const originalStatus = document.getElementById('status').value;
+const originalRemarks = document.getElementById('remarks').value;
+
+const statusField = document.getElementById('status');
+const remarksField = document.getElementById('remarks');
+const updateButton = document.getElementById('updateButton');
+
+function checkChanges() {
+
+    const statusChanged = statusField.value !== originalStatus;
+    const remarksChanged = remarksField.value !== originalRemarks;
+
+    if (statusChanged || remarksChanged) {
+        updateButton.disabled = false;
+    } else {
+        updateButton.disabled = true;
+    }
+}
+
+statusField.addEventListener('change', checkChanges);
+remarksField.addEventListener('input', checkChanges);
+
+</script>
 </body>
 </html>

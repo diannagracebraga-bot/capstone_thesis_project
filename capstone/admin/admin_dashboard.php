@@ -1,5 +1,6 @@
 <?php
-session_start();
+
+include '../admin/check_admin_access.php';
 include '../database/database_connection.php';
 $customer_query = "
     SELECT COUNT(*) AS total_customers
@@ -389,5 +390,13 @@ new Chart(document.getElementById('barangayChart'), {
     }
 });
 </script>
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+</script>
+
 </body>
 </html>

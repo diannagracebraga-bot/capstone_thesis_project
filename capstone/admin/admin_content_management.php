@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/require_super_admin.php';
 
 $sql = "SELECT * FROM content_management_about_tbl WHERE about_id = 1";
@@ -130,7 +131,7 @@ if ($showPrivacyEditor) {
             <div class="form-group row">
                 <div class="col-sm-9 offset-sm-6">
                     <button type="submit" name="update" class="btn btn-success save-btn">Save</button>
-                </div>
+    
             </div>
 
         </div>
@@ -143,6 +144,13 @@ if ($showPrivacyEditor) {
  
 	
 </div>
-			
+
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+</script>
 </body>
 </html>

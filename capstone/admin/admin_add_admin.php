@@ -1,21 +1,22 @@
 <?php
+
 require_once __DIR__ . '/require_super_admin.php';
 
 if (isset($_POST['submit'])) {
 
        $email = trim($_POST['email'] ?? '');
 
+    // Validate Gmail address
     if (
         !filter_var($email, FILTER_VALIDATE_EMAIL) ||
-        !preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)$/i', $email)
+        strtolower(substr($email, -10)) !== '@gmail.com'
     ) {
         echo "<script>
-                alert('Invalid email! Please enter a valid email, such as name@gmail.com.');
+                alert('Please enter a valid Gmail address.');
                 window.history.back();
               </script>";
         exit;
     }
-
     $password = $_POST['password'] ?? '';
 
     if (
@@ -125,59 +126,21 @@ if (isset($_POST['submit'])) {
 
             <form method="POST" enctype="multipart/form-data">
 
-<<<<<<< HEAD
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" name="email" id="email"
-                           class="form-control"
-                           pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)"
-                           title="Please enter a valid email address."
-                           required>
+                    <input type="email" name="email" id="email" class="form-control" pattern="[a-zA-Z0-9._%+-]+@gmail\.com" title="Please enter a valid Gmail address."  required>
                 </div>
 
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
                     <div class="password-field">
-                        <input type="password" name="password" id="password"
-                               class="form-control"
-                               minlength="8"
-                               pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
-                               title="Password must contain at least 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character."
-                               autocomplete="new-password"
+                        <input type="password" name="password" id="password"  class="form-control"  minlength="8"  pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"  title="Password must contain at least 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character." autocomplete="new-password"
                                required>
                         <button type="button" class="password-visibility-toggle" aria-label="Show password" aria-pressed="false">
                             <i class="bi bi-eye" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
-=======
-            <div class="mb-3">
-    <label for="email" class="form-label">Email</label>
-    <input type="email" name="email" id="email" class="form-control"
-           pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)"
-           title="Please enter a valid email address."
-           required>
-</div>
-                
-
-<div class="mb-3">
-    <label for="password" class="form-label">Password</label>
-    <div class="password-field">
-        <input type="password" name="password" id="password"
-               class="form-control"
-               minlength="8"
-               pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
-               title="Password must contain at least 8 characters, including an uppercase letter, a lowercase letter, a number, and a special character."
-               autocomplete="new-password"
-               required>
-
-        <button type="button" class="password-visibility-toggle" aria-label="Show password" aria-pressed="false">
-            <i class="bi bi-eye" aria-hidden="true"></i>
-        </button>
-    </div>
-</div>
-
->>>>>>> 5ae2a79267b87582b0b462fcdae8db7c23984de1
 
                 <div class="mb-3">
                     <label for="f_name" class="form-label">First Name</label>
@@ -216,26 +179,22 @@ if (isset($_POST['submit'])) {
                 </div>
 
                 
-<<<<<<< HEAD
 <div class="button-container">
     <button type="submit" name="submit" class="btn btn-success">
         Create
     </button>
 </div>
-=======
-            <div class="button-container">
-                    <button type="submit" name="submit" class="btn btn-success">
-                         Create
-                     </button>
-            </div>
-
-
->>>>>>> 5ae2a79267b87582b0b462fcdae8db7c23984de1
             </form>
         </div>
     </div>
 </section>
 </main>
-
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+</script>
 </body>
 </html>

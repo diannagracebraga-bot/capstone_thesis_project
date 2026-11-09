@@ -1,5 +1,6 @@
 
 <?php
+
 require_once __DIR__ . '/require_super_admin.php';
 
 $page = $_GET['page'] ?? 'users';
@@ -198,6 +199,12 @@ $page = $_GET['page'] ?? 'users';
 
     </div>
 </div>
-
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+</script>
 </body>
 </html>

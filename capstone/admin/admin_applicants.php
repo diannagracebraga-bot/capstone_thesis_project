@@ -1,4 +1,5 @@
 <?php
+include '../admin/check_admin_access.php';
 include '../database/database_connection.php';
 
 $filled_by_column = mysqli_query($conn, "SHOW COLUMNS FROM internet_application_tbl LIKE 'filled_up_by'");
@@ -409,7 +410,7 @@ while($row = mysqli_fetch_assoc($result)){
 
                                 <br>
 
-                                <a href="../uploads/hoa_certificates/<?php echo $row['hoa_certificate']; ?>"
+                                <a href="../crud/uploads/hoa_certificates/<?php echo $row['hoa_certificate']; ?>"
                                    target="_blank"
                                    class="btn btn-outline-primary">
                                     View HOA Certificate
@@ -493,6 +494,13 @@ while($row = mysqli_fetch_assoc($result)){
 <?php
 }
 ?>
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+</script>
 
 <script src="../javascript/admin_applicants.js"></script>
 </body>

@@ -5,16 +5,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
 
 $email = trim($_POST['email'] ?? '');
 
+
+// Validate Gmail address
 if (
     !filter_var($email, FILTER_VALIDATE_EMAIL) ||
-    !preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)$/i', $email)
+    strtolower(substr($email, -10)) !== '@gmail.com'
 ) {
     echo "<script>
-            alert('Invalid email address! Please enter a valid email, such as name@gmail.com.');
+            alert('Please enter a valid Gmail address.');
             window.history.back();
           </script>";
     exit;
 }
+
+// Validate if Gmail domain exists
+if (!checkdnsrr('gmail.com', 'MX')) {
+    echo "<script>
+            alert('The Gmail domain does not exist. Please try again later.');
+            window.history.back();
+          </script>";
+    exit;
+}
+
+$email = mysqli_real_escape_string($conn, $email);
+
 $password = $_POST['password'] ?? '';
 
 if (

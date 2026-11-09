@@ -1,4 +1,6 @@
 <?php
+include '../admin/check_admin_access.php';
+
 include '../database/database_connection.php';
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 if ($search !== '') {
@@ -127,5 +129,12 @@ $result = mysqli_query($conn, $sql);
         </div>
     </div>
 </div>
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
+</script>
 </body>
 </html>

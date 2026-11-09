@@ -1,5 +1,6 @@
 <?php
-session_start();
+include '../admin/check_admin_access.php';
+
 include '../database/database_connection.php';
 
 $customer_query = "SELECT 
@@ -278,6 +279,13 @@ document.querySelector("form").addEventListener("submit", function(event) {
 
 });
 
+</script>
+<script>
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        window.location.reload();
+    }
+});
 </script>
 </body>
 </html>
