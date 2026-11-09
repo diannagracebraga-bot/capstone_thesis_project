@@ -1,14 +1,12 @@
 <?php
 session_start();
 require_once __DIR__ . '/password_reset_config.php';
-
 $message = '';
 $validLink = false;
 $type = '';
 $id = 0;
 $token = '';
 $account = null;
-
 $typeRaw = $_POST['type'] ?? $_GET['type'] ?? '';
 $idRaw = $_POST['id'] ?? $_GET['id'] ?? '';
 $tokenRaw = $_POST['token'] ?? $_GET['token'] ?? '';
@@ -39,7 +37,6 @@ function loadResetAccount(mysqli $conn, string $type, int $id): ?array
         error_log('Password reset account query could not be prepared: ' . mysqli_error($conn));
         return null;
     }
-
     mysqli_stmt_bind_param($stmt, 'i', $id);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
@@ -48,7 +45,6 @@ function loadResetAccount(mysqli $conn, string $type, int $id): ?array
 
     return $account ?: null;
 }
-
 function checkResetLink(mysqli $conn, string $type, int $id, string $token): ?array
 {
     if ($type === '' || $id < 1 || $token === '') {
@@ -68,7 +64,6 @@ if ($type !== '' && $id > 0 && $token !== '') {
     $account = checkResetLink($conn, $type, $id, $token);
     $validLink = ($account !== null);
 }
-
 if (!$validLink) {
     $message = 'This password reset link is invalid or has already been used. Please request a new reset link.';
 }
@@ -161,7 +156,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $validLink) {
                 <label for="confirm_password">Confirm new password</label>
                 <input type="password" id="confirm_password" name="confirm_password"
                        minlength="8" autocomplete="new-password" required>
-
                 <button type="submit">Update Password</button>
             </form>
         <?php else: ?>

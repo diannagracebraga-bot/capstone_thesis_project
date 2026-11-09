@@ -12,8 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         $account = null;
         $accountType = '';
-
-        // Check customer accounts first.
         $stmt = mysqli_prepare(
             $conn,
             'SELECT user_id, email, password FROM user_accounts_tbl WHERE email = ? LIMIT 1'
@@ -32,7 +30,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($account) {
             $accountType = 'customer';
         } else {
-            // Admin and superadmin accounts are stored in this shared table.
             $stmt = mysqli_prepare(
                 $conn,
                 'SELECT account_id, email, password FROM admin_superadmin_accounts_tbl WHERE email = ? LIMIT 1'
@@ -52,8 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $accountType = 'admin';
             }
         }
-
-        // Use the same generic message whether the email exists or not.
         if ($account) {
             $token = createResetToken($accountType, $account);
             $id = ($accountType === 'customer')
@@ -117,7 +112,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <main class="card">
         <h1>Forgot Password?</h1>
         <p>Enter the email address connected to your customer, admin, or superadmin account.</p>
-
         <?php if ($message !== ''): ?>
             <p class="message"><?= htmlspecialchars($message, ENT_QUOTES, 'UTF-8') ?></p>
         <?php endif; ?>
@@ -127,7 +121,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <input type="email" id="email" name="email" autocomplete="email" required>
             <button type="submit">Send Reset Link</button>
         </form>
-
         <p><a href="index.php">Back to Login</a></p>
     </main>
 </body>
