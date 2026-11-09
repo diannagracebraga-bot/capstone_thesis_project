@@ -17,16 +17,30 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contact_number = mysqli_real_escape_string($conn, $_POST['contact_number'] ?? '');
     $email = trim($_POST['email'] ?? '');
 
-    if (
-        !filter_var($email, FILTER_VALIDATE_EMAIL) ||
-        !preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)$/i', $email)
-    ) {
-        echo "<script>
-                alert('Please enter a valid email address.');
-                window.history.back();
-              </script>";
-        exit;
-    }
+   
+// Validate Gmail address
+if (
+    !filter_var($email, FILTER_VALIDATE_EMAIL) ||
+    strtolower(substr($email, -10)) !== '@gmail.com'
+) {
+    echo "<script>
+            alert('Please enter a valid Gmail address.');
+            window.history.back();
+          </script>";
+    exit;
+}
+// Validate if email domain exists
+$domain = substr(strrchr($email, "@"), 1);
+
+if (!checkdnsrr($domain, "MX") && !checkdnsrr($domain, "A")) {
+    echo "<script>
+            alert('The email domain does not exist. Please enter a valid email address.');
+            window.history.back();
+          </script>";
+    exit;
+}
+
+
 
     $email = mysqli_real_escape_string($conn, $email);
 

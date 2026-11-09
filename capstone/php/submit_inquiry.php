@@ -1,3 +1,4 @@
+
 <?php
 include '../database/database_connection.php';
 
@@ -8,17 +9,30 @@ $description = trim($_POST['description'] ?? '');
 $date = date("Y-m-d H:i:s");
 $status = "Pending";
 
-// Validate email address
-if (
-    !filter_var($email, FILTER_VALIDATE_EMAIL) ||
-    !preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)$/i', $email)
-) {
-    echo "<script>
-            alert('Please enter a valid email address, such as customer@gmail.com.');
-            window.history.back();
-          </script>";
-    exit;
-}
+
+    // Validate Gmail address
+    if (
+        !filter_var($email, FILTER_VALIDATE_EMAIL) ||
+        strtolower(substr($email, -10)) !== '@gmail.com'
+    ) {
+        echo "<script>
+                alert('Please enter a valid Gmail address.');
+                window.history.back();
+              </script>";
+        exit;
+    }
+
+    // Validate if Gmail domain exists
+    if (!checkdnsrr('gmail.com', 'MX')) {
+        echo "<script>
+                alert('The Gmail domain does not exist. Please try again later.');
+                window.history.back();
+              </script>";
+        exit;
+    }
+
+    $email = mysqli_real_escape_string($conn, $email);
+
 
 // Validate contact number
 if (!preg_match('/^[0-9]{11}$/', $contact)) {

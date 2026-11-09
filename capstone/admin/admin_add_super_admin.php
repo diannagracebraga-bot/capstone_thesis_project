@@ -6,12 +6,13 @@ if (isset($_POST['submit'])) {
  
     $email = trim($_POST['email'] ?? '');
 
+     // Validate Gmail address
     if (
         !filter_var($email, FILTER_VALIDATE_EMAIL) ||
-        !preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)$/i', $email)
+        strtolower(substr($email, -10)) !== '@gmail.com'
     ) {
         echo "<script>
-                alert('Invalid email! Please enter a valid email, such as name@gmail.com.');
+                alert('Please enter a valid Gmail address.');
                 window.history.back();
               </script>";
         exit;
@@ -126,11 +127,8 @@ $password = password_hash($password, PASSWORD_DEFAULT);
 
     <div class="mb-3">
     <label for="email" class="form-label">Email</label>
-    <input type="email" name="email" id="email"
-           class="form-control"
-           pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)"
-           title="Please enter a valid email ending in .com, .ph, .net, .org, .edu, or .gov."
-           required>
+   <input type="email" name="email" id="email" class="form-control" pattern="[a-zA-Z0-9._%+-]+@gmail\.com" title="Please enter a valid Gmail address."
+       required>
 </div>
 
                 <div class="mb-3">

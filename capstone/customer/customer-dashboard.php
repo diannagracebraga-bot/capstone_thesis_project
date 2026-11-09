@@ -35,6 +35,20 @@ $payment_count = $payment_result ? mysqli_num_rows($payment_result) : 0;
 $announcement_result = mysqli_query($conn, 'SELECT announcement_id, title, message, created_at FROM announcements_tbl WHERE is_active = 1 ORDER BY created_at DESC, announcement_id DESC LIMIT 5');
 $due_date_value = trim((string) ($customer['due_date'] ?? ''));
 $due_date_valid = $due_date_value !== '' && $due_date_value !== '0000-00-00' && strtotime($due_date_value) !== false;
+
+$today = new DateTime(date('Y-m-d'));
+
+$is_overdue = false;
+$days_overdue = 0;
+
+if ($due_date_valid) {
+    $dueDate = new DateTime($due_date_value);
+
+    if ($dueDate < $today) {
+        $is_overdue = true;
+        $days_overdue = (int) $dueDate->diff($today)->days;
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +67,7 @@ $due_date_valid = $due_date_value !== '' && $due_date_value !== '0000-00-00' && 
 <div class="content">
     <section class="customer-welcome-banner" aria-label="Customer welcome">
         <div class="customer-welcome-copy">
-            <p class="customer-welcome-eyebrow">Welcome back,</p>
+            <p class="customer-welcome-eyebrow">Welcome,</p>
             <h1><?php echo htmlspecialchars(trim(($customer['f_name'] ?? '') . ' ' . ($customer['m_name'] ?? '') . ' ' . ($customer['l_name'] ?? ''))); ?>!</h1>
             <p class="customer-welcome-subtitle">Here's an overview of your internet account.</p>
             <div class="customer-account-chip"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i><span>Account No.</span><strong><?php echo htmlspecialchars($customer['account_number'] ?? ''); ?></strong></div>
@@ -92,12 +106,32 @@ $due_date_valid = $due_date_value !== '' && $due_date_value !== '0000-00-00' && 
 </span>
         </div>
     
-        <div class="card">
-            <h4>Next Due Date</h4>
-            <span>
-        <?php echo $due_date_valid ? date('F d, Y', strtotime($due_date_value)) : 'Not set'; ?>
-    </span>
-        </div>
+       <div class="card">
+    <h4>Next Due Date</h4>
+
+    <?php if (!$due_date_valid): ?>
+
+        <span>Not set</span>
+
+    <?php elseif ($is_overdue): ?>
+
+        <span style="color: red; font-weight: bold;">
+            Overdue
+        </span>
+
+        <p style="color: red; margin-bottom: 0;">
+            <?php echo date('F d, Y', strtotime($due_date_value)); ?>
+            (<?php echo $days_overdue; ?> day/s overdue)
+        </p>
+
+    <?php else: ?>
+
+        <span>
+            <?php echo date('F d, Y', strtotime($due_date_value)); ?>
+        </span>
+
+    <?php endif; ?>
+</div>
 <button type="button" class="payment-btn" data-bs-toggle="modal" data-bs-target="#paymentModal">
     Payment
 </button>   
