@@ -120,6 +120,21 @@ td{
     font-size: 20px;
 }
 
+.soa-password-note {
+    margin-top: 10px;
+    font-size: 13px;
+    color: #555;
+    text-align: center;
+    background: #f0f6ff;
+    border: 1px solid #cfe2ff;
+    border-radius: 6px;
+    padding: 10px 15px;
+}
+
+.soa-password-note i {
+    color: #0d6efd;
+    margin-right: 5px;
+}
 .payment-btn:hover {
     background-color: #0b5ed7;
     color: white;

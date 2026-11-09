@@ -104,6 +104,10 @@ $due_date_valid = $due_date_value !== '' && $due_date_value !== '0000-00-00' && 
 <button type="button" class="payment-btn" data-bs-toggle="modal" data-bs-target="#paymentModal">
     Payment
 </button>   
+<p class="soa-password-note">
+    <i class="bi bi-info-circle-fill"></i>
+    Your SOA password is your MPC Account Number.
+</p>
 </div>
 
     <section class="customer-announcements" aria-labelledby="customer-announcements-title">
