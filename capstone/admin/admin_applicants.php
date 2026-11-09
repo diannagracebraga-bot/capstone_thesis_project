@@ -222,7 +222,7 @@ if ($search !== '') {
                 OR a.status LIKE '%$search_safe%'";
 }
 
-$sql .= " ORDER BY a.applicant_id ASC";
+$sql .= " ORDER BY a.applicant_id DESC";
 
 $result = mysqli_query($conn, $sql);
 

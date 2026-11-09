@@ -153,6 +153,11 @@ body{
 .admin-notification-menu { min-width: 230px; }
 .admin-notification-menu .dropdown-item { display: flex; justify-content: space-between; gap: 18px; }
 .admin-notification-menu .dropdown-item span { color: #286db1; font-weight: 700; }
+.admin-notification-menu .admin-paid-notice { align-items: center; gap: 12px; white-space: normal; }
+.admin-notification-menu .admin-paid-notice-details { display: flex; flex-direction: column; min-width: 0; }
+.admin-notification-menu .admin-paid-notice-details strong { color: #24384b; font-size: 13px; }
+.admin-notification-menu .admin-paid-notice-details small { color: #6c757d; font-size: 11px; font-weight: 400; }
+.admin-notification-menu .admin-paid-notice .admin-paid-notice-amount { color: #198754; flex: 0 0 auto; }
 
 .icon2{
     width: 60px;

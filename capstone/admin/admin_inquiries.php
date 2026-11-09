@@ -15,7 +15,7 @@ if ($search !== '') {
             ORDER BY inquiries_id DESC";
 } else {
     $sql = "SELECT * FROM inquiries_tbl
-            ORDER BY inquiries_id ASC";
+            ORDER BY inquiries_id DESC";
 }
 $result = mysqli_query($conn, $sql);
 ?>

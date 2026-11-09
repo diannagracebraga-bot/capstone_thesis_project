@@ -27,6 +27,7 @@ $sidebarCounts = [
     'inquiries' => 0,
     'tickets' => 0,
 ];
+$sidebarLatestNoticeAt = array_fill_keys(array_keys($sidebarCounts), 0);
 if ($canViewAdminNotifications) {
     $pendingCountQueries = [
         'applicants' => "SELECT COUNT(*) AS total FROM internet_application_tbl WHERE status = 'Pending'",
@@ -42,8 +43,51 @@ if ($canViewAdminNotifications) {
             $sidebarCounts[$key] = (int) ($countRow['total'] ?? 0);
         }
     }
+
+    $latestPendingQueries = [
+        'applicants' => "SELECT MAX(date_received) AS latest_at FROM internet_application_tbl WHERE status = 'Pending'",
+        'payments' => "SELECT MAX(created_at) AS latest_at FROM payment_tbl WHERE payment_status = 'Pending'",
+        'inquiries' => "SELECT MAX(date_received) AS latest_at FROM inquiries_tbl WHERE status = 'Pending'",
+        'tickets' => "SELECT MAX(COALESCE(date_submitted, date_received)) AS latest_at FROM ticket_management_tbl WHERE status = 'Pending'",
+    ];
+    foreach ($latestPendingQueries as $key => $latestQuery) {
+        $latestResult = mysqli_query($conn, $latestQuery);
+        if ($latestResult) {
+            $latestRow = mysqli_fetch_assoc($latestResult);
+            $sidebarLatestNoticeAt[$key] = strtotime($latestRow['latest_at'] ?? '') ?: 0;
+        }
+    }
 }
 $pendingTotal = array_sum($sidebarCounts);
+$recentPaidPayments = [];
+if ($canViewAdminNotifications) {
+    $paidPaymentsResult = mysqli_query(
+        $conn,
+        "SELECT id, f_name, m_name, l_name, amount, created_at
+         FROM payment_tbl
+         WHERE payment_status = 'Paid'
+         ORDER BY created_at DESC, id DESC
+         LIMIT 5"
+    );
+    if ($paidPaymentsResult) {
+        while ($paidPayment = mysqli_fetch_assoc($paidPaymentsResult)) {
+            $recentPaidPayments[] = $paidPayment;
+        }
+    }
+}
+$adminNotificationItems = [
+    'applicants' => ['label' => 'Applicants', 'href' => 'admin_applicants.php'],
+    'payments' => ['label' => 'Payments', 'href' => 'admin_payment.php'],
+    'inquiries' => ['label' => 'Inquiries', 'href' => 'admin_inquiries.php'],
+    'tickets' => ['label' => 'Ticket Management', 'href' => 'admin_ticket_management.php'],
+];
+foreach ($adminNotificationItems as $key => &$item) {
+    $item['sort_at'] = $sidebarLatestNoticeAt[$key] ?? 0;
+}
+unset($item);
+uasort($adminNotificationItems, static function ($first, $second) {
+    return ($second['sort_at'] ?? 0) <=> ($first['sort_at'] ?? 0);
+});
 
 function renderSidebarBadge($count)
 {
@@ -62,7 +106,7 @@ function renderSidebarBadge($count)
 	 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
      
 	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-	 <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-header-sidebar-10">
+	 <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-header-sidebar-11">
 
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
@@ -87,10 +131,34 @@ function renderSidebarBadge($count)
                 </button>
                 <div class="dropdown-menu dropdown-menu-end admin-notification-menu">
                     <strong class="dropdown-header">Pending items</strong>
-                    <a class="dropdown-item" href="admin_applicants.php">Applicants <span><?php echo $sidebarCounts['applicants']; ?></span></a>
-                    <a class="dropdown-item" href="admin_payment.php">Payments <span><?php echo $sidebarCounts['payments']; ?></span></a>
-                    <a class="dropdown-item" href="admin_inquiries.php">Inquiries <span><?php echo $sidebarCounts['inquiries']; ?></span></a>
-                    <a class="dropdown-item" href="admin_ticket_management.php">Ticket Management <span><?php echo $sidebarCounts['tickets']; ?></span></a>
+                    <?php foreach ($adminNotificationItems as $key => $item): ?>
+                        <a class="dropdown-item" href="<?php echo htmlspecialchars($item['href']); ?>"><?php echo htmlspecialchars($item['label']); ?> <span><?php echo $sidebarCounts[$key]; ?></span></a>
+                    <?php endforeach; ?>
+                    <?php if ($canViewAdminNotifications): ?>
+                        <div class="dropdown-divider"></div>
+                        <strong class="dropdown-header">Recent payments</strong>
+                        <?php if (empty($recentPaidPayments)): ?>
+                            <span class="dropdown-item-text small text-muted">No payments yet.</span>
+                        <?php else: ?>
+                            <?php foreach ($recentPaidPayments as $paidPayment): ?>
+                                <?php
+                                    $payerName = trim(implode(' ', array_filter([
+                                        $paidPayment['f_name'] ?? '',
+                                        $paidPayment['m_name'] ?? '',
+                                        $paidPayment['l_name'] ?? '',
+                                    ], static function ($part) { return trim((string) $part) !== ''; })));
+                                    $paidAt = !empty($paidPayment['created_at']) ? strtotime($paidPayment['created_at']) : false;
+                                ?>
+                                <a class="dropdown-item admin-paid-notice" href="admin_payment.php">
+                                    <span class="admin-paid-notice-details">
+                                        <strong><?php echo htmlspecialchars($payerName !== '' ? $payerName : 'Customer'); ?></strong>
+                                        <small><?php echo $paidAt ? htmlspecialchars(date('M j, Y · g:i A', $paidAt)) : 'Paid'; ?></small>
+                                    </span>
+                                    <span class="admin-paid-notice-amount">₱<?php echo number_format((float) $paidPayment['amount'], 2); ?></span>
+                                </a>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 </div>
             </div>
             <span class="admin-profile-divider"></span>

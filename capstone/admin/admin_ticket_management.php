@@ -19,7 +19,7 @@ if ($search !== '') {
               ORDER BY ticket_id DESC";
 } else {
     $query = "SELECT * FROM ticket_management_tbl
-              ORDER BY ticket_id ASC";
+              ORDER BY ticket_id DESC";
 }
 
 $result = mysqli_query($conn, $query);

@@ -13,7 +13,7 @@ $paymentIsPending = false;
 $customerTicketUpdates = [];
 $customerTicketUpdateCount = 0;
 
-$latestPaymentResult = mysqli_query($conn, "SELECT payment_status, created_at FROM payment_tbl WHERE user_id = '$headerUserId' ORDER BY created_at DESC, id DESC LIMIT 1");
+$latestPaymentResult = mysqli_query($conn, "SELECT id, payment_status, created_at FROM payment_tbl WHERE user_id = '$headerUserId' ORDER BY created_at DESC, id DESC LIMIT 1");
 $latestPayment = $latestPaymentResult ? mysqli_fetch_assoc($latestPaymentResult) : null;
 if ($latestPayment) {
     $paymentStatusText = trim($latestPayment['payment_status']) === 'Paid'
@@ -23,7 +23,7 @@ if ($latestPayment) {
 }
 
 if ($paymentIsPending) {
-    $headerNotices[] = ['icon' => 'bi-credit-card-2-front-fill', 'title' => 'Kumpirmahin ang bayad', 'message' => 'May huling payment na hindi pa markadong Paid.', 'href' => 'customer-dashboard.php#payment-history', 'urgent' => true];
+    $headerNotices[] = ['icon' => 'bi-credit-card-2-front-fill', 'title' => 'Kumpirmahin ang bayad', 'message' => 'May huling payment na hindi pa markadong Paid.', 'href' => 'customer-dashboard.php#payment-history', 'urgent' => true, 'sort_at' => strtotime($latestPayment['created_at'] ?? '') ?: 0, 'sort_id' => (int) ($latestPayment['id'] ?? 0)];
 }
 
 $headerCustomerId = (int) ($headerCustomer['customer_id'] ?? 0);
@@ -39,7 +39,7 @@ if ($headerCustomerId > 0) {
 
     $ticketUpdatesResult = mysqli_query(
         $conn,
-        "SELECT ticket_id, concern_type, status FROM ticket_management_tbl WHERE customer_id = $headerCustomerId AND status <> 'Pending' ORDER BY ticket_id DESC LIMIT 5"
+        "SELECT ticket_id, concern_type, status, date_submitted, date_received FROM ticket_management_tbl WHERE customer_id = $headerCustomerId AND status <> 'Pending' ORDER BY COALESCE(date_submitted, date_received) DESC, ticket_id DESC LIMIT 5"
     );
     if ($ticketUpdatesResult) {
         while ($ticketUpdate = mysqli_fetch_assoc($ticketUpdatesResult)) {
@@ -50,6 +50,8 @@ if ($headerCustomerId > 0) {
                 'message' => trim($ticketUpdate['concern_type'] . ' · ' . $ticketUpdate['status']),
                 'href' => 'customer_ticket.php#customer-ticket-' . (int) $ticketUpdate['ticket_id'],
                 'urgent' => false,
+                'sort_at' => strtotime($ticketUpdate['date_submitted'] ?: $ticketUpdate['date_received']) ?: 0,
+                'sort_id' => (int) $ticketUpdate['ticket_id'],
             ];
         }
     }
@@ -73,7 +75,7 @@ if ($dueDate instanceof DateTime) {
         $dueTitle = 'Payment schedule';
         $dueUrgent = false;
     }
-    $headerNotices[] = ['icon' => 'bi-calendar-event-fill', 'title' => $dueTitle, 'message' => $dueMessage, 'href' => 'customer-dashboard.php#payment-history', 'urgent' => $dueUrgent];
+    $headerNotices[] = ['icon' => 'bi-calendar-event-fill', 'title' => $dueTitle, 'message' => $dueMessage, 'href' => 'customer-dashboard.php#payment-history', 'urgent' => $dueUrgent, 'sort_at' => $dueDate->getTimestamp(), 'sort_id' => 0];
 }
 
 $customerAnnouncements = [];
@@ -87,9 +89,15 @@ if ($announcementResult) {
             'message' => $announcement['message'],
             'href' => 'customer-dashboard.php#announcement-' . (int) $announcement['announcement_id'],
             'urgent' => false,
+            'sort_at' => strtotime($announcement['created_at']) ?: 0,
+            'sort_id' => (int) $announcement['announcement_id'],
         ];
     }
 }
+usort($headerNotices, static function ($first, $second) {
+    $dateOrder = ($second['sort_at'] ?? 0) <=> ($first['sort_at'] ?? 0);
+    return $dateOrder !== 0 ? $dateOrder : (($second['sort_id'] ?? 0) <=> ($first['sort_id'] ?? 0));
+});
 $customerNotificationCount = count(array_filter($headerNotices, static function ($notice) {
     return $notice['urgent'] || in_array($notice['icon'], ['bi-megaphone-fill', 'bi-calendar-event-fill', 'bi-ticket-detailed-fill'], true);
 }));

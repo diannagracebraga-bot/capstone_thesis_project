@@ -10,7 +10,7 @@ $sql = "SELECT * FROM customer_tbl WHERE user_id='$user_id'";
 $res = mysqli_query($conn, $sql);
 $customer = mysqli_fetch_assoc($res);
 $customer_id = $customer['customer_id'];
-$query = "SELECT * FROM ticket_management_tbl WHERE customer_id = $customer_id ORDER BY ticket_id ASC";
+$query = "SELECT * FROM ticket_management_tbl WHERE customer_id = $customer_id ORDER BY ticket_id DESC";
 $result = mysqli_query($conn, $query);
 
 if (!$result) {

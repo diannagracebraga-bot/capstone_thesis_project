@@ -74,7 +74,7 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
                   ON payment_tbl.user_id = customer_tbl.user_id
               LEFT JOIN admin_superadmin_accounts_tbl
                   ON payment_tbl.cash_added_by = admin_superadmin_accounts_tbl.account_id
-              ORDER BY payment_tbl.id ASC";
+              ORDER BY payment_tbl.id DESC";
 
 } else {
 
@@ -99,7 +99,7 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
                  OR payment_tbl.amount LIKE '%$searchTerm%'
                  OR payment_tbl.reference_number LIKE '%$searchTerm%'
                  OR payment_tbl.paymongo_payment_id LIKE '%$searchTerm%'
-              ORDER BY payment_tbl.id ASC";
+              ORDER BY payment_tbl.id DESC";
 }
 
         $result = mysqli_query($conn, $query);
