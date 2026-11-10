@@ -47,7 +47,6 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
     </form>
 </div>
 
-
             <div class="payment-plus">
                 <form action="admin_add_payment.php" method="get">
                     <button type="submit" class="btn btn-success">
@@ -117,12 +116,12 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
                 <tr>
                     <th>ACCOUNT NUMBER</th>
                     <th>FIRST NAME</th>
-                    <th>MIDDLE NAME</th>
                     <th>LAST NAME</th>
                     <th>PAYMENT METHOD</th>
                     <th>AMOUNT</th>
                     <th>REFERENCE NUMBER</th>
                     <th>CASH ADDED BY</th>
+                    <th>DATE RECEIVED</th>
                     <th>ACTION</th>
                 </tr>
 
@@ -141,39 +140,40 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
                 <tr>
                     <td><?php echo $row['account_number']; ?></td>
                     <td><?php echo $row['f_name']; ?></td>
-                    <td> <?php echo $row['m_name']; ?></td>
                     <td><?php echo $row['l_name']; ?></td>
                     <td><?php echo $row['payment_method']; ?></td>
-                    <td> <?php echo $row['amount']; ?></td>
-                    
-                    
-                   <td>
-            <?php
-                     if ($row['payment_method'] == 'Cash') {
-                        echo $row['reference_number'];
-                   } else {
-                        echo $row['paymongo_payment_id'];
-                    }
-                ?>
-                  </td>
-                  <td>
-    <?php
-    if ($row['payment_method'] == 'Cash') {
-        echo $row['admin_f_name'] . ' ' .
-             $row['admin_m_name'] . ' ' .
-             $row['admin_l_name'];
-    } else {
-        echo '-';
-    }
-    ?>
-</td>
+                    <td><?php echo $row['amount']; ?></td>
+
+                    <td>
+                        <?php
+                        if ($row['payment_method'] == 'Cash') {
+                            echo $row['reference_number'];
+                        } else {
+                            echo $row['paymongo_payment_id'];
+                        }
+                        ?>
+                    </td>
+
+                    <td>
+                        <?php
+                        if ($row['payment_method'] == 'Cash') {
+                            echo $row['admin_f_name'] . ' ' .
+                                 $row['admin_m_name'] . ' ' .
+                                 $row['admin_l_name'];
+                        } else {
+                            echo '-';
+                        }
+                        ?>
+                    </td>
+
+                    <td><?php echo $row['created_at']; ?></td>
+
                     <td>
                         <a href="../crud/delete_payment.php?id=<?php echo $row['id']; ?>"
                            class="btn btn-danger"
                            onclick="return confirm('Are you sure you want to delete this payment?');">
                             Delete
                         </a>
-
                     </td>
 
                 </tr>
@@ -187,7 +187,7 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
             ?>
 
                 <tr>
-                    <td colspan="8" class="text-center">
+                    <td colspan="9" class="text-center">
                         No payments found.
                     </td>
                 </tr>
@@ -207,6 +207,7 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 </div>
 
 </div>
+
 <script>
 window.addEventListener('pageshow', function(event) {
     if (event.persisted) {
@@ -214,5 +215,6 @@ window.addEventListener('pageshow', function(event) {
     }
 });
 </script>
+
 </body>
 </html>
