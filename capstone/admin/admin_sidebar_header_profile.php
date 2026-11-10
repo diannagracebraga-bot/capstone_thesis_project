@@ -19,6 +19,7 @@ $admin_result = mysqli_query($conn, $query);
 $admin = mysqli_fetch_assoc($admin_result);
 $isSuperAdmin = isset($admin['role']) && strcasecmp(trim($admin['role']), 'Super Admin') === 0;
 $canViewAdminNotifications = isset($admin['role']) && in_array(strtolower(trim($admin['role'])), ['admin', 'super admin'], true);
+require_once __DIR__ . '/../database/admin_payment_notifications.php';
 
 // Show pending work counts to both Admin and Super Admin accounts.
 $sidebarCounts = [
@@ -58,7 +59,22 @@ if ($canViewAdminNotifications) {
         }
     }
 }
-$pendingTotal = array_sum($sidebarCounts);
+$adminPendingCountTotal = array_sum($sidebarCounts);
+$unreadPaidPaymentCount = $canViewAdminNotifications
+    ? getUnreadAdminPaidPaymentCount($conn, (int) $account_id, $current_page === 'admin_payment.php')
+    : 0;
+$pendingTotal = $adminPendingCountTotal + $unreadPaidPaymentCount;
+$latestReadPaidPaymentId = 0;
+if ($canViewAdminNotifications) {
+    $readIdResult = mysqli_query(
+        $conn,
+        "SELECT last_seen_payment_id FROM admin_payment_notification_reads WHERE account_id = '" . (int) $account_id . "' LIMIT 1"
+    );
+    if ($readIdResult) {
+        $readIdRow = mysqli_fetch_assoc($readIdResult);
+        $latestReadPaidPaymentId = (int) ($readIdRow['last_seen_payment_id'] ?? 0);
+    }
+}
 $recentPaidPayments = [];
 if ($canViewAdminNotifications) {
     $paidPaymentsResult = mysqli_query(
@@ -89,13 +105,16 @@ uasort($adminNotificationItems, static function ($first, $second) {
     return ($second['sort_at'] ?? 0) <=> ($first['sort_at'] ?? 0);
 });
 
-function renderSidebarBadge($count)
+function renderSidebarBadge($count, $id = null)
 {
-    if ($count < 1) {
+    if ($count < 1 && $id !== 'admin-payment-notification-badge') {
         return '';
     }
-    $label = $count > 99 ? '99+' : (string) $count;
-    return '<span class="sidebar-notification" aria-label="' . $count . ' pending">' . $label . '</span>';
+    $displayCount = $count > 99 ? '99+' : (string) $count;
+    $idAttribute = $id !== null ? ' id="' . htmlspecialchars($id, ENT_QUOTES, 'UTF-8') . '"' : '';
+    $ariaLabel = $id === 'admin-payment-notification-badge' ? 'payment notifications' : 'pending';
+    $hiddenAttribute = $count < 1 ? ' style="display:none;"' : '';
+    return '<span' . $idAttribute . ' class="sidebar-notification" aria-label="' . $count . ' ' . $ariaLabel . '"' . $hiddenAttribute . '>' . $displayCount . '</span>';
 }
 ?>
 <!DOCTYPE html>
@@ -106,7 +125,7 @@ function renderSidebarBadge($count)
 	 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
      
 	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-	 <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-header-sidebar-11">
+	 <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-header-payment-notice-1">
 
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
@@ -127,7 +146,7 @@ function renderSidebarBadge($count)
             <div class="dropdown admin-notification-dropdown">
                 <button class="admin-notification-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
                     <i class="bi bi-bell-fill" aria-hidden="true"></i>
-                    <?php if ($pendingTotal > 0): ?><span class="admin-notification-total"><?php echo $pendingTotal > 99 ? '99+' : $pendingTotal; ?></span><?php endif; ?>
+                    <span id="admin-notification-total" class="admin-notification-total" style="<?php echo $pendingTotal > 0 ? '' : 'display:none;'; ?>"><?php echo $pendingTotal > 99 ? '99+' : $pendingTotal; ?></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end admin-notification-menu">
                     <strong class="dropdown-header">Pending items</strong>
@@ -136,7 +155,8 @@ function renderSidebarBadge($count)
                     <?php endforeach; ?>
                     <?php if ($canViewAdminNotifications): ?>
                         <div class="dropdown-divider"></div>
-                        <strong class="dropdown-header">Recent payments</strong>
+                        <strong class="dropdown-header">Recent payments <span id="admin-new-payment-count" class="admin-new-payment-count" style="<?php echo $unreadPaidPaymentCount > 0 ? '' : 'display:none;'; ?>"><?php if ($unreadPaidPaymentCount > 0): ?><?php echo $unreadPaidPaymentCount > 99 ? '99+' : $unreadPaidPaymentCount; ?> new<?php endif; ?></span></strong>
+                        <div id="admin-recent-payments-list">
                         <?php if (empty($recentPaidPayments)): ?>
                             <span class="dropdown-item-text small text-muted">No payments yet.</span>
                         <?php else: ?>
@@ -154,10 +174,14 @@ function renderSidebarBadge($count)
                                         <strong><?php echo htmlspecialchars($payerName !== '' ? $payerName : 'Customer'); ?></strong>
                                         <small><?php echo $paidAt ? htmlspecialchars(date('M j, Y · g:i A', $paidAt)) : 'Paid'; ?></small>
                                     </span>
-                                    <span class="admin-paid-notice-amount">₱<?php echo number_format((float) $paidPayment['amount'], 2); ?></span>
+                                    <span class="admin-paid-notice-trailing">
+                                        <?php if ((int) $paidPayment['id'] > $latestReadPaidPaymentId): ?><small class="admin-paid-new-label">NEW</small><?php endif; ?>
+                                        <span class="admin-paid-notice-amount">₱<?php echo number_format((float) $paidPayment['amount'], 2); ?></span>
+                                    </span>
                                 </a>
                             <?php endforeach; ?>
                         <?php endif; ?>
+                        </div>
                     <?php endif; ?>
                 </div>
             </div>
@@ -206,7 +230,7 @@ function renderSidebarBadge($count)
                  echo 'active'; } ?>"><i class="bi bi-people-fill sidebar-icon" aria-hidden="true"></i><span>Customer</span></a>
         <a href="../admin/admin_payment.php" class="<?php
               if ($current_page == 'admin_payment.php') {
-                 echo 'active';} ?>"><i class="bi bi-credit-card-2-front-fill sidebar-icon" aria-hidden="true"></i><span>Payments</span><?php echo renderSidebarBadge($sidebarCounts['payments']); ?></a>
+                 echo 'active';} ?>"><i class="bi bi-credit-card-2-front-fill sidebar-icon" aria-hidden="true"></i><span>Payments</span><?php echo renderSidebarBadge($sidebarCounts['payments'] + $unreadPaidPaymentCount, 'admin-payment-notification-badge'); ?></a>
         <a href="../admin/admin_inquiries.php" class="<?php
               if ($current_page == 'admin_inquiries.php') {
                  echo 'active';} ?>"><i class="bi bi-chat-left-text-fill sidebar-icon" aria-hidden="true"></i><span>Inquiries</span><?php echo renderSidebarBadge($sidebarCounts['inquiries']); ?></a>
@@ -241,6 +265,86 @@ function renderSidebarBadge($count)
             });
         });
         </script>
+        <?php if ($canViewAdminNotifications): ?>
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var pendingTotal = <?php echo (int) $adminPendingCountTotal; ?>;
+            var paymentPending = <?php echo (int) $sidebarCounts['payments']; ?>;
+            var sidebarBadge = document.getElementById('admin-payment-notification-badge');
+            var totalBadge = document.getElementById('admin-notification-total');
+            var maxBadgeCount = function (count) { return count > 99 ? '99+' : String(count); };
+
+            function updateBadge(element, count) {
+                if (!element) return;
+                element.textContent = maxBadgeCount(count);
+                element.style.display = count > 0 ? '' : 'none';
+            }
+
+            function refreshPaymentNotifications() {
+                fetch('../database/admin_payment_notification_count.php', {
+                    headers: { 'Accept': 'application/json' },
+                    cache: 'no-store',
+                    credentials: 'same-origin'
+                }).then(function (response) {
+                    if (!response.ok) throw new Error('Unable to refresh payment notifications');
+                    return response.json();
+                }).then(function (data) {
+                    var unreadPaid = Number(data.unread_paid_payments) || 0;
+                    updateBadge(sidebarBadge, paymentPending + unreadPaid);
+                    updateBadge(totalBadge, pendingTotal + unreadPaid);
+
+                    var newPaymentLabel = document.getElementById('admin-new-payment-count');
+                    if (newPaymentLabel) {
+                        newPaymentLabel.textContent = unreadPaid > 0 ? maxBadgeCount(unreadPaid) + ' new' : '';
+                        newPaymentLabel.style.display = unreadPaid > 0 ? '' : 'none';
+                    }
+
+                    var paymentList = document.getElementById('admin-recent-payments-list');
+                    if (paymentList && Array.isArray(data.recent_payments)) {
+                        paymentList.replaceChildren();
+                        if (data.recent_payments.length === 0) {
+                            var emptyState = document.createElement('span');
+                            emptyState.className = 'dropdown-item-text small text-muted';
+                            emptyState.textContent = 'No payments yet.';
+                            paymentList.appendChild(emptyState);
+                        } else {
+                            data.recent_payments.forEach(function (payment) {
+                                var link = document.createElement('a');
+                                link.className = 'dropdown-item admin-paid-notice';
+                                link.href = 'admin_payment.php';
+
+                                var details = document.createElement('span');
+                                details.className = 'admin-paid-notice-details';
+                                var name = document.createElement('strong');
+                                name.textContent = payment.name || 'Customer';
+                                var date = document.createElement('small');
+                                date.textContent = payment.created_at || 'Paid';
+                                details.append(name, date);
+
+                                var trailing = document.createElement('span');
+                                trailing.className = 'admin-paid-notice-trailing';
+                                if (payment.is_new) {
+                                    var newLabel = document.createElement('small');
+                                    newLabel.className = 'admin-paid-new-label';
+                                    newLabel.textContent = 'NEW';
+                                    trailing.appendChild(newLabel);
+                                }
+                                var amount = document.createElement('span');
+                                amount.className = 'admin-paid-notice-amount';
+                                amount.textContent = '₱' + Number(payment.amount || 0).toLocaleString('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                trailing.appendChild(amount);
+                                link.append(details, trailing);
+                                paymentList.appendChild(link);
+                            });
+                        }
+                    }
+                }).catch(function () {});
+            }
+
+            window.setInterval(refreshPaymentNotifications, 15000);
+        });
+        </script>
+        <?php endif; ?>
         <script>
         document.addEventListener('click', function (event) {
             var toggle = event.target.closest('.password-visibility-toggle');

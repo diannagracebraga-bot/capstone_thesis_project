@@ -158,6 +158,9 @@ body{
 .admin-notification-menu .admin-paid-notice-details strong { color: #24384b; font-size: 13px; }
 .admin-notification-menu .admin-paid-notice-details small { color: #6c757d; font-size: 11px; font-weight: 400; }
 .admin-notification-menu .admin-paid-notice .admin-paid-notice-amount { color: #198754; flex: 0 0 auto; }
+.admin-notification-menu .admin-paid-notice-trailing { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex: 0 0 auto; }
+.admin-notification-menu .admin-paid-new-label,
+.admin-notification-menu .admin-new-payment-count { color: #dc3545; font-size: 10px; font-weight: 700; }
 
 .icon2{
     width: 60px;
