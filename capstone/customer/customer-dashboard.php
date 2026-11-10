@@ -182,7 +182,7 @@ if ($payment_count > 0) {
 ?>
 
 <tr<?php echo $hidePaymentRow ? ' class="payment-history-extra" hidden' : ''; ?>>
-    <td data-label="No."><?php echo $payment['id']; ?></td>
+    <td data-label="No."><?php echo $payment_count - $paymentIndex + 1; ?></td>
 
     <td data-label="Date of Payment">
         <?php echo date('m-d-Y', strtotime($payment['created_at'])); ?>

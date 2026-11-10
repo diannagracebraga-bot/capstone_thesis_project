@@ -1,26 +1,21 @@
 <?php
 include '../admin/check_admin_access.php';
 include '../database/database_connection.php';
-
 $filled_by_column = mysqli_query($conn, "SHOW COLUMNS FROM internet_application_tbl LIKE 'filled_up_by'");
 if ($filled_by_column && mysqli_num_rows($filled_by_column) === 0) {
     mysqli_query($conn, "ALTER TABLE internet_application_tbl ADD filled_up_by VARCHAR(150) NOT NULL DEFAULT ''");
 }
-
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
 if (empty($_POST["privacy_notice_acknowledged"])) {
     echo "<script>alert('Please acknowledge the Privacy Notice before submitting.'); window.history.back();</script>";
     exit;
 }
-
 $first_name = $_POST['first_name'];
 $middle_name = $_POST['middle_name'];
 $last_name = $_POST['last_name'];
 $sex = $_POST['sex'];
 $contact_number = $_POST['contact_number'];
 $email = trim($_POST['email'] ?? '');
-
 if (
     !filter_var($email, FILTER_VALIDATE_EMAIL) ||
     !preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)$/i', $email)
@@ -31,7 +26,6 @@ if (
           </script>";
     exit;
 } 
-
 $facebook_account = $_POST['facebook_account'];
 $barangay = $_POST['barangay'];
 $address = $_POST['address'];
@@ -41,14 +35,10 @@ $phase_7_carissa = $_POST['phase_7_carissa'];
 $filled_up_by = mysqli_real_escape_string($conn, trim($_POST['filled_up_by'] ?? ''));
 $date_received = date("Y-m-d H:i:s");
 $status = "Pending";
-
-
 $hoa_certificate = "";
 
 if (isset($_FILES['hoa_certificate'])) {
-
     if ($_FILES['hoa_certificate']['error'] != 4) {
-
         if ($_FILES['hoa_certificate']['error'] != 0) {
             echo "<script>
                     alert('There was a problem uploading your HOA Certificate. Please try again.');
@@ -56,25 +46,19 @@ if (isset($_FILES['hoa_certificate'])) {
                   </script>";
             exit;
         }
-
         $file_name = $_FILES['hoa_certificate']['name'];
         $tmp_name = $_FILES['hoa_certificate']['tmp_name'];
-
         $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-
         $allowed_extensions = ['jpg', 'jpeg', 'png', 'pdf'];
-
         $allowed_types = [
             'jpg' => 'image/jpeg',
             'jpeg' => 'image/jpeg',
             'png' => 'image/png',
             'pdf' => 'application/pdf'
         ];
-
         $file_info = finfo_open(FILEINFO_MIME_TYPE);
         $file_type = finfo_file($file_info, $tmp_name);
         finfo_close($file_info);
-
         if (
             !in_array($file_extension, $allowed_extensions) ||
             !isset($allowed_types[$file_extension]) ||
@@ -86,19 +70,13 @@ if (isset($_FILES['hoa_certificate'])) {
                   </script>";
             exit;
         }
-
         $upload_folder = "../uploads/hoa_certificates/";
-
         if (!is_dir($upload_folder)) {
             mkdir($upload_folder, 0777, true);
         }
-
         $new_file_name = uniqid() . "." . $file_extension;
-
         if (move_uploaded_file($tmp_name, $upload_folder . $new_file_name)) {
-
             $hoa_certificate = $new_file_name;
-
         } else {
             echo "<script>
                     alert('Failed to upload HOA Certificate. Please try again.');
@@ -108,7 +86,6 @@ if (isset($_FILES['hoa_certificate'])) {
         }
     }
 }
-
 if ($phase_7_carissa == "Yes" && empty($hoa_certificate)) {
     echo "<script>
             alert('HOA Certificate is required for customers from Phase 7 Carissa.');
@@ -116,19 +93,14 @@ if ($phase_7_carissa == "Yes" && empty($hoa_certificate)) {
           </script>";
     exit;
 }
-
-
 $sql = "INSERT INTO internet_application_tbl
 (first_name, middle_name, last_name, sex, contact_number, email, facebook_account, barangay, address,
 internet_plan, desired_installation_date, phase_7_carissa, hoa_certificate, date_received, status, filled_up_by)
 VALUES
 ('$first_name', '$middle_name', '$last_name','$sex', '$contact_number', '$email', '$facebook_account', '$barangay', '$address',
 '$internet_plan', '$desired_installation_date', '$phase_7_carissa', '$hoa_certificate', '$date_received', '$status', '$filled_up_by')";
-
     if(mysqli_query($conn, $sql)){
-
         $applicant_id = mysqli_insert_id($conn);
-
         echo "<script>
                 alert('Your Internet Application has been submitted successfully!\\n\\nYour reference number is: " . $applicant_id . "');
                 window.location='../index.php';
@@ -137,52 +109,38 @@ VALUES
     }else{
         echo "Failed to Submit Application " . mysqli_error($conn);
     }
-
 }
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
 	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="icon" type="image/png" href="/favicon.png?v=2">
-	 <link rel="stylesheet" href="../css/admin_applicants.css?v=announcement-theme-3">
-	 <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-3">
-	<title>MITZTIANPC WIRED INTERNET SERVICES</title>
+	  <link rel="stylesheet" href="../css/admin_applicants.css?v=announcement-theme-3">
+	  <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-3">
+	  <title>MITZTIANPC WIRED INTERNET SERVICES</title>
 </head>
 <body class="admin-module-page">
 	<?php include 'admin_sidebar_header_profile.php'; ?>
-	
 			<div class="card">
   				<div class="card-body">
 			<div class = "table-container">
-              
 <div class="aligned">
     <div class="searchbar-container">
         <form method="GET" action="">
             <div class="input-group">
                 <input type="text" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($_GET['search'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" autocomplete="off">
-
-                <button type="submit" class="btn btn-primary">
-                    Search
-                </button>
-
+                <button type="submit" class="btn btn-primary"> Search </button>
                 <?php if (!empty($_GET['search'])) { ?>
-                    <a
-                        href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'); ?>"
-                        class="btn btn-secondary">
-                        Clear
-                    </a>
+                    <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-secondary"> Clear </a>
                 <?php } ?>
             </div>
         </form>
     </div>
 </div>
-
-		<br>
-				<table id="applicantTable" class="table table-secondary table-hover">
-					<thead class = "table-info">
-					<tr>
+<br>
+<table id="applicantTable" class="table table-secondary table-hover">
+    <thead class = "table-info"> <tr>
 						<th>APPLICANT ID</th>
 						<th>FIRST NAME</th>
 						<th>MIDDLE NAME</th>
@@ -196,9 +154,7 @@ VALUES
 					</thead>
 					<tbody>
 <?php
-
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
-
 $sql = "SELECT
             a.*,
             p.plan_name,
@@ -207,10 +163,8 @@ $sql = "SELECT
         FROM internet_application_tbl a
         LEFT JOIN internet_plan_tbl p
             ON a.internet_plan = p.plan_id";
-
 if ($search !== '') {
     $search_safe = mysqli_real_escape_string($conn, $search);
-
     $sql .= " WHERE
                 a.applicant_id LIKE '%$search_safe%'
                 OR a.first_name LIKE '%$search_safe%'
@@ -221,15 +175,11 @@ if ($search !== '') {
                 OR a.date_received LIKE '%$search_safe%'
                 OR a.status LIKE '%$search_safe%'";
 }
-
 $sql .= " ORDER BY a.applicant_id DESC";
-
 $result = mysqli_query($conn, $sql);
-
 if (!$result) {
     die("Query Failed: " . mysqli_error($conn));
 }
-
 while($row = mysqli_fetch_assoc($result)) {
 ?>
     <tr>
@@ -244,7 +194,6 @@ while($row = mysqli_fetch_assoc($result)) {
         <td><?php echo $row['date_received']; ?></td>
         <td>
             <?php
-
                 if($row['status']=="Pending"){
                      echo '<span class="badge status-badge bg-warning text-dark">Pending</span>';
                     }
@@ -260,8 +209,7 @@ while($row = mysqli_fetch_assoc($result)) {
 ?>
 </td>
         <td>
-            <button class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#viewApplicant<?php echo $row['applicant_id']; ?>">
-				View</button>
+            <button class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#viewApplicant<?php echo $row['applicant_id']; ?>"> View</button>
         </td>
     </tr>
 <?php
@@ -271,7 +219,6 @@ while($row = mysqli_fetch_assoc($result)) {
 </table>
  </div>
 </div>
-
 <?php
 $result = mysqli_query($conn, "SELECT 
                                     a.*,
@@ -282,17 +229,13 @@ $result = mysqli_query($conn, "SELECT
                                 LEFT JOIN internet_plan_tbl p
                                     ON a.internet_plan = p.plan_id
                                 ORDER BY a.applicant_id DESC");
-
 while($row = mysqli_fetch_assoc($result)){
 ?>
-
 <div class="modal fade"
      id="viewApplicant<?php echo $row['applicant_id']; ?>"
      tabindex="-1">
-
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">
-
             <div class="modal-header applicant-modal-header">
                 <h5 class="modal-title">
                     <i class="fas fa-user me-2"></i>Applicant Information
@@ -302,21 +245,16 @@ while($row = mysqli_fetch_assoc($result)){
             <form action="../crud/update_applicants.php" method="POST">
                 <input type="hidden" name="applicant_id" value="<?php echo $row['applicant_id']; ?>">
                 <div class="modal-body">
-
                     <div class="row">
-
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Applicant ID</label>
                             <input type="text" class="form-control bg-light" value="<?php echo $row['applicant_id']; ?>" readonly>
                         </div>
-
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Date Received</label>
                             <input type="text" class="form-control bg-light" value="<?php echo $row['date_received']; ?>" readonly>
                         </div>
-
                     </div>
-
                     <h6 class="text-black border-bottom pb-2 mt-3 mb-3">
                         Personal Information
                     </h6>
@@ -325,172 +263,124 @@ while($row = mysqli_fetch_assoc($result)){
                             <label class="form-label">First Name</label>
                             <input type="text" class="form-control bg-light" value="<?php echo $row['first_name']; ?>" readonly>
                         </div>
-
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Middle Name</label>
                             <input type="text" class="form-control bg-light" value="<?php echo $row['middle_name']; ?>" readonly>
                         </div>
-
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Last Name</label>
                             <input type="text" class="form-control bg-light" value="<?php echo $row['last_name']; ?>" readonly>
                         </div>
-
-
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Sex</label>
                             <input type="text" class="form-control bg-light" value="<?php echo ucfirst($row['sex']); ?>" readonly>
                         </div>
-
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Contact Number</label>
                             <input type="text" class="form-control bg-light" value="<?php echo $row['contact_number']; ?>" readonly>
                         </div>
-
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Email Address</label>
                             <input type="text" class="form-control bg-light" value="<?php echo $row['email']; ?>" readonly>
                         </div>
-
                         <div class="col-md-6 mb-3">
                             <label class="form-label">Facebook Account</label>
                             <input type="text" class="form-control bg-light" value="<?php echo $row['facebook_account']; ?>" readonly>
                         </div>
                     </div>
-
                     <h6 class="text-black border-bottom pb-2 mt-3 mb-3"> Address Information</h6>
                     <div class="row">
-
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Barangay</label>
                             <input type="text" class="form-control bg-light" value="<?php echo $row['barangay']; ?>" readonly>
                         </div>
-
                         <div class="col-md-8 mb-3">
                             <label class="form-label">Address</label>
                             <input type="text" class="form-control bg-light" value="<?php echo $row['address']; ?>" readonly>
                         </div>
-
                     </div>
-
                     <h6 class="text-black border-bottom pb-2 mt-3 mb-3">
                         Internet Service
                     </h6>
-
                     <div class="row">
-
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Internet Plan</label>
                             <input type="text" class="form-control bg-light" value="<?php echo $row['plan_name']; ?> - ₱<?php echo number_format($row['internet_price'], 2); ?> - <?php echo $row['internet_mbps']; ?> Mbps"
                                    readonly>
                         </div>
-
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Desired Installation Date</label>
                             <input type="date" class="form-control bg-light" value="<?php echo $row['desired_installation_date']; ?>" readonly>
                         </div>
-
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Phase 7 Carissa</label>
                             <input type="text" class="form-control bg-light" value="<?php echo $row['phase_7_carissa']; ?>"  readonly>
                         </div>
-
                     </div>
-
                     <h6 class="text-black border-bottom pb-2 mt-3 mb-3">
                         HOA Requirement
                     </h6>
-
                     <div class="row">
-
                         <div class="col-md-6 mb-3">
                             <label class="form-label">HOA Certificate</label>
-
-                            <?php if (!empty($row['hoa_certificate'])) { ?>
-
-                                <br>
-
+                            <?php if (!empty($row['hoa_certificate'])) { ?> <br>
                                 <a href="../crud/uploads/hoa_certificates/<?php echo $row['hoa_certificate']; ?>"
                                    target="_blank"
                                    class="btn btn-outline-primary">
                                     View HOA Certificate
                                 </a>
-
                             <?php } else { ?>
-
                                 <input type="text" class="form-control bg-light" value="No HOA Certificate uploaded" readonly>
                             <?php } ?>
-
                         </div>
-
                       <div class="col-md-6 mb-3">
     <label class="form-label">Status</label>
-
     <select class="form-select" name="status" required>
-
         <option value="Pending"
             <?php if($row['status']=="Pending") echo "selected"; ?>>
             Pending
         </option>
-
         <option value="Ongoing"
             <?php if($row['status']=="Ongoing") echo "selected"; ?>>
             Ongoing
         </option>
-
         <option value="Not Resolved"
-            <?php if($row['status']=="Not Solved") echo "selected"; ?>>
-            Not Solved
+            <?php if($row['status']=="Not Resolved") echo "selected"; ?>>
+            Not Resolved
         </option>
-
         <option value="Resolved"
-            <?php if($row['status']=="Solved") echo "selected"; ?>>
-            Solved
+            <?php if($row['status']=="Resolved") echo "selected"; ?>>
+            Resolved
         </option>
-
     </select>
 </div>
-
 <div class="row mt-2">
-
     <div class="col-md-12 mb-3">
         <label class="form-label">Remarks</label>
-
         <textarea
             name="remarks"
             class="form-control"
             rows="4"
             placeholder="Enter remarks for the applicant..."
             required><?php echo $row['remarks'] ?? ''; ?></textarea>
-
-    </div>
-
-</div>
-
-                    </div>
-
-                    <div class="row mt-2">
-
-                        <div class="col-md-6 mb-3">
-                            <label class="form-label">Filled Up By:</label>
-
-                            <input type="text" class="form-control bg-light" value="<?php echo htmlspecialchars($row['filled_up_by'] ?? ''); ?>" readonly>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="modal-footer">
-
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close  </button>
-                    <button type="submit" name="update_status" class="btn btn-success"> Save Changes</button>
-
-                </div>
-            </form>
-
-        </div>
     </div>
 </div>
-
+</div>
+<div class="row mt-2">
+    <div class="col-md-6 mb-3">
+        <label class="form-label">Filled Up By:</label>
+        <input type="text" class="form-control bg-light" value="<?php echo htmlspecialchars($row['filled_up_by'] ?? ''); ?>" readonly>
+    </div>
+</div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close  </button>
+    <button type="submit" name="update_status" class="btn btn-success" disabled> Save Changes</button>
+</div>
+</form>
+</div>
+</div>
+</div>
 <?php
 }
 ?>
@@ -501,7 +391,6 @@ window.addEventListener('pageshow', function(event) {
     }
 });
 </script>
-
-<script src="../javascript/admin_applicants.js"></script>
+<script src="../javascript/admin_applicants.js?v=applicant-save-change-1"></script>
 </body>
 </html>

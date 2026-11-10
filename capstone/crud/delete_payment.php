@@ -1,21 +1,7 @@
 <?php
-include '../database/database_connection.php';
+require_once '../admin/check_admin_access.php';
 
-if (!isset($_GET['id'])) {
-    header("Location: ../admin/admin_payment.php");
-    exit();
-}
-
-$id = $_GET['id'];
-
-$query = "DELETE FROM payment_tbl WHERE id='$id'";
-
-if (mysqli_query($conn, $query)) {
-    echo "<script>
-        alert('Record deleted successfully');
-        window.location.href='../admin/admin_payment.php';
-    </script>";
-} else {
-    echo "Error deleting record: " . mysqli_error($conn);
-}
+http_response_code(403);
+header('Content-Type: text/plain; charset=UTF-8');
+echo 'Payment records are retained and cannot be deleted.';
 ?>

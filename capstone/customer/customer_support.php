@@ -12,7 +12,6 @@ require '../PHPMailer-master/src/SMTP.php';
 
 $user_id = $_SESSION['user_id'];
 
-// Add the optional attachment field when upgrading an existing installation.
 $attachment_column = mysqli_query($conn, "SHOW COLUMNS FROM ticket_management_tbl LIKE 'attachment_path'");
 if ($attachment_column && mysqli_num_rows($attachment_column) === 0) {
     mysqli_query($conn, "ALTER TABLE ticket_management_tbl ADD attachment_path VARCHAR(255) NULL");
@@ -122,27 +121,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($ticket_statement && mysqli_stmt_execute($ticket_statement)) {
-
-        // Get the newly created ticket ID
         $ticket_id = mysqli_stmt_insert_id($ticket_statement);
         mysqli_stmt_close($ticket_statement);
 
      $mail = new PHPMailer(true);
 
 try {
-
-    // SMTP settings
     $mail->isSMTP();
     $mail->Host = 'smtp.hostinger.com';
     $mail->SMTPAuth = true;
-
     $mail->Username = 'mpc@mitztianpctanza.com';
     $mail->Password = 'mpcTANZA05@';
-
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port = 587;
-
-    // Local XAMPP SSL certificate workaround
     $mail->SMTPOptions = array(
         'ssl' => array(
             'verify_peer' => false,
@@ -151,36 +142,25 @@ try {
         )
     );
 
-    // Hostinger email that sends the ticket
     $mail->setFrom(
         'mpc@mitztianpctanza.com',
         'MitztianPC Customer Support'
     );
-
-    // Admin Gmail
     $mail->addAddress(
         'mitztianpctanza@gmail.com',
         'MitztianPC Admin'
     );
 
-    /*
-     * IMPORTANT:
-     * When the admin clicks Reply in Gmail,
-     * the reply will automatically go to the customer.
-     */
     $mail->addReplyTo(
         $email_address,
         $full_name
     );
-
     $mail->isHTML(true);
-
     $mail->Subject =
         'Support Ticket #' . $ticket_id . ' - ' . $concern_type;
 
     $mail->Body = "
         <h2>New Customer Support Ticket</h2>
-
         <p><strong>Ticket ID:</strong> $ticket_id</p>
         <p><strong>Customer Name:</strong> " . htmlspecialchars($full_name, ENT_QUOTES, 'UTF-8') . "</p>
         <p><strong>Contact Number:</strong> " . htmlspecialchars($contact_number, ENT_QUOTES, 'UTF-8') . "</p>
@@ -189,33 +169,22 @@ try {
         <p><strong>Status:</strong> " . htmlspecialchars($status, ENT_QUOTES, 'UTF-8') . "</p>
         <hr>
         <h3>Customer Message</h3>
-
         <p>" . nl2br(htmlspecialchars($description, ENT_QUOTES, 'UTF-8')) . "</p>
         " . ($attachment_path ? '<p><strong>Attachment:</strong> Available in the admin ticket details.</p>' : '') . "
-
         <hr>
-
         <p><strong>Reply to this email to communicate directly with the customer.</strong></p>
         <p>This ticket was submitted through the MitztianPC Customer Portal.
         </p>
     ";
-
-    // Send email
     $mail->send();
-
     echo "<script>
         alert('Ticket submitted successfully!');
         window.location.href='customer_support.php';
     </script>";
-
     exit();
-
 } catch (Exception $e) {
-
     echo "<h3>Email Error</h3>";
-
     echo "<p>" . $mail->ErrorInfo . "</p>";
-
     echo "<p>
         Ticket was saved successfully in the database.
     </p>";
@@ -234,104 +203,56 @@ try {
 
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
+        content="width=device-width, initial-scale=1.0">
     <title>Customer Support</title>
-
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-
-    <link
-        rel="stylesheet"
-        href="../css/customer_sidebar_header.css?v=customer-shell-11"
-    >
-
-    <link
-        rel="stylesheet"
-        href="../css/customer_support.css?v=customer-module-extend-4"
-    >
-
+    <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-11" >
+    <link rel="stylesheet" href="../css/customer_support.css?v=customer-module-extend-4">
 </head>
-
 <body>
-
 <?php include 'customer_sidebar_header.php'; ?>
-
 <div class="support-content">
-
     <div class="card">
-
         <div class="card-body">
-
             <h2>Send Customer Ticket:</h2>
             <div class="form-section">
-
                 <?php if ($form_error !== ''): ?><div class="support-form-error" role="alert"><?php echo htmlspecialchars($form_error); ?></div><?php endif; ?>
-
                 <form class="form-box" method="POST" enctype="multipart/form-data">
                     <div class="row">
-
                         <div class="input-group">
-
                             <label>Name:</label>
-
                             <input type="text" name="full_name" value="<?php echo $full_name; ?>" readonly>
-
                         </div>
-
                         <div class="input-group">
                             <label>Contact Number:</label>
-
                             <input type="text" name="contact_number" value="<?php echo $contact_number; ?>" readonly>
                         </div>
-
                     </div>
-
                     <div class="row">
-
                         <div class="input-group">
-
                             <label>Email Address:</label>
-
                             <input type="email" name="email_address" value="<?php echo $email_address; ?>" readonly>
                         </div>
-
                         <div class="input-group">
-
                             <label>Type of concern:</label>
-
                             <select name="concern_type" required>
-
                                 <option value="" selected disabled> Select</option>
                                 <option> Billing</option>
                                 <option> Internet Connection </option>
                                 <option>Internet Upgrade</option>
                                 <option> Update Information</option>
                                 <option> Others</option>
-
                             </select>
-
                         </div>
-
                     </div>
-
                     <div class="input-group">
-
                         <label>Description:</label>
-
                         <textarea name="description" placeholder="Describe your concern..." required ></textarea>
-
                     </div>
                     <div class="input-group attachment-group">
                         <label for="ticket-attachment">Attach file or image (optional):</label>

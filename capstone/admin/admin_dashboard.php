@@ -99,7 +99,6 @@ $balance_query = "
             ON c.internet_plan = p.plan_id
         LEFT JOIN payment_tbl pay
             ON c.user_id = pay.user_id
-        WHERE c.connection_status = 'Connected'
         GROUP BY
             c.customer_id,
             p.internet_price
@@ -114,28 +113,17 @@ if (!$balance_result) {
 }
 $balance_data = mysqli_fetch_assoc($balance_result);
 $clients_with_balance = $balance_data['clients_with_balance'];
-$new_active_query = "
-    SELECT COUNT(*) AS new_active_clients
-    FROM customer_tbl c
-    INNER JOIN (
-        SELECT
-            user_id,
-            MIN(created_at) AS first_payment
-        FROM payment_tbl
-        WHERE payment_status = 'Paid'
-        GROUP BY user_id
-    ) first_payment
-        ON c.user_id = first_payment.user_id
-    WHERE c.connection_status = 'Connected'
-    AND YEAR(first_payment.first_payment) = YEAR(CURDATE())
-    AND MONTH(first_payment.first_payment) = MONTH(CURDATE())
+$disconnected_query = "
+    SELECT COUNT(*) AS disconnected_clients
+    FROM customer_tbl
+    WHERE connection_status = 'Disconnected'
 ";
-$new_active_result = mysqli_query($conn, $new_active_query);
-if (!$new_active_result) {
-    die("New active clients query failed: " . mysqli_error($conn));
+$disconnected_result = mysqli_query($conn, $disconnected_query);
+if (!$disconnected_result) {
+    die("Disconnected clients query failed: " . mysqli_error($conn));
 }
-$new_active_data = mysqli_fetch_assoc($new_active_result);
-$new_active_clients = $new_active_data['new_active_clients'];
+$disconnected_data = mysqli_fetch_assoc($disconnected_result);
+$disconnected_clients = (int) $disconnected_data['disconnected_clients'];
 $barangay_query = "
     SELECT
         COALESCE(NULLIF(barangay, ''), 'Unknown') AS barangay,
@@ -226,14 +214,14 @@ while ($row = mysqli_fetch_assoc($daily_collection_result)) {
             <div class="summary-value">
                 <?php echo (int) $clients_with_balance; ?>
             </div>
-            <small>Connected clients with remaining balance</small>
+            <small>Customers with remaining balance this month</small>
         </div>
         <div class="summary-card">
-            <h3>New Active Clients</h3>
+            <h3>Disconnected Clients</h3>
             <div class="summary-value">
-                <?php echo (int) $new_active_clients; ?>
+                <?php echo $disconnected_clients; ?>
             </div>
-            <small>First payment made this month</small>
+            <small>Clients marked as disconnected</small>
         </div>
         <div class="summary-card">
             <h3>Inactive Clients</h3>
@@ -291,8 +279,8 @@ const barangayCounts = <?php
 const clientsWithBalance = <?php
     echo (int) $clients_with_balance;
 ?>;
-const activeUsers = <?php
-    echo (int) $active_users;
+const totalCustomers = <?php
+    echo (int) $total_customers;
 ?>;
 new Chart(document.getElementById('collectionChart'), {
     type: 'bar',
@@ -337,7 +325,7 @@ new Chart(document.getElementById('balanceChart'), {
         datasets: [{
             data: [
                 clientsWithBalance,
-                Math.max(activeUsers - clientsWithBalance, 0)
+                Math.max(totalCustomers - clientsWithBalance, 0)
             ],
             backgroundColor: [
                 '#f59e0b',

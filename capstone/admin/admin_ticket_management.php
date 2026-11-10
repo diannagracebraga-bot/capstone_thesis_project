@@ -1,13 +1,9 @@
 <?php
 include '../admin/check_admin_access.php';
-
 include '../database/database_connection.php';
-
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
-
 if ($search !== '') {
     $search_safe = mysqli_real_escape_string($conn, $search);
-
     $query = "SELECT * FROM ticket_management_tbl
               WHERE ticket_id LIKE '%$search_safe%'
               OR full_name LIKE '%$search_safe%'
@@ -21,15 +17,11 @@ if ($search !== '') {
     $query = "SELECT * FROM ticket_management_tbl
               ORDER BY ticket_id DESC";
 }
-
 $result = mysqli_query($conn, $query);
-
 if (!$result) {
     die("Ticket query failed: " . mysqli_error($conn));
 }
 ?>
-
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,29 +35,18 @@ if (!$result) {
 </head>
 <body class="admin-module-page admin-ticket-page">
 	<?php include 'admin_sidebar_header_profile.php'; ?>
-		
-		
 			<div class="card">
   				<div class="card-body">
 				<div class = "aligned" >
-
 <div class="searchbar-container">
     <form method="GET" action="" class="input-group">
         <input type="text" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($search); ?>" autocomplete="off">
-
-        <button type="submit" class="btn btn-primary">
-            Search
-        </button>
-
+        <button type="submit" class="btn btn-primary"> Search </button>
         <?php if ($search !== '') { ?>
-            <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"
-               class="btn btn-secondary">
-                Clear
-            </a>
+            <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" class="btn btn-secondary"> Clear </a>
         <?php } ?>
     </form>
 </div>
-
 </div>
 		<br>
 				<div class="table-container">
@@ -114,7 +95,6 @@ if (!$result) {
 </tr>
 <?php endwhile; ?>
 </tbody>
-
 </table>
 <script>
 document.getElementById("searchBtn").addEventListener("click", function () {

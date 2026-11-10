@@ -2,12 +2,10 @@
 include '../admin/check_super_admin_access.php';
 include '../database/database_connection.php';
 require_once '../database/announcements_helper.php';
-
 if (!isset($_SESSION['account_id'])) {
     header('Location: ../index.php');
     exit();
 }
-
 $accountId = mysqli_real_escape_string($conn, (string) $_SESSION['account_id']);
 $roleResult = mysqli_query($conn, "SELECT role FROM admin_superadmin_accounts_tbl WHERE account_id = '$accountId' LIMIT 1");
 $roleRow = $roleResult ? mysqli_fetch_assoc($roleResult) : null;
@@ -15,15 +13,12 @@ if (!$roleRow || strcasecmp(trim($roleRow['role']), 'Super Admin') !== 0) {
     http_response_code(403);
     exit('Access denied. Super Admin access is required.');
 }
-
 if (!ensureAnnouncementsTable($conn)) {
     die('Unable to prepare the announcements list.');
 }
-
 $formError = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $action = $_POST['action'] ?? '';
-
     if ($action === 'publish') {
         $title = trim($_POST['title'] ?? '');
         $message = trim($_POST['message'] ?? '');
@@ -55,7 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit();
     }
 }
-
 $announcements = mysqli_query($conn, 'SELECT announcement_id, title, message, created_at FROM announcements_tbl WHERE is_active = 1 ORDER BY created_at DESC, announcement_id DESC');
 ?>
 <!DOCTYPE html>
@@ -76,11 +70,9 @@ $announcements = mysqli_query($conn, 'SELECT announcement_id, title, message, cr
             <span class="announcement-admin-icon"><i class="bi bi-megaphone-fill" aria-hidden="true"></i></span>
             <div><h2>Announcements</h2><p>Mag-publish ng anunsyo na makikita ng mga customer.</p></div>
         </div>
-
         <?php if (!empty($_GET['published'])): ?><div class="alert alert-success">Na-publish na ang announcement.</div><?php endif; ?>
         <?php if (!empty($_GET['deleted'])): ?><div class="alert alert-info">Inalis na ang announcement.</div><?php endif; ?>
         <?php if ($formError !== ''): ?><div class="alert alert-danger"><?php echo htmlspecialchars($formError); ?></div><?php endif; ?>
-
         <form method="post" class="announcement-form">
             <input type="hidden" name="action" value="publish">
             <label for="announcement-title">Title</label>
@@ -89,7 +81,6 @@ $announcements = mysqli_query($conn, 'SELECT announcement_id, title, message, cr
             <textarea id="announcement-message" name="message" rows="4" required><?php echo htmlspecialchars($_POST['message'] ?? ''); ?></textarea>
             <button type="submit"><i class="bi bi-send-fill" aria-hidden="true"></i> Publish Announcement</button>
         </form>
-
         <h3>Published announcements</h3>
         <div class="announcement-list">
         <?php if ($announcements && mysqli_num_rows($announcements) > 0): ?>

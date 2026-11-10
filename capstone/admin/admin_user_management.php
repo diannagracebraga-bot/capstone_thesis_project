@@ -1,91 +1,59 @@
 
 <?php
-
 require_once __DIR__ . '/require_super_admin.php';
-
 $page = $_GET['page'] ?? 'users';
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
     <link rel="stylesheet" href="../css/admin_user_management.css?v=announcement-card-padding-20261029-5">
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-mobile-actions-4">
-
     <title>User Management</title>
 </head>
-
 <body class="admin-module-page admin-user-page">
-
 <?php include 'admin_sidebar_header_profile.php'; ?>
-
 <div class="card">
     <div class="card-body">
-
         <div class="table-container">
-
             <div class="aligned">
-
-              
 <div class="searchbar-container">
     <form method="GET" action="admin_user_management.php">
         <div class="input-group">
             <input type="text" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($_GET['search'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" autocomplete="off">
             <input type="hidden" name="page" value="users">
-            <button type="submit" class="btn btn-primary">
-                Search
-            </button>
-
+            <button type="submit" class="btn btn-primary"> Search </button>
             <?php if (!empty($_GET['search'])) { ?>
-                <a
-                    href="admin_user_management.php"
-                    class="btn btn-secondary">
-                    Clear
-                </a>
+                <a href="admin_user_management.php" class="btn btn-secondary"> Clear </a>
             <?php } ?>
         </div>
     </form>
 </div>
-
-
                 <div class="dropdown add-user-dropdown">
                     <select
                         class="dropbtn"
-                        onchange="if(this.value) window.location.href=this.value;"
-                    >
-
+                        onchange="if(this.value) window.location.href=this.value;" >
                         <option value="" hidden>
                             Add User
                         </option>
-
                         <option value="../admin/admin_add_admin.php">
                             Admin
                         </option>
-
                         <option value="../admin/admin_add_super_admin.php">
                             Super Admin
                         </option>
-
                     </select>
                 </div>
-
             </div>
-
             <?php
             if ($page == 'add_customer') {
-
                 include 'admin_add_customer.php';
-
             } else {
             ?>
-
             <table class="table table-secondary table-hover">
-
                 <thead class="table-info">
                     <tr>
                         <th>NAME</th>
@@ -95,14 +63,10 @@ $page = $_GET['page'] ?? 'users';
                         <th>ACTION</th>
                     </tr>
                 </thead>
-
                 <tbody>
-
                 <?php
-
                 $search = $_GET['search'] ?? '';
                 $search = mysqli_real_escape_string($conn, $search);
-
                 $sql = "
                     SELECT
                         CONCAT_WS(' ', a.f_name, a.m_name, a.l_name) AS name,
@@ -118,23 +82,17 @@ $page = $_GET['page'] ?? 'users';
                         OR a.account_status LIKE '%$search%'
                     ORDER BY a.account_id ASC
                 ";
-
                 $result = mysqli_query($conn, $sql);
-
                 if (!$result) {
                     die("Query failed: " . mysqli_error($conn));
                 }
-
                 if (mysqli_num_rows($result) > 0) {
-
                     while ($row = mysqli_fetch_assoc($result)) {
                 ?>
-
                     <tr>
                         <td> <?php echo $row['name']; ?></td>
                         <td> <?php echo $row['email']; ?> </td>
                         <td> <?php echo $row['role']; ?></td>
-            
                         <td>
                             <?php if ($row['account_status'] == 'Active') { ?>
                                 <span class="text-success">Active</span>
@@ -146,30 +104,22 @@ $page = $_GET['page'] ?? 'users';
                         </td>
                         <td>
                             <?php if ($row['account_status'] == 'Active') { ?>
-
                                 <form action="../crud/update_account_status.php" method="POST" style="display: inline;">
                                   <input type="hidden" name="record_id" value="<?php echo $row['record_id']; ?>" >
                                     <input type="hidden" name="role" value="<?php echo htmlspecialchars($row['role']); ?>" >
-
                                     <button type="submit" class="btn-deactivate" onclick="return confirm('Are you sure you want to deactivate this account?');">
                                         Deactivate
                                     </button>
-
                                 </form>
-
                             <?php } else { ?>
-
                                 <form action="../crud/update_account_status.php" method="POST" style="display: inline;" >
                                     <input type="hidden" name="record_id" value="<?php echo $row['record_id']; ?>">
                                     <input type="hidden" name="role" value="<?php echo htmlspecialchars($row['role']); ?>">
-
                                     <button type="submit"  class="btn-activate" onclick="return confirm('Are you sure you want to activate this account?');" >
                                         Activate
                                     </button>
                                 </form>
-
                             <?php } ?>
-
                             <a href="../crud/update_user_accounts.php?id=<?php echo urlencode($row['record_id']); ?>&role=<?php echo urlencode($row['role']); ?>" class="btn-edit"> Edit
                             </a>
                         </td>
@@ -183,20 +133,15 @@ $page = $_GET['page'] ?? 'users';
                             No users found.
                         </td>
                     </tr>
-
                 <?php
                 }
                 ?>
-
                 </tbody>
-
             </table>
-
             <?php
             }
             ?>
         </div>
-
     </div>
 </div>
 <script>

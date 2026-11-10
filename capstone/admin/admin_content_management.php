@@ -1,7 +1,5 @@
 <?php
-
 require_once __DIR__ . '/require_super_admin.php';
-
 $sql = "SELECT * FROM content_management_about_tbl WHERE about_id = 1";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
@@ -11,9 +9,7 @@ if ($showPrivacyEditor) {
     require_once __DIR__ . '/../database/privacy_statement_storage.php';
     $privacy = getPrivacyStatement($conn);
 }
-
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -27,28 +23,15 @@ if ($showPrivacyEditor) {
 </head>
 <body>
 		<?php include 'admin_sidebar_header_profile.php'; ?>
-
-		
-
-         <!--<div class="col-sm-9 offset-sm-9 mb-4">
-                  <a href="admin_edit_plan.php">  <button type="submit" name="edit_internet_plan" 
-                  class="btn btn-info edit-btn">
-                        Edit Internet Plan
-                    </button></a>
-    </div>-->
-    
- 
     <div class="card w-75 content-management-page-card">
   				<div class="card-body">
                     <div class="content-management-container">
     <div class="content-wrapper">
-
     <div class="pill-nav mb-3">
          <a class="<?php echo !$showPrivacyEditor ? 'active' : ''; ?>" href="admin_content_management.php">Edit Services</a>
          <a href="admin_edit_plan.php">Edit Internet Plan</a>
          <a class="<?php echo $showPrivacyEditor ? 'active' : ''; ?>" href="admin_content_management.php?section=privacy">Privacy Statement</a>
- 
-</div>
+    </div>
         <?php if ($showPrivacyEditor): ?>
         <div class="business-info-card">
             <h2 class="content-section-title">Edit Privacy Statement</h2>
@@ -95,7 +78,6 @@ if ($showPrivacyEditor) {
                            value="<?php echo $row['business_email']; ?>">
                 </div>
             </div>
-
             <div class="form-group row mb-3">
                 <label class="col-sm-2 col-form-label">BUSINESS CONTACT:</label>
                 <div class="col-sm-7">
@@ -103,7 +85,6 @@ if ($showPrivacyEditor) {
                            value="<?php echo $row['business_contact']; ?>">
                 </div>
             </div>
-
             <div class="form-group row mb-3">
                 <label class="col-sm-2 col-form-label">FACEBOOK <i class="fa fa-pagelines" aria-hidden="true"></i>:</label>
                 <div class="col-sm-7">
@@ -111,7 +92,6 @@ if ($showPrivacyEditor) {
                            value="<?php echo $row['business_social_media']; ?>">
                 </div>
             </div>
-
             <div class="form-group row mb-3">
                 <label class="col-sm-2 col-form-label">BUSINESS ADDRESS:</label>
                 <div class="col-sm-7">
@@ -119,7 +99,6 @@ if ($showPrivacyEditor) {
                            value="<?php echo $row['business_address']; ?>">
                 </div>
             </div>
-
             <div class="form-group row mb-3">
                 <label class="col-sm-2 col-form-label">BUSINESS DESCRIPTION:</label>
                 <div class="col-sm-7">
@@ -127,24 +106,18 @@ if ($showPrivacyEditor) {
                            value="<?php echo $row['business_description']; ?>">
                 </div>
             </div>
-
             <div class="form-group row">
                 <div class="col-sm-9 offset-sm-6">
                     <button type="submit" name="update" class="btn btn-success save-btn">Save</button>
-    
             </div>
-
         </div>
     </div>
 </form>
         <?php endif; ?>
 </div>
 </div>
-<br>
- 
-	
+<br>	
 </div>
-
 <script>
 window.addEventListener('pageshow', function(event) {
     if (event.persisted) {

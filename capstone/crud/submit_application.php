@@ -16,34 +16,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sex = mysqli_real_escape_string($conn, $_POST['sex'] ?? '');
     $contact_number = mysqli_real_escape_string($conn, $_POST['contact_number'] ?? '');
     $email = trim($_POST['email'] ?? '');
-
-   
-// Validate Gmail address
-if (
-    !filter_var($email, FILTER_VALIDATE_EMAIL) ||
-    strtolower(substr($email, -10)) !== '@gmail.com'
-) {
-    echo "<script>
-            alert('Please enter a valid Gmail address.');
-            window.history.back();
-          </script>";
-    exit;
-}
-// Validate if email domain exists
-$domain = substr(strrchr($email, "@"), 1);
-
-if (!checkdnsrr($domain, "MX") && !checkdnsrr($domain, "A")) {
-    echo "<script>
-            alert('The email domain does not exist. Please enter a valid email address.');
-            window.history.back();
-          </script>";
-    exit;
-}
-
-
+    if (
+        !filter_var($email, FILTER_VALIDATE_EMAIL) ||
+        strtolower(substr($email, -10)) !== '@gmail.com'
+    ) {
+        echo "<script>
+                alert('Please enter a valid Gmail address.');
+                window.history.back();
+              </script>";
+        exit;
+    }
+    if (!checkdnsrr('gmail.com', 'MX')) {
+        echo "<script>
+                alert('The Gmail domain does not exist. Please try again later.');
+                window.history.back();
+              </script>";
+        exit;
+    }
 
     $email = mysqli_real_escape_string($conn, $email);
-
     $facebook_account = mysqli_real_escape_string($conn, trim($_POST['facebook_account'] ?? ''));
     $barangay = mysqli_real_escape_string($conn, $_POST['barangay'] ?? '');
     $address = mysqli_real_escape_string($conn, trim($_POST['address'] ?? ''));
@@ -51,10 +42,8 @@ if (!checkdnsrr($domain, "MX") && !checkdnsrr($domain, "A")) {
     $desired_installation_date = mysqli_real_escape_string($conn, $_POST['desired_installation_date'] ?? '');
     $phase_7_carissa = mysqli_real_escape_string($conn, $_POST['phase_7_carissa'] ?? '');
     $filled_up_by = mysqli_real_escape_string($conn, trim($_POST['filled_up_by'] ?? ''));
-
     $date_received = date("Y-m-d H:i:s");
     $status = "Pending";
-
     $filled_by_column = mysqli_query($conn, "SHOW COLUMNS FROM internet_application_tbl LIKE 'filled_up_by'");
 
     if ($filled_by_column && mysqli_num_rows($filled_by_column) === 0) {
@@ -62,11 +51,8 @@ if (!checkdnsrr($domain, "MX") && !checkdnsrr($domain, "A")) {
     }
 
     $hoa_certificate = "";
-
     if (isset($_FILES['hoa_certificate'])) {
-
         if ($_FILES['hoa_certificate']['error'] != 4) {
-
             if ($_FILES['hoa_certificate']['error'] != 0) {
                 echo "<script>alert('There was a problem uploading your HOA Certificate. Please try again.'); window.history.back();</script>";
                 exit;
@@ -74,11 +60,8 @@ if (!checkdnsrr($domain, "MX") && !checkdnsrr($domain, "A")) {
 
             $file_name = $_FILES['hoa_certificate']['name'];
             $tmp_name = $_FILES['hoa_certificate']['tmp_name'];
-
             $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-
             $allowed_extensions = ['jpg', 'jpeg', 'png', 'pdf'];
-
             $allowed_types = [
                 'jpg' => 'image/jpeg',
                 'jpeg' => 'image/jpeg',

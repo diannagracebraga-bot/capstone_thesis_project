@@ -12,7 +12,6 @@ $paymentStatusText = 'Wala pang naitalang bayad';
 $paymentIsPending = false;
 $customerTicketUpdates = [];
 $customerTicketUpdateCount = 0;
-
 $latestPaymentResult = mysqli_query($conn, "SELECT id, payment_status, created_at FROM payment_tbl WHERE user_id = '$headerUserId' ORDER BY created_at DESC, id DESC LIMIT 1");
 $latestPayment = $latestPaymentResult ? mysqli_fetch_assoc($latestPaymentResult) : null;
 if ($latestPayment) {
