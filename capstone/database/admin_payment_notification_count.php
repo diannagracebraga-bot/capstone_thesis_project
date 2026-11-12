@@ -34,20 +34,15 @@ if (!in_array($role, ['admin', 'super admin'], true)) {
 }
 
 require_once __DIR__ . '/admin_payment_notifications.php';
-$unreadCount = getUnreadAdminPaidPaymentCount($conn, $accountId);
+$modules = ['applicants', 'payments', 'inquiries', 'tickets'];
+$notificationCounts = [];
 $lastSeenPaymentId = 0;
-$readStatement = mysqli_prepare(
-    $conn,
-    'SELECT last_seen_payment_id FROM admin_payment_notification_reads WHERE account_id = ? LIMIT 1'
-);
-if ($readStatement) {
-    $accountIdString = (string) $accountId;
-    mysqli_stmt_bind_param($readStatement, 's', $accountIdString);
-    mysqli_stmt_execute($readStatement);
-    $readResult = mysqli_stmt_get_result($readStatement);
-    $readRow = $readResult ? mysqli_fetch_assoc($readResult) : null;
-    $lastSeenPaymentId = (int) ($readRow['last_seen_payment_id'] ?? 0);
-    mysqli_stmt_close($readStatement);
+foreach ($modules as $module) {
+    $state = getAdminNotificationState($conn, $accountId, $module);
+    $notificationCounts[$module] = $state['unread_count'];
+    if ($module === 'payments') {
+        $lastSeenPaymentId = $state['last_seen_id'];
+    }
 }
 
 $recentPayments = [];
@@ -79,7 +74,7 @@ if ($paymentResult) {
 }
 
 echo json_encode([
-    'unread_paid_payments' => $unreadCount,
+    'notification_counts' => $notificationCounts,
     'recent_payments' => $recentPayments,
 ], JSON_INVALID_UTF8_SUBSTITUTE);
 ?>

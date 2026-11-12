@@ -14,6 +14,28 @@ $account_id = $_SESSION['account_id'];
 $query = "SELECT * FROM admin_superadmin_accounts_tbl WHERE account_id='$account_id'";
 
 $current_page = basename($_SERVER['PHP_SELF']);
+$sidebarActivePages = [
+    'dashboard' => ['admin_dashboard.php'],
+    'announcements' => ['admin_announcement_management.php'],
+    'applicants' => ['admin_applicants.php', 'admin_add_applicants.php'],
+    'customer' => ['admin_customer.php', 'admin_add_customer_page.php', 'admin_add_customer.php'],
+    'payments' => ['admin_payment.php', 'admin_add_payment.php', 'update.php'],
+    'inquiries' => ['admin_inquiries.php', 'admin_view_inquiries.php'],
+    'tickets' => ['admin_ticket_management.php', 'admin_view_ticket_management.php'],
+    'users' => ['admin_user_management.php', 'admin_add_admin.php', 'admin_add_super_admin.php'],
+    'content' => ['admin_content_management.php', 'admin_edit_plan.php'],
+];
+$isCustomerRegistrationView = $current_page === 'admin_user_management.php'
+    && ($_GET['page'] ?? '') === 'add_customer';
+$isSidebarPageActive = static function ($section) use ($sidebarActivePages, $current_page, $isCustomerRegistrationView) {
+    if ($section === 'customer' && $isCustomerRegistrationView) {
+        return true;
+    }
+    if ($section === 'users' && $isCustomerRegistrationView) {
+        return false;
+    }
+    return in_array($current_page, $sidebarActivePages[$section] ?? [], true);
+};
 
 $admin_result = mysqli_query($conn, $query);
 $admin = mysqli_fetch_assoc($admin_result);
@@ -21,7 +43,6 @@ $isSuperAdmin = isset($admin['role']) && strcasecmp(trim($admin['role']), 'Super
 $canViewAdminNotifications = isset($admin['role']) && in_array(strtolower(trim($admin['role'])), ['admin', 'super admin'], true);
 require_once __DIR__ . '/../database/admin_payment_notifications.php';
 
-// Show pending work counts to both Admin and Super Admin accounts.
 $sidebarCounts = [
     'applicants' => 0,
     'payments' => 0,
@@ -29,25 +50,30 @@ $sidebarCounts = [
     'tickets' => 0,
 ];
 $sidebarLatestNoticeAt = array_fill_keys(array_keys($sidebarCounts), 0);
+$notificationModulePages = [
+    'applicants' => ['admin_applicants.php', 'admin_add_applicants.php'],
+    'payments' => ['admin_payment.php', 'admin_add_payment.php', 'update.php'],
+    'inquiries' => ['admin_inquiries.php', 'admin_view_inquiries.php'],
+    'tickets' => ['admin_ticket_management.php', 'admin_view_ticket_management.php'],
+];
+$latestReadPaidPaymentId = 0;
 if ($canViewAdminNotifications) {
-    $pendingCountQueries = [
-        'applicants' => "SELECT COUNT(*) AS total FROM internet_application_tbl WHERE status = 'Pending'",
-        'payments' => "SELECT COUNT(*) AS total FROM payment_tbl WHERE payment_status = 'Pending'",
-        'inquiries' => "SELECT COUNT(*) AS total FROM inquiries_tbl WHERE status = 'Pending'",
-        'tickets' => "SELECT COUNT(*) AS total FROM ticket_management_tbl WHERE status = 'Pending'",
-    ];
-
-    foreach ($pendingCountQueries as $key => $countQuery) {
-        $countResult = mysqli_query($conn, $countQuery);
-        if ($countResult) {
-            $countRow = mysqli_fetch_assoc($countResult);
-            $sidebarCounts[$key] = (int) ($countRow['total'] ?? 0);
+    foreach ($notificationModulePages as $key => $pages) {
+        $state = getAdminNotificationState(
+            $conn,
+            (int) $account_id,
+            $key,
+            in_array($current_page, $pages, true)
+        );
+        $sidebarCounts[$key] = $state['unread_count'];
+        if ($key === 'payments') {
+            $latestReadPaidPaymentId = $state['last_seen_id'];
         }
     }
 
     $latestPendingQueries = [
         'applicants' => "SELECT MAX(date_received) AS latest_at FROM internet_application_tbl WHERE status = 'Pending'",
-        'payments' => "SELECT MAX(created_at) AS latest_at FROM payment_tbl WHERE payment_status = 'Pending'",
+        'payments' => "SELECT MAX(created_at) AS latest_at FROM payment_tbl WHERE payment_status IN ('Pending', 'Paid')",
         'inquiries' => "SELECT MAX(date_received) AS latest_at FROM inquiries_tbl WHERE status = 'Pending'",
         'tickets' => "SELECT MAX(COALESCE(date_submitted, date_received)) AS latest_at FROM ticket_management_tbl WHERE status = 'Pending'",
     ];
@@ -59,22 +85,7 @@ if ($canViewAdminNotifications) {
         }
     }
 }
-$adminPendingCountTotal = array_sum($sidebarCounts);
-$unreadPaidPaymentCount = $canViewAdminNotifications
-    ? getUnreadAdminPaidPaymentCount($conn, (int) $account_id, $current_page === 'admin_payment.php')
-    : 0;
-$pendingTotal = $adminPendingCountTotal + $unreadPaidPaymentCount;
-$latestReadPaidPaymentId = 0;
-if ($canViewAdminNotifications) {
-    $readIdResult = mysqli_query(
-        $conn,
-        "SELECT last_seen_payment_id FROM admin_payment_notification_reads WHERE account_id = '" . (int) $account_id . "' LIMIT 1"
-    );
-    if ($readIdResult) {
-        $readIdRow = mysqli_fetch_assoc($readIdResult);
-        $latestReadPaidPaymentId = (int) ($readIdRow['last_seen_payment_id'] ?? 0);
-    }
-}
+$adminNotificationTotal = array_sum($sidebarCounts);
 $recentPaidPayments = [];
 if ($canViewAdminNotifications) {
     $paidPaymentsResult = mysqli_query(
@@ -105,14 +116,14 @@ uasort($adminNotificationItems, static function ($first, $second) {
     return ($second['sort_at'] ?? 0) <=> ($first['sort_at'] ?? 0);
 });
 
-function renderSidebarBadge($count, $id = null)
+function renderSidebarBadge($count, $id = null, $notificationLabel = 'pending')
 {
-    if ($count < 1 && $id !== 'admin-payment-notification-badge') {
+    if ($count < 1 && $id === null) {
         return '';
     }
     $displayCount = $count > 99 ? '99+' : (string) $count;
     $idAttribute = $id !== null ? ' id="' . htmlspecialchars($id, ENT_QUOTES, 'UTF-8') . '"' : '';
-    $ariaLabel = $id === 'admin-payment-notification-badge' ? 'payment notifications' : 'pending';
+    $ariaLabel = htmlspecialchars($notificationLabel, ENT_QUOTES, 'UTF-8');
     $hiddenAttribute = $count < 1 ? ' style="display:none;"' : '';
     return '<span' . $idAttribute . ' class="sidebar-notification" aria-label="' . $count . ' ' . $ariaLabel . '"' . $hiddenAttribute . '>' . $displayCount . '</span>';
 }
@@ -146,16 +157,16 @@ function renderSidebarBadge($count, $id = null)
             <div class="dropdown admin-notification-dropdown">
                 <button class="admin-notification-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Notifications">
                     <i class="bi bi-bell-fill" aria-hidden="true"></i>
-                    <span id="admin-notification-total" class="admin-notification-total" style="<?php echo $pendingTotal > 0 ? '' : 'display:none;'; ?>"><?php echo $pendingTotal > 99 ? '99+' : $pendingTotal; ?></span>
+                    <span id="admin-notification-total" class="admin-notification-total" style="<?php echo $adminNotificationTotal > 0 ? '' : 'display:none;'; ?>"><?php echo $adminNotificationTotal > 99 ? '99+' : $adminNotificationTotal; ?></span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end admin-notification-menu">
-                    <strong class="dropdown-header">Pending items</strong>
+                    <strong class="dropdown-header">Unread notifications</strong>
                     <?php foreach ($adminNotificationItems as $key => $item): ?>
                         <a class="dropdown-item" href="<?php echo htmlspecialchars($item['href']); ?>"><?php echo htmlspecialchars($item['label']); ?> <span><?php echo $sidebarCounts[$key]; ?></span></a>
                     <?php endforeach; ?>
                     <?php if ($canViewAdminNotifications): ?>
                         <div class="dropdown-divider"></div>
-                        <strong class="dropdown-header">Recent payments <span id="admin-new-payment-count" class="admin-new-payment-count" style="<?php echo $unreadPaidPaymentCount > 0 ? '' : 'display:none;'; ?>"><?php if ($unreadPaidPaymentCount > 0): ?><?php echo $unreadPaidPaymentCount > 99 ? '99+' : $unreadPaidPaymentCount; ?> new<?php endif; ?></span></strong>
+                        <strong class="dropdown-header">Recent payments</strong>
                         <div id="admin-recent-payments-list">
                         <?php if (empty($recentPaidPayments)): ?>
                             <span class="dropdown-item-text small text-muted">No payments yet.</span>
@@ -216,36 +227,20 @@ function renderSidebarBadge($count, $id = null)
 
         <aside class="sidebar">
         <div class="sidebar-section-label">MAIN</div>
-       <a href="../admin/admin_dashboard.php" class="<?php
-              if ($current_page == 'admin_dashboard.php') {
-                 echo 'active';}?>"><i class="bi bi-grid-1x2-fill sidebar-icon" aria-hidden="true"></i><span>Dashboard</span></a>
+       <a href="../admin/admin_dashboard.php" class="<?php echo $isSidebarPageActive('dashboard') ? 'active' : ''; ?>"><i class="bi bi-grid-1x2-fill sidebar-icon" aria-hidden="true"></i><span>Dashboard</span></a>
         <?php if ($isSuperAdmin): ?>
-        <a href="../admin/admin_announcement_management.php" class="<?php echo $current_page === 'admin_announcement_management.php' ? 'active' : ''; ?>"><i class="bi bi-megaphone-fill sidebar-icon" aria-hidden="true"></i><span>Announcements</span></a>
+        <a href="../admin/admin_announcement_management.php" class="<?php echo $isSidebarPageActive('announcements') ? 'active' : ''; ?>"><i class="bi bi-megaphone-fill sidebar-icon" aria-hidden="true"></i><span>Announcements</span></a>
         <?php endif; ?>
-        <a href="../admin/admin_applicants.php" class="<?php
-              if ($current_page == 'admin_applicants.php') {
-                 echo 'active'; }?>"><i class="bi bi-person-lines-fill sidebar-icon" aria-hidden="true"></i><span>Applicants</span><?php echo renderSidebarBadge($sidebarCounts['applicants']); ?></a>
-        <a href="../admin/admin_customer.php" class="<?php
-              if ($current_page == 'admin_customer.php') {
-                 echo 'active'; } ?>"><i class="bi bi-people-fill sidebar-icon" aria-hidden="true"></i><span>Customer</span></a>
-        <a href="../admin/admin_payment.php" class="<?php
-              if ($current_page == 'admin_payment.php') {
-                 echo 'active';} ?>"><i class="bi bi-credit-card-2-front-fill sidebar-icon" aria-hidden="true"></i><span>Payments</span><?php echo renderSidebarBadge($sidebarCounts['payments'] + $unreadPaidPaymentCount, 'admin-payment-notification-badge'); ?></a>
-        <a href="../admin/admin_inquiries.php" class="<?php
-              if ($current_page == 'admin_inquiries.php') {
-                 echo 'active';} ?>"><i class="bi bi-chat-left-text-fill sidebar-icon" aria-hidden="true"></i><span>Inquiries</span><?php echo renderSidebarBadge($sidebarCounts['inquiries']); ?></a>
+        <a href="../admin/admin_applicants.php" class="<?php echo $isSidebarPageActive('applicants') ? 'active' : ''; ?>"><i class="bi bi-person-lines-fill sidebar-icon" aria-hidden="true"></i><span>Applicants</span><?php echo renderSidebarBadge($sidebarCounts['applicants'], 'admin-applicants-notification-badge', 'unread applicant notifications'); ?></a>
+        <a href="../admin/admin_customer.php" class="<?php echo $isSidebarPageActive('customer') ? 'active' : ''; ?>"><i class="bi bi-people-fill sidebar-icon" aria-hidden="true"></i><span>Customer</span></a>
+        <a href="../admin/admin_payment.php" class="<?php echo $isSidebarPageActive('payments') ? 'active' : ''; ?>"><i class="bi bi-credit-card-2-front-fill sidebar-icon" aria-hidden="true"></i><span>Payments</span><?php echo renderSidebarBadge($sidebarCounts['payments'], 'admin-payment-notification-badge', 'unread payment notifications'); ?></a>
+        <a href="../admin/admin_inquiries.php" class="<?php echo $isSidebarPageActive('inquiries') ? 'active' : ''; ?>"><i class="bi bi-chat-left-text-fill sidebar-icon" aria-hidden="true"></i><span>Inquiries</span><?php echo renderSidebarBadge($sidebarCounts['inquiries'], 'admin-inquiries-notification-badge', 'unread inquiry notifications'); ?></a>
         <div class="sidebar-section-label sidebar-section-divider">SUPPORT</div>
-        <a href="../admin/admin_ticket_management.php" class="<?php
-             if ($current_page == 'admin_ticket_management.php') {
-                 echo 'active';}?>"><i class="bi bi-ticket-detailed-fill sidebar-icon" aria-hidden="true"></i><span>Ticket Management</span><?php echo renderSidebarBadge($sidebarCounts['tickets']); ?></a>
+        <a href="../admin/admin_ticket_management.php" class="<?php echo $isSidebarPageActive('tickets') ? 'active' : ''; ?>"><i class="bi bi-ticket-detailed-fill sidebar-icon" aria-hidden="true"></i><span>Ticket Management</span><?php echo renderSidebarBadge($sidebarCounts['tickets'], 'admin-tickets-notification-badge', 'unread ticket notifications'); ?></a>
         <?php if ($isSuperAdmin): ?>
         <div class="sidebar-section-label sidebar-section-divider">ADMINISTRATION</div>
-        <a href="../admin/admin_user_management.php" class="<?php
-             if ($current_page == 'admin_user_management.php') {
-                 echo 'active'; } ?>"><i class="bi bi-person-gear sidebar-icon" aria-hidden="true"></i><span>User Management</span></a>
-        <a href="../admin/admin_content_management.php" class="<?php
-              if ($current_page == 'admin_content_management.php') {
-                 echo 'active';}?>"><i class="bi bi-file-earmark-richtext-fill sidebar-icon" aria-hidden="true"></i><span>Content Management</span></a>
+        <a href="../admin/admin_user_management.php" class="<?php echo $isSidebarPageActive('users') ? 'active' : ''; ?>"><i class="bi bi-person-gear sidebar-icon" aria-hidden="true"></i><span>User Management</span></a>
+        <a href="../admin/admin_content_management.php" class="<?php echo $isSidebarPageActive('content') ? 'active' : ''; ?>"><i class="bi bi-file-earmark-richtext-fill sidebar-icon" aria-hidden="true"></i><span>Content Management</span></a>
         <?php endif; ?>
         </aside>
         
@@ -268,10 +263,13 @@ function renderSidebarBadge($count, $id = null)
         <?php if ($canViewAdminNotifications): ?>
         <script>
         document.addEventListener('DOMContentLoaded', function () {
-            var pendingTotal = <?php echo (int) $adminPendingCountTotal; ?>;
-            var paymentPending = <?php echo (int) $sidebarCounts['payments']; ?>;
-            var sidebarBadge = document.getElementById('admin-payment-notification-badge');
             var totalBadge = document.getElementById('admin-notification-total');
+            var badgeIds = {
+                applicants: 'admin-applicants-notification-badge',
+                payments: 'admin-payment-notification-badge',
+                inquiries: 'admin-inquiries-notification-badge',
+                tickets: 'admin-tickets-notification-badge'
+            };
             var maxBadgeCount = function (count) { return count > 99 ? '99+' : String(count); };
 
             function updateBadge(element, count) {
@@ -280,24 +278,23 @@ function renderSidebarBadge($count, $id = null)
                 element.style.display = count > 0 ? '' : 'none';
             }
 
-            function refreshPaymentNotifications() {
+            function refreshNotifications() {
                 fetch('../database/admin_payment_notification_count.php', {
                     headers: { 'Accept': 'application/json' },
                     cache: 'no-store',
                     credentials: 'same-origin'
                 }).then(function (response) {
-                    if (!response.ok) throw new Error('Unable to refresh payment notifications');
+                    if (!response.ok) throw new Error('Unable to refresh notifications');
                     return response.json();
                 }).then(function (data) {
-                    var unreadPaid = Number(data.unread_paid_payments) || 0;
-                    updateBadge(sidebarBadge, paymentPending + unreadPaid);
-                    updateBadge(totalBadge, pendingTotal + unreadPaid);
-
-                    var newPaymentLabel = document.getElementById('admin-new-payment-count');
-                    if (newPaymentLabel) {
-                        newPaymentLabel.textContent = unreadPaid > 0 ? maxBadgeCount(unreadPaid) + ' new' : '';
-                        newPaymentLabel.style.display = unreadPaid > 0 ? '' : 'none';
-                    }
+                    var counts = data.notification_counts || {};
+                    var totalUnread = 0;
+                    Object.keys(badgeIds).forEach(function (module) {
+                        var count = Number(counts[module]) || 0;
+                        totalUnread += count;
+                        updateBadge(document.getElementById(badgeIds[module]), count);
+                    });
+                    updateBadge(totalBadge, totalUnread);
 
                     var paymentList = document.getElementById('admin-recent-payments-list');
                     if (paymentList && Array.isArray(data.recent_payments)) {
@@ -341,7 +338,7 @@ function renderSidebarBadge($count, $id = null)
                 }).catch(function () {});
             }
 
-            window.setInterval(refreshPaymentNotifications, 15000);
+            window.setInterval(refreshNotifications, 15000);
         });
         </script>
         <?php endif; ?>
