@@ -1,0 +1,197 @@
+
+body {
+    margin: 0;
+}
+
+/* MAIN CONTENT - SAME AS ADD CUSTOMER */
+.admin-add-applicant-page {
+    box-sizing: border-box;
+    width: calc(100% - 330px) !important;
+    margin: 24px 26px 40px 304px !important;
+    padding: 0;
+}
+
+/* MAIN CARD - SAME AS ADD CUSTOMER */
+.add-applicant-card {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    padding: 28px !important;
+    border: 1px solid #dce6f1 !important;
+    border-radius: 14px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 5px 16px rgba(30, 74, 121, .09) !important;
+}
+
+/* CARD HEADER */
+.add-applicant-card .card-header {
+    padding: 0 !important;
+    margin-bottom: 20px;
+    border: none !important;
+    border-radius: 0 !important;
+    background: #FFFFFF !important;
+}
+
+.add-applicant-card .card-header h4 {
+    margin: 0 0 6px !important;
+    color: #123d70;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.add-applicant-card .card-header p {
+    margin: 0;
+    color: #71869c;
+    font-size: 14px;
+}
+
+/* CARD BODY - REMOVE EXTRA PADDING */
+.add-applicant-card .card-body {
+    padding: 0 !important;
+    border: none !important;
+    background: #FFFFFF !important;
+}
+
+/* SECTION TITLES */
+.add-applicant-card .applicant-section-title {
+    margin: 15px 0 18px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #dce6f1;
+    color: #123d70;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+/* FORM LABELS */
+.add-applicant-card .form-label {
+    margin-bottom: 6px;
+    color: #23496f;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.add-applicant-card .required {
+    color: red;
+}
+
+/* INPUTS AND SELECTS */
+.add-applicant-card .form-control,
+.add-applicant-card .form-select {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 42px;
+    padding: 9px 11px;
+    border: 1px solid #ccd9e7;
+    border-radius: 8px;
+    background: #FFFFFF;
+    color: #000000;
+    font-size: 14px;
+}
+
+.add-applicant-card .form-control:focus,
+.add-applicant-card .form-select:focus {
+    border-color: #267bd0;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(28, 117, 205, .14);
+}
+
+.add-applicant-card .form-control::placeholder {
+    color: #71869c;
+    opacity: 1;
+}
+
+.add-applicant-card input[type="file"] {
+    padding: 8px;
+}
+
+/* PRIVACY NOTICE */
+.add-applicant-card .border.rounded.p-3 {
+    border-color: #dce6f1 !important;
+    border-radius: 8px !important;
+    background: #f9fbfe;
+}
+
+.add-applicant-card .form-check-label {
+    color: #23496f;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.add-applicant-card .form-check-input:checked {
+    border-color: #004AAD;
+    background-color: #004AAD;
+}
+
+/* BUTTONS */
+.add-applicant-card .form-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.add-applicant-card .form-actions > .btn {
+    box-sizing: border-box;
+    width: auto !important;
+    min-width: 150px;
+    padding: 10px 18px;
+    border-radius: 8px;
+}
+
+.add-applicant-card .form-actions .btn-primary {
+    border-color: #004AAD;
+    background: #004AAD;
+}
+
+.add-applicant-card .form-actions .btn-primary:hover {
+    border-color: #003580;
+    background: #003580;
+}
+
+.add-applicant-card .form-actions .btn-danger {
+    border-color: #dc3545;
+    background: #dc3545;
+}
+
+.add-applicant-card .form-actions .btn-secondary {
+    border-color: #71869c;
+    background: #71869c;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+    .admin-add-applicant-page {
+        width: auto !important;
+        margin: 15px 16px 30px !important;
+    }
+
+    .add-applicant-card {
+        padding: 20px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-add-applicant-page {
+        margin: 15px 10px !important;
+    }
+}
+
+@media (max-width: 520px) {
+    .admin-add-applicant-page {
+        margin: 12px 10px 24px !important;
+    }
+
+    .add-applicant-card {
+        padding: 16px !important;
+    }
+
+    .add-applicant-card .form-actions {
+        flex-wrap: wrap;
+    }
+
+    .add-applicant-card .form-actions > .btn {
+        flex: 1 1 140px;
+    }
+}

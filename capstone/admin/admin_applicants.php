@@ -130,14 +130,39 @@ VALUES
         <form method="GET" action="">
             <div class="input-group">
                 <input type="text" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($_GET['search'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" autocomplete="off">
-                <button type="submit" class="btn btn-primary"> Search </button>
+
+                <button type="submit" class="btn btn-primary">
+                    Search
+                </button>
+
                 <?php if (!empty($_GET['search'])) { ?>
-                    <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-secondary"> Clear </a>
+
+                    <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-secondary">
+                        Clear
+                    </a>
+
                 <?php } ?>
+
             </div>
+
         </form>
+
     </div>
+
+    <div class="add_applicant">
+
+        <form action="admin_add_applicants.php" method="GET">
+
+            <button type="submit" class="btn btn-primary">
+                Add Applicants
+            </button>
+
+        </form>
+
+    </div>
+
 </div>
+
 <br>
 <table id="applicantTable" class="table table-secondary table-hover">
     <thead class = "table-info"> <tr>

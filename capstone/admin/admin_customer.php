@@ -122,9 +122,9 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
         while ($row = mysqli_fetch_assoc($result)) {
             ?>
 
-                    <tr
-                        <td><?php echo $row['account_number']; ?></td>
-                       > <td><?php echo $row['f_name']; ?></td>
+                    <tr>
+                    <td><?php echo $row['account_number']; ?></td>
+                        <td><?php echo $row['f_name']; ?></td>
                         <td><?php echo $row['m_name']; ?></td>
                         <td><?php echo $row['l_name']; ?></td>
                         <td><?php echo $row['barangay']; ?></td>
@@ -177,10 +177,9 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 </td>
 <td><?php echo $row['connection_status']; ?></td>
 <td>
-    <div class="table-action-buttons">
-         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $row['customer_id']; ?>"> View </button>
-         <a href="../crud/delete_customer.php?id=<?php echo $row['customer_id']; ?>" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this customer?')"> Delete </a>
-    </div>
+  <div class="table-action-buttons">
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal<?php echo $row['customer_id']; ?>"> View </button>
+</div>
 </td>
 </tr>
                     <div class="modal fade" id="editModal<?php echo $row['customer_id']; ?>" tabindex="-1">
