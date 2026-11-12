@@ -93,29 +93,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <label>Search Customer</label>
                     <input type="text" id="customer_search" class="form-control" placeholder="Search account number or customer name..." list="customer_list" autocomplete="off" required>
                     <datalist id="customer_list">
-                        <?php while ($customer = mysqli_fetch_assoc($customer_result)) { ?>
-                            <option
-                                value="<?php
-                                    echo $customer['account_number'] . ' - ' .
-                                         $customer['f_name'] . ' ' .
-                                         $customer['m_name'] . ' ' .
-                                         $customer['l_name'];
-                                ?>"
-                                data-user-id="<?php echo $customer['user_id']; ?>"
-                                data-account-number="<?php echo $customer['account_number']; ?>"
-                                data-name="<?php
-                                    echo $customer['f_name'] . ' ' .
-                                         $customer['m_name'] . ' ' .
-                                         $customer['l_name'];
-                                ?>"
-                                data-plan="<?php
-                                    echo $customer['plan_name'] . ' ' .
-                                         $customer['internet_mbps'] . ' Mbps = ₱' .
-                                         number_format($customer['internet_price'], 2);
-                                ?>"
-                                data-price="<?php echo $customer['internet_price']; ?>" >
-                            </option>
-                        <?php } ?>
+                            <?php while ($customer = mysqli_fetch_assoc($customer_result)) { ?>
+
+    <option
+        value="<?php echo $customer['account_number']; ?>"
+        data-user-id="<?php echo $customer['user_id']; ?>"
+        data-account-number="<?php echo $customer['account_number']; ?>"
+        data-name="<?php
+            echo $customer['f_name'] . ' ' .
+                 $customer['m_name'] . ' ' .
+                 $customer['l_name'];
+        ?>"
+        data-plan="<?php
+            echo $customer['plan_name'] . ' ' .
+                 $customer['internet_mbps'] . ' Mbps = ₱' .
+                 number_format($customer['internet_price'], 2);
+        ?>"
+        data-price="<?php echo $customer['internet_price']; ?>"
+    >
+
+<?php } ?>
                     </datalist>
                     <input type="hidden"name="user_id" id="user_id">
                 </div>
@@ -150,18 +147,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </div>
 <script>
 document.getElementById("customer_search").addEventListener("input", function() {
-    var searchValue = this.value.toLowerCase();
+
+    var searchValue = this.value.trim().toLowerCase();
     var options = document.querySelectorAll("#customer_list option");
     var found = false;
+
     for (var i = 0; i < options.length; i++) {
-        var optionValue = options[i].value.toLowerCase();
+
         var accountNumber = options[i].getAttribute("data-account-number").toLowerCase();
-        var customerName = options[i].getAttribute("data-name").toLowerCase();
-        if (
-            optionValue === searchValue ||
-            accountNumber === searchValue ||
-            customerName === searchValue
-        ) {
+
+        if (accountNumber === searchValue) {
+
             var userId = options[i].getAttribute("data-user-id");
             var name = options[i].getAttribute("data-name");
             var planDetails = options[i].getAttribute("data-plan");
@@ -171,10 +167,12 @@ document.getElementById("customer_search").addEventListener("input", function() 
             document.getElementById("customer_name").value = name;
             document.getElementById("plan_details").value = planDetails;
             document.getElementById("amount").value = planPrice;
+
             found = true;
             break;
         }
     }
+
     if (!found) {
         document.getElementById("user_id").value = "";
         document.getElementById("customer_name").value = "";
