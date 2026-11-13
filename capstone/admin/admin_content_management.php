@@ -29,7 +29,6 @@ if ($showPrivacyEditor) {
     <div class="content-wrapper">
     <div class="pill-nav mb-3">
          <a class="<?php echo !$showPrivacyEditor ? 'active' : ''; ?>" href="admin_content_management.php">Edit Services</a>
-         <a href="admin_edit_plan.php">Edit Internet Plan</a>
          <a class="<?php echo $showPrivacyEditor ? 'active' : ''; ?>" href="admin_content_management.php?section=privacy">Privacy Statement</a>
     </div>
         <?php if ($showPrivacyEditor): ?>

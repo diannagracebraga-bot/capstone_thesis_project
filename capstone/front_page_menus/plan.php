@@ -1,7 +1,11 @@
 <?php
 include '../database/database_connection.php';
 
-$sql = "SELECT * FROM internet_plan_tbl ORDER BY plan_id ASC";
+$planStatusColumn = mysqli_query($conn, "SHOW COLUMNS FROM internet_plan_tbl LIKE 'is_active'");
+if ($planStatusColumn && mysqli_num_rows($planStatusColumn) === 0) {
+    mysqli_query($conn, 'ALTER TABLE internet_plan_tbl ADD COLUMN is_active TINYINT(1) NOT NULL DEFAULT 1');
+}
+$sql = "SELECT * FROM internet_plan_tbl WHERE is_active = 1 ORDER BY plan_id ASC";
 $result = mysqli_query($conn, $sql);
 ?>
 

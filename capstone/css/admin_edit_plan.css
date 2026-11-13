@@ -94,19 +94,6 @@
     box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.12);
 }
 
-/* Save Button Row */
-.plan-container .form-group.row:last-child {
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    box-shadow: none;
-    margin-bottom: 0 !important;
-}
-
-.plan-container .form-group.row:last-child:hover {
-    box-shadow: none;
-}
-
 /* Save Button */
 .save-btn {
     width: 35%;
@@ -292,7 +279,7 @@ body > div.plan-page-card:hover {
 }
 .plan-page-card .pill-nav a.active { background: #315a7d; color: #FFFFFF; box-shadow: none; }
 .plan-page-card .pill-nav a:hover:not(.active) { background: #e1efff; color: #123d70; }
-.plan-page-card .form-group.row:not(:last-child) {
+.plan-page-card .form-group.row {
     align-items: center;
     margin: 0 0 14px !important;
     padding: 14px 10px;
@@ -301,7 +288,7 @@ body > div.plan-page-card:hover {
     background: #f9fbfe;
     transition: background-color .2s ease;
 }
-.plan-page-card .form-group.row:not(:last-child):hover { background: #edf4fb; box-shadow: none; }
+.plan-page-card .form-group.row:hover { background: #edf4fb; box-shadow: none; }
 .plan-page-card .col-form-label { color: #23496f; font-weight: 700; }
 .plan-page-card .form-control { color: #000000; border-color: #ccd9e7; border-radius: 8px; }
 .plan-page-card .form-control:focus { border-color: #267bd0; box-shadow: 0 0 0 3px rgba(28, 117, 205, .14); }
@@ -319,3 +306,28 @@ body > div.plan-page-card:hover {
     body > div.plan-page-card { margin: 12px 10px 24px !important; }
     .plan-page-card > .card-body { padding: 16px !important; }
 }
+
+.plan-heading { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:22px; }
+.plan-heading h2 { margin:0 0 6px; color:#23496f; font-size:24px; font-weight:700; }
+.plan-heading p { margin:0; color:#64748b; }
+.plan-container h3 { margin:0 0 16px; color:#23496f; font-size:18px; font-weight:700; }
+.add-plan-panel { margin-bottom:28px; padding:20px; border:1px solid #dce6f1; border-radius:12px; background:#f8fbff; }
+.add-plan-form { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)) auto; gap:14px; align-items:end; }
+.add-plan-form label { display:flex; flex-direction:column; gap:7px; color:#334155; font-size:14px; font-weight:600; }
+.add-plan-form input { box-sizing:border-box; width:100%; min-width:0; padding:10px 12px; border:1px solid #ccd9e7; border-radius:8px; font:inherit; font-weight:400; }
+.add-plan-form input:focus { outline:0; border-color:#267bd0; box-shadow:0 0 0 3px rgba(28,117,205,.14); }
+.plan-list-form > h3 { margin-bottom:14px; }
+.plan-list-form > .save-btn { display:block; margin:0 auto; }
+.plan-container-inner { margin-bottom:18px; }
+.plan-alert { margin-bottom:18px; padding:12px 15px; border-radius:8px; }
+.plan-alert.success { color:#166534; background:#dcfce7; }
+.plan-alert.error { color:#991b1b; background:#fee2e2; }
+.empty-plans { padding:18px; color:#64748b; border:1px dashed #ccd9e7; border-radius:10px; }
+.plan-status-actions { display:flex; align-items:center; gap:10px; width:100%; margin-top:8px; }
+.plan-status { display:inline-flex; padding:5px 10px; border-radius:999px; font-size:12px; font-weight:700; }
+.plan-status.active { color:#166534; background:#dcfce7; }
+.plan-status.inactive { color:#991b1b; background:#fee2e2; }
+.status-btn { padding:8px 12px; border:0; border-radius:7px; color:#fff; font-weight:600; cursor:pointer; }
+.status-btn.deactivate { background:#b42318; }
+.status-btn.activate { background:#15803d; }
+@media(max-width:768px) { .add-plan-form { grid-template-columns:1fr; } .plan-heading h2 { font-size:21px; } }

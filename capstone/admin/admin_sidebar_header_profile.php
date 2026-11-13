@@ -23,7 +23,8 @@ $sidebarActivePages = [
     'inquiries' => ['admin_inquiries.php', 'admin_view_inquiries.php'],
     'tickets' => ['admin_ticket_management.php', 'admin_view_ticket_management.php'],
     'users' => ['admin_user_management.php', 'admin_add_admin.php', 'admin_add_super_admin.php'],
-    'content' => ['admin_content_management.php', 'admin_edit_plan.php'],
+    'content' => ['admin_content_management.php'],
+    'plans' => ['admin_edit_plan.php'],
 ];
 $isCustomerRegistrationView = $current_page === 'admin_user_management.php'
     && ($_GET['page'] ?? '') === 'add_customer';
@@ -241,6 +242,7 @@ function renderSidebarBadge($count, $id = null, $notificationLabel = 'pending')
         <div class="sidebar-section-label sidebar-section-divider">ADMINISTRATION</div>
         <a href="../admin/admin_user_management.php" class="<?php echo $isSidebarPageActive('users') ? 'active' : ''; ?>"><i class="bi bi-person-gear sidebar-icon" aria-hidden="true"></i><span>User Management</span></a>
         <a href="../admin/admin_content_management.php" class="<?php echo $isSidebarPageActive('content') ? 'active' : ''; ?>"><i class="bi bi-file-earmark-richtext-fill sidebar-icon" aria-hidden="true"></i><span>Content Management</span></a>
+        <a href="../admin/admin_edit_plan.php" class="<?php echo $isSidebarPageActive('plans') ? 'active' : ''; ?>"><i class="bi bi-wifi sidebar-icon" aria-hidden="true"></i><span>Plans</span></a>
         <?php endif; ?>
         </aside>
         

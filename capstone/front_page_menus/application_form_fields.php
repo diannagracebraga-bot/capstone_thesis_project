@@ -1,6 +1,11 @@
 <?php
+$planStatusColumn = mysqli_query($conn, "SHOW COLUMNS FROM internet_plan_tbl LIKE 'is_active'");
+if ($planStatusColumn && mysqli_num_rows($planStatusColumn) === 0) {
+    mysqli_query($conn, 'ALTER TABLE internet_plan_tbl ADD COLUMN is_active TINYINT(1) NOT NULL DEFAULT 1');
+}
 $plan_query = "SELECT plan_id, plan_name, internet_mbps, internet_price 
-               FROM internet_plan_tbl 
+               FROM internet_plan_tbl
+               WHERE is_active = 1
                ORDER BY plan_id ASC";
 
 $plan_result = mysqli_query($conn, $plan_query);
