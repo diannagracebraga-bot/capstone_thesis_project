@@ -125,53 +125,104 @@ VALUES
 			<div class="card">
   				<div class="card-body">
 			<div class = "table-container">
+
 <div class="aligned">
     <div class="searchbar-container">
         <form method="GET" action="">
             <div class="input-group">
-                <input type="text" name="search" placeholder="Search..." class="form-control" value="<?php echo htmlspecialchars($_GET['search'] ?? '', ENT_QUOTES, 'UTF-8'); ?>" autocomplete="off">
+                <input type="text" name="search" placeholder="Search..." class="form-control"
+                    value="<?php echo htmlspecialchars($_GET['search'] ?? '', ENT_QUOTES, 'UTF-8'); ?>"
+                    autocomplete="off">
+
+                <input type="hidden" name="plan_filter" value="<?php echo htmlspecialchars($_GET['plan_filter'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+                <input type="hidden" name="barangay_filter" value="<?php echo htmlspecialchars($_GET['barangay_filter'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
 
                 <button type="submit" class="btn btn-primary">
                     Search
                 </button>
 
-                <?php if (!empty($_GET['search'])) { ?>
-
-                    <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'); ?>" class="btn btn-secondary">
-                        Clear
-                    </a>
-
-                <?php } ?>
-
+             <?php if (!empty($_GET['search'])) { ?>
+    <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8'); ?>"
+        class="btn btn-secondary">
+        Clear
+    </a>
+<?php } ?>
             </div>
-
         </form>
+    </div>
 
+    <div class="searchbar-container">
+        <form method="GET" action="">
+            <input type="hidden" name="search" value="<?php echo htmlspecialchars($_GET['search'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="hidden" name="barangay_filter" value="<?php echo htmlspecialchars($_GET['barangay_filter'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+
+            <select name="plan_filter" class="form-select" onchange="this.form.submit()">
+                <option value="">All Availed Plans</option>
+
+                <?php
+                $plan_filter_query = mysqli_query($conn, "SELECT plan_id, plan_name FROM internet_plan_tbl ORDER BY plan_id ASC");
+
+                while ($plan = mysqli_fetch_assoc($plan_filter_query)) {
+                ?>
+                    <option value="<?php echo $plan['plan_id']; ?>"
+                        <?php if (isset($_GET['plan_filter']) && $_GET['plan_filter'] == $plan['plan_id']) echo 'selected'; ?>>
+                        <?php echo $plan['plan_name']; ?>
+                    </option>
+                <?php
+                }
+                ?>
+            </select>
+        </form>
+    </div>
+
+    <div class="searchbar-container">
+        <form method="GET" action="">
+            <input type="hidden" name="search" value="<?php echo htmlspecialchars($_GET['search'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+            <input type="hidden" name="plan_filter" value="<?php echo htmlspecialchars($_GET['plan_filter'] ?? '', ENT_QUOTES, 'UTF-8'); ?>">
+
+            <select name="barangay_filter" class="form-select" onchange="this.form.submit()">
+                <option value="">All Barangays</option>
+
+                <?php
+                $barangay_filter_query = mysqli_query($conn, "
+                    SELECT DISTINCT barangay
+                    FROM internet_application_tbl
+                    WHERE barangay != ''
+                    ORDER BY barangay ASC
+                ");
+
+                while ($barangay_row = mysqli_fetch_assoc($barangay_filter_query)) {
+                ?>
+                    <option value="<?php echo htmlspecialchars($barangay_row['barangay'], ENT_QUOTES, 'UTF-8'); ?>"
+                        <?php if (isset($_GET['barangay_filter']) && $_GET['barangay_filter'] == $barangay_row['barangay']) echo 'selected'; ?>>
+                        <?php echo htmlspecialchars($barangay_row['barangay'], ENT_QUOTES, 'UTF-8'); ?>
+                    </option>
+                <?php
+                }
+                ?>
+            </select>
+        </form>
     </div>
 
     <div class="add_applicant">
-
         <form action="admin_add_applicants.php" method="GET">
-
             <button type="submit" class="btn btn-primary">
                 Add Applicants
             </button>
-
         </form>
-
     </div>
-
 </div>
+
 
 <br>
 <table id="applicantTable" class="table table-secondary table-hover">
     <thead class = "table-info"> <tr>
 						<th>APPLICANT ID</th>
 						<th>FIRST NAME</th>
-						<th>MIDDLE NAME</th>
 						<th>LAST NAME</th>
 						<th>CONTACT NUMBER</th>
 						<th>INTERNET PLAN</th>
+                        <th>BARANGAY</th>
 						<th>DATE RECEIVED</th>
 						<th>STATUS</th>
 						<th>ACTION</th>
@@ -188,17 +239,35 @@ $sql = "SELECT
         FROM internet_application_tbl a
         LEFT JOIN internet_plan_tbl p
             ON a.internet_plan = p.plan_id";
+$conditions = [];
+
 if ($search !== '') {
     $search_safe = mysqli_real_escape_string($conn, $search);
-    $sql .= " WHERE
-                a.applicant_id LIKE '%$search_safe%'
-                OR a.first_name LIKE '%$search_safe%'
-                OR a.middle_name LIKE '%$search_safe%'
-                OR a.last_name LIKE '%$search_safe%'
-                OR a.contact_number LIKE '%$search_safe%'
-                OR p.plan_name LIKE '%$search_safe%'
-                OR a.date_received LIKE '%$search_safe%'
-                OR a.status LIKE '%$search_safe%'";
+
+    $conditions[] = "(
+        a.applicant_id LIKE '%$search_safe%'
+        OR a.first_name LIKE '%$search_safe%'
+        OR a.middle_name LIKE '%$search_safe%'
+        OR a.last_name LIKE '%$search_safe%'
+        OR a.contact_number LIKE '%$search_safe%'
+        OR p.plan_name LIKE '%$search_safe%'
+        OR a.date_received LIKE '%$search_safe%'
+        OR a.status LIKE '%$search_safe%'
+    )";
+}
+
+if (!empty($_GET['plan_filter'])) {
+    $plan_filter = mysqli_real_escape_string($conn, $_GET['plan_filter']);
+    $conditions[] = "a.internet_plan = '$plan_filter'";
+}
+
+if (!empty($_GET['barangay_filter'])) {
+    $barangay_filter = mysqli_real_escape_string($conn, $_GET['barangay_filter']);
+    $conditions[] = "a.barangay = '$barangay_filter'";
+}
+
+if (!empty($conditions)) {
+    $sql .= " WHERE " . implode(" AND ", $conditions);
 }
 $sql .= " ORDER BY a.applicant_id DESC";
 $result = mysqli_query($conn, $sql);
@@ -210,12 +279,12 @@ while($row = mysqli_fetch_assoc($result)) {
     <tr>
         <td><?php echo $row['applicant_id']; ?></td>
         <td><?php echo $row['first_name']; ?></td>
-        <td><?php echo $row['middle_name']; ?></td>
         <td><?php echo $row['last_name']; ?></td>
         <td><?php echo $row['contact_number']; ?></td>
         <td>
             <?php echo $row['plan_name']; ?> - ₱<?php echo number_format($row['internet_price'], 2); ?> - <?php echo $row['internet_mbps']; ?> Mbps
         </td>
+        <td><?php echo $row['barangay']; ?></td>
         <td><?php echo $row['date_received']; ?></td>
         <td>
             <?php

@@ -17,63 +17,98 @@ $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 <div class="card">
     <div class="card-body">
     <div class="table-container">
-        <div class="aligned">
-<div class="searchbar-container">
-    <form method="GET" action="">
-        <div class="input-group">
-            <input type="text" id="searchInput" placeholder="Search..." name="search" class="form-control" value="<?php echo htmlspecialchars($search); ?>" autocomplete="off">
-            <button type="submit" class="btn btn-primary"> Search </button>
-            <?php if (!empty($search)) { ?>
-                <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" class="btn btn-secondary"> Clear </a>
-            <?php } ?>
-        </div>
-    </form>
-</div>
-            <div class="payment-plus">
-                <form action="admin_add_payment.php" method="get">
-                    <button type="submit" class="btn btn-success">
-                        Add Payment
-                    </button>
-                </form>
+<div class="aligned">
+
+    <!-- EXISTING SEARCH BAR -->
+    <div class="searchbar-container">
+        <form method="GET" action="">
+            <div class="input-group">
+                <input type="text" id="searchInput" placeholder="Search..." name="search" class="form-control"
+                    value="<?php echo htmlspecialchars($search); ?>" autocomplete="off">
+
+                <button type="submit" class="btn btn-primary"> Search </button>
+
+                <?php if (!empty($search)) { ?>
+                    <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" class="btn btn-secondary"> Clear </a>
+                <?php } ?>
             </div>
-        </div>
+        </form>
+    </div>
+
+    <!-- NEW PAYMENT METHOD FILTER -->
+    <div class="searchbar-container">
+        <form method="GET" action="">
+            <input type="hidden" name="search"
+                value="<?php echo htmlspecialchars($search); ?>">
+
+            <select name="payment_filter" class="form-select" onchange="this.form.submit()">
+                <option value="">All Payment Methods</option>
+                <option value="Cash"
+                    <?php if (($_GET['payment_filter'] ?? '') == 'Cash') echo 'selected'; ?>>
+                    Cash
+                </option>
+                <option value="QR Ph"
+                    <?php if (($_GET['payment_filter'] ?? '') == 'QR Ph') echo 'selected'; ?>>
+                    QR Ph
+                </option>
+            </select>
+        </form>
+    </div>
+
+    <!-- EXISTING ADD PAYMENT BUTTON -->
+    <div class="payment-plus">
+        <form action="admin_add_payment.php" method="get">
+            <button type="submit" class="btn btn-success">
+                Add Payment
+            </button>
+        </form>
+    </div>
+
+</div>
         <br>
         <?php
-       if (empty($search)) {
-    $query = "SELECT payment_tbl.*, 
-                     customer_tbl.account_number,
-                     admin_superadmin_accounts_tbl.f_name AS admin_f_name,
-                     admin_superadmin_accounts_tbl.m_name AS admin_m_name,
-                     admin_superadmin_accounts_tbl.l_name AS admin_l_name
-              FROM payment_tbl
-              INNER JOIN customer_tbl
-                  ON payment_tbl.user_id = customer_tbl.user_id
-              LEFT JOIN admin_superadmin_accounts_tbl
-                  ON payment_tbl.cash_added_by = admin_superadmin_accounts_tbl.account_id
-              ORDER BY payment_tbl.id DESC";
-} else {
+ $conditions = [];
+
+if ($search !== '') {
     $searchTerm = mysqli_real_escape_string($conn, $search);
-    $query = "SELECT payment_tbl.*, 
-                     customer_tbl.account_number,
-                     admin_superadmin_accounts_tbl.f_name AS admin_f_name,
-                     admin_superadmin_accounts_tbl.m_name AS admin_m_name,
-                     admin_superadmin_accounts_tbl.l_name AS admin_l_name
-              FROM payment_tbl
-              INNER JOIN customer_tbl
-                  ON payment_tbl.user_id = customer_tbl.user_id
-              LEFT JOIN admin_superadmin_accounts_tbl
-                  ON payment_tbl.cash_added_by = admin_superadmin_accounts_tbl.account_id
-              WHERE payment_tbl.id LIKE '%$searchTerm%'
-                 OR customer_tbl.account_number LIKE '%$searchTerm%'
-                 OR payment_tbl.f_name LIKE '%$searchTerm%'
-                 OR payment_tbl.m_name LIKE '%$searchTerm%'
-                 OR payment_tbl.l_name LIKE '%$searchTerm%'
-                 OR payment_tbl.payment_method LIKE '%$searchTerm%'
-                 OR payment_tbl.amount LIKE '%$searchTerm%'
-                 OR payment_tbl.reference_number LIKE '%$searchTerm%'
-                 OR payment_tbl.paymongo_payment_id LIKE '%$searchTerm%'
-              ORDER BY payment_tbl.id DESC";
+
+    $conditions[] = "(
+        payment_tbl.id LIKE '%$searchTerm%'
+        OR customer_tbl.account_number LIKE '%$searchTerm%'
+        OR payment_tbl.f_name LIKE '%$searchTerm%'
+        OR payment_tbl.m_name LIKE '%$searchTerm%'
+        OR payment_tbl.l_name LIKE '%$searchTerm%'
+        OR payment_tbl.payment_method LIKE '%$searchTerm%'
+        OR payment_tbl.amount LIKE '%$searchTerm%'
+        OR payment_tbl.reference_number LIKE '%$searchTerm%'
+        OR payment_tbl.paymongo_payment_id LIKE '%$searchTerm%'
+    )";
 }
+
+if (!empty($_GET['payment_filter'])) {
+    $payment_filter = mysqli_real_escape_string($conn, $_GET['payment_filter']);
+
+    if ($payment_filter == 'Cash' || $payment_filter == 'QR Ph') {
+        $conditions[] = "payment_tbl.payment_method = '$payment_filter'";
+    }
+}
+
+$query = "SELECT payment_tbl.*, 
+                 customer_tbl.account_number,
+                 admin_superadmin_accounts_tbl.f_name AS admin_f_name,
+                 admin_superadmin_accounts_tbl.m_name AS admin_m_name,
+                 admin_superadmin_accounts_tbl.l_name AS admin_l_name
+          FROM payment_tbl
+          INNER JOIN customer_tbl
+              ON payment_tbl.user_id = customer_tbl.user_id
+          LEFT JOIN admin_superadmin_accounts_tbl
+              ON payment_tbl.cash_added_by = admin_superadmin_accounts_tbl.account_id";
+
+if (!empty($conditions)) {
+    $query .= " WHERE " . implode(" AND ", $conditions);
+}
+
+$query .= " ORDER BY payment_tbl.id DESC";
         $result = mysqli_query($conn, $query);
         if (!$result) {
             die("Query failed: " . mysqli_error($conn));
