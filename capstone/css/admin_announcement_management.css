@@ -48,6 +48,8 @@
     border-radius: 8px; 
     color: #173b5f; 
     font: inherit; }
+.announcement-form input[type="file"] { background: #f9fbfe; }
+.attachment-help { color: #657c94; font-size: 13px; }
 .announcement-form input:focus,
 .announcement-form textarea:focus
  { outline: 3px solid rgba(28, 117, 205, .14); 
@@ -87,6 +89,9 @@
 { margin: 9px 0 0;
      color: #3e5872; 
      white-space: pre-wrap; }
+.announcement-attachment { max-width: 360px; margin-top: 12px; }
+.announcement-attachment img,
+.announcement-attachment video { display: block; max-width: 100%; max-height: 260px; border-radius: 8px; }
 .delete-announcement
 { padding: 7px 11px; 
     border: 1px solid #e0a4a9; 

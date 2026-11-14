@@ -32,7 +32,7 @@ $payment_sql = "SELECT
 
 $payment_result = mysqli_query($conn, $payment_sql);
 $payment_count = $payment_result ? mysqli_num_rows($payment_result) : 0;
-$announcement_result = mysqli_query($conn, 'SELECT announcement_id, title, message, created_at FROM announcements_tbl WHERE is_active = 1 ORDER BY created_at DESC, announcement_id DESC LIMIT 5');
+$announcement_result = mysqli_query($conn, 'SELECT announcement_id, title, message, attachment_path, created_at FROM announcements_tbl WHERE is_active = 1 ORDER BY created_at DESC, announcement_id DESC LIMIT 5');
 $due_date_value = trim((string) ($customer['due_date'] ?? ''));
 $due_date_valid = $due_date_value !== '' && $due_date_value !== '0000-00-00' && strtotime($due_date_value) !== false;
 
@@ -59,7 +59,7 @@ if ($due_date_valid) {
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="icon" type="image/png" href="/favicon.png?v=2">
 <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-12">
-<link rel="stylesheet" href="../css/customer_dashboard.css?v=customer-dashboard-mobile-soa-5">
+<link rel="stylesheet" href="../css/customer_dashboard.css?v=customer-dashboard-announcement-attachments-1">
 
 </head>
 <body>
@@ -153,6 +153,18 @@ if ($due_date_valid) {
                         <div class="customer-announcement-date"><i class="bi bi-calendar3" aria-hidden="true"></i> <?php echo htmlspecialchars(date('F d, Y', strtotime($announcement['created_at']))); ?></div>
                         <h4><?php echo htmlspecialchars($announcement['title']); ?></h4>
                         <p><?php echo nl2br(htmlspecialchars($announcement['message'])); ?></p>
+                        <?php if (!empty($announcement['attachment_path'])): ?>
+                            <?php $attachmentUrl = '../' . $announcement['attachment_path']; $attachmentExt = strtolower(pathinfo($announcement['attachment_path'], PATHINFO_EXTENSION)); ?>
+                            <div class="customer-announcement-attachment">
+                            <?php if (in_array($attachmentExt, ['png', 'jpg', 'jpeg'], true)): ?>
+                                <a href="<?php echo htmlspecialchars($attachmentUrl); ?>" target="_blank" rel="noopener"><img src="<?php echo htmlspecialchars($attachmentUrl); ?>" alt="Announcement attachment"></a>
+                            <?php elseif (in_array($attachmentExt, ['mp4', 'webm', 'mov', 'avi', 'mkv', 'ogv'], true)): ?>
+                                <video controls preload="metadata"><source src="<?php echo htmlspecialchars($attachmentUrl); ?>"></video>
+                            <?php else: ?>
+                                <a href="<?php echo htmlspecialchars($attachmentUrl); ?>" target="_blank" rel="noopener">View or download PDF attachment</a>
+                            <?php endif; ?>
+                            </div>
+                        <?php endif; ?>
                     </article>
                 <?php endwhile; ?>
             <?php else: ?>

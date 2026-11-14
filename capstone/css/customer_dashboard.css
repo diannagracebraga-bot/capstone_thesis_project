@@ -230,6 +230,10 @@ td{
 .customer-announcement-date { color: #71869d; font-size: 12px; }
 .customer-announcement-item h4 { margin: 5px 0 4px; color: #173d68; font-size: 16px; font-weight: 700; }
 .customer-announcement-item p { margin: 0; color: #506a84; font-size: 14px; line-height: 1.55; white-space: pre-wrap; }
+.customer-announcement-attachment { margin-top: 10px; }
+.customer-announcement-attachment img,
+.customer-announcement-attachment video { display: block; max-width: min(100%, 520px); max-height: 360px; border-radius: 8px; }
+.customer-announcement-attachment a { color: #1769aa; font-weight: 600; }
 .customer-announcement-empty { margin: 0; padding: 14px; border-radius: 8px; background: #f5f8fc; color: #71869c; }
 #payment-history { scroll-margin-top: 100px; }
 @media (max-width: 560px) {
