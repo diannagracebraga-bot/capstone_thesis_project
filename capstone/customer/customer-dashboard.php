@@ -297,7 +297,7 @@ document.getElementById('paymentModal').addEventListener('hidden.bs.modal', func
 });
 window.addEventListener('message', function (event) {
     if (event.origin !== window.location.origin || event.data?.type !== 'customer-payment-success') return;
-    alert('Payment successful! Your dashboard will refresh to show the updated SOA.');
+    alert('Your payment has been received successfully.');
     const modalElement = document.getElementById('paymentModal');
     modalElement.addEventListener('hidden.bs.modal', function () {
         window.location.reload();

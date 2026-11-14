@@ -1,7 +1,12 @@
-<?php include 'database/database_connection.php';
-
+<?php
 session_start();
- $planStatusColumn = mysqli_query($conn, "SHOW COLUMNS FROM internet_plan_tbl LIKE 'is_active'");
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+header('Expires: 0');
+
+include 'database/database_connection.php';
+
+$planStatusColumn = mysqli_query($conn, "SHOW COLUMNS FROM internet_plan_tbl LIKE 'is_active'");
 if ($planStatusColumn && mysqli_num_rows($planStatusColumn) === 0) {
     mysqli_query($conn, 'ALTER TABLE internet_plan_tbl ADD COLUMN is_active TINYINT(1) NOT NULL DEFAULT 1');
 }
@@ -28,7 +33,7 @@ $about = mysqli_fetch_assoc($about_result);
     <link rel="stylesheet" href="css/about.css?v=footer-spacing-5">
     <link rel="stylesheet" href="css/apply_internet.css?v=privacy-modal-logo-3">
     <link rel="stylesheet" href="css/login.css?v=login-ui-2">
-    <link rel="stylesheet" href="css/index-redesign.css?v=12">
+    <link rel="stylesheet" href="css/index-redesign.css?v=14">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg site-nav fixed-top">
@@ -88,7 +93,8 @@ $about = mysqli_fetch_assoc($about_result);
         </div>
         <div class="plans-carousel">
             <section class="plans" id="plansTrack" tabindex="0" aria-label="Internet plans">
-                <?php while ($plan = mysqli_fetch_assoc($plan_result)) { ?>
+                <?php if ($plan_result && mysqli_num_rows($plan_result) > 0): ?>
+                    <?php while ($plan = mysqli_fetch_assoc($plan_result)) { ?>
                     <article class="plan-card">
                         <h3 class="plan-name"><?php echo htmlspecialchars($plan['plan_name']); ?></h3>
                         <p class="plan-speed"><strong><?php echo htmlspecialchars($plan['internet_mbps']); ?> Mbps</strong><span>Up to</span></p>
@@ -96,7 +102,10 @@ $about = mysqli_fetch_assoc($about_result);
                         <p class="plan-inclusion"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Free installation and activation</p>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#applicationModal">Apply Now</button>
                     </article>
-                <?php } ?>
+                    <?php } ?>
+                <?php else: ?>
+                    <p class="no-active-plans">There are currently no active internet plans. Please check back soon.</p>
+                <?php endif; ?>
             </section>
         </div>
     </section>
@@ -391,6 +400,10 @@ document.querySelectorAll(".site-nav .navbar-nav .nav-link[href^='#']").forEach(
 });
 </script>
 <script>
+window.addEventListener("pageshow", function (event) {
+    if (event.persisted) window.location.reload();
+});
+
 document.addEventListener("DOMContentLoaded", function () {
     var privacyModal = document.querySelector("[data-index-privacy-modal]");
     var privacyLink = document.querySelector("[data-open-index-privacy]");

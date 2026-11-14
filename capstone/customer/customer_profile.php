@@ -159,7 +159,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 /* Success Message */
 if (isset($_GET['updated'])) {
-    $message = "Profile updated successfully.";
+    $message = '';
 }
 
 /* Get Customer Information */
@@ -235,6 +235,10 @@ $internet_plan = $customer['plan_name'] . " (" .
 </head>
 
 <body>
+
+<?php if (isset($_GET['updated'])): ?>
+    <script>alert('Profile changes successfully');</script>
+<?php endif; ?>
 
 <?php include 'customer_sidebar_header.php'; ?>
 

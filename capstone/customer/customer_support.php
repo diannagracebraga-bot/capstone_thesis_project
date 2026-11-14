@@ -259,7 +259,7 @@ try {
                         <input id="ticket-attachment" type="file" name="attachment" accept="image/jpeg,image/png,image/gif,image/webp,application/pdf">
                     </div>
                     <button type="submit" class="submit-btn">Submit</button>
-                    <a href="https://www.facebook.com/profile.php?id=100084288545449" target="_blank" rel="noopener noreferrer" class="facebook-btn">
+                    <a href="https://m.me/100084288545449" target="_blank" rel="noopener noreferrer" class="facebook-btn">
                          Message Us on Facebook
                         </a>
                 </form>
