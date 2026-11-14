@@ -219,7 +219,7 @@
 .customer-profile-divider { width: 1px; height: 36px; background: rgba(255,255,255,.34); }
 .customer-profile-button { gap: 12px; padding: 4px; text-align: left; }
 .customer-profile-button::after { margin-left: 2px; }
-.customer-avatar { display: grid; flex: 0 0 44px; width: 44px; height: 44px; place-items: center; border-radius: 50%; background: #e3edf9; color: #39638d; font-size: 25px; }
+.customer-avatar { display: grid; flex: 0 0 44px; width: 44px; height: 44px; place-items: center; overflow: hidden; border: 2px solid rgba(255,255,255,.88); border-radius: 50%; background: #e3edf9; color: #39638d; font-size: 25px; object-fit: cover; }
 .customer-profile-copy strong,.customer-profile-copy small { display: block; }
 .customer-profile-copy strong { max-width: 250px; overflow: hidden; font-size: 15px; text-overflow: ellipsis; white-space: nowrap; }
 .customer-profile-copy small { margin-top: 3px; font-size: 13px; opacity: .9; }

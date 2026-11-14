@@ -4,29 +4,156 @@ include '../admin/check_customer_access.php';
 include '../database/database_connection.php';
 
 
-$user_id = $_SESSION['user_id'];
+$user_id = (int) ($_SESSION['user_id'] ?? 0);
 $message = "";
-$edit_mode = false;
+$message_type = 'success';
+$edit_mode = ($_SERVER['REQUEST_METHOD'] === 'POST') || (isset($_GET['edit']) && $_GET['edit'] === '1');
 
-/* Update Profile */
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+$photoColumnResult = mysqli_query($conn, "SHOW COLUMNS FROM user_accounts_tbl LIKE 'profile_photo'");
+$profilePhotoAvailable = $photoColumnResult && mysqli_num_rows($photoColumnResult) > 0;
+if (!$profilePhotoAvailable) {
+    $message = 'Photo upload is unavailable until the customer profile SQL migration is imported.';
+    $message_type = 'warning';
+}
 
-    $contact_number = $_POST['contact_number'];
-    $barangay = $_POST['barangay'];
+$existingPhotoQuery = $profilePhotoAvailable
+    ? mysqli_query($conn, "SELECT profile_photo FROM user_accounts_tbl WHERE user_id = $user_id LIMIT 1")
+    : false;
+$existingPhotoRow = $existingPhotoQuery ? mysqli_fetch_assoc($existingPhotoQuery) : null;
+$oldProfilePhoto = basename((string) ($existingPhotoRow['profile_photo'] ?? ''));
 
-    $update = mysqli_query($conn, "
-        UPDATE customer_tbl
-        SET
-            contact_number = '$contact_number',
-            barangay = '$barangay'
-        WHERE user_id = '$user_id'
-    ");
+/* Validate and save profile changes and an optional photo upload. */
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $contact_number = trim($_POST['contact_number'] ?? '');
+    $newPhotoName = null;
+    $uploadError = '';
+    $photoUpload = $_FILES['profile_photo'] ?? null;
+    $newPassword = (string) ($_POST['password'] ?? '');
+    $passwordHash = null;
 
-    if ($update) {
-        header("Location: customer_profile.php?updated=1");
-        exit();
+    if (!array_key_exists('contact_number', $_POST)) {
+        $uploadError = 'The submitted profile data is incomplete. Please try again.';
+    } elseif (!preg_match('/^09[0-9]{9}$/', $contact_number)) {
+        $uploadError = 'Contact number must contain 11 digits and start with 09.';
+    } elseif ($newPassword !== '' && (
+        strlen($newPassword) < 8
+        || !preg_match('/[a-z]/', $newPassword)
+        || !preg_match('/[A-Z]/', $newPassword)
+        || !preg_match('/[0-9]/', $newPassword)
+        || !preg_match('/[^A-Za-z0-9]/', $newPassword)
+    )) {
+        $uploadError = 'Password must be at least 8 characters and include uppercase, lowercase, number, and special character.';
+    } elseif ($photoUpload && ($photoUpload['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE && !$profilePhotoAvailable) {
+        $uploadError = 'Import the customer profile SQL migration before uploading a photo.';
+    } elseif ($newPassword !== '') {
+        $passwordHash = password_hash($newPassword, PASSWORD_DEFAULT);
+    }
+
+    if ($uploadError === '' && $photoUpload && ($photoUpload['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+        if (($photoUpload['error'] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_OK) {
+            $uploadError = 'The photo could not be uploaded. Please select it again.';
+        } elseif (($photoUpload['size'] ?? 0) < 1 || $photoUpload['size'] > 5 * 1024 * 1024) {
+            $uploadError = 'Please choose an image smaller than 5 MB.';
+        } elseif (!is_uploaded_file($photoUpload['tmp_name'])) {
+            $uploadError = 'The selected photo upload is invalid.';
+        } else {
+            $imageInfo = @getimagesize($photoUpload['tmp_name']);
+            $finfo = finfo_open(FILEINFO_MIME_TYPE);
+            $detectedMime = $finfo ? finfo_file($finfo, $photoUpload['tmp_name']) : false;
+            if ($finfo) {
+                finfo_close($finfo);
+            }
+
+            $allowedPhotoTypes = [
+                'image/jpeg' => 'jpg',
+                'image/png' => 'png',
+                'image/webp' => 'webp'
+            ];
+            $validDimensions = $imageInfo !== false
+                && $imageInfo[0] <= 5000
+                && $imageInfo[1] <= 5000
+                && ($imageInfo[0] * $imageInfo[1]) <= 25000000;
+
+            if (!$imageInfo || !$detectedMime || !isset($allowedPhotoTypes[$detectedMime])
+                || ($imageInfo['mime'] ?? '') !== $detectedMime || !$validDimensions) {
+                $uploadError = 'Please upload a valid JPG, PNG, or WEBP photo (maximum 5 MB).';
+            }
+        }
+    }
+
+    if ($uploadError !== '') {
+        $message = $uploadError;
+        $message_type = 'danger';
     } else {
-        $message = "Failed to update profile.";
+        if ($photoUpload && ($photoUpload['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
+            $uploadDirectory = __DIR__ . '/../uploads/admin_profiles/';
+            if (!is_dir($uploadDirectory) && !mkdir($uploadDirectory, 0755, true) && !is_dir($uploadDirectory)) {
+                $message = 'Unable to prepare the photo folder. Please try again later.';
+                $message_type = 'danger';
+            } else {
+                $newPhotoName = bin2hex(random_bytes(16)) . '.' . $allowedPhotoTypes[$detectedMime];
+                if (!move_uploaded_file($photoUpload['tmp_name'], $uploadDirectory . $newPhotoName)) {
+                    $message = 'Unable to save the photo. Please try again.';
+                    $message_type = 'danger';
+                    $newPhotoName = null;
+                }
+            }
+        }
+
+        if ($message_type !== 'danger') {
+            mysqli_begin_transaction($conn);
+            $customerUpdate = mysqli_prepare($conn, "UPDATE customer_tbl SET contact_number = ? WHERE user_id = ?");
+            $customerSaved = false;
+            $accountSaved = $newPhotoName === null && $passwordHash === null;
+
+            if ($customerUpdate) {
+                mysqli_stmt_bind_param($customerUpdate, 'si', $contact_number, $user_id);
+                $customerSaved = mysqli_stmt_execute($customerUpdate);
+            }
+
+            if ($customerSaved && ($newPhotoName !== null || $passwordHash !== null)) {
+                if ($newPhotoName !== null && $passwordHash !== null) {
+                    $accountUpdate = mysqli_prepare($conn, "UPDATE user_accounts_tbl SET profile_photo = ?, `password` = ? WHERE user_id = ?");
+                    if ($accountUpdate) {
+                        mysqli_stmt_bind_param($accountUpdate, 'ssi', $newPhotoName, $passwordHash, $user_id);
+                    }
+                } elseif ($newPhotoName !== null) {
+                    $accountUpdate = mysqli_prepare($conn, "UPDATE user_accounts_tbl SET profile_photo = ? WHERE user_id = ?");
+                    if ($accountUpdate) {
+                        mysqli_stmt_bind_param($accountUpdate, 'si', $newPhotoName, $user_id);
+                    }
+                } else {
+                    $accountUpdate = mysqli_prepare($conn, "UPDATE user_accounts_tbl SET `password` = ? WHERE user_id = ?");
+                    if ($accountUpdate) {
+                        mysqli_stmt_bind_param($accountUpdate, 'si', $passwordHash, $user_id);
+                    }
+                }
+                $accountSaved = isset($accountUpdate) && $accountUpdate && mysqli_stmt_execute($accountUpdate);
+            }
+
+            if ($customerSaved && $accountSaved) {
+                mysqli_commit($conn);
+                if ($newPhotoName !== null && $oldProfilePhoto !== '' && $oldProfilePhoto !== $newPhotoName) {
+                    $oldPhotoPath = __DIR__ . '/../uploads/admin_profiles/' . $oldProfilePhoto;
+                    if (is_file($oldPhotoPath)) {
+                        unlink($oldPhotoPath);
+                    }
+                }
+                header("Location: customer_profile.php?updated=1");
+                exit();
+            }
+
+            mysqli_rollback($conn);
+
+            if ($newPhotoName !== null) {
+                $newPhotoPath = __DIR__ . '/../uploads/admin_profiles/' . $newPhotoName;
+                if (is_file($newPhotoPath)) {
+                    unlink($newPhotoPath);
+                }
+            }
+            $message = 'Failed to update profile. Please try again.';
+            $message_type = 'danger';
+        }
     }
 }
 
@@ -41,6 +168,7 @@ SELECT
     c.*,
     u.email,
     u.role,
+    " . ($profilePhotoAvailable ? "u.profile_photo" : "NULL AS profile_photo") . ",
     p.plan_name,
     p.internet_mbps,
     p.internet_price
@@ -49,7 +177,7 @@ INNER JOIN user_accounts_tbl u
     ON c.user_id = u.user_id
 LEFT JOIN internet_plan_tbl p
     ON c.internet_plan = p.plan_id
-WHERE c.user_id = '$user_id'
+        WHERE c.user_id = '$user_id'
 ");
 
 if (!$query) {
@@ -62,8 +190,22 @@ if (!$customer) {
     die("Customer record not found.");
 }
 
+$formatCustomerName = static function ($value) {
+    $value = trim((string) $value);
+    return function_exists('mb_convert_case')
+        ? mb_convert_case(mb_strtolower($value, 'UTF-8'), MB_CASE_TITLE, 'UTF-8')
+        : ucwords(strtolower($value));
+};
+$displayFirstName = $formatCustomerName($customer['f_name'] ?? '');
+$displayMiddleName = $formatCustomerName($customer['m_name'] ?? '');
+$displayLastName = $formatCustomerName($customer['l_name'] ?? '');
+
 $email_address = $customer['email'];
 $role = $customer['role'];
+$profilePhotoName = basename((string) ($customer['profile_photo'] ?? ''));
+$profilePhotoPath = __DIR__ . '/../uploads/admin_profiles/' . $profilePhotoName;
+$hasProfilePhoto = $profilePhotoName !== '' && is_file($profilePhotoPath);
+$profilePhotoUrl = $hasProfilePhoto ? '../uploads/admin_profiles/' . rawurlencode($profilePhotoName) : '';
 
 $internet_plan = $customer['plan_name'] . " (" .
     $customer['internet_mbps'] . " Mbps) - ₱" .
@@ -82,12 +224,13 @@ $internet_plan = $customer['plan_name'] . " (" .
     <title>Customer Profile</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
     <link rel="stylesheet"
           href="../css/customer_sidebar_header.css?v=customer-shell-11">
 
     <link rel="stylesheet"
-          href="../css/customer_profile.css?v=8">
+          href="../css/customer_profile.css?v=12">
 
 </head>
 
@@ -107,42 +250,46 @@ $internet_plan = $customer['plan_name'] . " (" .
 
                     <h2>Account Information</h2>
 
-                    <?php if ($edit_mode) { ?>
-
-                        <div class="profile-button-row">
-
-                            <a href="customer_profile.php"
-                               class="btn btn-secondary">
-                                Cancel
-                            </a>
-
-                            <button type="submit"
-                                    form="profileForm"
-                                    class="btn btn-success">
-                                Save Changes
-                            </button>
-
-                        </div>
-
-                    <?php } ?>
-
                 </div>
 
 
                 <?php if ($message != ""): ?>
 
-                    <div class="alert alert-success">
+                    <div class="alert alert-<?php echo htmlspecialchars($message_type); ?>">
 
-                        <?php echo $message; ?>
+                        <?php echo htmlspecialchars($message); ?>
 
                     </div>
 
                 <?php endif; ?>
 
 
-                <form method="POST" id="profileForm">
+                <form method="POST" id="profileForm" class="profile-layout" enctype="multipart/form-data">
 
-                    <div class="row g-3">
+                    <aside class="profile-identity-panel">
+                        <div class="profile-avatar-wrap">
+                            <?php if ($hasProfilePhoto): ?>
+                                <img src="<?php echo htmlspecialchars($profilePhotoUrl); ?>" alt="Customer profile photo" id="profilePhotoPreview">
+                            <?php else: ?>
+                                <div class="profile-avatar-placeholder" id="profilePhotoPlaceholder" aria-label="No profile photo selected"><i class="bi bi-person-fill" aria-hidden="true"></i></div>
+                            <?php endif; ?>
+                            <?php if ($edit_mode && $profilePhotoAvailable): ?>
+                                <label class="profile-photo-picker" for="profile_photo" aria-label="Choose a profile photo"><i class="bi bi-camera-fill" aria-hidden="true"></i></label>
+                                <input type="file" name="profile_photo" id="profile_photo" class="profile-photo-input" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp">
+                            <?php endif; ?>
+                        </div>
+                        <div class="profile-identity-name"><?php echo htmlspecialchars(trim($displayFirstName . ' ' . $displayLastName)); ?></div>
+                        <span class="profile-role-badge"><?php echo htmlspecialchars(ucfirst($role)); ?></span>
+                        <?php if ($edit_mode && $profilePhotoAvailable): ?>
+                            <small class="profile-photo-hint">JPG, PNG, or WEBP · up to 5 MB</small>
+                        <?php elseif ($edit_mode): ?>
+                            <small class="profile-photo-hint">Import the profile SQL file to enable photo uploads.</small>
+                        <?php endif; ?>
+                    </aside>
+
+                    <div class="profile-details">
+
+                    <div class="row g-3 profile-fields-grid">
 
 
                         <!-- Account Number -->
@@ -187,8 +334,20 @@ $internet_plan = $customer['plan_name'] . " (" .
 
                             <input type="password"
                                    class="form-control"
-                                   value="password"
-                                   readonly>
+                                   name="password"
+                                   <?php if ($edit_mode): ?>
+                                       placeholder="Leave blank to keep your password"
+                                       minlength="8"
+                                       pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9]).{8,}"
+                                       title="Use at least 8 characters with uppercase, lowercase, number, and special character."
+                                       autocomplete="new-password"
+                                   <?php else: ?>
+                                       value="password"
+                                       readonly
+                                   <?php endif; ?>>
+                            <?php if ($edit_mode): ?>
+                                <small class="profile-field-hint">Leave blank if you do not want to change your password.</small>
+                            <?php endif; ?>
 
                         </div>
 
@@ -203,7 +362,7 @@ $internet_plan = $customer['plan_name'] . " (" .
 
                             <input type="text"
                                    class="form-control"
-                                   value="<?php echo $customer['f_name']; ?>"
+                                   value="<?php echo htmlspecialchars($displayFirstName); ?>"
                                    readonly>
 
                         </div>
@@ -219,7 +378,7 @@ $internet_plan = $customer['plan_name'] . " (" .
 
                             <input type="text"
                                    class="form-control"
-                                   value="<?php echo $customer['m_name']; ?>"
+                                   value="<?php echo htmlspecialchars($displayMiddleName); ?>"
                                    readonly>
 
                         </div>
@@ -235,7 +394,7 @@ $internet_plan = $customer['plan_name'] . " (" .
 
                             <input type="text"
                                    class="form-control"
-                                   value="<?php echo $customer['l_name']; ?>"
+                                   value="<?php echo htmlspecialchars($displayLastName); ?>"
                                    readonly>
 
                         </div>
@@ -252,8 +411,12 @@ $internet_plan = $customer['plan_name'] . " (" .
                             <input type="text"
                                    class="form-control"
                                    name="contact_number"
-                                   value="<?php echo $customer['contact_number']; ?>"
-                                   <?php echo $edit_mode ? "" : "readonly"; ?>>
+                                   value="<?php echo htmlspecialchars((string) $customer['contact_number']); ?>"
+                                   <?php if ($edit_mode): ?>
+                                       maxlength="11" pattern="09[0-9]{9}" title="Enter 11 digits starting with 09." required autocomplete="tel"
+                                   <?php else: ?>
+                                       readonly
+                                   <?php endif; ?>>
 
                         </div>
 
@@ -298,37 +461,10 @@ $internet_plan = $customer['plan_name'] . " (" .
                                 Barangay
                             </label>
 
-                            <?php if ($edit_mode) { ?>
-
-                                <select class="form-select"
-                                        name="barangay">
-
-                                    <option value="Bagtas"
-                                        <?php
-                                        if ($customer['barangay'] == "Bagtas")
-                                            echo "selected";
-                                        ?>>
-                                        Bagtas
-                                    </option>
-
-                                    <option value="Punta I"
-                                        <?php
-                                        if ($customer['barangay'] == "Punta I")
-                                            echo "selected";
-                                        ?>>
-                                        Punta I
-                                    </option>
-
-                                </select>
-
-                            <?php } else { ?>
-
-                                <input type="text"
-                                       class="form-control"
-                                       value="<?php echo $customer['barangay']; ?>"
-                                       readonly>
-
-                            <?php } ?>
+                            <input type="text"
+                                   class="form-control"
+                                   value="<?php echo htmlspecialchars((string) $customer['barangay']); ?>"
+                                   readonly>
 
                         </div>
 
@@ -410,7 +546,18 @@ $internet_plan = $customer['plan_name'] . " (" .
 
                     </div>
 
+                    </div>
+
                 </form>
+
+                <div class="profile-button-row">
+                    <?php if ($edit_mode) { ?>
+                        <a href="customer_profile.php" class="btn btn-secondary profile-cancel-btn">Cancel</a>
+                        <button type="submit" form="profileForm" class="btn profile-save-btn">Save Changes</button>
+                    <?php } else { ?>
+                        <a href="customer_profile.php?edit=1" class="btn profile-edit-btn">Edit</a>
+                    <?php } ?>
+                </div>
 
             </section>
 
@@ -425,6 +572,24 @@ window.addEventListener('pageshow', function(event) {
         window.location.reload();
     }
 });
+
+const profilePhotoInput = document.getElementById('profile_photo');
+if (profilePhotoInput) {
+    profilePhotoInput.addEventListener('change', function () {
+        const file = this.files && this.files[0];
+        if (!file) return;
+        let preview = document.getElementById('profilePhotoPreview');
+        const placeholder = document.getElementById('profilePhotoPlaceholder');
+        if (!preview) {
+            preview = document.createElement('img');
+            preview.id = 'profilePhotoPreview';
+            preview.alt = 'Selected customer profile photo';
+            document.querySelector('.profile-avatar-wrap').prepend(preview);
+        }
+        if (placeholder) placeholder.hidden = true;
+        preview.src = URL.createObjectURL(file);
+    });
+}
 </script>
 </body>
 

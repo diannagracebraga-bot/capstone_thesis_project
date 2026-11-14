@@ -28,8 +28,8 @@ if (!$result) {
     <title>My Tickets</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-13">
-    <link rel="stylesheet" href="../css/customer_ticket.css?v=customer-module-extend-2">
+    <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-14">
+    <link rel="stylesheet" href="../css/customer_ticket.css?v=customer-module-extend-3">
 </head>
 <body>
     
@@ -41,7 +41,7 @@ if (!$result) {
     <div class="ticket-section">
         <h2>My Tickets</h2>
         <div class = "table-container" >
-        <table class = "table table-secondary table hover">
+        <table class="table table-hover customer-ticket-table">
             <thead class = "table-info">
                 <tr>
                     <th scope="col">Ticket ID</th>

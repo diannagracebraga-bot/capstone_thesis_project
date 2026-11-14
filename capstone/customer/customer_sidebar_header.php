@@ -10,9 +10,21 @@ if (isValidCustomerNoticeKey($requestedNoticeKey)) {
     markCustomerNoticeRead($conn, $headerCustomerUserId, $requestedNoticeKey);
 }
 $customerReadNoticeKeys = getCustomerReadNoticeKeys($conn, $headerCustomerUserId);
-$headerCustomerResult = mysqli_query($conn, "SELECT customer_id, f_name, m_name, l_name, due_date FROM customer_tbl WHERE user_id = '$headerUserId' LIMIT 1");
+$headerPhotoColumnResult = mysqli_query($conn, "SHOW COLUMNS FROM user_accounts_tbl LIKE 'profile_photo'");
+$headerPhotoAvailable = $headerPhotoColumnResult && mysqli_num_rows($headerPhotoColumnResult) > 0;
+$headerCustomerResult = mysqli_query(
+    $conn,
+    "SELECT c.customer_id, c.f_name, c.m_name, c.l_name, c.due_date, " . ($headerPhotoAvailable ? "u.profile_photo" : "NULL AS profile_photo") . "
+     FROM customer_tbl c
+     LEFT JOIN user_accounts_tbl u ON u.user_id = c.user_id
+     WHERE c.user_id = '$headerUserId' LIMIT 1"
+);
 $headerCustomer = $headerCustomerResult ? mysqli_fetch_assoc($headerCustomerResult) : null;
-$headerName = $headerCustomer ? trim($headerCustomer['f_name'] . ' ' . $headerCustomer['m_name'] . ' ' . $headerCustomer['l_name']) : 'Customer';
+$headerPhotoName = basename((string) ($headerCustomer['profile_photo'] ?? ''));
+$headerPhotoPath = __DIR__ . '/../uploads/admin_profiles/' . $headerPhotoName;
+$headerPhotoUrl = $headerPhotoName !== '' && is_file($headerPhotoPath)
+    ? '../uploads/admin_profiles/' . rawurlencode($headerPhotoName)
+    : '';
 $customerPage = basename($_SERVER['PHP_SELF']);
 $headerNotices = [];
 $paymentStatusText = 'Wala pang naitalang bayad';
@@ -124,7 +136,7 @@ usort($headerNotices, static function ($first, $second) {
 $customerNotificationCount = count($headerNotices);
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-13">
+<link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-14">
 <nav class="navbar navbar-expand-lg navbar-dark customer-topbar">
     <div class="container-fluid">
         <a class="customer-brand" href="customer-dashboard.php" aria-label="MITZTIANPC Customer Dashboard">
@@ -157,8 +169,12 @@ $customerNotificationCount = count($headerNotices);
             </div>
             <span class="customer-profile-divider"></span>
             <div class="dropdown customer-profile-dropdown">
-                <button class="customer-profile-button dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    <span class="customer-profile-copy"><strong><?php echo htmlspecialchars($headerName); ?></strong><small>Customer</small></span>
+                <button class="customer-profile-button" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Profile menu">
+                    <?php if ($headerPhotoUrl !== ''): ?>
+                        <img class="customer-avatar" src="<?php echo htmlspecialchars($headerPhotoUrl); ?>" alt="Profile photo">
+                    <?php else: ?>
+                        <span class="customer-avatar" aria-hidden="true"><i class="bi bi-person-fill"></i></span>
+                    <?php endif; ?>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end">
                     <a class="dropdown-item" href="customer_profile.php">My Profile</a>

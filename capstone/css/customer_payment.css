@@ -22,6 +22,8 @@ body {
     text-align: center;
     margin: 0;
 }
+.qr-section #payment-message { margin: 0 0 10px; color: #173d68; font-size: 14px; font-weight: 600; }
+.qr-box[hidden] { display: none !important; }
 
 .qr-box {
     width: 100%;

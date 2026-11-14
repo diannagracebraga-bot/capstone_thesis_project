@@ -211,8 +211,8 @@ try {
     <title>Customer Support</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-11" >
-    <link rel="stylesheet" href="../css/customer_support.css?v=customer-module-extend-4">
+    <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-14" >
+    <link rel="stylesheet" href="../css/customer_support.css?v=customer-module-extend-6">
 </head>
 <body>
 <?php include 'customer_sidebar_header.php'; ?>

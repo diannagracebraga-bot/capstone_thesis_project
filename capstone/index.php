@@ -28,6 +28,7 @@ $about = mysqli_fetch_assoc($about_result);
     <link rel="stylesheet" href="css/about.css?v=footer-spacing-5">
     <link rel="stylesheet" href="css/apply_internet.css?v=privacy-modal-logo-3">
     <link rel="stylesheet" href="css/login.css?v=login-ui-2">
+    <link rel="stylesheet" href="css/index-redesign.css?v=12">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg site-nav fixed-top">
@@ -59,98 +60,101 @@ $about = mysqli_fetch_assoc($about_result);
         </div>
     </div>
 </nav>
-<main class="landing-split">
-    <section id="home" class="brand-hero" aria-label="MITZTIANPC internet services">
-        <img class="hero-logo" src="images/bg_logo.png" alt="MITZTIANPC wired internet services logo">
-        <h1 class="hero-wordmark">MITZTIANPC</h1>
-        <p class="hero-submark">WIRED INTERNET SERVICES</p>
-        <span class="hero-rule" aria-hidden="true"></span>
-        <p class="hero-tagline">Fast Connection. Better Tomorrow.</p>
-
-        <div class="service-highlights" aria-label="Service highlights">
-            <div class="service-highlight">
-                <span class="service-icon"><i class="bi bi-wifi" aria-hidden="true"></i></span>
-                <span>Reliable</span>
-            </div>
-            <div class="service-highlight">
-                <span class="service-icon"><i class="bi bi-shield-check" aria-hidden="true"></i></span>
-                <span>Secure</span>
-            </div>
-            <div class="service-highlight">
-                <span class="service-icon"><i class="bi bi-globe2" aria-hidden="true"></i></span>
-                <span>Always Connected</span>
+<main class="homepage-redesign">
+    <section id="home" class="home-hero" aria-label="MITZTIANPC internet services">
+        <div class="home-hero-copy">
+            <h1>Fast &amp; Reliable Internet?<br><span>Switch na sa MPC Bagtas!!</span></h1>
+            <a class="home-hero-plans-link" href="#plan">View Plans <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="home-hero-image-wrap">
+            <img class="home-hero-image" src="images/homepage-router.jpg" alt="Home Wi-Fi router and connected devices">
+            <div class="hero-image-services">
+                <div class="service-highlights" aria-label="Service highlights infographic">
+                    <div class="service-highlights-heading"><span></span>THE MPC ADVANTAGE</div>
+                    <div class="service-highlight service-highlight-primary"><i class="bi bi-tools" aria-hidden="true"></i><span class="service-highlight-copy"><strong>Free Installation</strong><small>No extra installation fees.</small></span></div>
+                    <div class="service-highlight service-highlight-quick"><i class="bi bi-receipt" aria-hidden="true"></i><span class="service-highlight-copy"><strong>No hidden charges</strong><small>Transparent and affordable pricing.</small></span></div>
+                    <div class="service-highlight service-highlight-quick"><i class="bi bi-lightning-charge-fill" aria-hidden="true"></i><span class="service-highlight-copy"><strong>Kabit Agad</strong><small>Quick and hassle-free connection.</small></span></div>
+                    <div class="service-highlight service-highlight-wide"><i class="bi bi-unlock-fill" aria-hidden="true"></i><span class="service-highlight-copy"><strong>No lock-in period</strong><small>Flexible internet subscription.</small></span></div>
+                </div>
             </div>
         </div>
     </section>
 
+    <section id="plan" class="plans-section" aria-labelledby="plans-title">
+        <div class="section-heading">
+            <p class="section-kicker">CHOOSE THE RIGHT CONNECTION</p>
+            <h2 id="plans-title">Explore Our Internet Plans</h2>
+            <p>Simple plan options for your home and everyday needs.</p>
+        </div>
+        <div class="plans-carousel">
+            <section class="plans" id="plansTrack" tabindex="0" aria-label="Internet plans">
+                <?php while ($plan = mysqli_fetch_assoc($plan_result)) { ?>
+                    <article class="plan-card">
+                        <h3 class="plan-name"><?php echo htmlspecialchars($plan['plan_name']); ?></h3>
+                        <p class="plan-speed"><strong><?php echo htmlspecialchars($plan['internet_mbps']); ?> Mbps</strong><span>Up to</span></p>
+                        <p class="plan-price"><span>For only</span><strong>₱<?php echo number_format((float) $plan['internet_price']); ?></strong><span>per month</span></p>
+                        <p class="plan-inclusion"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Free installation and activation</p>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#applicationModal">Apply Now</button>
+                    </article>
+                <?php } ?>
+            </section>
+        </div>
+    </section>
+
     <section id="inquire" class="inquiry-section" aria-labelledby="inquiry-title">
+        <div class="inquiry-prompt">
+            <img class="inquiry-watermark" src="images/bg_logo.png" alt="" aria-hidden="true">
+            <p class="section-kicker">LET'S GET YOU CONNECTED</p>
+            <h2>Are you interested in partnering with us?</h2>
+            <p>Send us an inquiry so we can help you kickstart your journey.</p>
+        </div>
         <div class="form inquiry-card">
             <div class="inquiry-card-heading">
                 <i class="bi bi-send" aria-hidden="true"></i>
                 <h2 id="inquiry-title">Inquire</h2>
             </div>
             <div class="inquiry-card-body">
-                <p class="inquiry-intro">Fill out the form below and we'll get back to you<br class="desktop-break"> as soon as possible.</p>
+                <p class="inquiry-intro">Fill out the form below and we'll get back to you as soon as possible.</p>
                 <form action="php/submit_inquiry.php" method="POST">
                     <div class="inquiry-field">
                         <label for="name"><i class="bi bi-person" aria-hidden="true"></i><span>Full Name</span></label>
                         <input type="text" id="name" name="name" placeholder="Enter your full name" autocomplete="name" required>
                     </div>
-                   
-    
-                <div class="inquiry-field">
-                         <label for="email">
-                             <i class="bi bi-envelope" aria-hidden="true"></i>
-                           <span>Email Address</span>
-                         </label>
-
-                 <input type="email"id="email" name="email" placeholder="Enter your email address" autocomplete="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)"
-                         title="Enter an email ending in .com, .ph, .net, .org, .edu, or .gov."
-                            required>   
-</div>
-
-                  <div class="inquiry-field">
-    <label for="contact">
-        <i class="bi bi-telephone-fill" aria-hidden="true"></i>
-        <span>Contact Number</span>
-    </label>
-    <input type="tel" id="contact" name="contact" placeholder="Enter your contact number" autocomplete="tel" maxlength="11"
-           pattern="09[0-9]{9}" title="Please enter exactly 11 digits starting with 09." required>
-</div>
+                    <div class="inquiry-field">
+                        <label for="email"><i class="bi bi-envelope" aria-hidden="true"></i><span>Email Address</span></label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email address" autocomplete="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)" title="Enter an email ending in .com, .ph, .net, .org, .edu, or .gov." required>
+                    </div>
+                    <div class="inquiry-field">
+                        <label for="contact"><i class="bi bi-telephone-fill" aria-hidden="true"></i><span>Contact Number</span></label>
+                        <input type="tel" id="contact" name="contact" placeholder="Enter your contact number" autocomplete="tel" maxlength="11" pattern="09[0-9]{9}" title="Please enter exactly 11 digits starting with 09." required>
+                    </div>
                     <div class="inquiry-field inquiry-field-description">
                         <label for="description"><i class="bi bi-file-earmark-text" aria-hidden="true"></i><span>Description</span></label>
                         <textarea id="description" name="description" rows="3" placeholder="Tell us about your inquiry..." required></textarea>
                     </div>
+                    <section class="privacy-notice inquiry-privacy-notice" aria-label="Privacy Policy acknowledgement">
+                        <label class="privacy-acknowledgement" for="inquiry_privacy_acknowledged">
+                            <input type="checkbox" id="inquiry_privacy_acknowledged" name="privacy_notice_acknowledged" value="1" required>
+                            <span>I agree to the <a class="privacy-policy-link" href="front_page_menus/privacy_statement.php" data-open-index-privacy aria-haspopup="dialog">Privacy Policy</a>.</span>
+                        </label>
+                    </section>
                     <button class="inquiry-submit" type="submit"><i class="bi bi-send" aria-hidden="true"></i><span>Submit</span></button>
                 </form>
             </div>
         </div>
+        <img class="inquiry-background-image" src="images/homepage-inquiry.jpg" alt="Person working on a laptop">
     </section>
 </main>
 
-<section id="plan">
-    <div class="plans-carousel">
-        <button class="plans-carousel-control" type="button" data-plans-direction="-1" aria-label="Previous internet plans"><i class="bi bi-chevron-left" aria-hidden="true"></i></button>
-        <section class="plans" id="plansTrack" tabindex="0" aria-label="Internet plans">
-
-        <?php while ($plan = mysqli_fetch_assoc($plan_result)) { ?>
-
-            <div class="plan-card">
-                
-            <h1 class="plan-name">
-                <?php echo $plan['plan_name'];?>
-            </h1>
-                <h3><?php echo $plan['internet_mbps']; ?> Mbps</h3>
-                <h2>
-                    ₱<?php echo number_format($plan['internet_price']); ?> / Month </h2>
-                     <button type="button" data-bs-toggle="modal" data-bs-target="#applicationModal">APPLY NOW</button>
-              </div>
-        <?php } ?>
-        </section>
-        <button class="plans-carousel-control" type="button" data-plans-direction="1" aria-label="Next internet plans"><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
-    </div>
-
-</section>
+<div class="privacy-statement-overlay" data-index-privacy-modal aria-hidden="true">
+    <section class="privacy-statement-dialog" role="dialog" aria-modal="true" aria-label="Privacy Statement" tabindex="-1">
+        <header class="privacy-statement-modal-header">
+            <img class="privacy-statement-modal-logo" src="images/bg_logo.png" alt="MITZTIANPC Wired Internet Services">
+            <button type="button" class="privacy-statement-close" data-close-index-privacy aria-label="Close Privacy Statement">&times;</button>
+        </header>
+        <iframe src="front_page_menus/privacy_statement.php?embed=1" title="MitztianPC Privacy Statement" loading="lazy"></iframe>
+    </section>
+</div>
 
 <div class="modal fade" id="applicationModal" tabindex="-1" aria-labelledby="applicationModalTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
@@ -170,23 +174,22 @@ include 'front_page_menus/application_form_fields.php';
     </div>
 </div>
 
-<section id="about">
-<footer>
+<section id="about" class="site-footer-section">
+<footer class="site-footer">
     <div class="container">
         <div class="row footer-main-row">
-            <div class="col-sm-12 col-md-6">
-                <h6>About</h6>
+            <div class="col-sm-12 col-md-7 footer-about-column">
+                <h6>About Us</h6>
 
                 <p class="text-justify">
-                    <strong><?php echo $about['business_name']; ?></strong>
-                    <i> ALWAYS CONNECTED </i><br><br>
+                    <strong><?php echo $about['business_name']; ?></strong><span> – ALWAYS CONNECTED</span><br><br>
 
-                    <?php echo $about['business_description']; ?>
+                    Quality products help to maintain customer satisfaction and loyalty and reduce the risk and cost of replacing faulty goods.
                 </p>
             </div>
 
-            <div class="col-xs-6 col-md-3">
-                <h6 class = "contact-title">Contact</h6>
+            <div class="col-xs-6 col-md-4 footer-contact-column">
+                <h6 class="contact-title">Contact Us</h6>
 <div class="footer-links">
 
     <div class="contact-item">
@@ -204,6 +207,11 @@ include 'front_page_menus/application_form_fields.php';
         <span><?php echo $about['business_address']; ?></span>
     </div>
 
+    <a class="contact-item footer-facebook-link" href="https://www.facebook.com/profile.php?id=100084288545449" target="_blank" rel="noopener noreferrer" aria-label="Visit MitztianPC on Facebook">
+        <i class="bi bi-facebook" aria-hidden="true"></i>
+        <span>mpcwiredinternetservice</span>
+    </a>
+
 </div>
             </div>
         </div>
@@ -212,12 +220,11 @@ include 'front_page_menus/application_form_fields.php';
 
     <div class="container">
         <div class="row footer-copyright-row">
-            <div class="col-md-8 col-sm-6 col-xs-12 copyright-text">
-
-                    <a href="#">
-                        <?php echo $about['business_name']; ?>
-                    </a>.   All Rights Reserved.
-            </div>
+            <div class="copyright-text">
+                <span>© <?php echo date('Y'); ?> <?php echo htmlspecialchars($about['business_name'] ?? 'MITZTIANPC Wired Internet Services'); ?>. All Rights Reserved.</span>
+                <nav class="footer-legal-links" aria-label="Legal links">
+                    <a href="front_page_menus/privacy_statement.php">Privacy Policy</a>
+                </nav>
             </div>
         </div>
     </div>
@@ -380,6 +387,40 @@ document.querySelectorAll(".site-nav .navbar-nav .nav-link[href^='#']").forEach(
 
         link.classList.add("active");
         link.setAttribute("aria-current", "page");
+    });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    var privacyModal = document.querySelector("[data-index-privacy-modal]");
+    var privacyLink = document.querySelector("[data-open-index-privacy]");
+    if (!privacyModal || !privacyLink) return;
+
+    var closeButton = privacyModal.querySelector("[data-close-index-privacy]");
+    var previousFocus = null;
+
+    function closePrivacyModal() {
+        privacyModal.classList.remove("is-open");
+        privacyModal.setAttribute("aria-hidden", "true");
+        if (previousFocus) previousFocus.focus();
+    }
+
+    privacyLink.addEventListener("click", function (event) {
+        event.preventDefault();
+        previousFocus = document.activeElement;
+        privacyModal.classList.add("is-open");
+        privacyModal.setAttribute("aria-hidden", "false");
+        if (closeButton) closeButton.focus();
+    });
+
+    if (closeButton) closeButton.addEventListener("click", closePrivacyModal);
+    privacyModal.addEventListener("click", function (event) {
+        if (event.target === privacyModal) closePrivacyModal();
+    });
+    document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && privacyModal.classList.contains("is-open")) {
+            closePrivacyModal();
+        }
     });
 });
 </script>

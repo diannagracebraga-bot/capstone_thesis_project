@@ -9,6 +9,15 @@ $description = trim($_POST['description'] ?? '');
 $date = date("Y-m-d H:i:s");
 $status = "Pending";
 
+// Require the applicant to acknowledge the privacy notice before submitting.
+if (($_POST['privacy_notice_acknowledged'] ?? '') !== '1') {
+    echo "<script>
+            alert('Please read and acknowledge the Privacy Notice before submitting.');
+            window.history.back();
+          </script>";
+    exit;
+}
+
 
     // Validate Gmail address
     if (

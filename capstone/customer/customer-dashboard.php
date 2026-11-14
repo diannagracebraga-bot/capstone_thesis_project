@@ -58,8 +58,8 @@ if ($due_date_valid) {
 <title>Customer Dashboard</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="icon" type="image/png" href="/favicon.png?v=2">
-<link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-12">
-<link rel="stylesheet" href="../css/customer_dashboard.css?v=customer-dashboard-announcement-attachments-1">
+<link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-14">
+<link rel="stylesheet" href="../css/customer_dashboard.css?v=customer-dashboard-layout-4">
 
 </head>
 <body>
@@ -68,9 +68,12 @@ if ($due_date_valid) {
     <section class="customer-welcome-banner" aria-label="Customer welcome">
         <div class="customer-welcome-copy">
             <p class="customer-welcome-eyebrow">Welcome,</p>
-            <h1><?php echo htmlspecialchars(trim(($customer['f_name'] ?? '') . ' ' . ($customer['m_name'] ?? '') . ' ' . ($customer['l_name'] ?? ''))); ?>!</h1>
+            <h1><?php echo htmlspecialchars(trim(($customer['f_name'] ?? '') . ' ' . ($customer['l_name'] ?? ''))); ?>!</h1>
             <p class="customer-welcome-subtitle">Here's an overview of your internet account.</p>
-            <div class="customer-account-chip"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i><span>Account No.</span><strong><?php echo htmlspecialchars($customer['account_number'] ?? ''); ?></strong></div>
+            <div class="customer-account-actions">
+                <div class="customer-account-chip"><i class="bi bi-person-vcard-fill" aria-hidden="true"></i><span>Account No.</span><strong><?php echo htmlspecialchars($customer['account_number'] ?? ''); ?></strong></div>
+                <button type="button" class="payment-btn" data-bs-toggle="modal" data-bs-target="#paymentModal">Pay Now</button>
+            </div>
         </div>
         <div class="customer-welcome-art" aria-hidden="true">
             <span class="customer-wifi-orbit customer-wifi-orbit-one"></span>
@@ -82,64 +85,40 @@ if ($due_date_valid) {
     <div class="card w-100">
   				<div class="card-body">
 
-    <div class="top-section">
-        <div class="right-top">
-            <div class="card date-card">
-                <h3>Today is:</h3>
-             <h4><?php echo date('l, F d, Y');
-                ?></h4>
+    <section class="customer-service-overview" aria-label="Plan and service details">
+        <article class="customer-plan-summary">
+            <h3>Current Plan</h3>
+            <div class="customer-plan-details">
+                <strong><?php echo htmlspecialchars(strtoupper($customer['plan_name'] ?? '')); ?></strong>
+                <span aria-hidden="true">|</span>
+                <span class="customer-plan-mbps"><?php echo htmlspecialchars($customer['internet_mbps'] ?? ''); ?> Mbps</span>
+                <span aria-hidden="true">|</span>
+                <strong>₱<?php echo number_format((float) ($customer['internet_price'] ?? 0)); ?></strong>
             </div>
-            <div class="card plan-card">
-                <h3>Current Plan:</h3>
-              <h4> ₱<?php echo number_format($customer['internet_price']); ?>
-                <?php echo $customer['internet_mbps']; ?> Mbps </h4>
-            </div>
-
+        </article>
+        <div class="customer-overview-side">
+            <article class="customer-overview-metric customer-due-metric">
+                <h3>Due</h3>
+                <div>
+                    <?php if (!$due_date_valid): ?>
+                        <span>Not set</span>
+                    <?php elseif ($is_overdue): ?>
+                        <strong class="customer-overdue">Overdue</strong>
+                        <small><?php echo date('F d, Y', strtotime($due_date_value)); ?> (<?php echo $days_overdue; ?> day/s overdue)</small>
+                    <?php else: ?>
+                        <strong><?php echo date('F d, Y', strtotime($due_date_value)); ?></strong>
+                    <?php endif; ?>
+                </div>
+            </article>
+            <article class="customer-overview-metric customer-status-metric">
+                <h3>Service Status</h3>
+                <strong class="<?php echo ($customer['connection_status'] == 'Connected') ? 'status-connected' : 'status-disconnected'; ?>">
+                    <?php echo htmlspecialchars($customer['connection_status'] ?? 'Unknown'); ?>
+                </strong>
+            </article>
         </div>
-    </div>
-    <div class="summary">
-     
-        <div class="card">
-            <h4>Service Status</h4>
-            <span class="<?php echo ($customer['connection_status'] == 'Connected') ? 'status-connected' : 'status-disconnected'; ?>">
-                 ● <?php echo $customer['connection_status']; ?>
-</span>
-        </div>
-    
-       <div class="card">
-    <h4>Next Due Date</h4>
-
-    <?php if (!$due_date_valid): ?>
-
-        <span>Not set</span>
-
-    <?php elseif ($is_overdue): ?>
-
-        <span style="color: red; font-weight: bold;">
-            Overdue
-        </span>
-
-        <p style="color: red; margin-bottom: 0;">
-            <?php echo date('F d, Y', strtotime($due_date_value)); ?>
-            (<?php echo $days_overdue; ?> day/s overdue)
-        </p>
-
-    <?php else: ?>
-
-        <span>
-            <?php echo date('F d, Y', strtotime($due_date_value)); ?>
-        </span>
-
-    <?php endif; ?>
-</div>
-<button type="button" class="payment-btn" data-bs-toggle="modal" data-bs-target="#paymentModal">
-    Payment
-</button>   
-<p class="soa-password-note">
-    <i class="bi bi-info-circle-fill"></i>
-    Your SOA password is your MPC Account Number.
-</p>
-</div>
+    </section>
+    <p class="customer-payment-reminder">Pay on time to avoid connection interruptions</p>
 
     <section class="customer-announcements" aria-labelledby="customer-announcements-title">
         <div class="customer-announcements-heading">
@@ -172,6 +151,11 @@ if ($due_date_valid) {
             <?php endif; ?>
         </div>
     </section>
+
+    <p class="soa-password-note">
+        <i class="bi bi-info-circle-fill" aria-hidden="true"></i>
+        Your SOA password is your MPC Account Number.
+    </p>
 
         <table id="payment-history">
                    <thead>
@@ -293,6 +277,7 @@ document.addEventListener('DOMContentLoaded', function () {
             <div class="modal-body p-0">
 
                 <iframe
+                    id="paymentFrame"
                     src="customer_payment.php"
                     style="width: 100%; height: 600px; border: none;"
                     title="QRPH Payment">
@@ -305,5 +290,20 @@ document.addEventListener('DOMContentLoaded', function () {
     </div>
 
 </div>
+<script>
+document.getElementById('paymentModal').addEventListener('hidden.bs.modal', function () {
+    const frame = document.getElementById('paymentFrame');
+    if (frame) frame.src = 'about:blank';
+});
+window.addEventListener('message', function (event) {
+    if (event.origin !== window.location.origin || event.data?.type !== 'customer-payment-success') return;
+    alert('Payment successful! Your dashboard will refresh to show the updated SOA.');
+    const modalElement = document.getElementById('paymentModal');
+    modalElement.addEventListener('hidden.bs.modal', function () {
+        window.location.reload();
+    }, {once: true});
+    bootstrap.Modal.getOrCreateInstance(modalElement).hide();
+});
+</script>
 </body>
 </html>

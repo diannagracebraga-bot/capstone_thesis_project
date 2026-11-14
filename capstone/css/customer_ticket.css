@@ -106,10 +106,17 @@ td{
     position: sticky;
     top: 0;
     z-index: 3;
-    background: #cff4fc;
+    background: #e1efff;
+    color: #123d70;
     background-clip: padding-box;
-    box-shadow: 0 1px 0 #b6dfe8;
+    border-color: #dce6f1;
+    box-shadow: 0 1px 0 #dce6f1;
 }
+.customer-ticket-table { --bs-table-bg: #fff; --bs-table-color: #000; --bs-table-hover-bg: #edf4fb; --bs-table-hover-color: #000; margin-bottom: 0; }
+.customer-ticket-table thead th { font-weight: 700; }
+.customer-ticket-table tbody tr > * { background: #fff; color: #000; border-color: #e0e8f1; }
+.customer-ticket-table tbody tr:nth-child(even) > * { background: #f9fbfe; }
+.customer-ticket-table tbody tr:hover > * { background: #edf4fb; }
 .table-container tr[id] { scroll-margin-top: 52px; }
 
 @media (max-width: 768px){

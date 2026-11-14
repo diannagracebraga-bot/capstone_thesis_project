@@ -282,9 +282,15 @@ td{
 .customer-wifi-orbit { position: absolute; width: 120px; height: 120px; border: 1px solid rgba(207,237,255,.2); border-radius: 50%; }
 .customer-wifi-orbit-one { right: 18px; top: 4px; }
 .customer-wifi-orbit-two { right: -2px; top: -16px; width: 160px; height: 160px; }
+.customer-account-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 15px; }
+.customer-account-actions .customer-account-chip { margin-top: 0; }
+.customer-account-actions .payment-btn { display: inline-flex; width: auto; min-height: 42px; align-self: auto; align-items: center; justify-content: center; margin: 0; padding: 0 26px; border: 0; border-radius: 999px; background: #e83f46; box-shadow: none; color: #fff; font-size: 14px; font-weight: 700; }
+.customer-account-actions .payment-btn:hover { transform: translateY(-1px); background: #cc3038; color: #fff; box-shadow: none; }
+.soa-password-note { margin: 0 0 22px; padding: 11px 15px; border: 1px solid #cfe2ff; border-radius: 8px; background: #f0f6ff; color: #455b72; font-size: 14px; text-align: left; }
+.soa-password-note i { margin-right: 6px; color: #0d6efd; }
 @media (max-width: 560px), (hover: none) and (pointer: coarse) {
     .customer-welcome-banner { min-height: 148px; margin-bottom: 16px; padding: 20px; }
-    .customer-welcome-art { width: 94px; height: 100px; flex-basis: 94px; opacity: .85; }
+    .customer-welcome-art { display: none; }
     .customer-welcome-art .bi-router-fill { font-size: 52px; }
     .customer-wifi-signal { top: 2px; right: 8px; font-size: 32px; }
     .customer-wifi-orbit-one { right: 0; top: 12px; width: 82px; height: 82px; }
@@ -294,6 +300,8 @@ td{
     .customer-welcome-subtitle { max-width: 250px; font-size: 13px; }
     .customer-account-chip { gap: 6px; padding: 6px 9px; font-size: 11px; }
     .customer-account-chip strong { font-size: 12px; }
+    .customer-account-actions { gap: 8px; margin-top: 12px; }
+    .customer-account-actions .payment-btn { min-height: 38px; padding: 0 17px; font-size: 13px; }
 }
 @media (max-width: 360px) {
     .customer-welcome-banner { padding: 16px 14px; }
@@ -346,6 +354,26 @@ body .content > .card.w-100 > .card-body { padding: clamp(16px, 2.2vw, 28px); }
 .summary .card span { font-size: clamp(16px, 1.5vw, 20px); line-height: 1.35; }
 .summary .status-connected { color: #138a59; }
 .summary .status-disconnected { color: #c43c4a; }
+.customer-service-overview { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; margin: 0 0 12px; }
+.customer-plan-summary,
+.customer-overview-metric { box-sizing: border-box; min-width: 0; border-radius: 9px; background: #edf0f3; }
+.customer-plan-summary { display: flex; min-height: 108px; flex-direction: column; justify-content: center; gap: 10px; padding: 17px 20px; }
+.customer-plan-summary h3,
+.customer-overview-metric h3 { margin: 0; color: #4f667d; font-size: 14px; font-weight: 600; }
+.customer-plan-details { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 13px; color: #216eb3; font-size: clamp(17px, 1.7vw, 22px); line-height: 1.4; }
+.customer-plan-details strong { color: #2776bd; font-weight: 700; }
+.customer-plan-details .customer-plan-mbps { color: #216eb3; font-size: 1.18em; font-weight: 750; }
+.customer-overview-side { display: grid; grid-template-rows: repeat(2, minmax(54px, auto)); gap: 10px; }
+.customer-overview-metric { display: flex; min-height: 54px; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 16px; }
+.customer-overview-metric > div { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: flex-end; gap: 4px 8px; text-align: right; }
+.customer-overview-metric > div > strong,
+.customer-overview-metric > strong { color: #172c40; font-size: 18px; font-weight: 700; }
+.customer-overview-metric > div > span { color: #5f7183; font-size: 14px; }
+.customer-overview-metric small { color: #c43c4a; font-size: 11px; }
+.customer-overview-metric .customer-overdue { color: #c43c4a; }
+.customer-overview-metric .status-connected { color: #29a879; }
+.customer-overview-metric .status-disconnected { color: #c43c4a; }
+.customer-payment-reminder { margin: 0 0 12px; padding: 10px 12px; border-radius: 8px; background: #edf0f3; color: #24384c; font-size: 13px; font-style: italic; font-weight: 600; letter-spacing: .04em; text-align: center; text-transform: uppercase; }
 .payment-btn {
     min-height: 58px;
     align-self: stretch;
@@ -389,6 +417,8 @@ body .content > .card.w-100 > .card-body { padding: clamp(16px, 2.2vw, 28px); }
     .summary { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     .summary .card { min-height: 106px; padding: 16px; }
     .payment-btn { min-height: 58px; }
+    .customer-service-overview { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .customer-plan-details { gap: 6px 9px; }
 }
 @media (max-width: 560px) {
     body .content > .card.w-100 > .card-body { padding: 14px; }
@@ -397,6 +427,11 @@ body .content > .card.w-100 > .card-body { padding: clamp(16px, 2.2vw, 28px); }
     .right-top .card { min-height: 88px; padding: 15px 16px; }
     .summary { margin-bottom: 18px; }
     .summary .card { min-height: 92px; padding: 15px 16px; }
+    .customer-service-overview { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+    .customer-plan-summary { min-height: 90px; padding: 15px; }
+    .customer-overview-side { gap: 8px; }
+    .customer-overview-metric { min-height: 54px; }
+    .customer-payment-reminder { font-size: 12px; }
     .customer-announcements { margin-bottom: 18px; }
     #payment-history { min-width: 650px; }
     #payment-history th, #payment-history td { padding: 11px 9px; }
