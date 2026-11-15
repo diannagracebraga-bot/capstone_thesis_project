@@ -195,3 +195,44 @@ body {
         flex: 1 1 140px;
     }
 }
+
+/* Bento field cards with balanced system-blue accents. */
+.add-applicant-card {
+    border-color: #d4e5f5 !important;
+    border-top: 4px solid #408aca !important;
+    border-radius: 18px !important;
+    background: linear-gradient(145deg, #fff, #f3f8ff) !important;
+    box-shadow: 0 9px 24px rgba(30, 74, 121, .1) !important;
+}
+.add-applicant-card .card-header { padding: 0 0 15px !important; border-bottom: 1px solid #dceaf7 !important; }
+.add-applicant-card .applicant-section-title {
+    padding: 10px 13px;
+    border: 1px solid #d6e7f6;
+    border-left: 4px solid #428bc8;
+    border-radius: 11px;
+    background: #edf6ff;
+}
+.add-applicant-card form > .row { row-gap: 2px; }
+.add-applicant-card form > .row > [class*="col-"] {
+    padding: 12px;
+    border: 1px solid #d9e8f6;
+    border-top: 3px solid #80b9e3;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #fff, #f7fbff);
+    box-shadow: 0 4px 12px rgba(35, 83, 130, .055);
+}
+.add-applicant-card form > .row > [class*="col-"]:nth-child(3n + 2) { border-top-color: #7bb9cb; }
+.add-applicant-card form > .row > [class*="col-"]:nth-child(3n) { border-top-color: #91afe0; }
+.add-applicant-card .border.rounded.p-3 { border-top: 3px solid #7bb9cb !important; border-radius: 12px !important; background: #eef8fc; }
+@media (max-width: 520px) {
+    .add-applicant-card { border-radius: 14px !important; }
+    .add-applicant-card form > .row > [class*="col-"] { padding: 11px; }
+}
+
+/* Keep the bento cards clean and white without heavy color strips. */
+.add-applicant-card { border-top-width: 1px !important; background: #fff !important; }
+.add-applicant-card .applicant-section-title { border-left-width: 1px; background: #fff; }
+.add-applicant-card form > .row > [class*="col-"] { border-top-width: 1px; background: #fff; }
+.add-applicant-card form > .row > [class*="col-"]:nth-child(3n + 2),
+.add-applicant-card form > .row > [class*="col-"]:nth-child(3n) { border-top-color: #d9e8f6; }
+.add-applicant-card .border.rounded.p-3 { border-top-width: 1px !important; background: #fff; }

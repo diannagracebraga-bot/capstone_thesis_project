@@ -270,6 +270,27 @@ span.status-badge {
     flex: 0 0 auto;
 }
 
+/* Applicant detail modal bento cards with restrained color. */
+[id^="viewApplicant"] .modal-body { background: #f7f9fc; }
+[id^="viewApplicant"] .modal-body h6 {
+    border: 1px solid #e0e8f1 !important;
+    border-left-width: 1px !important;
+    border-left-color: #e0e8f1 !important;
+    border-radius: 11px;
+    background: #f2f6fa !important;
+    color: #173d68 !important;
+}
+[id^="viewApplicant"] .modal-body .row > [class*="col-"] {
+    min-width: 0;
+    margin-bottom: 12px;
+    padding: 12px;
+    border: 1px solid #e1e9f1;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 3px 9px rgba(31, 67, 108, .045);
+}
+[id^="viewApplicant"] .modal-body .form-control.bg-light { border-color: #e0e8f1; }
+
 @media (max-width: 1024px) {
     .card {
     box-sizing: border-box; padding: 0; }

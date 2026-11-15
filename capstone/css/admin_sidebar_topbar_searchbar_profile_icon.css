@@ -666,6 +666,42 @@ body.admin-module-page .card .btn-primary:focus {
         padding: 20px !important;
     }
 }
+
+/* Bento presentation for admin and super admin tables; retain their current colors. */
+body .table {
+    border: 0;
+    border-collapse: separate !important;
+    border-spacing: 0 8px !important;
+    background: transparent;
+}
+body .table thead th {
+    border-top: 1px solid rgba(18, 61, 112, .1) !important;
+    border-bottom: 1px solid rgba(18, 61, 112, .1) !important;
+    vertical-align: middle;
+}
+body .table thead th:first-child { border-left: 1px solid rgba(18, 61, 112, .1) !important; border-radius: 11px 0 0 11px; }
+body .table thead th:last-child { border-right: 1px solid rgba(18, 61, 112, .1) !important; border-radius: 0 11px 11px 0; }
+body .table tbody > tr > * {
+    border-top: 1px solid rgba(31, 77, 123, .1) !important;
+    border-bottom: 1px solid rgba(31, 77, 123, .1) !important;
+    vertical-align: middle;
+}
+body .table tbody > tr > *:first-child {
+    border-left: 1px solid rgba(31, 77, 123, .1) !important;
+    border-radius: 10px 0 0 10px;
+}
+body .table tbody > tr > *:last-child {
+    border-right: 1px solid rgba(31, 77, 123, .1) !important;
+    border-radius: 0 10px 10px 0;
+}
+body .table tbody > tr {
+    filter: drop-shadow(0 2px 4px rgba(35, 76, 120, .045));
+    transition: filter .16s ease, transform .16s ease;
+}
+body .table tbody > tr:hover {
+    filter: drop-shadow(0 4px 8px rgba(35, 76, 120, .09));
+    transform: translateY(-1px);
+}
 @media (max-width: 520px) {
     body.admin-module-page > .card {
         margin-right: 10px !important;

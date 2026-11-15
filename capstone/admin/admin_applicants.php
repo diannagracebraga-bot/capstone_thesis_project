@@ -10,10 +10,18 @@ if (empty($_POST["privacy_notice_acknowledged"])) {
     echo "<script>alert('Please acknowledge the Privacy Notice before submitting.'); window.history.back();</script>";
     exit;
 }
-$first_name = $_POST['first_name'];
+$first_name = trim($_POST['first_name'] ?? '');
 $middle_name = $_POST['middle_name'];
-$last_name = $_POST['last_name'];
-$sex = $_POST['sex'];
+$last_name = trim($_POST['last_name'] ?? '');
+$sex = strtolower(trim($_POST['sex'] ?? ''));
+if ($first_name === '' || $last_name === '') {
+    echo "<script>alert('First name and last name are required.'); window.history.back();</script>";
+    exit;
+}
+if (!in_array($sex, ['male', 'female'], true)) {
+    echo "<script>alert('Please select Male or Female for sex.'); window.history.back();</script>";
+    exit;
+}
 $contact_number = $_POST['contact_number'];
 $email = trim($_POST['email'] ?? '');
 if (
@@ -116,8 +124,8 @@ VALUES
 <head>
 	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="icon" type="image/png" href="/favicon.png?v=2">
-	  <link rel="stylesheet" href="../css/admin_applicants.css?v=announcement-theme-3">
-	  <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-3">
+	  <link rel="stylesheet" href="../css/admin_applicants.css?v=applicant-view-bento-1">
+	  <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=bento-tables-1">
 	  <title>MITZTIANPC WIRED INTERNET SERVICES</title>
     <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
@@ -489,5 +497,6 @@ window.addEventListener('pageshow', function(event) {
 <script src="../javascript/admin_applicants.js?v=applicant-save-change-1"></script>
 </body>
 </html>
+
 
 

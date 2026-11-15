@@ -379,3 +379,64 @@ body { padding-top: 82px !important; }
     .service-highlight-copy small { font-size: 9px; }
     .service-highlights-heading { font-size: 8px; }
 }
+
+/* Keep the feature-card colors while giving every item the same larger footprint. */
+.hero-image-services .service-highlights {
+    grid-template-rows: auto repeat(2, minmax(124px, auto));
+    gap: 14px 16px;
+    width: min(100%, 680px);
+}
+.hero-image-services .service-highlight,
+.hero-image-services .service-highlight-primary,
+.hero-image-services .service-highlight-wide {
+    grid-column: auto;
+    grid-row: auto;
+    min-height: 124px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 18px !important;
+    border: 1px solid rgba(171, 226, 255, .4);
+    border-radius: 16px;
+    background: rgba(20, 72, 115, .28);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .12);
+}
+@media (max-width: 767.98px) {
+    .hero-image-services .service-highlights { grid-template-rows: auto repeat(2, minmax(102px, auto)); }
+    .hero-image-services .service-highlight,
+    .hero-image-services .service-highlight-primary,
+    .hero-image-services .service-highlight-wide { min-height: 102px; padding: 14px 12px !important; }
+}
+@media (max-width: 420px) {
+    .hero-image-services .service-highlights { grid-template-rows: auto repeat(2, minmax(94px, auto)); }
+    .hero-image-services .service-highlight,
+    .hero-image-services .service-highlight-primary,
+    .hero-image-services .service-highlight-wide { min-height: 94px; padding: 12px 9px !important; }
+}
+
+/* Keep the feature heading on top of the image and separate the cards from one another. */
+.hero-image-services .service-highlights {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+.hero-image-services .service-highlights::before,
+.hero-image-services .service-highlights::after { display: none; }
+.service-highlights-heading { margin-bottom: 5px; font-size: 12px; }
+.service-highlight-copy strong { font-size: 18px; }
+.service-highlight-copy small { font-size: 13px; }
+@media (max-width: 767.98px) {
+    .service-highlights-heading { font-size: 11px; }
+    .service-highlight-copy strong { font-size: 15px; }
+    .service-highlight-copy small { font-size: 11px; }
+}
+@media (max-width: 420px) {
+    .service-highlights-heading { font-size: 10px; }
+    .service-highlight-copy strong { font-size: 13px; }
+    .service-highlight-copy small { font-size: 10px; }
+}
+

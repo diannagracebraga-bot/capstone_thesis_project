@@ -10,10 +10,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    $first_name = mysqli_real_escape_string($conn, trim($_POST['first_name'] ?? ''));
+    $first_name_value = trim($_POST['first_name'] ?? '');
     $middle_name = mysqli_real_escape_string($conn, trim($_POST['middle_name'] ?? ''));
-    $last_name = mysqli_real_escape_string($conn, trim($_POST['last_name'] ?? ''));
-    $sex = mysqli_real_escape_string($conn, $_POST['sex'] ?? '');
+    $last_name_value = trim($_POST['last_name'] ?? '');
+    $sex_value = strtolower(trim($_POST['sex'] ?? ''));
+
+    if ($first_name_value === '' || $last_name_value === '') {
+        echo "<script>alert('First name and last name are required.'); window.history.back();</script>";
+        exit;
+    }
+
+    if (!in_array($sex_value, ['male', 'female'], true)) {
+        echo "<script>alert('Please select Male or Female for sex.'); window.history.back();</script>";
+        exit;
+    }
+
+    $first_name = mysqli_real_escape_string($conn, $first_name_value);
+    $last_name = mysqli_real_escape_string($conn, $last_name_value);
+    $sex = mysqli_real_escape_string($conn, $sex_value);
     $contact_number = mysqli_real_escape_string($conn, $_POST['contact_number'] ?? '');
     $email = trim($_POST['email'] ?? '');
     if (

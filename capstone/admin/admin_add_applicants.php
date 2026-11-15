@@ -81,10 +81,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         trim($_POST['last_name'] ?? '')
     );
 
-    $sex = mysqli_real_escape_string(
-        $conn,
-        trim($_POST['sex'] ?? '')
-    );
+    $sex_value = strtolower(trim($_POST['sex'] ?? ''));
+    $sex = mysqli_real_escape_string($conn, $sex_value);
 
     $contact_number = mysqli_real_escape_string(
         $conn,
@@ -156,6 +154,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         empty($address) ||
         $internet_plan <= 0 ||
         empty($desired_installation_date) ||
+        !in_array($sex_value, ['male', 'female'], true) ||
         !in_array($phase_7_carissa, ['Yes', 'No'])
     ) {
 
@@ -312,9 +311,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-3">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=bento-tables-1">
 
-<link rel="stylesheet" href="../css/admin_add_applicants.css?v=2">
+<link rel="stylesheet" href="../css/admin_add_applicants.css?v=applicant-bento-2">
 
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
     <link rel="stylesheet" href="../css/system-font.css?v=1">
@@ -658,5 +657,7 @@ window.addEventListener('pageshow', function(event) {
 </script>
 </body>
 </html>
+
+
 
 

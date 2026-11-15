@@ -121,3 +121,36 @@ body {
     .form_actions { flex-wrap: wrap; }
     .form_actions > .btn { flex: 1 1 140px; }
 }
+
+/* Bento field cards with balanced system-blue accents. */
+.customer_registration {
+    border-color: #d4e5f5;
+    border-top: 4px solid #408aca;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #fff, #f3f8ff);
+    box-shadow: 0 9px 24px rgba(30, 74, 121, .1);
+}
+.customer_registration h3 { padding-bottom: 14px; border-bottom: 1px solid #dceaf7; }
+.form_grid { gap: 13px; }
+.form_group {
+    padding: 12px;
+    border: 1px solid #d9e8f6;
+    border-top: 3px solid #80b9e3;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #fff, #f7fbff);
+    box-shadow: 0 4px 12px rgba(35, 83, 130, .055);
+}
+.form_group:nth-child(3n + 2) { border-top-color: #7bb9cb; }
+.form_group:nth-child(3n) { border-top-color: #91afe0; }
+.form_group:focus-within { border-color: #bad8ef; box-shadow: 0 6px 15px rgba(35, 83, 130, .09); }
+.form_actions { padding: 13px; border: 1px solid #d8e8f6; border-top: 3px solid #7bb9cb; border-radius: 12px; background: #edf6ff; }
+@media (max-width: 520px) {
+    .customer_registration { border-radius: 14px; }
+    .form_group { padding: 11px; }
+}
+
+/* Keep the bento cards clean and white without heavy color strips. */
+.customer_registration { border-top-width: 1px; background: #fff; }
+.form_group { border-top-width: 1px; background: #fff; }
+.form_group:nth-child(3n + 2), .form_group:nth-child(3n) { border-top-color: #d9e8f6; }
+.form_actions { border-top-width: 1px; background: #fff; }

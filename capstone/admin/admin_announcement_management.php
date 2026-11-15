@@ -128,7 +128,7 @@ $announcements = mysqli_query($conn, 'SELECT announcement_id, title, message, at
     <title>Announcements | MITZTIANPC</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_announcement_management.css?v=2">
+    <link rel="stylesheet" href="../css/admin_announcement_management.css?v=announcement-bento-2">
     <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body>

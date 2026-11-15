@@ -440,3 +440,56 @@ input[type="file"].form-control {
     .create-admin-card-body { padding: 16px !important; }
     .create-admin-form form { grid-template-columns: 1fr; }
 }
+
+/* Bento form fields shared by the Admin and Super Admin creation pages. */
+.create-admin-card,
+.add-super-admin-card {
+    border-color: #d4e5f5 !important;
+    border-top: 4px solid #408aca !important;
+    border-radius: 18px !important;
+    background: linear-gradient(145deg, #fff, #f3f8ff) !important;
+    box-shadow: 0 9px 24px rgba(30, 74, 121, .1) !important;
+}
+.create-admin-form form .mb-3,
+.add-super-admin-card form > .mb-3 {
+    padding: 12px;
+    border: 1px solid #d9e8f6;
+    border-top: 3px solid #80b9e3;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #fff, #f7fbff);
+    box-shadow: 0 4px 12px rgba(35, 83, 130, .055);
+}
+.create-admin-form form .mb-3:nth-child(3n + 2),
+.add-super-admin-card form > .mb-3:nth-child(3n + 2) { border-top-color: #7bb9cb; }
+.create-admin-form form .mb-3:nth-child(3n),
+.add-super-admin-card form > .mb-3:nth-child(3n) { border-top-color: #91afe0; }
+.create-admin-form form .mb-3:focus-within,
+.add-super-admin-card form > .mb-3:focus-within { border-color: #bad8ef; box-shadow: 0 6px 15px rgba(35, 83, 130, .09); }
+.add-super-admin-card form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+.add-super-admin-card form > .add-super-admin-actions { grid-column: 1 / -1; padding: 13px; border: 1px solid #d8e8f6; border-top: 3px solid #7bb9cb; border-radius: 12px; background: #edf6ff; }
+.add-super-admin-card h2,
+.create-admin-form h2 { padding-bottom: 14px; border-bottom: 1px solid #dceaf7; }
+.add-super-admin-card .add-super-admin-actions .btn-primary,
+.create-admin-form .button-container .btn-success { border-color: #2c78b8; background: #2c78b8; }
+.add-super-admin-card .add-super-admin-actions .btn-primary:hover,
+.create-admin-form .button-container .btn-success:hover { border-color: #205f96; background: #205f96; }
+@media (max-width: 600px) {
+    .create-admin-card,
+    .add-super-admin-card { border-radius: 14px !important; }
+    .create-admin-form form,
+    .add-super-admin-card form { grid-template-columns: minmax(0, 1fr); }
+    .add-super-admin-card form > .add-super-admin-actions { grid-column: 1; }
+    .create-admin-form form .mb-3,
+    .add-super-admin-card form > .mb-3 { padding: 11px; }
+}
+
+/* Keep admin creation bento cards clean and white without strong color strips. */
+.create-admin-card,
+.add-super-admin-card { border-top-width: 1px !important; background: #fff !important; }
+.create-admin-form form .mb-3,
+.add-super-admin-card form > .mb-3 { border-top-width: 1px; background: #fff; }
+.create-admin-form form .mb-3:nth-child(3n + 2),
+.create-admin-form form .mb-3:nth-child(3n),
+.add-super-admin-card form > .mb-3:nth-child(3n + 2),
+.add-super-admin-card form > .mb-3:nth-child(3n) { border-top-color: #d9e8f6; }
+.add-super-admin-card form > .add-super-admin-actions { border-top-width: 1px; background: #fff; }

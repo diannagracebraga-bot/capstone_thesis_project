@@ -284,6 +284,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
             border: 3px solid #dee2e6;
             margin-bottom: 12px;
         }
+        .edit-container > .card {
+            border-color: #d4e5f5;
+            border-top: 1px solid #d4e5f5;
+            border-radius: 18px;
+            background: #fff;
+        }
+        .edit-container .card-body { background: #f7fbff; }
+        .edit-container form {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 14px;
+        }
+        .edit-container form > .mb-3 {
+            min-width: 0;
+            margin: 0 !important;
+            padding: 12px;
+            border: 1px solid #d9e8f6;
+            border-top: 1px solid #d9e8f6;
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0 4px 12px rgba(35, 83, 130, .055);
+        }
+        .edit-container form > .mb-3:nth-child(3n + 2),
+        .edit-container form > .mb-3:nth-child(3n) { border-top-color: #d9e8f6; }
+        .edit-container form > .mb-3:focus-within { border-color: #bad8ef; box-shadow: 0 6px 15px rgba(35, 83, 130, .09); }
+        .edit-user-actions {
+            grid-column: 1 / -1;
+            padding: 13px;
+            border: 1px solid #d8e8f6;
+            border-top: 1px solid #d8e8f6;
+            border-radius: 12px;
+            background: #fff;
+        }
+        @media (max-width: 600px) {
+            .edit-container form { grid-template-columns: minmax(0, 1fr); gap: 11px; }
+            .edit-user-actions { grid-column: 1; }
+            .edit-container form > .mb-3 { padding: 11px; }
+        }
     </style>
 </head>
 <body>

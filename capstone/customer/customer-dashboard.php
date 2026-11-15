@@ -235,7 +235,7 @@ if ($payment_count > 0) {
         </table>
         <?php if ($payment_count > 5): ?>
             <button type="button" id="payment-history-toggle" class="payment-history-toggle" aria-expanded="false">
-                Tingnan lahat (<?php echo $payment_count; ?>)
+                View all (<?php echo $payment_count; ?>)
             </button>
         <?php endif; ?>
 </div>
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', function () {
             row.hidden = !expanded;
         });
         toggle.setAttribute('aria-expanded', String(expanded));
-        toggle.textContent = expanded ? 'Ipakita lang ang 5 pinakabago' : 'Tingnan lahat (<?php echo $payment_count; ?>)';
+        toggle.textContent = expanded ? 'Show only the 5 most recent' : 'View all (<?php echo $payment_count; ?>)';
     });
 });
 </script>

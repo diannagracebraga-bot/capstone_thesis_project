@@ -11,7 +11,7 @@ $page = $_GET['page'] ?? 'users';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
     <link rel="stylesheet" href="../css/admin_user_management.css?v=announcement-card-padding-20261029-5">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-mobile-actions-4">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=bento-tables-1">
     <title>User Management</title>
     <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
@@ -154,4 +154,5 @@ window.addEventListener('pageshow', function(event) {
 </script>
 </body>
 </html>
+
 

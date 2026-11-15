@@ -173,10 +173,8 @@ while ($row = mysqli_fetch_assoc($daily_collection_result)) {
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css" >
-    <link rel="stylesheet" href="../css/admin_dashboard.css?v=dashboard-cards-6">
-    <link rel="stylesheet" href="../css/admin_dashboard.css?v=dashboard-layout-11">
-    <link rel="stylesheet" href="../css/admin_dashboard.css?v=999999">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=bento-tables-1" >
+    <link rel="stylesheet" href="../css/admin_dashboard.css?v=admin-dashboard-bento-8">
     <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body>
@@ -308,6 +306,7 @@ new Chart(document.getElementById('collectionChart'), {
             y: {
                 beginAtZero: true,
                 ticks: {
+                    color: '#000000',
                     callback: function(value) {
                         return '₱' + Number(value).toLocaleString();
                     }
@@ -341,7 +340,8 @@ new Chart(document.getElementById('balanceChart'), {
         maintainAspectRatio: false,
         plugins: {
             legend: {
-                position: 'bottom'
+                position: 'bottom',
+                labels: { color: '#000000' }
             }
         }
     }
@@ -372,6 +372,7 @@ new Chart(document.getElementById('barangayChart'), {
             x: {
                 beginAtZero: true,
                 ticks: {
+                    color: '#000000',
                     precision: 0
                 }
             }
@@ -389,5 +390,6 @@ window.addEventListener('pageshow', function(event) {
 
 </body>
 </html>
+
 
 

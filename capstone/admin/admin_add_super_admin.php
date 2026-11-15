@@ -82,7 +82,7 @@ if (
     <title>Create Super Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_add_admin.css?v=password-toggle-1">
+    <link rel="stylesheet" href="../css/admin_add_admin.css?v=admin-forms-bento-2">
     <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body>
@@ -143,4 +143,5 @@ window.addEventListener('pageshow', function(event) {
 </script>
 </body>
 </html>
+
 

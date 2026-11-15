@@ -261,6 +261,27 @@ span.status-badge {
     box-sizing: border-box; padding: 0; }
 }
 
+/* Customer detail modal bento fields with restrained, neutral-blue styling. */
+[id^="editModal"] .modal-body { background: #f7f9fc; }
+[id^="editModal"] .modal-body h6 {
+    padding: 10px 12px !important;
+    border: 1px solid #e0e8f1 !important;
+    border-radius: 11px;
+    background: #f2f6fa;
+    color: #173d68 !important;
+}
+[id^="editModal"] .modal-body .row > [class*="col-"] {
+    min-width: 0;
+    margin-bottom: 12px;
+    padding: 12px;
+    border: 1px solid #e1e9f1;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 3px 9px rgba(31, 67, 108, .045);
+}
+[id^="editModal"] .modal-body .form-control,
+[id^="editModal"] .modal-body .form-select { border-color: #d8e2ec; }
+
 .card-body { padding: 28px; }
 @media (max-width: 1024px) { .card-body { padding: 20px; } }
 @media (max-width: 520px) { .card-body { padding: 16px; } }

@@ -33,12 +33,8 @@ $about = mysqli_fetch_assoc($about_result);
     <link rel="stylesheet" href="css/about.css?v=footer-spacing-5">
     <link rel="stylesheet" href="css/apply_internet.css?v=privacy-modal-logo-3">
     <link rel="stylesheet" href="css/login.css?v=login-ui-2">
-<<<<<<< HEAD
-    <link rel="stylesheet" href="css/index-redesign.css?v=12">
+    <link rel="stylesheet" href="css/index-redesign.css?v=21">
     <link rel="stylesheet" href="css/system-font.css?v=1">
-=======
-    <link rel="stylesheet" href="css/index-redesign.css?v=14">
->>>>>>> 441d612954f2d9a0f1e6bf16792c6c8e4b26822a
 </head>
 <body>
 <nav class="navbar navbar-expand-lg site-nav fixed-top">

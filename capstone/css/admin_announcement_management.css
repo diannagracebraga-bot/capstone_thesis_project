@@ -119,3 +119,86 @@
     { padding: 16px; }
     .announcement-entry { flex-direction: column; }
 }
+
+/* Bento treatment for announcement publishing and each published item. */
+.announcement-admin-card {
+    border-color: #d6e7f7;
+    border-radius: 18px;
+    background: linear-gradient(145deg, #ffffff 0%, #f4f9ff 100%);
+    box-shadow: 0 9px 25px rgba(30, 74, 121, .1);
+}
+.announcement-admin-heading { margin-bottom: 20px; }
+.announcement-admin-icon {
+    border: 1px solid #c9e2f7;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #e8f4ff, #d8ebfb);
+    color: #287bb8;
+}
+.announcement-form {
+    gap: 10px;
+    padding: 20px;
+    border: 1px solid #d3e6f7;
+    border-top: 4px solid #4d9bd5;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #edf6ff, #f7fbff);
+    box-shadow: 0 6px 17px rgba(35, 83, 130, .07);
+}
+.announcement-form input,
+.announcement-form textarea {
+    border-color: #c8dced;
+    border-radius: 10px;
+    background-color: #fff;
+}
+.announcement-form button { border-radius: 10px; background: #2c78b8; }
+.announcement-form button:hover { background: #205f96; }
+.announcement-admin-card > h3 { margin: 0 0 14px; }
+.announcement-list { gap: 14px; }
+.announcement-entry {
+    position: relative;
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid #d5e6f5;
+    border-top: 4px solid #4d9bd5;
+    border-radius: 15px;
+    background: linear-gradient(145deg, #f0f7ff, #ffffff);
+    box-shadow: 0 6px 17px rgba(35, 83, 130, .07);
+    transition: transform .16s ease, box-shadow .16s ease;
+}
+.announcement-entry:nth-child(3n + 2) {
+    border-top-color: #55a7c5;
+    background: linear-gradient(145deg, #edf8fc, #ffffff);
+}
+.announcement-entry:nth-child(3n) {
+    border-top-color: #718fc7;
+    background: linear-gradient(145deg, #f0f4ff, #ffffff);
+}
+.announcement-entry:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(35, 83, 130, .11); }
+.announcement-entry > div:first-child { min-width: 0; }
+.announcement-entry h4 { color: #174b78; }
+.announcement-entry p { overflow-wrap: anywhere; }
+.announcement-attachment { width: min(32vw, 360px); margin-top: 0; }
+.announcement-attachment img,
+.announcement-attachment video { border: 1px solid #cfe1f2; border-radius: 11px; }
+.announcement-entry form { align-self: flex-start; }
+.delete-announcement { border-radius: 9px; }
+
+@media (max-width: 680px) {
+    .announcement-form { padding: 14px; }
+    .announcement-entry { gap: 12px; padding: 14px; }
+    .announcement-attachment { width: 100%; margin-top: 0; }
+}
+
+/* Restore the previous neutral announcement colors while retaining the bento layout. */
+.announcement-admin-card { background: #fff; border-color: #dce6f1; }
+.announcement-admin-icon { border-color: transparent; background: #e1efff; color: #1674e8; }
+.announcement-form { border-color: #e0e8f1; border-top-width: 1px; background: #fff; box-shadow: none; }
+.announcement-entry,
+.announcement-entry:nth-child(3n + 2),
+.announcement-entry:nth-child(3n) {
+    border-color: #e0e8f1;
+    border-top-width: 1px;
+    background: #f9fbfe;
+}
+.announcement-entry:hover { box-shadow: 0 6px 15px rgba(30, 74, 121, .08); }
+.announcement-form button,
+.announcement-form button:hover { background: #315a7d; }
