@@ -15,6 +15,7 @@ $privacyText = static function (string $text): string {
       <link rel="icon" type="image/png" href="/favicon.png?v=2">
     <link href="../bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/apply_internet.css?v=privacy-page-2">
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body class="privacy-document-page<?php echo isset($_GET['embed']) ? ' privacy-embedded-page' : ''; ?>">
     <header class="privacy-document-header">
@@ -95,3 +96,5 @@ $privacyText = static function (string $text): string {
     </footer>
 </body>
 </html>
+
+

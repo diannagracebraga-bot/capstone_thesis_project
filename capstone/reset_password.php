@@ -201,6 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $validLink) {
 }
         }
     </style>
+    <link rel="stylesheet" href="css/system-font.css?v=1">
 </head>
 
 <body>
@@ -302,3 +303,5 @@ document.getElementById('password').addEventListener('input', function() {
 });
 </script>
 </html>
+
+

@@ -22,6 +22,7 @@ $customer = mysqli_fetch_assoc($result);
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
     <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-14">
     <link rel="stylesheet" href="../css/customer_payment.css?v=qr-modal-fit-2">
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body class="customer-payment-page">
     <div class="content">
@@ -110,3 +111,5 @@ loadQRCode();
 </script>
 </body>
 </html>
+
+

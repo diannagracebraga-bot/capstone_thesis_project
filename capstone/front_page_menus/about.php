@@ -14,6 +14,7 @@ $row = mysqli_fetch_assoc($result);
 	<title>MITZTIANPC WIRED INTERNET SERVICES</title>
 	<link rel="stylesheet" href="../css/about.css">
 	<link rel="stylesheet" href="../css/index_style.css">
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body>
 			
@@ -59,3 +60,4 @@ $row = mysqli_fetch_assoc($result);
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

@@ -140,6 +140,7 @@ function renderSidebarBadge($count, $id = null, $notificationLabel = 'pending')
 	 <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-header-payment-notice-1">
 
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body>
 
@@ -362,3 +363,5 @@ function renderSidebarBadge($count, $id = null, $notificationLabel = 'pending')
         </script>
 </body>
 </html>
+
+

@@ -52,6 +52,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-mobile-actions-4">
     <link rel="stylesheet" href="../css/admin_customer.css?v=announcement-card-padding-20261029-5">
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body class="admin-module-page admin-customer-page">
 <?php include 'admin_sidebar_header_profile.php'; ?>
@@ -482,3 +483,4 @@ window.addEventListener('pageshow', function(event) {
 </script>
 </body>
 </html>
+

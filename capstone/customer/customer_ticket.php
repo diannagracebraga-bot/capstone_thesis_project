@@ -29,20 +29,24 @@ if (!$result) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
     <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-14">
-    <link rel="stylesheet" href="../css/customer_ticket.css?v=customer-module-extend-3">
+    <link rel="stylesheet" href="../css/customer_ticket.css?v=customer-bento-1">
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body>
     
 <?php include 'customer_sidebar_header.php'; ?>
 
 <main class="ticket-content">
-        <div class="card">
+        <div class="card ticket-page-card">
   			<div class="card-body">
     <div class="ticket-section">
-        <h2>My Tickets</h2>
-        <div class = "table-container" >
+        <div class="ticket-heading">
+            <span class="ticket-heading-icon"><i class="bi bi-ticket-detailed" aria-hidden="true"></i></span>
+            <div><h2>My Tickets</h2><p>Track your submitted service requests and their status.</p></div>
+        </div>
+        <div class="table-container">
         <table class="table table-hover customer-ticket-table">
-            <thead class = "table-info">
+            <thead>
                 <tr>
                     <th scope="col">Ticket ID</th>
                     <th scope="col">Full Name</th>
@@ -140,3 +144,5 @@ window.addEventListener('pageshow', function(event) {
 </script>
 </body>
 </html>
+
+

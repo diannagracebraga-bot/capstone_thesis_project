@@ -1,0 +1,11 @@
+/* System-wide typography. Keep icon fonts intact. */
+html,
+body,
+body * {
+    font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.bi,
+.bi::before {
+    font-family: "bootstrap-icons" !important;
+}

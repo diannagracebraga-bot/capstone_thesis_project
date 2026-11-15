@@ -17,6 +17,7 @@ $result = mysqli_query($conn, $sql);
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
     <link rel="stylesheet" href="../css/plan.css">
     <link rel="stylesheet" href="../css/index_style.css">
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body>
       <div class="header">
@@ -62,3 +63,5 @@ $result = mysqli_query($conn, $sql);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+

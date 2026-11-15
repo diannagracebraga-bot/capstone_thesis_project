@@ -212,14 +212,18 @@ try {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
     <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-14" >
-    <link rel="stylesheet" href="../css/customer_support.css?v=customer-module-extend-6">
+    <link rel="stylesheet" href="../css/customer_support.css?v=customer-bento-4">
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body>
 <?php include 'customer_sidebar_header.php'; ?>
 <div class="support-content">
-    <div class="card">
+    <div class="card support-page-card">
         <div class="card-body">
-            <h2>Send Customer Ticket:</h2>
+            <div class="support-heading">
+                <span class="support-heading-icon"><i class="bi bi-chat-square-text" aria-hidden="true"></i></span>
+                <div><h2>Contact Support</h2><p>Send us your service concern and our team will get back to you.</p></div>
+            </div>
             <div class="form-section">
                 <?php if ($form_error !== ''): ?><div class="support-form-error" role="alert"><?php echo htmlspecialchars($form_error); ?></div><?php endif; ?>
                 <form class="form-box" method="POST" enctype="multipart/form-data">
@@ -258,10 +262,13 @@ try {
                         <label for="ticket-attachment">Attach file or image (optional):</label>
                         <input id="ticket-attachment" type="file" name="attachment" accept="image/jpeg,image/png,image/gif,image/webp,application/pdf">
                     </div>
-                    <button type="submit" class="submit-btn">Submit</button>
+                    <div class="support-actions">
+                    <button type="submit" class="submit-btn"><i class="bi bi-send-fill" aria-hidden="true"></i> Submit ticket</button>
                     <a href="https://www.facebook.com/profile.php?id=100084288545449" target="_blank" rel="noopener noreferrer" class="facebook-btn">
+                        <i class="bi bi-facebook" aria-hidden="true"></i>
                          Message Us on Facebook
                         </a>
+                    </div>
                 </form>
             </div>
         </div>
@@ -276,3 +283,5 @@ window.addEventListener('pageshow', function(event) {
 </script>
 </body>
 </html>
+
+

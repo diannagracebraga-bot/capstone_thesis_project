@@ -92,6 +92,7 @@ $planResult = mysqli_query($conn, 'SELECT plan_id, plan_name, internet_price, in
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
     <link rel="stylesheet" href="../css/admin_edit_plan.css?v=plans-management-2">
     <title>Plan Management | MITZTIANPC WIRED INTERNET SERVICES</title>
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body>
 <?php include 'admin_sidebar_header_profile.php'; ?>
@@ -148,3 +149,5 @@ window.addEventListener('pageshow', function(event) {
 </script>
 </body>
 </html>
+
+

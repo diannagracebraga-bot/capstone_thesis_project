@@ -107,6 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         a { color: #1875e8; }
         .message { padding: 10px; background: #f3f7fc; border-radius: 6px; }
     </style>
+    <link rel="stylesheet" href="css/system-font.css?v=1">
 </head>
 <body>
     <main class="card">
@@ -125,3 +126,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </main>
 </body>
 </html>
+
+

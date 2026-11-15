@@ -29,6 +29,7 @@ $result = mysqli_query($conn, $sql);
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-3">
     <link rel="stylesheet" href="../css/admin_inquiries.css?v=card-layout-2">
     <title>MITZIANPC WIRED INTERNET SERVICES</title>
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body class="admin-module-page">
 <?php include 'admin_sidebar_header_profile.php'; ?>
@@ -138,3 +139,5 @@ window.addEventListener('pageshow', function(event) {
 </script>
 </body>
 </html>
+
+

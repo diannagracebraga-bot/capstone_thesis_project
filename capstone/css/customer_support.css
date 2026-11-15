@@ -151,3 +151,49 @@ body {
     .support-content > .card > .card-body { padding: 16px !important; }
     .form-box { padding: 14px; }
 }
+
+/* Customer support bento form in the shared system blue palette. */
+.support-content { padding-top: 104px; background: #f3f7fc; }
+.support-content > .support-page-card { overflow: hidden; border: 1px solid #d8e8f7; border-radius: 18px; background: linear-gradient(145deg, #fff, #f5faff); box-shadow: 0 9px 26px rgba(35, 83, 130, .1); }
+.support-content > .support-page-card::before { display: block; height: 4px; background: linear-gradient(90deg, #83c4f7, #d2eaff); content: ""; }
+.support-content > .support-page-card > .card-body { padding: clamp(16px, 2.4vw, 30px) !important; }
+.support-heading { display: flex; align-items: center; gap: 13px; margin: 0 0 20px; }
+.support-heading-icon { display: grid; flex: 0 0 46px; width: 46px; height: 46px; place-items: center; border: 1px solid #d0e5f8; border-radius: 14px; background: linear-gradient(145deg, #eaf5ff, #dceeff); color: #2476b8; font-size: 21px; }
+.support-heading h2 { margin: 0; color: #173d68; font-size: 25px; font-weight: 750; }
+.support-heading p { margin: 4px 0 0; color: #69819a; font-size: 13px; }
+.form-box { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; padding: 18px; border: 1px solid #d4e6f7; border-radius: 15px; background: linear-gradient(145deg, #f0f7ff, #eaf4ff); box-shadow: inset 0 1px 0 rgba(255,255,255,.9); }
+.form-box .row { display: contents; }
+.form-box .input-group { display: flex; min-width: 0; flex-direction: column; gap: 0; margin: 0; padding: 13px; border: 1px solid #dce9f5; border-radius: 12px; background: rgba(255,255,255,.88); box-shadow: 0 3px 10px rgba(38,90,140,.045); }
+.form-box .input-group { border-left: 1px solid #dce9f5; border-top: 4px solid #c9e5fa; }
+.form-box .input-group:focus-within { border-top-color: #9accef; box-shadow: 0 5px 14px rgba(38,90,140,.07); }
+.form-box .input-group label { margin: 0 0 8px; color: #294e73; font-size: 12px; font-weight: 750; }
+.form-box input, .form-box select, .form-box textarea { min-height: 42px; padding: 10px 12px; border-color: #cbdceb; border-radius: 9px; background-color: #fff; color: #263f58; font-size: 13px; }
+.form-box input[readonly] { border-color: #b9d2e8; background: #eaf3fb; color: #345d80; }
+.form-box textarea { min-height: 130px; height: 130px; }
+.form-box > .input-group:has(textarea), .form-box > .attachment-group, .form-box > .support-actions { grid-column: 1 / -1; }
+.form-box .input-group:has(textarea) { min-height: 184px; }
+.form-box input[type="file"] { min-height: 44px; padding: 8px; border-color: #b7d3ec; background: #f8fbff; }
+.support-actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.submit-btn, .facebook-btn { min-height: 42px; margin: 0; border-radius: 9px; }
+.submit-btn { display: inline-flex; width: auto; min-width: 150px; gap: 8px; background: linear-gradient(110deg, #1769bb, #318bd8); box-shadow: 0 5px 13px rgba(23,105,187,.19); }
+.facebook-btn { display: inline-flex; width: auto; align-items: center; gap: 8px; margin-left: 0; background: #2677c8; }
+.support-form-error { border-radius: 10px; }
+@media (max-width: 768px) {
+    .support-content { padding-top: 96px; }
+    .form-box { grid-template-columns: minmax(0, 1fr); gap: 10px; padding: 13px; }
+    .form-box > .input-group:has(textarea), .form-box > .attachment-group, .form-box > .support-actions { grid-column: 1; }
+    .form-box .input-group { padding: 12px; }
+    .form-box .input-group:has(textarea) { min-height: 0; }
+    .support-actions { display: grid; grid-template-columns: minmax(0, 1fr); }
+    .submit-btn, .facebook-btn { width: 100%; margin: 0; }
+}
+@media (max-width: 480px) {
+    .support-content { padding: 84px 10px 22px; }
+    .support-content > .support-page-card { border-radius: 14px; }
+    .support-content > .support-page-card > .card-body { padding: 12px !important; }
+    .support-heading { gap: 10px; margin-bottom: 14px; }
+    .support-heading-icon { flex-basis: 39px; width: 39px; height: 39px; border-radius: 11px; font-size: 18px; }
+    .support-heading h2 { font-size: 20px; }
+    .support-heading p { font-size: 11px; line-height: 1.4; }
+    .form-box { padding: 10px; border-radius: 12px; }
+}

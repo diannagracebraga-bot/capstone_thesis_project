@@ -13,6 +13,7 @@ $page = $_GET['page'] ?? 'users';
     <link rel="stylesheet" href="../css/admin_user_management.css?v=announcement-card-padding-20261029-5">
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=admin-mobile-actions-4">
     <title>User Management</title>
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body class="admin-module-page admin-user-page">
 <?php include 'admin_sidebar_header_profile.php'; ?>
@@ -153,3 +154,4 @@ window.addEventListener('pageshow', function(event) {
 </script>
 </body>
 </html>
+

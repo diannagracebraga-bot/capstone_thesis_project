@@ -177,6 +177,7 @@ while ($row = mysqli_fetch_assoc($daily_collection_result)) {
     <link rel="stylesheet" href="../css/admin_dashboard.css?v=dashboard-cards-6">
     <link rel="stylesheet" href="../css/admin_dashboard.css?v=dashboard-layout-11">
     <link rel="stylesheet" href="../css/admin_dashboard.css?v=999999">
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body>
 <?php include 'admin_sidebar_header_profile.php'; ?>
@@ -388,3 +389,5 @@ window.addEventListener('pageshow', function(event) {
 
 </body>
 </html>
+
+

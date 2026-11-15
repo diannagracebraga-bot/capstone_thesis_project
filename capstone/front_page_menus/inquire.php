@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="../css/inquire.css">
     <link rel="stylesheet" href="../css/index_style.css">
 
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body>
     <div class="header">
@@ -54,3 +55,4 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

@@ -16,6 +16,7 @@ $row = mysqli_fetch_assoc($result);
     <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-layout-2">
     <link rel="stylesheet" href="../css/admin_view_inquiries.css?v=announcement-layout-2">
     <title>View Inquiry</title>
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body>
 <?php include 'admin_sidebar_header_profile.php'; ?>
@@ -113,3 +114,4 @@ remarksField.addEventListener('input', checkChanges);
 </script>
 </body>
 </html>
+

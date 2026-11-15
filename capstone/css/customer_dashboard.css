@@ -495,3 +495,103 @@ body .content > .card.w-100 > .card-body { padding: clamp(16px, 2.2vw, 28px); }
     .customer-announcement-item h4,
     .customer-announcement-item p { min-width: 0; overflow-wrap: anywhere; }
 }
+
+/* Bento cards for the dashboard content below the welcome banner. */
+body .content > .card.w-100 {
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+}
+body .content > .card.w-100 > .card-body { padding: 0; }
+.customer-service-overview {
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+    gap: 14px;
+    margin-bottom: 14px;
+}
+.customer-plan-summary,
+.customer-overview-metric {
+    border: 1px solid #d3e6f8;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #fff 0%, #f1f8ff 100%);
+    box-shadow: 0 7px 20px rgba(33, 91, 148, .09), inset 0 1px 0 rgba(255,255,255,.95);
+}
+.customer-plan-summary {
+    position: relative;
+    min-height: 132px;
+    overflow: hidden;
+    border-top: 3px solid #52a4e7;
+}
+.customer-plan-summary::after {
+    position: absolute;
+    right: -30px;
+    bottom: -56px;
+    width: 150px;
+    height: 150px;
+    border: 18px solid rgba(82, 164, 231, .07);
+    border-radius: 50%;
+    content: "";
+    pointer-events: none;
+}
+.customer-plan-summary h3,
+.customer-overview-metric h3 { color: #5c7894; font-weight: 700; }
+.customer-plan-details { position: relative; z-index: 1; gap: 8px 14px; }
+.customer-overview-side { gap: 10px; }
+.customer-overview-metric {
+    min-height: 60px;
+    padding: 13px 17px;
+}
+.customer-due-metric { border-left: 4px solid #3d91d4; }
+.customer-status-metric { border-left: 4px solid #52b99a; }
+.customer-payment-reminder {
+    margin: 0 0 14px;
+    padding: 13px 16px;
+    border: 1px solid #cfe4f7;
+    border-radius: 13px;
+    background: linear-gradient(100deg, #eaf5ff, #f4f9ff);
+    color: #315d83;
+    letter-spacing: .025em;
+}
+.customer-announcements {
+    margin-bottom: 14px;
+    padding: 19px;
+    border: 1px solid #d3e6f8;
+    border-left: 4px solid #4496d9;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #fff 0%, #f5faff 100%);
+    box-shadow: 0 7px 20px rgba(33, 91, 148, .08);
+}
+.customer-announcement-item {
+    border: 1px solid #d9eafb;
+    border-left-width: 1px;
+    border-radius: 12px;
+    background: #edf6ff;
+}
+.customer-announcement-item:nth-child(even) { background: #f7fbff; }
+.soa-password-note {
+    margin-bottom: 14px;
+    padding: 14px 16px;
+    border: 1px solid #cfe3f6;
+    border-left: 4px solid #4496d9;
+    border-radius: 13px;
+    background: linear-gradient(110deg, #eaf5ff, #f6faff);
+    color: #315b80;
+}
+#payment-history {
+    border-color: #d3e4f4;
+    border-radius: 15px;
+    box-shadow: 0 7px 20px rgba(33, 91, 148, .08);
+}
+#payment-history th { background: #dceeff; color: #214f79; }
+#payment-history tbody tr:nth-child(even) { background: #edf6ff; }
+#payment-history tbody tr:nth-child(odd) { background: #fff; }
+.payment-history-toggle { border-color: #c7def2; border-radius: 10px; }
+
+@media (max-width: 560px) {
+    .customer-service-overview { grid-template-columns: minmax(0, 1fr); }
+    .customer-plan-summary { min-height: 104px; }
+    .customer-announcements { padding: 15px; border-radius: 14px; }
+    .customer-payment-reminder,
+    .soa-password-note { border-radius: 11px; }
+}

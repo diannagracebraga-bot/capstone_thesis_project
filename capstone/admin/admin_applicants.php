@@ -119,6 +119,7 @@ VALUES
 	  <link rel="stylesheet" href="../css/admin_applicants.css?v=announcement-theme-3">
 	  <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=announcement-theme-3">
 	  <title>MITZTIANPC WIRED INTERNET SERVICES</title>
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body class="admin-module-page">
 	<?php include 'admin_sidebar_header_profile.php'; ?>
@@ -488,3 +489,5 @@ window.addEventListener('pageshow', function(event) {
 <script src="../javascript/admin_applicants.js?v=applicant-save-change-1"></script>
 </body>
 </html>
+
+

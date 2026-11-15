@@ -29,6 +29,7 @@ $about = mysqli_fetch_assoc($about_result);
     <link rel="stylesheet" href="css/apply_internet.css?v=privacy-modal-logo-3">
     <link rel="stylesheet" href="css/login.css?v=login-ui-2">
     <link rel="stylesheet" href="css/index-redesign.css?v=12">
+    <link rel="stylesheet" href="css/system-font.css?v=1">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg site-nav fixed-top">
@@ -456,6 +457,8 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 </body>
 </html>
+
+
 
 
 

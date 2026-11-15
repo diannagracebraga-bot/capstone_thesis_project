@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>MITZTIANPC WIRED INTERNET SERVICES</title>
     <link rel="stylesheet" href="css/front_page_menu_topbar.css">
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body>
 
@@ -32,6 +33,8 @@
 
 </body>
 </html>
+
+
 
 
 

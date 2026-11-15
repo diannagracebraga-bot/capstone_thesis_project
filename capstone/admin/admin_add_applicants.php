@@ -317,6 +317,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <link rel="stylesheet" href="../css/admin_add_applicants.css?v=2">
 
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 
 <body class="admin-module-page">
@@ -657,3 +658,5 @@ window.addEventListener('pageshow', function(event) {
 </script>
 </body>
 </html>
+
+

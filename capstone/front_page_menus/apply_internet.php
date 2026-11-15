@@ -10,8 +10,11 @@ $applicationAction = '../admin/admin_applicants.php';
 	<link href="../bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="../css/apply_internet.css?v=privacy-modal-logo-3">
 	<title>MITZTIANPC Wired Internet Services | Apply</title>
+    <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body class="application-page">
 	<?php include 'application_form_fields.php'; ?>
 </body>
 </html>
+
+

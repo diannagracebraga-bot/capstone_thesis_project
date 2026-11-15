@@ -27,7 +27,7 @@ $headerPhotoUrl = $headerPhotoName !== '' && is_file($headerPhotoPath)
     : '';
 $customerPage = basename($_SERVER['PHP_SELF']);
 $headerNotices = [];
-$paymentStatusText = 'Wala pang naitalang bayad';
+$paymentStatusText = 'No payment recorded yet';
 $paymentIsPending = false;
 $customerTicketUpdates = [];
 $customerTicketUpdateCount = 0;
@@ -35,14 +35,14 @@ $latestPaymentResult = mysqli_query($conn, "SELECT id, payment_status, created_a
 $latestPayment = $latestPaymentResult ? mysqli_fetch_assoc($latestPaymentResult) : null;
 if ($latestPayment) {
     $paymentStatusText = trim($latestPayment['payment_status']) === 'Paid'
-        ? 'Bayad na · ' . date('M d, Y', strtotime($latestPayment['created_at']))
-        : 'Hindi pa bayad / hinihintay ang kumpirmasyon';
+        ? 'Paid · ' . date('M d, Y', strtotime($latestPayment['created_at']))
+        : 'Awaiting payment confirmation';
     $paymentIsPending = trim($latestPayment['payment_status']) !== 'Paid';
 }
 
 if ($paymentIsPending) {
     $paymentNoticeKey = 'payment:' . (int) ($latestPayment['id'] ?? 0) . ':' . strtolower(preg_replace('/[^A-Za-z0-9_-]/', '', (string) ($latestPayment['payment_status'] ?? 'pending')));
-    $headerNotices[] = ['notice_key' => $paymentNoticeKey, 'icon' => 'bi-credit-card-2-front-fill', 'title' => 'Kumpirmahin ang bayad', 'message' => 'May huling payment na hindi pa markadong Paid.', 'href' => 'customer-dashboard.php?read_notice=' . rawurlencode($paymentNoticeKey) . '#payment-history', 'urgent' => true, 'sort_at' => strtotime($latestPayment['created_at'] ?? '') ?: 0, 'sort_id' => (int) ($latestPayment['id'] ?? 0)];
+    $headerNotices[] = ['notice_key' => $paymentNoticeKey, 'icon' => 'bi-credit-card-2-front-fill', 'title' => 'Payment awaiting confirmation', 'message' => 'Your latest payment has not been marked as paid.', 'href' => 'customer-dashboard.php?read_notice=' . rawurlencode($paymentNoticeKey) . '#payment-history', 'urgent' => true, 'sort_at' => strtotime($latestPayment['created_at'] ?? '') ?: 0, 'sort_id' => (int) ($latestPayment['id'] ?? 0)];
 }
 
 $headerCustomerId = (int) ($headerCustomer['customer_id'] ?? 0);
@@ -80,15 +80,15 @@ if ($dueDate instanceof DateTime) {
     $today = new DateTime('today');
     $daysToDue = (int) $today->diff($dueDate)->format('%r%a');
     if ($daysToDue < 0) {
-        $dueMessage = 'Lampas na sa due date noong ' . $dueDate->format('F d, Y') . '.';
-        $dueTitle = 'May overdue na bayarin';
+        $dueMessage = 'Overdue since ' . $dueDate->format('F d, Y') . '.';
+        $dueTitle = 'Payment overdue';
         $dueUrgent = true;
     } elseif ($daysToDue <= 7) {
-        $dueMessage = 'Due sa ' . $dueDate->format('F d, Y') . ($daysToDue === 0 ? ' (ngayon).' : ' (' . $daysToDue . ' araw na lang).');
-        $dueTitle = 'Malapit na ang payment due date';
+        $dueMessage = 'Payment due ' . $dueDate->format('F d, Y') . ($daysToDue === 0 ? ' (today).' : ' (' . $daysToDue . ' days remaining).');
+        $dueTitle = 'Payment due soon';
         $dueUrgent = true;
     } else {
-        $dueMessage = 'Susunod na due date: ' . $dueDate->format('F d, Y') . '.';
+        $dueMessage = 'Next due date: ' . $dueDate->format('F d, Y') . '.';
         $dueTitle = 'Payment schedule';
         $dueUrgent = false;
     }
@@ -163,7 +163,7 @@ $customerNotificationCount = count($headerNotices);
                             </a>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <div class="customer-no-notices">Wala pang bagong notification.</div>
+                    <div class="customer-no-notices">No new notifications.</div>
                     <?php endif; ?>
                 </div>
             </div>
