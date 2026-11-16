@@ -35,8 +35,7 @@ if ($showPrivacyEditor) {
         <?php if ($showPrivacyEditor): ?>
         <div class="business-info-card">
             <h2 class="content-section-title">Edit Privacy Statement</h2>
-            <p class="text-secondary">Baguhin ang mga text sa ibaba at pindutin ang Save. Lalabas ang mga pagbabago sa Privacy Statement link ng application form.</p>
-            <?php if (isset($_GET['saved'])): ?><div class="alert alert-success">Na-save na ang Privacy Statement.</div><?php endif; ?>
+            <?php if (isset($_GET['saved'])) { echo "<script>alert('Changes successfully saved.');</script>"; } ?>
             <form action="../crud/update_privacy_statement.php" method="POST" class="form-horizontal">
                 <div class="row g-3 mb-4">
                     <div class="col-md-6"><label class="form-label fw-bold">Effective Date</label><input class="form-control" name="effective_date" value="<?php echo privacyStatementEscape($privacy['effective_date']); ?>" required></div>
@@ -53,7 +52,7 @@ if ($showPrivacyEditor) {
                     7 => '7. Data Retention', 8 => '8. Your Data Privacy Rights', 9 => '9. Changes to This Privacy Statement'
                 ];
                 foreach ($sectionLabels as $number => $label): ?>
-                    <div class="mb-3"><label class="form-label fw-bold" for="privacy-section-<?php echo $number; ?>"><?php echo $label; ?></label><textarea class="form-control privacy-editor-textarea" id="privacy-section-<?php echo $number; ?>" name="section_<?php echo $number; ?>" rows="<?php echo in_array($number, [2, 3, 8], true) ? 7 : 4; ?>" required><?php echo privacyStatementEscape($privacy['section_' . $number]); ?></textarea><small class="form-text text-muted">Pwede ang maraming paragraph. Gumamit ng bagong linya para sa bawat item.</small></div>
+                    <div class="mb-3"><label class="form-label fw-bold" for="privacy-section-<?php echo $number; ?>"><?php echo $label; ?></label><textarea class="form-control privacy-editor-textarea" id="privacy-section-<?php echo $number; ?>" name="section_<?php echo $number; ?>" rows="<?php echo in_array($number, [2, 3, 8], true) ? 7 : 4; ?>" required><?php echo privacyStatementEscape($privacy['section_' . $number]); ?></textarea><small class="form-text text-muted">You can enter multiple paragraphs. Use a new line for each item.</small></div>
                 <?php endforeach; ?>
                 <div class="mb-3"><label class="form-label fw-bold" for="privacy-acknowledgement">Closing Statement</label><textarea class="form-control" id="privacy-acknowledgement" name="acknowledgement" rows="3" required><?php echo privacyStatementEscape($privacy['acknowledgement']); ?></textarea></div>
                 <button type="submit" class="btn btn-success save-btn">Save Privacy Statement</button>

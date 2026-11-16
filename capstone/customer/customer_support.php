@@ -262,15 +262,8 @@ try {
                         <label for="ticket-attachment">Attach file or image (optional):</label>
                         <input id="ticket-attachment" type="file" name="attachment" accept="image/jpeg,image/png,image/gif,image/webp,application/pdf">
                     </div>
-<<<<<<< HEAD
-                    <div class="support-actions">
-                    <button type="submit" class="submit-btn"><i class="bi bi-send-fill" aria-hidden="true"></i> Submit ticket</button>
-                    <a href="https://www.facebook.com/profile.php?id=100084288545449" target="_blank" rel="noopener noreferrer" class="facebook-btn">
-                        <i class="bi bi-facebook" aria-hidden="true"></i>
-=======
                     <button type="submit" class="submit-btn">Submit</button>
                     <a href="https://m.me/100084288545449" target="_blank" rel="noopener noreferrer" class="facebook-btn">
->>>>>>> 441d612954f2d9a0f1e6bf16792c6c8e4b26822a
                          Message Us on Facebook
                         </a>
                     </div>
