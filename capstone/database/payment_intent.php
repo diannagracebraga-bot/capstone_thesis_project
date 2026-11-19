@@ -63,7 +63,7 @@ $amount = $price * 100;
 
 
 /* PayMongo secret key */
-$secretKey = "sk_live_mG8MseME3iF3nGGno7Zjbj2C";
+$secretKey = "sk_live_XiYCbr0sffpJbskpoUSY5IfQ";
 
 
 /* Create Payment Intent */

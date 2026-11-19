@@ -31,7 +31,7 @@ $payment_intent_id = $_GET['payment_intent_id'];
 
 /* PayMongo secret key */
 
-$secretKey = "sk_live_mG8MseME3iF3nGGno7Zjbj2C";
+$secretKey = "sk_live_XiYCbr0sffpJbskpoUSY5IfQ";
 
 
 /* Get Payment Intent from PayMongo */
