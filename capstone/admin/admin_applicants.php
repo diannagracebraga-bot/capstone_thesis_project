@@ -1,6 +1,8 @@
 <?php
 include '../admin/check_admin_access.php';
 include '../database/database_connection.php';
+include_once '../database/email_availability.php';
+date_default_timezone_set('Asia/Manila');
 $filled_by_column = mysqli_query($conn, "SHOW COLUMNS FROM internet_application_tbl LIKE 'filled_up_by'");
 if ($filled_by_column && mysqli_num_rows($filled_by_column) === 0) {
     mysqli_query($conn, "ALTER TABLE internet_application_tbl ADD filled_up_by VARCHAR(150) NOT NULL DEFAULT ''");
@@ -23,7 +25,11 @@ if (!in_array($sex, ['male', 'female'], true)) {
     exit;
 }
 $contact_number = $_POST['contact_number'];
-$email = trim($_POST['email'] ?? '');
+if (!preg_match('/^[0-9]{11}$/', (string) $contact_number)) {
+    echo "<script>alert('Enter a valid 11-digit contact number.'); window.history.back();</script>";
+    exit;
+}
+$email = strtolower(trim($_POST['email'] ?? ''));
 if (
     !filter_var($email, FILTER_VALIDATE_EMAIL) ||
     !preg_match('/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)$/i', $email)
@@ -34,11 +40,26 @@ if (
           </script>";
     exit;
 } 
+$emailAlreadyUsed = emailIsAlreadyUsed($conn, $email);
+if ($emailAlreadyUsed === true) {
+    echo "<script>alert('This email is already in use. Please use a different email address.'); window.history.back();</script>";
+    exit;
+}
+if ($emailAlreadyUsed === null) {
+    echo "<script>alert('We could not verify this email right now. Please try again.'); window.history.back();</script>";
+    exit;
+}
 $facebook_account = $_POST['facebook_account'];
 $barangay = $_POST['barangay'];
 $address = $_POST['address'];
 $internet_plan = $_POST['internet_plan'];
-$desired_installation_date = $_POST['desired_installation_date'];
+$desired_installation_date = trim($_POST['desired_installation_date'] ?? '');
+$installationDate = DateTime::createFromFormat('!Y-m-d', $desired_installation_date);
+$today = new DateTime('today', new DateTimeZone('Asia/Manila'));
+if (!$installationDate || $installationDate->format('Y-m-d') !== $desired_installation_date || $installationDate <= $today) {
+    echo "<script>alert('Choose an installation date in the future.'); window.history.back();</script>";
+    exit;
+}
 $phase_7_carissa = $_POST['phase_7_carissa'];
 $filled_up_by = mysqli_real_escape_string($conn, trim($_POST['filled_up_by'] ?? ''));
 $date_received = date("Y-m-d H:i:s");
@@ -125,7 +146,7 @@ VALUES
 	  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
       <link rel="icon" type="image/png" href="/favicon.png?v=2">
 	  <link rel="stylesheet" href="../css/admin_applicants.css?v=applicant-view-bento-1">
-	  <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=bento-tables-1">
+	  <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=desktop-scale-2">
 	  <title>MITZTIANPC WIRED INTERNET SERVICES</title>
     <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>

@@ -368,6 +368,13 @@ body .content,body .support-content,body .ticket-content,body .profile-content {
 .customer-topbar { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; }
 .customer-sidebar { position: fixed; left: 0; bottom: 0; z-index: 900; }
 body .content { padding-top: 130px; }
+
+/* Match the desktop customer pages to the same comfortable scale as admin pages. */
+@media (min-width: 1025px) {
+    body {
+        zoom: 0.9;
+    }
+}
 body .support-content,body .ticket-content,body .profile-content { padding-top: 110px !important; }
 body.customer-payment-page .content { width: 100%; margin-left: 0 !important; padding-top: 0 !important; }
 @media (max-width: 1024px), (hover: none) and (pointer: coarse) {

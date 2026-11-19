@@ -31,7 +31,7 @@ $about = mysqli_fetch_assoc($about_result);
     <link rel="stylesheet" href="css/inquire.css?v=tablet-spacing-2">
     <link rel="stylesheet" href="css/plan.css?v=plans-mobile-4">
     <link rel="stylesheet" href="css/about.css?v=footer-spacing-5">
-    <link rel="stylesheet" href="css/apply_internet.css?v=privacy-modal-logo-3">
+    <link rel="stylesheet" href="css/apply_internet.css?v=privacy-modal-logo-4">
     <link rel="stylesheet" href="css/login.css?v=login-ui-2">
     <link rel="stylesheet" href="css/index-redesign.css?v=21">
     <link rel="stylesheet" href="css/system-font.css?v=1">
@@ -96,12 +96,12 @@ $about = mysqli_fetch_assoc($about_result);
             <section class="plans" id="plansTrack" tabindex="0" aria-label="Internet plans">
                 <?php if ($plan_result && mysqli_num_rows($plan_result) > 0): ?>
                     <?php while ($plan = mysqli_fetch_assoc($plan_result)) { ?>
-                    <article class="plan-card">
+                    <article class="plan-card" data-plan-id="<?php echo (int) $plan['plan_id']; ?>">
                         <h3 class="plan-name"><?php echo htmlspecialchars($plan['plan_name']); ?></h3>
                         <p class="plan-speed"><strong><?php echo htmlspecialchars($plan['internet_mbps']); ?> Mbps</strong><span>Up to</span></p>
                         <p class="plan-price"><span>For only</span><strong>₱<?php echo number_format((float) $plan['internet_price']); ?></strong><span>per month</span></p>
                         <p class="plan-inclusion"><i class="bi bi-check-circle-fill" aria-hidden="true"></i> Free installation and activation</p>
-                        <button type="button" data-bs-toggle="modal" data-bs-target="#applicationModal">Apply Now</button>
+                        <button type="button" data-plan-id="<?php echo (int) $plan['plan_id']; ?>" data-plan-name="<?php echo htmlspecialchars($plan['plan_name'], ENT_QUOTES, 'UTF-8'); ?>" data-bs-toggle="modal" data-bs-target="#applicationModal">Apply Now</button>
                     </article>
                     <?php } ?>
                 <?php else: ?>
@@ -295,6 +295,14 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!applicationModal || window.bootstrap) return;
 
     function closeApplicationModal() {
+        var applicationForm = applicationModal.querySelector('.application-form');
+        if (applicationForm) applicationForm.reset();
+        var selectedPlan = applicationModal.querySelector('#application-selected-plan');
+        if (selectedPlan) selectedPlan.hidden = true;
+        var selectedPlanInput = applicationModal.querySelector('#application_plan');
+        if (selectedPlanInput) selectedPlanInput.value = '';
+        var selectedPlanName = applicationModal.querySelector('#application-selected-plan-name');
+        if (selectedPlanName) selectedPlanName.textContent = '';
         applicationModal.classList.remove("show");
         applicationModal.style.display = "none";
         applicationModal.setAttribute("aria-hidden", "true");
@@ -468,6 +476,9 @@ document.addEventListener("DOMContentLoaded", function () {
     updatePlanControls();
 });
 </script>
+<script src="javascript/application-form-selection.js?v=1"></script>
+<script src="javascript/contact-number-only.js?v=1"></script>
+<script src="javascript/email-availability.js?v=1"></script>
 </body>
 </html>
 

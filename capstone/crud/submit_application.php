@@ -2,6 +2,8 @@
 <?php
 
 require_once __DIR__ . '/../database/database_connection.php';
+require_once __DIR__ . '/../database/email_availability.php';
+date_default_timezone_set('Asia/Manila');
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -28,7 +30,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $first_name = mysqli_real_escape_string($conn, $first_name_value);
     $last_name = mysqli_real_escape_string($conn, $last_name_value);
     $sex = mysqli_real_escape_string($conn, $sex_value);
-    $contact_number = mysqli_real_escape_string($conn, $_POST['contact_number'] ?? '');
+    $contact_number_value = trim($_POST['contact_number'] ?? '');
+    if (!preg_match('/^09[0-9]{9}$/', $contact_number_value)) {
+        echo "<script>alert('Enter a valid 11-digit contact number starting with 09.'); window.history.back();</script>";
+        exit;
+    }
+    $contact_number = mysqli_real_escape_string($conn, $contact_number_value);
     $email = trim($_POST['email'] ?? '');
     if (
         !filter_var($email, FILTER_VALIDATE_EMAIL) ||
@@ -48,12 +55,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    $email = mysqli_real_escape_string($conn, $email);
+    $emailAvailability = emailIsAlreadyUsed($conn, $email);
+    if ($emailAvailability === true) {
+        echo "<script>alert('This email is already in use. Please use a different email address.'); window.history.back();</script>";
+        exit;
+    }
+    if ($emailAvailability === null) {
+        echo "<script>alert('We could not verify this email right now. Please try again.'); window.history.back();</script>";
+        exit;
+    }
+
+    $email = mysqli_real_escape_string($conn, strtolower($email));
     $facebook_account = mysqli_real_escape_string($conn, trim($_POST['facebook_account'] ?? ''));
     $barangay = mysqli_real_escape_string($conn, $_POST['barangay'] ?? '');
     $address = mysqli_real_escape_string($conn, trim($_POST['address'] ?? ''));
     $internet_plan = (int)($_POST['internet_plan'] ?? 0);
-    $desired_installation_date = mysqli_real_escape_string($conn, $_POST['desired_installation_date'] ?? '');
+    $installationDateInput = trim($_POST['desired_installation_date'] ?? '');
+    $installationDate = DateTime::createFromFormat('!Y-m-d', $installationDateInput);
+    $today = new DateTime('today', new DateTimeZone('Asia/Manila'));
+    if (!$installationDate || $installationDate->format('Y-m-d') !== $installationDateInput || $installationDate <= $today) {
+        echo "<script>alert('Choose an installation date in the future.'); window.history.back();</script>";
+        exit;
+    }
+    $desired_installation_date = mysqli_real_escape_string($conn, $installationDateInput);
     $phase_7_carissa = mysqli_real_escape_string($conn, $_POST['phase_7_carissa'] ?? '');
     $filled_up_by = mysqli_real_escape_string($conn, trim($_POST['filled_up_by'] ?? ''));
     $date_received = date("Y-m-d H:i:s");

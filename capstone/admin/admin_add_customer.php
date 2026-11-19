@@ -14,7 +14,7 @@ if ($number < 10) {
 }
 $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan_id ASC");
 ?>
-<link rel="stylesheet" href="../css/admin_add_customer.css?v=customer-registration-bento-2">
+<link rel="stylesheet" href="../css/admin_add_customer.css?v=customer-registration-bento-4">
 <link rel="icon" type="image/png" href="/favicon.png?v=2">
 <div class="customer_registration">
     <h3>Customer Registration</h3>
@@ -37,6 +37,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl ORDER BY plan
             <div class="form_group">
                 <label>Email Address</label>
                 <input type="email" name="email" class="form-control"
+                       data-email-check-url="../crud/check_email_availability.php"
                        autocomplete="email"
                        pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)"
                        title="Please enter a valid email ending in .com, .ph, .net, .org, .edu, or .gov."

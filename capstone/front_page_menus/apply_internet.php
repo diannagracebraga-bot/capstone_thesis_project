@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__ . '/../database/database_connection.php';
-$applicationAction = '../admin/admin_applicants.php';
+$applicationAction = '../crud/submit_application.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -8,12 +8,15 @@ $applicationAction = '../admin/admin_applicants.php';
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="../bootstrap-5.3.8-dist/css/bootstrap.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="../css/apply_internet.css?v=privacy-modal-logo-3">
+	<link rel="stylesheet" href="../css/apply_internet.css?v=privacy-modal-logo-4">
 	<title>MITZTIANPC Wired Internet Services | Apply</title>
     <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body class="application-page">
 	<?php include 'application_form_fields.php'; ?>
+    <script src="../javascript/application-form-selection.js?v=1"></script>
+    <script src="../javascript/contact-number-only.js?v=1"></script>
+    <script src="../javascript/email-availability.js?v=1"></script>
 </body>
 </html>
 

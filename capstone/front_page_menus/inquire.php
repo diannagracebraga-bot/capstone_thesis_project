@@ -41,7 +41,7 @@
              <input type="email" id="email" name="email" placeholder="Email Address" required><br><br>
 
              <label for="contact">Contact Number:</label><br>
-             <input type="contact" id="contact" name="contact" placeholder="Contact Number" required><br><br>
+             <input type="tel" id="contact" name="contact" inputmode="numeric" maxlength="11" pattern="09[0-9]{9}" title="Please enter exactly 11 digits starting with 09." placeholder="Contact Number" required><br><br>
 
              <label for="description">Description:</label><br>
              <textarea id="description" name="description" placeholder="Description" rows="4" cols="30" required></textarea><br><br>
@@ -53,6 +53,7 @@
    <!--<div class="bottom-header"></div>-->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../javascript/contact-number-only.js?v=1"></script>
 </body>
 </html>
 

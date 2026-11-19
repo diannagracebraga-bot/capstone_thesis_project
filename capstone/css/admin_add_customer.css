@@ -95,17 +95,24 @@ body {
 }
 .form_actions > .btn {
     box-sizing: border-box;
-    width: auto !important;
+    width: 150px !important;
     min-width: 150px;
-    padding: 10px 18px;
+    height: 46px;
+    padding: 0 18px;
     border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    line-height: 1;
 }
-.form_actions .btn-primary { border-color: #004AAD; background: #004AAD; }
+.form_actions .btn-primary { border-color: #06377f; background: #06377f; color: #fff; }
 .form_actions .btn-primary:hover,
-.form_actions .btn-primary:focus { border-color: #003580; background: #003580; }
-.form_actions .btn-outline-primary { border-color: #003580; color: #003580; }
+.form_actions .btn-primary:focus { border-color: #042c67; background: #042c67; }
+.form_actions .btn-outline-primary { border: 1px solid #06377f; background: #fff; color: #06377f; }
 .form_actions .btn-outline-primary:hover,
-.form_actions .btn-outline-primary:focus { border-color: #003580; background: #003580; color: #FFFFFF; }
+.form_actions .btn-outline-primary:focus { border-color: #06377f; background: #edf4ff; color: #06377f; }
 
 @media (max-width: 1024px) {
     .customer-registration-page { width: auto !important; margin: 15px 16px 30px !important; }
@@ -119,7 +126,7 @@ body {
     .customer-registration-page { margin: 12px 10px 24px !important; }
     .customer_registration { padding: 16px; }
     .form_actions { flex-wrap: wrap; }
-    .form_actions > .btn { flex: 1 1 140px; }
+    .form_actions > .btn { flex: 0 1 150px; }
 }
 
 /* Bento field cards with balanced system-blue accents. */
@@ -154,3 +161,7 @@ body {
 .form_group { border-top-width: 1px; background: #fff; }
 .form_group:nth-child(3n + 2), .form_group:nth-child(3n) { border-top-color: #d9e8f6; }
 .form_actions { border-top-width: 1px; background: #fff; }
+.email-availability-status { display: block; min-height: 1.2em; margin-top: 5px; color: #526f8a; font-size: 12px; }
+.email-availability-status.is-available { color: #16804a; }
+.email-availability-status.is-taken,
+.email-availability-status.is-error { color: #bd2638; }

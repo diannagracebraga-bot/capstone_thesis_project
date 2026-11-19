@@ -235,3 +235,8 @@ body.application-modal-fallback #applicationModal { background: rgba(0, 53, 128,
 }
 .privacy-statement-modal-logo { display: block; width: auto; max-width: min(100%, 260px); height: 38px; object-fit: contain; object-position: left center; }
 @media (max-width: 575.98px) { .privacy-statement-modal-logo { max-width: min(100%, 220px); height: 34px; } }
+.email-availability-status { display: block; min-height: 1.2em; margin-top: 5px; font-size: 12px; }
+.email-availability-status.is-checking { color: #526f8a; }
+.email-availability-status.is-available { color: #16804a; }
+.email-availability-status.is-taken,
+.email-availability-status.is-error { color: #bd2638; }

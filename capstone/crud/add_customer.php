@@ -1,9 +1,10 @@
 ﻿<?php
 require_once __DIR__ . '/../admin/require_admin_access.php';
+require_once __DIR__ . '/../database/email_availability.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
 
-$email = trim($_POST['email'] ?? '');
+$email = strtolower(trim($_POST['email'] ?? ''));
 
 if (
     !filter_var($email, FILTER_VALIDATE_EMAIL) ||
@@ -21,6 +22,16 @@ if (!checkdnsrr('gmail.com', 'MX')) {
             alert('The Gmail domain does not exist. Please try again later.');
             window.history.back();
           </script>";
+    exit;
+}
+
+$emailAlreadyUsed = emailIsAlreadyUsed($conn, $email);
+if ($emailAlreadyUsed === true) {
+    echo "<script>alert('This email is already in use. Please use a different email address.'); window.location='../admin/admin_user_management.php?page=add_customer';</script>";
+    exit;
+}
+if ($emailAlreadyUsed === null) {
+    echo "<script>alert('We could not verify this email right now. Please try again.'); window.history.back();</script>";
     exit;
 }
 
@@ -52,21 +63,6 @@ if (
     $plan = $_POST['internet_plan'];
     $status = $_POST['connection_status'];
     $due_date = $_POST['due_date'];
-    $check = mysqli_query(
-        $conn,
-        "SELECT * FROM user_accounts_tbl WHERE email='$email'"
-    );
-
-    if (mysqli_num_rows($check) > 0) {
-
-        echo "<script>
-                alert('Email already exists.');
-                window.location='../admin/admin_user_management.php?page=add_customer';
-              </script>";
-
-        exit();
-    }
-
     $role = "customer";
     $sqlUser = "INSERT INTO user_accounts_tbl
                 (email, password, role)

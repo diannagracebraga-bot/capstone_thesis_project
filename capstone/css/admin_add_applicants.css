@@ -236,3 +236,7 @@ body {
 .add-applicant-card form > .row > [class*="col-"]:nth-child(3n + 2),
 .add-applicant-card form > .row > [class*="col-"]:nth-child(3n) { border-top-color: #d9e8f6; }
 .add-applicant-card .border.rounded.p-3 { border-top-width: 1px !important; background: #fff; }
+.email-availability-status { display: block; min-height: 1.2em; margin-top: 5px; color: #526f8a; font-size: 12px; }
+.email-availability-status.is-available { color: #16804a; }
+.email-availability-status.is-taken,
+.email-availability-status.is-error { color: #bd2638; }

@@ -28,7 +28,7 @@ if (!$result) {
     <title>My Tickets</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-14">
+    <link rel="stylesheet" href="../css/customer_sidebar_header.css?v=desktop-scale-1">
     <link rel="stylesheet" href="../css/customer_ticket.css?v=customer-bento-1">
     <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>

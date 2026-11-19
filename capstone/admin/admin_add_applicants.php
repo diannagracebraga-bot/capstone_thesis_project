@@ -2,6 +2,7 @@
 
 include '../admin/check_admin_access.php';
 include '../database/database_connection.php';
+include_once '../database/email_availability.php';
 
 date_default_timezone_set('Asia/Manila');
 
@@ -89,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         trim($_POST['contact_number'] ?? '')
     );
 
-    $email = trim($_POST['email'] ?? '');
+    $email = strtolower(trim($_POST['email'] ?? ''));
 
     if (
         !filter_var($email, FILTER_VALIDATE_EMAIL) ||
@@ -100,6 +101,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 alert('Please enter a valid email address.');
                 window.history.back();
               </script>";
+        exit;
+    }
+
+    $emailAlreadyUsed = emailIsAlreadyUsed($conn, $email);
+    if ($emailAlreadyUsed === true) {
+        echo "<script>alert('This email is already in use. Please use a different email address.'); window.history.back();</script>";
+        exit;
+    }
+    if ($emailAlreadyUsed === null) {
+        echo "<script>alert('We could not verify this email right now. Please try again.'); window.history.back();</script>";
         exit;
     }
 
@@ -162,6 +173,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 alert('Please complete all required fields.');
                 window.history.back();
               </script>";
+        exit;
+    }
+
+    if (!preg_match('/^[0-9]{11}$/', $contact_number)) {
+        echo "<script>alert('Enter a valid 11-digit contact number.'); window.history.back();</script>";
+        exit;
+    }
+
+    $installationDateInput = trim($_POST['desired_installation_date'] ?? '');
+    $installationDate = DateTime::createFromFormat('!Y-m-d', $installationDateInput);
+    $today = new DateTime('today', new DateTimeZone('Asia/Manila'));
+    if (!$installationDate || $installationDate->format('Y-m-d') !== $installationDateInput || $installationDate <= $today) {
+        echo "<script>alert('Choose an installation date in the future.'); window.history.back();</script>";
         exit;
     }
 
@@ -311,9 +335,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=bento-tables-1">
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=desktop-scale-2">
 
-<link rel="stylesheet" href="../css/admin_add_applicants.css?v=applicant-bento-2">
+<link rel="stylesheet" href="../css/admin_add_applicants.css?v=applicant-bento-3">
 
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
     <link rel="stylesheet" href="../css/system-font.css?v=1">
@@ -396,7 +420,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label class="form-label">
                             Email Address <span class="required">*</span>
                         </label>
-                        <input type="email" class="form-control"  name="email" placeholder="example@gmail.com" required>
+                        <input type="email" class="form-control" name="email" data-email-check-url="../crud/check_email_availability.php" placeholder="example@gmail.com" required>
 
                     </div>
 
@@ -509,7 +533,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             Desired Installation Date <span class="required">*</span>
                         </label>
 
-                        <input type="date" class="form-control" name="desired_installation_date" min="<?php echo date('Y-m-d'); ?>" required>
+                        <input type="date" class="form-control" name="desired_installation_date" min="<?php echo date('Y-m-d', strtotime('+1 day')); ?>" required>
 
                     </div>
 

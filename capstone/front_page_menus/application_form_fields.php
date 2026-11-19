@@ -1,18 +1,31 @@
 <?php
+date_default_timezone_set('Asia/Manila');
+$minimumInstallationDate = date('Y-m-d', strtotime('+1 day'));
 $planStatusColumn = mysqli_query($conn, "SHOW COLUMNS FROM internet_plan_tbl LIKE 'is_active'");
 if ($planStatusColumn && mysqli_num_rows($planStatusColumn) === 0) {
     mysqli_query($conn, 'ALTER TABLE internet_plan_tbl ADD COLUMN is_active TINYINT(1) NOT NULL DEFAULT 1');
 }
-$plan_query = "SELECT plan_id, plan_name, internet_mbps, internet_price 
-               FROM internet_plan_tbl
-               WHERE is_active = 1
-               ORDER BY plan_id ASC";
-
-$plan_result = mysqli_query($conn, $plan_query);
+$selectedPlanId = max(0, (int) ($_GET['plan_id'] ?? 0));
+$selectedPlanName = '';
+if ($selectedPlanId > 0) {
+    $selectedPlanQuery = mysqli_query($conn, "SELECT plan_name FROM internet_plan_tbl WHERE plan_id = $selectedPlanId AND is_active = 1 LIMIT 1");
+    $selectedPlanRow = $selectedPlanQuery ? mysqli_fetch_assoc($selectedPlanQuery) : null;
+    if ($selectedPlanRow) {
+        $selectedPlanName = (string) $selectedPlanRow['plan_name'];
+    } else {
+        $selectedPlanId = 0;
+    }
+}
 
 $privacyStatementHref = strpos((string)($applicationAction ?? ""), "../") === 0
     ? "privacy_statement.php"
     : "front_page_menus/privacy_statement.php";
+$emailAvailabilityUrl = strpos((string)($applicationAction ?? ""), "../") === 0
+    ? "../crud/check_email_availability.php"
+    : "crud/check_email_availability.php";
+$plansPageHref = strpos((string)($applicationAction ?? ""), "../") === 0
+    ? "plan.php"
+    : "front_page_menus/plan.php";
 ?>
 
 <form class="application-form" action="<?php echo htmlspecialchars($applicationAction, ENT_QUOTES, 'UTF-8'); ?>" method="POST" enctype="multipart/form-data">
@@ -67,6 +80,7 @@ $privacyStatementHref = strpos((string)($applicationAction ?? ""), "../") === 0
 <div class="form_group">
     <label for="application_email">Email Address</label>
     <input type="email" id="application_email" class="form-control" name="email" autocomplete="email"
+        data-email-check-url="<?php echo htmlspecialchars($emailAvailabilityUrl, ENT_QUOTES, 'UTF-8'); ?>"
         pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|ph|net|org|edu|gov)"
         title="Please enter an email ending in .com, .ph, .net, .org, .edu, or .gov."
         required>
@@ -96,20 +110,11 @@ $privacyStatementHref = strpos((string)($applicationAction ?? ""), "../") === 0
         </div>
 
 
-        <div class="form_group">
-            <label for="application_plan">Internet Plan</label>
-           <select class="form-control" id="application_plan" name="internet_plan" required>
-    <option value="">-- Select Plan --</option>
-
-    <?php while ($plan = mysqli_fetch_assoc($plan_result)) { ?>
-        <option value="<?php echo $plan['plan_id']; ?>">
-            <?php echo $plan['plan_name']; ?> -
-            <?php echo $plan['internet_mbps']; ?> Mbps -
-            ₱<?php echo number_format($plan['internet_price'], 2); ?>
-        </option>
-    <?php } ?>
-</select>
+        <input type="hidden" id="application_plan" name="internet_plan" value="<?php echo $selectedPlanId; ?>">
+        <div class="form_group application-selected-plan" id="application-selected-plan" <?php echo $selectedPlanId > 0 ? '' : 'hidden'; ?> aria-live="polite">
+            <strong>Selected plan:</strong> <span id="application-selected-plan-name"><?php echo htmlspecialchars($selectedPlanName, ENT_QUOTES, 'UTF-8'); ?></span>
         </div>
+        <p id="application-plan-required-note" class="form-text text-muted" <?php echo $selectedPlanId > 0 ? 'hidden' : ''; ?>>Please choose a plan from the <a href="<?php echo htmlspecialchars($plansPageHref, ENT_QUOTES, 'UTF-8'); ?>">Plans page</a> before submitting.</p>
 
 
         <div class="form_group application-section-heading">
@@ -121,7 +126,7 @@ $privacyStatementHref = strpos((string)($applicationAction ?? ""), "../") === 0
                 Desired Installation Date
             </label>
 
-            <input type="date" id="application_installation_date" class="form-control" name="desired_installation_date" required>
+            <input type="date" id="application_installation_date" class="form-control" name="desired_installation_date" min="<?php echo htmlspecialchars($minimumInstallationDate, ENT_QUOTES, 'UTF-8'); ?>" required>
 
             <small class="form-text text-muted">
                 Please select your preferred installation date.

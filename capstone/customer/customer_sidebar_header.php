@@ -136,7 +136,7 @@ usort($headerNotices, static function ($first, $second) {
 $customerNotificationCount = count($headerNotices);
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="../css/customer_sidebar_header.css?v=customer-shell-14">
+<link rel="stylesheet" href="../css/customer_sidebar_header.css?v=desktop-scale-1">
 <nav class="navbar navbar-expand-lg navbar-dark customer-topbar">
     <div class="container-fluid">
         <a class="customer-brand" href="customer-dashboard.php" aria-label="MITZTIANPC Customer Dashboard">
@@ -224,3 +224,4 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../javascript/contact-number-only.js?v=1"></script>

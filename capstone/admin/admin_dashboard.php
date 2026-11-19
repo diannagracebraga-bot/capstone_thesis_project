@@ -173,7 +173,7 @@ while ($row = mysqli_fetch_assoc($daily_collection_result)) {
     <title>MITZTIANPC WIRED INTERNET SERVICES</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=bento-tables-1" >
+    <link rel="stylesheet" href="../css/admin_sidebar_topbar_searchbar_profile_icon.css?v=desktop-scale-2" >
     <link rel="stylesheet" href="../css/admin_dashboard.css?v=admin-dashboard-bento-8">
     <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>

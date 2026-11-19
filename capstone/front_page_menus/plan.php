@@ -52,7 +52,7 @@ $result = mysqli_query($conn, $sql);
             ₱<?php echo number_format($row['internet_price']); ?> / Month
         </h2>
 
-        <a href="apply_internet.php"> <button>APPLY NOW</button> </a>
+        <a href="apply_internet.php?plan_id=<?php echo (int) $row['plan_id']; ?>"> <button>APPLY NOW</button> </a>
 
     </div>
 
