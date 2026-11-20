@@ -195,25 +195,37 @@ $customerNotificationCount = count($headerNotices);
 </aside>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    var notificationDropdown = document.querySelector('.customer-notification-dropdown');
     var notificationButton = document.querySelector('.customer-notification-button');
-    if (notificationButton) {
-        notificationButton.addEventListener('click', function () {
+    if (notificationDropdown && notificationButton) {
+        var markVisibleNoticesRead = function () {
             var unreadItems = Array.from(document.querySelectorAll('.customer-notice-item[data-notice-key]'));
             var noticeKeys = unreadItems.map(function (item) { return item.dataset.noticeKey; });
-            var badge = notificationButton.querySelector('.customer-notification-count');
             if (!noticeKeys.length) return;
-            if (badge) badge.remove();
+
             var body = new URLSearchParams();
             noticeKeys.forEach(function (key) { body.append('notice_keys[]', key); });
             fetch('../database/customer_notification_read.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8' },
                 body: body.toString(),
-                credentials: 'same-origin'
-            }).catch(function () {});
-            unreadItems.forEach(function (item) { item.removeAttribute('data-notice-key'); });
-        });
+                credentials: 'same-origin',
+                cache: 'no-store'
+            }).then(function (response) {
+                if (!response.ok) throw new Error('Unable to save notification read status.');
+                return response.json();
+            }).then(function (result) {
+                if (!result.success) return;
+                unreadItems.forEach(function (item) { item.removeAttribute('data-notice-key'); });
+                var badge = notificationButton.querySelector('.customer-notification-count');
+                if (badge) badge.remove();
+            }).catch(function (error) {
+                console.error('Could not mark customer notifications as read.', error);
+            });
+        };
+        notificationDropdown.addEventListener('show.bs.dropdown', markVisibleNoticesRead);
     }
+
     var toggle = document.querySelector('.customer-topbar .navbar-toggler');
     var sidebar = document.querySelector('.customer-sidebar');
     if (!toggle || !sidebar) return;

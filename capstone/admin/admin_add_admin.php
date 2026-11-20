@@ -83,7 +83,7 @@ if (isset($_POST['submit'])) {
     <title>Create Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" type="image/png" href="/favicon.png?v=2">
-<link rel="stylesheet" href="../css/admin_add_admin.css?v=admin-forms-bento-2">
+<link rel="stylesheet" href="../css/admin_add_admin.css?v=admin-forms-bento-3">
     <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
 <body>
@@ -139,7 +139,9 @@ if (isset($_POST['submit'])) {
                     </small>
                 </div>             
                 <div class="button-container">
-                    <button type="submit" name="submit" class="btn btn-success"> Create </button> </div>
+                    <a href="admin_user_management.php" class="btn btn-cancel">Cancel</a>
+                    <button type="submit" name="submit" class="btn btn-success">Create</button>
+                </div>
             </form>
         </div>
     </div>

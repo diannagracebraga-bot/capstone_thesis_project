@@ -35,10 +35,11 @@ if (!in_array($role, ['admin', 'super admin'], true)) {
 
 require_once __DIR__ . '/admin_payment_notifications.php';
 $modules = ['applicants', 'payments', 'inquiries', 'tickets'];
+$markNotificationsRead = ($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST' && ($_POST['action'] ?? '') === 'mark_read';
 $notificationCounts = [];
 $lastSeenPaymentId = 0;
 foreach ($modules as $module) {
-    $state = getAdminNotificationState($conn, $accountId, $module);
+    $state = getAdminNotificationState($conn, $accountId, $module, $markNotificationsRead);
     $notificationCounts[$module] = $state['unread_count'];
     if ($module === 'payments') {
         $lastSeenPaymentId = $state['last_seen_id'];
@@ -74,6 +75,7 @@ if ($paymentResult) {
 }
 
 echo json_encode([
+    'marked_read' => $markNotificationsRead,
     'notification_counts' => $notificationCounts,
     'recent_payments' => $recentPayments,
 ], JSON_INVALID_UTF8_SUBSTITUTE);

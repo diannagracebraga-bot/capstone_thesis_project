@@ -7,10 +7,11 @@ include '../database/database_connection.php';
 $user_id = (int) ($_SESSION['user_id'] ?? 0);
 $message = "";
 $message_type = 'success';
-$editAction = in_array($_GET['edit'] ?? '', ['photo', 'contact'], true) ? $_GET['edit'] : '';
+$editAction = in_array($_GET['edit'] ?? '', ['photo', 'contact', 'password'], true) ? $_GET['edit'] : '';
 $editPhoto = $editAction === 'photo';
 $editContact = $editAction === 'contact';
-$showPasswordModal = false;
+$editPassword = $editAction === 'password';
+$showPasswordEditor = false;
 
 $photoColumnResult = mysqli_query($conn, "SHOW COLUMNS FROM user_accounts_tbl LIKE 'profile_photo'");
 $profilePhotoAvailable = $photoColumnResult && mysqli_num_rows($photoColumnResult) > 0;
@@ -122,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if ($uploadError !== '') {
         $message = $uploadError;
         $message_type = 'danger';
-        $showPasswordModal = $passwordChangeRequested;
+        $showPasswordEditor = $passwordChangeRequested;
     } else {
         if ($photoUpload && ($photoUpload['error'] ?? UPLOAD_ERR_NO_FILE) === UPLOAD_ERR_OK) {
             $uploadDirectory = __DIR__ . '/../uploads/admin_profiles/';
@@ -196,7 +197,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             }
             $message = 'Failed to update profile. Please try again.';
             $message_type = 'danger';
-            $showPasswordModal = $passwordChangeRequested;
+            $showPasswordEditor = $passwordChangeRequested;
         }
     }
 }
@@ -205,6 +206,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 if (isset($_GET['updated'])) {
     $message = '';
 }
+
+$editPassword = $editPassword || $showPasswordEditor;
 
 /* Get Customer Information */
 $query = mysqli_query($conn, "
@@ -274,7 +277,7 @@ $internet_plan = $customer['plan_name'] . " (" .
           href="../css/customer_sidebar_header.css?v=desktop-scale-1">
 
     <link rel="stylesheet"
-          href="../css/customer_profile.css?v=19">
+          href="../css/customer_profile.css?v=20">
 
     <link rel="stylesheet" href="../css/system-font.css?v=1">
 </head>
@@ -402,8 +405,21 @@ $internet_plan = $customer['plan_name'] . " (" .
 
         <section class="profile-bento-card profile-password-card">
             <div class="profile-bento-heading"><span class="profile-bento-icon profile-icon-amber"><i class="bi bi-lock" aria-hidden="true"></i></span><div><h3>Password &amp; security</h3><p>Protect your account with a strong password.</p></div></div>
-            <div class="profile-password-protected"><i class="bi bi-shield-lock-fill" aria-hidden="true"></i><span>••••••••••••</span><small>Your password is securely stored and cannot be viewed.</small></div>
-            <div class="profile-card-actions"><button type="button" class="profile-link-button" data-bs-toggle="modal" data-bs-target="#changePasswordModal"><i class="bi bi-pencil" aria-hidden="true"></i> Change password</button></div>
+            <?php if ($editPassword): ?>
+                <form method="POST" class="profile-independent-form profile-password-form">
+                    <input type="hidden" name="profile_action" value="password">
+                    <div class="profile-bento-fields profile-password-fields">
+                        <div class="profile-bento-field profile-current-password"><label for="current_password">Current password</label><div class="profile-password-input-wrap"><input id="current_password" type="password" class="form-control" name="current_password" autocomplete="current-password" required><button type="button" class="profile-password-visibility-toggle" data-password-target="current_password" aria-label="Show current password" aria-controls="current_password" aria-pressed="false"><i class="bi bi-eye" aria-hidden="true"></i></button></div></div>
+                        <div class="profile-bento-field"><label for="new_password">New password</label><div class="profile-password-input-wrap"><input id="new_password" type="password" class="form-control" name="new_password" minlength="12" maxlength="72" autocomplete="new-password" required><button type="button" class="profile-password-visibility-toggle" data-password-target="new_password" aria-label="Show new password" aria-controls="new_password" aria-pressed="false"><i class="bi bi-eye" aria-hidden="true"></i></button></div></div>
+                        <div class="profile-bento-field"><label for="confirm_password">Confirm new password</label><div class="profile-password-input-wrap"><input id="confirm_password" type="password" class="form-control" name="confirm_password" minlength="12" maxlength="72" autocomplete="new-password" required><button type="button" class="profile-password-visibility-toggle" data-password-target="confirm_password" aria-label="Show password confirmation" aria-controls="confirm_password" aria-pressed="false"><i class="bi bi-eye" aria-hidden="true"></i></button></div></div>
+                    </div>
+                    <p class="profile-password-hint">Use at least 12 characters with uppercase and lowercase letters, a number, and a special character.</p>
+                    <div class="profile-card-actions"><a href="customer_profile.php" class="profile-link-button">Cancel</a><button type="submit" class="profile-action-button">Update password</button></div>
+                </form>
+            <?php else: ?>
+                <div class="profile-password-protected"><i class="bi bi-shield-lock-fill" aria-hidden="true"></i><span>••••••••••••</span><small>Your password is securely stored and cannot be viewed.</small></div>
+                <div class="profile-card-actions"><a href="customer_profile.php?edit=password" class="profile-link-button"><i class="bi bi-pencil" aria-hidden="true"></i> Change password</a></div>
+            <?php endif; ?>
         </section>
 
         <aside class="profile-bento-card profile-checklist-card">
@@ -424,31 +440,6 @@ $internet_plan = $customer['plan_name'] . " (" .
     </div>
 
 </main>
-<div class="modal fade profile-password-modal" id="changePasswordModal" tabindex="-1" aria-labelledby="changePasswordModalTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <div><h2 class="modal-title fs-5" id="changePasswordModalTitle">Change password</h2><p class="mb-0 small text-muted">Enter your current password and choose a strong new password.</p></div>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <form method="POST" class="profile-independent-form">
-                <div class="modal-body">
-                    <input type="hidden" name="profile_action" value="password">
-                    <div class="profile-bento-fields profile-password-fields">
-                        <div class="profile-bento-field profile-current-password"><label for="current_password">Current password</label><div class="profile-password-input-wrap"><input id="current_password" type="password" class="form-control" name="current_password" autocomplete="current-password" required><button type="button" class="profile-password-visibility-toggle" data-password-target="current_password" aria-label="Show current password" aria-controls="current_password" aria-pressed="false"><i class="bi bi-eye" aria-hidden="true"></i></button></div></div>
-                        <div class="profile-bento-field"><label for="new_password">New password</label><div class="profile-password-input-wrap"><input id="new_password" type="password" class="form-control" name="new_password" minlength="12" maxlength="72" autocomplete="new-password" required><button type="button" class="profile-password-visibility-toggle" data-password-target="new_password" aria-label="Show new password" aria-controls="new_password" aria-pressed="false"><i class="bi bi-eye" aria-hidden="true"></i></button></div></div>
-                        <div class="profile-bento-field"><label for="confirm_password">Confirm new password</label><div class="profile-password-input-wrap"><input id="confirm_password" type="password" class="form-control" name="confirm_password" minlength="12" maxlength="72" autocomplete="new-password" required><button type="button" class="profile-password-visibility-toggle" data-password-target="confirm_password" aria-label="Show password confirmation" aria-controls="confirm_password" aria-pressed="false"><i class="bi bi-eye" aria-hidden="true"></i></button></div></div>
-                    </div>
-                    <p class="profile-password-hint">Use at least 12 characters with uppercase and lowercase letters, a number, and a special character.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="profile-link-button" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="profile-action-button">Update password</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <script>
 window.addEventListener('pageshow', function(event) {
     if (event.persisted) {
@@ -486,14 +477,7 @@ document.querySelectorAll('.profile-password-visibility-toggle').forEach(functio
         if (icon) icon.className = showPassword ? 'bi bi-eye-slash' : 'bi bi-eye';
     });
 });
-<?php if ($showPasswordModal): ?>
-document.addEventListener('DOMContentLoaded', function () {
-    var passwordModal = document.getElementById('changePasswordModal');
-    if (passwordModal && window.bootstrap) {
-        window.bootstrap.Modal.getOrCreateInstance(passwordModal).show();
-    }
-});
-<?php endif; ?>
+
 </script>
 </body>
 

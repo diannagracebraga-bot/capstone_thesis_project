@@ -431,6 +431,23 @@ input[type="file"].form-control {
     background: #315a7d;
 }
 .create-admin-form .button-container .btn-success:hover { border-color: #264762; background: #264762; }
+.create-admin-form .button-container { gap: 10px; }
+.create-admin-form .button-container .btn-cancel {
+    display: inline-flex;
+    min-width: 120px;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 18px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #334155;
+    font-weight: 700;
+    text-decoration: none;
+}
+.create-admin-form .button-container .btn-cancel:hover { border-color: #94a3b8; background: #eaf0f6; color: #1e293b; }
+.create-admin-form .button-container .btn-success { flex: 1; }
 @media (max-width: 1024px) {
     .create-admin-page { width: auto; margin: 15px 16px 30px; }
     .create-admin-card-body { padding: 20px !important; }

@@ -183,7 +183,7 @@ $plan_query = mysqli_query($conn, "SELECT * FROM internet_plan_tbl");
 </div>
 </td>
 </tr>
-                    <div class="modal fade" id="editModal<?php echo $row['customer_id']; ?>" tabindex="-1">
+                    <div class="modal fade" id="editModal<?php echo $row['customer_id']; ?>" data-bs-backdrop="false" tabindex="-1">
                         <div class="modal-dialog modal-xl modal-dialog-scrollable">
                             <div class="modal-content">
                                 <div class="modal-header customer-modal-header">

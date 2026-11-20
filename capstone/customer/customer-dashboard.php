@@ -261,7 +261,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 <!-- Payment Modal -->
-<div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+<div class="modal fade" id="paymentModal" data-bs-backdrop="false" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-dialog-centered modal-lg">
 

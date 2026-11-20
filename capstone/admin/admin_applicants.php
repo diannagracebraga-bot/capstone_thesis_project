@@ -356,7 +356,7 @@ $result = mysqli_query($conn, "SELECT
 while($row = mysqli_fetch_assoc($result)){
 ?>
 <div class="modal fade"
-     id="viewApplicant<?php echo $row['applicant_id']; ?>"
+     id="viewApplicant<?php echo $row['applicant_id']; ?>" data-bs-backdrop="false"
      tabindex="-1">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
         <div class="modal-content">

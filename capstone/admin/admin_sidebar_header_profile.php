@@ -164,7 +164,7 @@ function renderSidebarBadge($count, $id = null, $notificationLabel = 'pending')
                 <div class="dropdown-menu dropdown-menu-end admin-notification-menu">
                     <strong class="dropdown-header">Unread notifications</strong>
                     <?php foreach ($adminNotificationItems as $key => $item): ?>
-                        <a class="dropdown-item" href="<?php echo htmlspecialchars($item['href']); ?>"><?php echo htmlspecialchars($item['label']); ?> <span><?php echo $sidebarCounts[$key]; ?></span></a>
+                        <a class="dropdown-item" href="<?php echo htmlspecialchars($item['href']); ?>"><?php echo htmlspecialchars($item['label']); ?> <span data-notification-count="<?php echo htmlspecialchars($key); ?>"><?php echo $sidebarCounts[$key]; ?></span></a>
                     <?php endforeach; ?>
                     <?php if ($canViewAdminNotifications): ?>
                         <div class="dropdown-divider"></div>
@@ -296,6 +296,7 @@ function renderSidebarBadge($count, $id = null, $notificationLabel = 'pending')
                         var count = Number(counts[module]) || 0;
                         totalUnread += count;
                         updateBadge(document.getElementById(badgeIds[module]), count);
+                        updateBadge(document.querySelector('[data-notification-count=' + JSON.stringify(module) + ']'), count);
                     });
                     updateBadge(totalBadge, totalUnread);
 
@@ -339,6 +340,29 @@ function renderSidebarBadge($count, $id = null, $notificationLabel = 'pending')
                         }
                     }
                 }).catch(function () {});
+            }
+
+            var notificationDropdown = document.querySelector('.admin-notification-dropdown');
+            if (notificationDropdown) {
+                notificationDropdown.addEventListener('show.bs.dropdown', function () {
+                    fetch('../database/admin_payment_notification_count.php', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+                        },
+                        body: 'action=mark_read',
+                        cache: 'no-store',
+                        credentials: 'same-origin'
+                    }).then(function (response) {
+                        if (!response.ok) throw new Error('Unable to mark notifications as read.');
+                        return response.json();
+                    }).then(function (data) {
+                        if (data.marked_read) refreshNotifications();
+                    }).catch(function (error) {
+                        console.error('Could not mark admin notifications as read.', error);
+                    });
+                });
             }
 
             window.setInterval(refreshNotifications, 15000);

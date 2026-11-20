@@ -337,10 +337,6 @@ body{
 .profile-contact-card .profile-bento-field .form-control:not([readonly]) { border-color: #74b5ea; background: #fff; }
 .profile-password-card .profile-bento-field .form-control { background: #fff; }
 .profile-password-card .profile-password-hint { padding: 10px 12px; border: 1px solid #d7e9f8; border-radius: 9px; background: #f0f8ff; }
-.profile-password-modal .modal-content { overflow: hidden; border: 1px solid #cfe3f5; border-radius: 16px; box-shadow: 0 18px 44px rgba(26, 72, 112, .2); }
-.profile-password-modal .modal-header { border-bottom-color: #e2edf7; background: #f4f9ff; }
-.profile-password-modal .modal-footer { gap: 8px; border-top-color: #e2edf7; }
-.profile-password-modal .modal-footer > * { margin: 0; }
 .profile-content > .card > .card-body > .profile-card > .alert { border-radius: 11px; }
 @media (max-width: 760px) {
     .profile-bento-card:hover { transform: none; }
